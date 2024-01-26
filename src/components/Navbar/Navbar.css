@@ -1,0 +1,18 @@
+.navbar-title {
+    color: rgb(0, 0, 0);
+    text-align: center;
+    margin-left: 35px;
+    margin-bottom: 4px;
+
+}
+
+.navbar-brand {
+    border-bottom: 2px solid;
+    font-size: 25px;
+    font-family: 'Plus Jakarta Sans';
+
+}
+
+.navbar-slogan {
+    font-family: 'Playfair Display';
+}
