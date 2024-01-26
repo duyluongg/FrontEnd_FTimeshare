@@ -13,30 +13,29 @@ import './components/ProjectList/Project.css'
 import './Shared/ListOfProject.js'
 import Footer from './components/Footer/Footer.jsx'
 import './components/Footer/Footer.css'
-import {  Routes, Route } from 'react-router-dom'
-import  Detail  from './components/Detail/Detail.jsx'
+import { Routes, Route } from 'react-router-dom'
+import Detail from './components/Detail/Detail.jsx'
 import './components/Detail/Detail.css'
-
-
-
-
-
-
+import { useLocation } from 'react-router-dom';
 
 function App() {
+  const location = useLocation();
+  const isDetailPage = location.pathname.includes('/detail');
 
   return (
     <>
+   
       <Navigation />
       <Navbar />
-      <Header />
+      {!isDetailPage && <Header />}
       <Routes>
-        <Route path='/' element={<Project />}></Route>
-        <Route path='/detail/:id' element={<Detail />}></Route>
+        <Route path='/' element={<Project />} />
+        <Route path='/detail/:id' element={<Detail />} />
       </Routes>
       <Footer />
     </>
-  )
+  );
 }
 
-export default App
+export default App;
+
