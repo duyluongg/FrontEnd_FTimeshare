@@ -2,6 +2,8 @@ import React from 'react'
 import { useParams } from 'react-router-dom'
 import { ProjectsData } from '../../Shared/ListOfProject';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import Slider from "react-slick";
+
 import {
     faPerson, faChild, faExpand, faBath,
     faKitchenSet,
@@ -10,45 +12,56 @@ import {
     faPersonSwimming,
     faTv
 } from '@fortawesome/free-solid-svg-icons';
-// import Carousel from 'react-bootstrap/Carousel';
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 
 
-
+function Arrow(props) {
+    const { className, style, onClick } = props;
+    return (
+      <div
+        className={className}
+        style={{ ...style, display: "block", background: "black" }}
+        onClick={onClick}
+      />
+    );
+  }
 export default function Detail() {
     const projectName = useParams();
     const projectId = ProjectsData.find(obj => {
         return obj.id === projectName.id;
     });
     let cost = projectId.cost.toLocaleString();
+    const settings = {
+        focusOnSelect: true,
+        infinite: true,
+        slidesToShow: 3,
+        slidesToScroll: 1,
+        speed: 500,
+        nextArrow: <Arrow />,
+        prevArrow: <Arrow />
+      };
     return (
         <div className='container-detail'>
             <div className='container-item'>
                 <div className='container-item-img'>
-                    {/* <Carousel>
-                        <Carousel.Item>
-                            <ExampleCarouselImage text="First slide" />
-                            <Carousel.Caption>
-                                <h3>First slide label</h3>
-                                <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
-                            </Carousel.Caption>
-                        </Carousel.Item>
-                        <Carousel.Item>
-                            <ExampleCarouselImage text="Second slide" />
-                            <Carousel.Caption>
-                                <h3>Second slide label</h3>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                            </Carousel.Caption>
-                        </Carousel.Item>
-                        <Carousel.Item>
-                            <ExampleCarouselImage text="Third slide" />
-                            <Carousel.Caption>
-                                <h3>Third slide label</h3>
-                                <p>
-                                    Praesent commodo cursus magna, vel scelerisque nisl consectetur.
-                                </p>
-                            </Carousel.Caption>
-                        </Carousel.Item>
-                    </Carousel> */}
+                    <div>
+                        <h2> Single Item</h2>
+                        <Slider {...settings}>
+                            <div>
+                                <img src={`../${projectId.imgCarousel}`} />
+                            </div>
+                            <div>
+                                <img src={`../${projectId.imgCarousel3}`} />
+
+
+                            </div>
+                            <div>
+                                <img src={`../${projectId.imgCarouse2}`} />
+                            </div>
+
+                        </Slider>
+                    </div>
                 </div>
                 <div className='container-title'>{projectId.name}</div>
                 <div className='container-icon'>

@@ -5,7 +5,13 @@ export const ProjectsData = [
         name:'The Aston Vill Hotel',
         feedback: 5.0,
         adr:'Alice Springs NT 0870, Australia',
-        cost:200.7
+        cost:200.7,
+        imgCarousel: 'image/room/img01.jpg',
+        imgCarouse2: 'image/room/img02.jpg',
+        imgCarousel3: 'image/room/img01.jpg'
+
+
+
     },
     {
         id: '2',
@@ -13,7 +19,10 @@ export const ProjectsData = [
         name:'The Aston Vill Hotel',
         feedback: 5.0,
         adr:'Alice Springs NT 0870, Australia',
-        cost:200.7
+        cost:200.7,
+        imgCarousel: 'image/room/img01.jpg',
+        imgCarouse2: 'image/room/img02.jpg',
+        imgCarousel3: 'image/room/img01.jpg'
     },
     {
         id: '3',
@@ -21,7 +30,10 @@ export const ProjectsData = [
         name:'The Aston Vill Hotel',
         feedback: 5.0,
         adr:'Alice Springs NT 0870, Australia',
-        cost:200.7
+        cost:200.7,
+        imgCarousel: 'image/room/img01.jpg',
+        imgCarouse2: 'image/room/img02.jpg',
+        imgCarousel3: 'image/room/img01.jpg'
     },
     {
         id: '4',
@@ -29,7 +41,10 @@ export const ProjectsData = [
         name:'The Aston Vill Hotel',
         feedback: 5.0,
         adr:'Alice Springs NT 0870, Australia',
-        cost:200.7
+        cost:200.7,
+        imgCarousel: 'image/room/img01.jpg',
+        imgCarouse2: 'image/room/img02.jpg',
+        imgCarousel3: 'image/room/img01.jpg'
     },
     {
         id: '5',
@@ -37,7 +52,10 @@ export const ProjectsData = [
         name:'The Aston Vill Hotel',
         feedback: 5.0,
         adr:'Alice Springs NT 0870, Australia',
-        cost:200.7
+        cost:200.7,
+        imgCarousel: 'image/room/img01.jpg',
+        imgCarouse2: 'image/room/img02.jpg',
+        imgCarousel3: 'image/room/img01.jpg'
     },
     {
         id: '6',
@@ -45,7 +63,10 @@ export const ProjectsData = [
         name:'The Aston Vill Hotel',
         feedback: 5.0,
         adr:'Alice Springs NT 0870, Australia',
-        cost:200.7
+        cost:200.7,
+        imgCarousel: 'imageimageimage/room/img01.jpg',
+        imgCarouse2: 'imageimage/room/img02.jpg',
+        imgCarousel3: 'imageimage/room/img01.jpg'
     },
     {
         id: '7',
@@ -53,7 +74,10 @@ export const ProjectsData = [
         name:'The Aston Vill Hotel',
         feedback: 5.0,
         adr:'Alice Springs NT 0870, Australia',
-        cost:200.7
+        cost:200.7,
+        imgCarousel: 'image/room/img01.jpg',
+        imgCarouse2: 'image/room/img02.jpg',
+        imgCarousel3: 'image/room/img01.jpg'
     },
     {
         id: '8',
@@ -61,6 +85,9 @@ export const ProjectsData = [
         name:'The Aston Vill Hotel',
         feedback: 5.0,
         adr:'Alice Springs NT 0870, Australia',
-        cost:200.7
+        cost:200.7,
+        imgCarousel: 'image/room/img01.jpg',
+        imgCarouse2: 'image/room/img02.jpg',
+        imgCarousel3: 'image/room/img01.jpg'
     },
 ]
