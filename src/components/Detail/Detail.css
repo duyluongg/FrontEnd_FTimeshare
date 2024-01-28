@@ -122,16 +122,16 @@
     /* Căn giữa form */
     max-width: 200px;
     justify-content: center;
-    
+
 }
 
-.column-form input{
+.column-form input {
     margin-bottom: 20px;
     border-radius: 5px;
     width: 155px;
 }
 
-.column-form button{
+.column-form button {
     width: 155px;
     background-color: #CD9A2B;
     padding: 10px;
@@ -145,7 +145,7 @@
 } */
 .form-item {
     display: flex;
-   
+
     /* max-width: 750px; */
 
 }
@@ -157,7 +157,7 @@
 }
 
 .form {
-    background-color: #ccc;
+    background-color: #F8F8F8;
     /* width: 81%; */
     /* margin: 0 auto; */
     width: 431px;
@@ -186,3 +186,226 @@
 
 
 }
+
+
+#tabs {
+    max-width: 1240px;
+
+    margin-left: 134px;
+    overflow: hidden;
+    margin-bottom: 30px;
+}
+
+#tabs menu {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    gap: 0.25rem;
+
+}
+
+#tabs .custom-button {
+    /* font: inherit; */
+    font-size: 17px;
+    background-color: rgb(247, 121, 10);
+    border: none;
+    border-bottom-color: #48d9f3;
+    color: #e0eff1;
+    border-radius: 10px 10px 0 0;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    transition: all 0.2s ease-out;
+    margin-left: 25px;
+    font-weight: bold;
+}
+
+#tabs .custom-button:hover,
+#tabs .custom-button.active {
+    background-color: #CD9A2B;
+    color: white;
+}
+
+#tab-content {
+    /* background-color: #42342d; */
+    border: 2px solid #CD9A2B;
+    border-radius: 25px;
+    padding: 1rem;
+    height: 200px;
+    max-height: 300px;
+}
+
+#tab-content li {
+    margin: 0.75rem 0;
+}
+.project-similar{
+    margin-top: 35px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+  
+}
+.project-detail {
+ width: 880px;
+ border: 2px solid #CD9A2B;
+ border-radius: 25px;
+
+ padding-bottom: 70px;
+
+}
+
+.card-detail {
+    max-width: 280px;
+    /* width: 1000px; */
+    /* border: 3px solid red; */
+    margin: 10px 20px;
+    overflow: hidden;
+    box-sizing: border-box;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+    transition: box-shadow 0.3s ease-in-out;
+
+}
+
+.img-detail {
+    width: 300px;
+    height: 225px;
+    max-width: 300px;
+    max-height: 225px;
+    display: block;
+    object-fit: cover;
+
+}
+
+.img-detail img {
+    height: 100%;
+    width: 100%;
+    /* object-fit: cover; */
+}
+
+
+
+.card-detail h4 {
+    font-size: 13px;
+    color: #878787;
+}
+
+.arrowst{
+    font-size: 30px;
+    padding: 5px 15px;
+    /* box-shadow: 0 0 5px 3px #ccc; */
+    background-color: aqua;
+    width: 50px;
+    display: flex;
+    position: absolute;
+    top: 170px;
+    cursor: pointer;
+    border-radius: 10px;
+}
+
+.arrowst-right{
+    left: 810px;
+    top: 375px;
+
+  
+   
+   
+}
+
+.arrowst-right:hover{
+  background-color: #0689a0;
+  
+   
+   
+}
+
+.arrowst-left{
+  
+    top: 375px;
+
+    right: 90px;
+   
+
+   
+   
+}
+
+.arrowst-left:hover{
+    background-color: #0689a0;
+    
+     
+     
+  }
+
+  .project-simi-title{
+    width: 20%;
+    background-color: #CD9A2B;
+    margin-left: 26px;
+    border-radius: 10px 10px 0 0;
+    font-size: 22px;
+    font-weight: bold;
+    /* width: 90px; */
+    color: white;
+    text-align: center;
+    
+ 
+
+  }
+  
+.room-card{
+    display: flex;
+    
+}
+
+.img-room img{
+    height: 100%;
+    width: 100%;
+    border-radius: 25px;
+
+}
+
+.img-room{
+    width: 130px;
+    height: 100px;
+    object-fit: cover;
+
+
+}
+
+.room-card{
+    /* background-color: red; */
+    width: 330px;
+    /* margin-left: 20px; */
+    /* margin-top: 20px; */
+    /* height: 80px; */
+    /* margin-top: 10px;*/
+    margin-bottom: 8px; 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+    border-radius: 25px;
+
+
+}
+.room-card:hover{
+    background-color: #CD9A2B;
+}
+
+.room-item{
+    border: 2px solid #CD9A2B;
+    margin-left: 20px;
+    margin-top: 0px;
+    max-height: 428px;
+    border-radius: 25px;
+    padding: 2px;
+}
+
+.room-title{
+    background-color: #CD9A2B;
+    width: 150px;
+    text-align: center;
+    border-radius: 10px 10px 0 0;
+    font-size: 22px;
+    font-weight: bold;
+    /* width: 90px; */
+    color: white;
+    margin-left: 45px;
+}
+
+
+
