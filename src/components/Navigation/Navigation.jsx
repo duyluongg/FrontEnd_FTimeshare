@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom';
 
 export default function Navigation() {
   return (
@@ -7,9 +8,9 @@ export default function Navigation() {
         Welcome to F-Timeshare !
       </div>
       <ul className='nav-list'>
-        <li><a href='#'>Register</a></li>
+        <li><Link to={'register'}>Register</Link></li>
         <li>|</li>
-        <li><a href='#'>Log in</a> </li>
+        <li><Link to={'login'}>Log in</Link></li>
         <li>|</li>
         <li><a href='#'>Cart</a> </li>
         <li>|</li>

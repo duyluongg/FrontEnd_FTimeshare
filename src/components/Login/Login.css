@@ -1,0 +1,240 @@
+/* body {
+    background-color: #f0f2f5;
+    font-family: 'Roboto', sans-serif;
+} */
+
+/* .login-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    margin: 0;
+    padding: 0;
+}
+
+.login-container h1 {
+    font-size: 36px;
+    font-weight: bold;
+    margin-bottom: 50px;
+    color: #CD9A2B;
+}
+
+.login-container form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 300px;
+    margin-bottom: 30px;
+}
+
+.login-container input {
+    width: 100%;
+    height: 40px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 0 10px;
+    margin-bottom: 20px;
+}
+
+.login-container button {
+    width: 100%;
+    height: 40px;
+    background-color: #CD9A2B;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.login-container p {
+    margin-top: 10px;
+    font-size: 14px;
+    text-align: center;
+}
+
+.login-container p a {
+    color: #CD9A2B;
+    text-decoration: none;
+}
+
+.login-container p a:hover {
+    text-decoration: underline;
+} */
+
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f2f2f2;
+}
+
+.login-form {
+    width: 400px;
+    background-color: #fff;
+    padding: 40px;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.login-form h2 {
+    color: #CD9A2B;
+    font-size: 24px;
+    font-weight: bold;
+    /* margin-bottom: 30px; */
+    text-align: center;
+}
+
+.input-container {
+    margin-bottom: 20px;
+}
+
+.input-container input {
+    width: 100%;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 10px;
+}
+
+form .login-button {
+    width: 100%;
+    background-color: #CD9A2B;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: bold;
+    margin-top: 20px;
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+form .login-button:hover {
+    background-color: #fff;
+    color: #CD9A2B;
+    border-radius: 5px;
+    border: 1px solid #CD9A2B;
+    transition: all 0.3s;
+}
+
+.link-login {
+    font-size: 14px;
+    color: #4a4a4a;
+    text-align: center;
+    margin-top: 20px;
+    display: flex;
+}
+
+.forgot-password {
+    margin-right: auto;
+}
+
+.forgot-password:hover {
+    color: #CD9A2B;
+}
+
+.register-here {
+    margin-left: auto;
+}
+
+.register-here:hover {
+    color: #CD9A2B;
+}
+
+.line-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 30px;
+}
+
+.line-header {
+    margin-top: 5px;
+    margin-bottom: 30px;
+}
+
+.line-login {
+    width: 30%;
+    height: 3px;
+    background: linear-gradient(to right, #ccc 25%, #CD9A2B 25%, #CD9A2B 75%, #ccc 75%);
+}
+
+.line {
+    width: 30%;
+    height: 1px;
+    background-color: #ccc;
+    margin-right: 10px;
+}
+
+.or {
+    padding: 0 10px;
+    font-size: 14px;
+    color: #4a4a4a;
+}
+
+.social-login {
+    display: flex;
+    justify-content: center;
+    margin-top: 30px;
+}
+
+.social-login button {
+    height: 30px;
+    border: none;
+    border-radius: 4px;
+    font-size: 14px;
+    margin-right: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+    padding: 10px 20px 10px 10px;
+    transition: background-color 0.2s ease;
+}
+
+.social-login button .icon {
+    color: #fff;
+    flex: 1;
+}
+
+.social-login button .facebook-icon {
+    border-right: 1px solid #fff;
+    padding-right: 10px;
+}
+
+.social-login button .google-icon {
+    border-right: 1px solid #fff;
+    padding-right: 10px;
+}
+
+.social-login button span {
+    flex: 3;
+    padding-left: 10px;
+}
+
+.facebook-login {
+    background-color: #4267b2;
+    color: #fff;
+    border-color: #4267b2;
+}
+
+.facebook-login:hover {
+    background-color: #3b5998;
+    border-color: #3b5998;
+}
+
+.google-login {
+    background-color: #dd4b39;
+    color: #fff;
+    border-color: #dd4b39;
+}
+
+.google-login:hover {
+    background-color: #c0392b;
+    border-color: #c0392b;
+}
