@@ -8,7 +8,7 @@ const navigation = [
   { name: 'About us', href: '#', current: false },
   { name: 'Accomadation', href: '#', current: false },
   { name: 'Sale off', href: '#', current: false },
-  { name: 'Contact', href: '#', current: false }
+  { name: 'Contact', href: '/contact-info', current: false }
 
 ]
 

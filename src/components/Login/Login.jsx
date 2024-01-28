@@ -46,7 +46,7 @@ export default function Login() {
                         <a href="#">Forgot your password?</a>
                     </span>
                     <span className="register-here">
-                        <a href="#">Register here</a>
+                        <a href="/register">Register here</a>
                     </span>
                 </div>
                 <div className="line-container">

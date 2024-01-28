@@ -21,6 +21,8 @@ import Login from './components/Login/Login.jsx'
 import './components/Login/Login.css'
 import Register from './components/Register/Register.jsx'
 import './components/Register/Register.css'
+import Contact from './components/Contact/Contact.jsx'
+import './components/Contact/Contact.css'
 import { useLocation } from 'react-router-dom';
 
 function App() {
@@ -28,6 +30,7 @@ function App() {
   const isDetailPage = location.pathname.includes('/detail');
   const isLoginPage = location.pathname.includes('/login');
   const isRegisterPage = location.pathname.includes('/register');
+  const isContactPage = location.pathname.includes('/contact-info');
 
 
   return (
@@ -35,7 +38,7 @@ function App() {
    
       <Navigation />
       <Navbar />
-      {!isDetailPage && !isLoginPage && !isRegisterPage && <Header />}
+      {!isDetailPage && !isLoginPage && !isRegisterPage && !isContactPage &&<Header />}
      
       {/* {!isRegisterPage && <Header />} */}
       <Routes>
@@ -43,6 +46,7 @@ function App() {
         <Route path='/detail/:id' element={<Detail />}></Route>
         <Route path='/login' element={<Login />}></Route>
         <Route path='/register' element={<Register />}></Route>
+        <Route path='/contact-info' element={<Contact />}></Route>
       </Routes>
       <Footer />
     </>
