@@ -64,7 +64,6 @@ export default function Detail() {
                             </div>
                             <div className='container-item-img-item'>
                                 <img src={`../${projectId.imgCarousel3}`} />
-
                             </div>
                             <div className='container-item-img-item'>
                                 <img src={`../${projectId.imgCarouse2}`} />
