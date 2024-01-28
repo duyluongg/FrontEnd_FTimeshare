@@ -14,28 +14,29 @@ import './components/ProjectList/Project.css'
 import './Shared/ListOfProject.js'
 import Footer from './components/Footer/Footer.jsx'
 import './components/Footer/Footer.css'
-import { Routes, Route, useNavigate } from 'react-router-dom'
+import { Routes, Route } from 'react-router-dom'
 import Detail from './components/Detail/Detail.jsx'
 import './components/Detail/Detail.css'
 import Login from './components/Login/Login.jsx'
 import './components/Login/Login.css'
 import Register from './components/Register/Register.jsx'
 import './components/Register/Register.css'
-
-
-
-
-
-
+import { Routes, Route } from 'react-router-dom'
+import Detail from './components/Detail/Detail.jsx'
+import './components/Detail/Detail.css'
+import { useLocation } from 'react-router-dom';
 
 function App() {
+  const location = useLocation();
+  const isDetailPage = location.pathname.includes('/detail');
 
 
   return (
     <>
+   
       <Navigation />
       <Navbar />
-      <Header />
+      {!isDetailPage && <Header />}
       <Routes>
         <Route path='/' element={<Project />}></Route>
         <Route path='/detail/:id' element={<Detail />}></Route>
@@ -44,7 +45,8 @@ function App() {
       </Routes>
       <Footer />
     </>
-  )
+  );
 }
 
-export default App
+export default App;
+
