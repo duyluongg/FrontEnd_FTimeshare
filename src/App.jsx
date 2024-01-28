@@ -21,9 +21,6 @@ import Login from './components/Login/Login.jsx'
 import './components/Login/Login.css'
 import Register from './components/Register/Register.jsx'
 import './components/Register/Register.css'
-import { Routes, Route } from 'react-router-dom'
-import Detail from './components/Detail/Detail.jsx'
-import './components/Detail/Detail.css'
 import { useLocation } from 'react-router-dom';
 
 function App() {

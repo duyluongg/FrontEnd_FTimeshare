@@ -16,39 +16,6 @@ export default function Login() {
     }
 
     return (
-        // <div className="login-container">
-        //     <h1>Login</h1>
-        //     <form onSubmit={handleLogin}>
-        //         <input
-        //             type="email"
-        //             placeholder="Email"
-        //             value={email}
-        //             onChange={(e) => setEmail(e.target.value)}
-        //         />
-        //         <input
-        //             type="password"
-        //             placeholder="Password"
-        //             value={password}
-        //             onChange={(e) => setPassword(e.target.value)}
-        //         />
-        //         <button type="submit">Log In</button>
-        //     </form>
-        //     <p>
-        //         Don't have an account? <a href="/register">Register here</a>
-        //     </p>
-        //     <p>
-        //         Forgot your password? <a href="/forgot-password">Forgot password?</a>
-        //     </p>
-        //     <p>
-        //         or log in via <br />
-        //         <a href="#">Facebook</a> <br />
-        //         <a href="#">Google</a>
-        //     </p>
-        // </div>
-
-
-
-
         <div className="login-container">
             <div className="login-form">
                 <form onSubmit={handleLogin}>
