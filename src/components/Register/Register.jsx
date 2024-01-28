@@ -28,7 +28,7 @@ export default function Register() {
                     </div>
                     <div className="login-here">
                         <span>
-                            Already have an account? <a href="/login">Log in here</a>
+                            Already have an account? <a href="/login">Login here</a>
                         </span>
                     </div>
                     <div className="input-container">
