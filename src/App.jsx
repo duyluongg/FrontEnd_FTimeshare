@@ -26,6 +26,8 @@ import { useLocation } from 'react-router-dom';
 function App() {
   const location = useLocation();
   const isDetailPage = location.pathname.includes('/detail');
+  const isLoginPage = location.pathname.includes('/login');
+  const isRegisterPage = location.pathname.includes('/register');
 
 
   return (
@@ -34,6 +36,8 @@ function App() {
       <Navigation />
       <Navbar />
       {!isDetailPage && <Header />}
+      {!isLoginPage && <Header />}
+      {!isRegisterPage && <Header />}
       <Routes>
         <Route path='/' element={<Project />}></Route>
         <Route path='/detail/:id' element={<Detail />}></Route>
