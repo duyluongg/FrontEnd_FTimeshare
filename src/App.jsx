@@ -35,9 +35,9 @@ function App() {
    
       <Navigation />
       <Navbar />
-      {!isDetailPage && <Header />}
-      {!isLoginPage && <Header />}
-      {!isRegisterPage && <Header />}
+      {!isDetailPage && !isLoginPage && !isRegisterPage && <Header />}
+     
+      {/* {!isRegisterPage && <Header />} */}
       <Routes>
         <Route path='/' element={<Project />}></Route>
         <Route path='/detail/:id' element={<Detail />}></Route>

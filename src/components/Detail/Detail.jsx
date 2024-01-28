@@ -125,7 +125,7 @@ export default function Detail() {
                     <div className='form'>
                         <h1 className='form-cost'>${projectId.cost}/Day</h1>
 
-                        <form>
+                        <form className='form-item'>
                             <div className='column-form column-1'>
                                 <label for="fullName">Họ Tên:</label>
                                 <input type="text" id="fullName" name="fullName" required />
