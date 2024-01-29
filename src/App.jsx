@@ -38,7 +38,7 @@ function App() {
 
       <Navigation />
       <Navbar />
-      {!isDetailPage && !isLoginPage && !isRegisterPage && <Header />}
+      
 
       {/* {!isDetailPage && <Header />} */}
 
