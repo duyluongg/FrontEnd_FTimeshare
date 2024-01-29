@@ -10,9 +10,9 @@ export default function Navigation() {
       <ul className='nav-list'>
         <li><Link to={'register'}>Register</Link></li>
         <li>|</li>
-        <li><Link to={'login'}>Log in</Link></li>
+        <li><Link to={'login'}>Login</Link></li>
         <li>|</li>
-        <li><a href='#'>Cart</a> </li>
+        <li><a href='#'>Cart</a></li>
         <li>|</li>
         <li><a href='#'>Search</a></li>
 
