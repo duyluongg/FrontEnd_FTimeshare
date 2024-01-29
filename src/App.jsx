@@ -32,13 +32,15 @@ function App() {
 
   return (
     <>
-   
+
       <Navigation />
       <Navbar />
       {!isDetailPage && !isLoginPage && !isRegisterPage && <Header />}
-     
-      {/* {!isRegisterPage && <Header />} */}
+
+      {/* {!isDetailPage && <Header />} */}
+
       <Routes>
+        
         <Route path='/' element={<Project />}></Route>
         <Route path='/detail/:id' element={<Detail />}></Route>
         <Route path='/login' element={<Login />}></Route>

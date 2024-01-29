@@ -2,6 +2,7 @@ import { Fragment } from 'react'
 import { Disclosure, Menu, Transition } from '@headlessui/react'
 import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import Logo from '../../assets/logo.png'
+import { Link } from 'react-router-dom'
 
 const navigation = [
   { name: 'Home', href: '#', current: true },
@@ -36,6 +37,7 @@ export default function Navbar() {
                 </Disclosure.Button>
               </div>
               <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
+
                 <div className="flex flex-shrink-0 items-center">
 
                   {/* <img
@@ -43,15 +45,20 @@ export default function Navbar() {
                     src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500"
                     alt="Your Company"
                   /> */}
+
                   <img
+
                     className="h-11 w-auto"
                     src={Logo}
                     alt="Your Company"
                   />
                   <div className='navbar-title'>
-                    <h1 className='navbar-brand'>F-Timeshare</h1>
-                    <p className='navbar-slogan'>Good for your choice</p>
+                    <Link to="/">
+                      <h1 className='navbar-brand'>F-Timeshare</h1>
+                      <p className='navbar-slogan'>Good for your choice</p>
+                    </Link>
                   </div>
+
                 </div>
 
                 <div className="hidden sm:ml-12 sm:block ">
@@ -161,7 +168,8 @@ export default function Navbar() {
             </div>
           </Disclosure.Panel>
         </>
-      )}
-    </Disclosure>
+      )
+      }
+    </Disclosure >
   )
 }

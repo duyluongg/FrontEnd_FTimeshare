@@ -8,7 +8,7 @@ import { Link } from 'react-router-dom'
 import Slider from "react-slick";
 import { ProjectsDataSimilar } from '../../Shared/ListOfProjectSimilar';
 import { RoomData } from '../../Shared/Room';
-
+import { useEffect } from 'react';
 
 
 import {
@@ -48,7 +48,7 @@ function SampleNextArrowSt2({ onClick }) {
 
     return (
         <div className='arrowst arrowst-right' onClick={onClick}>
-            <MdArrowForwardIos />
+            <MdArrowForwardIos color='white' />
         </div>
 
     );
@@ -58,12 +58,15 @@ function SamplePrevArrowSt2({ onClick }) {
 
     return (
         <div className='arrowst arrowst-left' onClick={onClick}>
-            <MdArrowBackIosNew />
+            <MdArrowBackIosNew color='white' />
         </div>
 
     );
 }
 export default function Detail() {
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
     const projectName = useParams();
     const projectId = ProjectsData.find(obj => {
         return obj.id === projectName.id;
@@ -101,11 +104,11 @@ export default function Detail() {
                                 <img src={`../${projectId.imgCarousel}`} />
                             </div>
                             <div className='container-item-img-item'>
-                                <img src={`../${projectId.imgCarousel3}`} />
+                                <img src={`../${projectId.imgCarousel2}`} />
 
                             </div>
                             <div className='container-item-img-item'>
-                                <img src={`../${projectId.imgCarouse2}`} />
+                                <img src={`../${projectId.imgCarousel3}`} />
                             </div>
 
                         </Slider>
@@ -209,16 +212,10 @@ export default function Detail() {
                     >
                         Core Features
                     </button>
-
-
                 </menu>
 
                 <div id="tab-content">
-                    {/* <ul>
-                        {content[activeContentIndex].map((item) => (
-                            <li key={item}>{item}</li>
-                        ))}
-                    </ul> */}
+
                     <div>
                         {activeContentIndex === projectId.desribe0 &&
                             <div>
@@ -280,7 +277,6 @@ export default function Detail() {
                             </div>
                         </div>
 
-
                         <div>
                             <div className='room-title'>Best Room</div>
                             <div className='room-item'>
@@ -302,15 +298,8 @@ export default function Detail() {
                                     </div>
                                 ))}
 
-
-
                             </div>
                         </div>
-
-
-
-
-
 
                     </div>
 
@@ -322,7 +311,5 @@ export default function Detail() {
         </div>
 
     )
-
-
 
 }
