@@ -23,6 +23,13 @@ import Register from './components/Register/Register.jsx'
 import './components/Register/Register.css'
 import Contact from './components/Contact/Contact.jsx'
 import './components/Contact/Contact.css'
+import AdminPage from './components/AdminPage/Admin/Admin.jsx'
+import './components/AdminPage/Admin/Admin.css'
+// import Sidenav from './components/Admin/Admin.jsx'
+import TotalUser from './components/AdminPage/TotalUser/TotalUser.jsx'
+// import  './components/AdminPage/TotalUser/TotalUser.css'
+
+
 import { useLocation } from 'react-router-dom';
 
 function App() {
@@ -31,29 +38,32 @@ function App() {
   const isLoginPage = location.pathname.includes('/login');
   const isRegisterPage = location.pathname.includes('/register');
   const isContactPage = location.pathname.includes('/contact-info');
-
+  const isAdminPage = location.pathname.includes('/admin');
+  const isTotalUser = location.pathname.includes('/admin/total-users');
 
   return (
     <>
+      {!isAdminPage  && (
+        <>
+          <Navigation />
+          <Navbar />
+        </>
+      )}
 
-      <Navigation />
-      <Navbar />
-      
+      {!isDetailPage && !isLoginPage && !isRegisterPage && !isContactPage && !isAdminPage && <Header />}
 
-      {/* {!isDetailPage && <Header />} */}
-
-      {!isDetailPage && !isLoginPage && !isRegisterPage && !isContactPage &&<Header />}
-     
-      {/* {!isRegisterPage && <Header />} */}
       <Routes>
-        
         <Route path='/' element={<Project />}></Route>
         <Route path='/detail/:id' element={<Detail />}></Route>
         <Route path='/login' element={<Login />}></Route>
         <Route path='/register' element={<Register />}></Route>
         <Route path='/contact-info' element={<Contact />}></Route>
+        <Route path='/admin/*' element={<AdminPage />}></Route>
+        {/* <Route path='/admin/total-users/*' element={<TotalUser />}></Route> */}
+
+    
       </Routes>
-      <Footer />
+      {!isAdminPage && <Footer />}
     </>
   );
 }

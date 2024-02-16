@@ -1,0 +1,30 @@
+.card-db {
+    background-color: gainsboro;
+    width: 250px;
+    height: 125px;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.card-db-flex {
+    display: flex;
+    gap: 40px;
+}
+
+.card-db-detail {
+    text-align: center;
+    color: white;
+    padding: 20px;
+
+
+}
+
+.card-db-detail h2 {
+    font-size: 40px;
+    color: #1976D2;
+}
+
+.card-db-detail p {
+   
+    color: gray;
+}
