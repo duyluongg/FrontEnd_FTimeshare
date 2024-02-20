@@ -54,10 +54,21 @@
 
 }
 
-.card img {
+/* .card img {
     width: 100%;
     height: 172px;
     object-fit: cover;
+} */
+
+.card-item-img {
+    object-fit: cover;
+    width: 262.638px;
+    height: 175.087px;
+}
+
+.card-item-img img {
+    height: 100%;
+    width: 100%;
 }
 
 .card h4 {

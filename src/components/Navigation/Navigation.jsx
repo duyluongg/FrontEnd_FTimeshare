@@ -14,7 +14,8 @@ export default function Navigation() {
         <li>|</li>
         <li><a href='#'>Cart</a></li>
         <li>|</li>
-        <li><a href='#'>Search</a></li>
+        <li><a href='#' type='text'>Search</a></li>
+        {/* <li><input type='text'>Search</input></li> */}
 
       </ul>
     </nav>

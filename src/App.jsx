@@ -31,6 +31,13 @@ import ViewProject from './components/OwnerRole/ViewProject/ViewProject.jsx'
 import './components/OwnerRole/ViewProject/ViewProject.css'
 import ViewDetail from './components/OwnerRole/ViewDetail/ViewDetail.jsx'
 import './components/OwnerRole/ViewDetail/ViewDetail.css'
+import AdminPage from './components/AdminPage/Admin/Admin.jsx'
+import './components/AdminPage/Admin/Admin.css'
+// import Sidenav from './components/Admin/Admin.jsx'
+import TotalUser from './components/AdminPage/TotalUser/TotalUser.jsx'
+// import  './components/AdminPage/TotalUser/TotalUser.css'
+
+
 import { useLocation } from 'react-router-dom';
 
 function App() {
@@ -43,18 +50,26 @@ function App() {
   const isViewProject = location.pathname.includes('/view-projects');
   const isViewDetail = location.pathname.includes('/view-project-detail');
 
+  const isAdminPage = location.pathname.includes('/admin');
+  const isTotalUser = location.pathname.includes('/admin/total-users');
 
   return (
     <>
+      {!isAdminPage  && (
+        <>
+          <Navigation />
+          <Navbar />
+        </>
+      )}
 
       <Navigation />
       <Navbar />
 
 
-      {!isDetailPage && !isLoginPage && !isRegisterPage && !isContactPage && !isCreateTimeshare && !isViewProject && !isViewDetail && <Header />}
+      {!isDetailPage && !isLoginPage && !isRegisterPage && !isContactPage && !isAdminPage && !isCreateTimeshare && !isViewProject && !isViewDetail && <Header />}
+
 
       <Routes>
-
         <Route path='/' element={<Project />}></Route>
         <Route path='/detail/:id' element={<Detail />}></Route>
         <Route path='/login' element={<Login />}></Route>
@@ -64,8 +79,13 @@ function App() {
         <Route path='/api/create-timeshare' element={<CreateTimeshare />}></Route>
         <Route path='/view-projects' element={<ViewProject />}></Route>
         <Route path='/view-project-detail/:id' element={<ViewDetail />}></Route>
+        <Route path='/contact-info' element={<Contact />}></Route>
+        <Route path='/admin/*' element={<AdminPage />}></Route>
+        {/* <Route path='/admin/total-users/*' element={<TotalUser />}></Route> */}
+
+    
       </Routes>
-      <Footer />
+      {!isAdminPage && <Footer />}
     </>
   );
 }

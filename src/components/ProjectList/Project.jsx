@@ -1,16 +1,32 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect} from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faFire } from '@fortawesome/free-solid-svg-icons'
 import { faStar } from '@fortawesome/free-solid-svg-icons'
 import { Link } from 'react-router-dom'
 
-
+import axios from 'axios';
 import { ProjectsData } from '../../Shared/ListOfProject'
 import { LearnAbout } from '../../Shared/LearnAbout'
 
 
 export default function Project() {
   const [project, setProject] = useState([])
+  useEffect(() => {
+    
+    const fetchProjects = async () => {
+      try {
+      
+        const response = await axios.get('https://65d2a241987977636bfc786b.mockapi.io/project');
+  
+        setProject(response.data);
+      } catch (error) {
+        console.error('Error fetching projects:', error);
+      }
+    };
+
+  
+    fetchProjects();
+  }, []);
   return (
     <div className='project'>
       <div className='project-header'>
@@ -21,10 +37,13 @@ export default function Project() {
         <FontAwesomeIcon icon={faFire} size='2xl' color='red' />
       </div>
       <div className='project-list'>
-        {ProjectsData.map((project) => (
+        {project.map((project) => (
           <div className='column' key={project.id}>
             <div className='card'>
+              <div className='card-item-img'>
               <img src={project.img} />
+
+              </div>
               <div className='project-list-detail'>
                 <div className='project-list-title'>
                   <h3 className='project-list-name'>{project.name}</h3>
@@ -78,17 +97,9 @@ export default function Project() {
               </div>
 
             </div>
-
           ))}
         </div>
-
-
-
       </div>
-
-
-
-
     </div>
   )
 }
