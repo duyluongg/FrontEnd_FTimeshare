@@ -62,13 +62,11 @@ function App() {
         </>
       )}
 
-      <Navigation />
-      <Navbar />
+      {/* <Navigation />
+      <Navbar /> */}
 
 
-      {!isDetailPage && !isLoginPage && !isRegisterPage && !isContactPage && !isAdminPage && !isCreateTimeshare && !isViewProject && !isViewDetail && <Header />}
-
-
+      {!isDetailPage && !isLoginPage && !isRegisterPage && !isContactPage && !isAdminPage && !isCreateTimeshare && !isViewProject && !isViewDetail && isTotalUser && <Header />}
       <Routes>
         <Route path='/' element={<Project />}></Route>
         <Route path='/detail/:id' element={<Detail />}></Route>
@@ -91,4 +89,3 @@ function App() {
 }
 
 export default App;
-
