@@ -9,8 +9,8 @@ const navigation = [
   { name: 'About us', href: '#', current: false },
   { name: 'Accommodation', href: '#', current: false },
   { name: 'Sale off', href: '#', current: false },
-  { name: 'Contact', href: '/contact-info', current: false }
-
+  { name: 'Contact', href: '/contact-info', current: false },
+  { name: 'OwnerPage', href: '/owner-page', current: false }
 ]
 
 function classNames(...classes) {

@@ -23,6 +23,14 @@ import Register from './components/Register/Register.jsx'
 import './components/Register/Register.css'
 import Contact from './components/Contact/Contact.jsx'
 import './components/Contact/Contact.css'
+import OwnerPage from './components/OwnerRole/OwnerPage/OwnerPage.jsx'
+import './components/OwnerRole/OwnerPage/OwnerPage.css'
+import CreateTimeshare from './components/OwnerRole/CreateTimeshare/CreateTimeshare.jsx'
+import './components/OwnerRole/CreateTimeshare/CreateTimeshare.css'
+import ViewProject from './components/OwnerRole/ViewProject/ViewProject.jsx'
+import './components/OwnerRole/ViewProject/ViewProject.css'
+import ViewDetail from './components/OwnerRole/ViewDetail/ViewDetail.jsx'
+import './components/OwnerRole/ViewDetail/ViewDetail.css'
 import { useLocation } from 'react-router-dom';
 
 function App() {
@@ -31,6 +39,9 @@ function App() {
   const isLoginPage = location.pathname.includes('/login');
   const isRegisterPage = location.pathname.includes('/register');
   const isContactPage = location.pathname.includes('/contact-info');
+  const isCreateTimeshare = location.pathname.includes('/api/create-timeshare');
+  const isViewProject = location.pathname.includes('/view-projects');
+  const isViewDetail = location.pathname.includes('/view-project-detail');
 
 
   return (
@@ -38,20 +49,21 @@ function App() {
 
       <Navigation />
       <Navbar />
-      
 
-      {/* {!isDetailPage && <Header />} */}
 
-      {!isDetailPage && !isLoginPage && !isRegisterPage && !isContactPage &&<Header />}
-     
-      {/* {!isRegisterPage && <Header />} */}
+      {!isDetailPage && !isLoginPage && !isRegisterPage && !isContactPage && !isCreateTimeshare && !isViewProject && !isViewDetail && <Header />}
+
       <Routes>
-        
+
         <Route path='/' element={<Project />}></Route>
         <Route path='/detail/:id' element={<Detail />}></Route>
         <Route path='/login' element={<Login />}></Route>
         <Route path='/register' element={<Register />}></Route>
-        <Route path='/contact-info' element={<Contact />}></Route>
+        <Route path='/contact-info' element={<Contact />}></Route> 
+        <Route path='/owner-page' element={<OwnerPage />}></Route>
+        <Route path='/api/create-timeshare' element={<CreateTimeshare />}></Route>
+        <Route path='/view-projects' element={<ViewProject />}></Route>
+        <Route path='/view-project-detail/:id' element={<ViewDetail />}></Route>
       </Routes>
       <Footer />
     </>

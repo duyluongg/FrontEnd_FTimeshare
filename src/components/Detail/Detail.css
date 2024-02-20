@@ -175,13 +175,8 @@
     width: 431px;
     margin-left: 190px;
     margin-top: 20px;
-
     margin-bottom: 20px;
     border-radius: 20px;
-
-
-
-
 }
 
 .form-cost {
@@ -195,14 +190,11 @@
     /* width: 20px; */
     margin: 0 auto;
     margin-bottom: 20px;
-
-
 }
 
 
 #tabs {
     max-width: 1240px;
-
     margin-left: 134px;
     overflow: hidden;
     margin-bottom: 30px;
@@ -317,33 +309,19 @@
 .arrowst-right {
     left: 810px;
     top: 375px;
-
-
-
-
 }
 
 .arrowst-right:hover {
     background-color: #363535;
-
-
-
 }
 
 .arrowst-left {
-
     top: 375px;
-
     right: 90px;
-
-
-
-
 }
 
 .arrowst-left:hover {
     background-color: #363535;
-
 }
 
 .project-simi-title {
@@ -356,9 +334,6 @@
     /* width: 90px; */
     color: white;
     text-align: center;
-
-
-
 }
 
 .room-card {

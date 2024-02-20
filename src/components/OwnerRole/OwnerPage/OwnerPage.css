@@ -1,0 +1,111 @@
+.project-owner {
+    margin-top: 35px;
+    /* display: grid; */
+    /* grid-template-columns: repeat(2, 1fr); */
+}
+
+.project-owner-detail {
+    width: 100%;
+    /* border: 2px solid #CD9A2B; */
+    /* border-radius: 25px; */
+    padding-bottom: 70px;
+}
+
+.card-detail {
+    max-width: 280px;
+    /* width: 1000px; */
+    /* border: 3px solid red; */
+    margin: 10px 20px;
+    overflow: hidden;
+    box-sizing: border-box;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+    transition: box-shadow 0.3s ease-in-out;
+    cursor: pointer
+}
+
+.img-detail {
+    width: 300px;
+    height: 225px;
+    max-width: 300px;
+    max-height: 225px;
+    display: block;
+    object-fit: cover;
+
+}
+
+.img-detail img {
+    height: 100%;
+    width: 100%;
+    /* object-fit: cover; */
+}
+
+
+
+.card-detail h4 {
+    font-size: 13px;
+    color: #878787;
+}
+
+.arrowst {
+    font-size: 30px;
+    padding: 5px 15px;
+    /* box-shadow: 0 0 5px 3px #ccc; */
+    background-color: #000000;
+    width: 50px;
+    display: flex;
+    position: absolute;
+    top: 170px;
+    cursor: pointer;
+    border-radius: 10px;
+}
+
+.arrowst-right {
+    left: 1133px;
+    top: 375px;
+}
+
+.arrowst-right:hover {
+    background-color: #363535;
+}
+
+.arrowst-left {
+    top: 375px;
+    right: 400px;
+}
+
+.arrowst-left:hover {
+    background-color: #363535;
+
+}
+
+.project-owner-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.project-owner-title {
+    color: #CD9A2B;
+    /* width: 20%; */
+    margin-left: 25px;
+    /* background-color: #CD9A2B; */
+    /* margin-left: 26px; */
+    /* border-radius: 10px 10px 0 0; */
+    font-size: 25px;
+    font-weight: bold;
+    /* width: 90px; */
+    text-align: center;
+}
+
+.project-view-detail a {
+    margin-right: 50px;
+    padding: 10px 20px;
+    border: 1px solid #CD9A2B;
+    color: #CD9A2B;
+}
+
+.project-view-detail a:hover {
+    border: 1px solid #CD9A2B;
+    color: #fff;
+    background-color: #CD9A2B;
+}
