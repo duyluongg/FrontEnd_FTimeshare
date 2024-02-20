@@ -171,16 +171,16 @@ export default function RecipeReviewCard() {
 
     return (
         <>
-            <div style={{ display: 'flex', alignItems:'center', justifyContent:'center'}}>
-                
-                <TextField sx={{width: '500px', mb: '35px'}}
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+
+                <TextField sx={{ width: '500px', mb: '35px' }}
                     placeholder="Search..."
                     variant="outlined"
                     size="small"
-                    defaultValue="Small"
-                    // onChange={handleSearch}
+                    defaultValue=""
+                // onChange={handleSearch}
                 />
-                <IconButton type="submit" aria-label="search" sx={{mb:'20px'}}>
+                <IconButton type="submit" aria-label="search" sx={{ mb: '20px' }}>
                     <SearchIcon />
                 </IconButton>
             </div>
@@ -192,7 +192,7 @@ export default function RecipeReviewCard() {
                         <CardHeader
                             avatar={
                                 <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
-                                    {item.name[0]} {/* Lấy ký tự đầu của tên project làm avatar */}
+                                    {item.name[0]} 
                                 </Avatar>
                             }
                             action={
@@ -205,7 +205,7 @@ export default function RecipeReviewCard() {
                         />
                         <CardMedia
                             component="img"
-                            height="194"
+                            sx={{ width: '400px', height: '266px' }}
                             image={item.img}
                             alt="Project image"
                         />

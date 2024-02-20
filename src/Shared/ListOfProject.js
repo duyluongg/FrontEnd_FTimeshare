@@ -18,7 +18,7 @@ export const ProjectsData = [
     },
     {
         id: '2',
-        img: 'image/prj/prj02.jpg',
+        img: '../image/prj/prj02.jpg',
         name: 'The Aston Vill Hotel',
         feedback: 5.0,
         adr: 'Alice Springs NT 0870, Australia',
@@ -34,7 +34,7 @@ export const ProjectsData = [
     },
     {
         id: '3',
-        img: 'image/prj/prj03.jpg',
+        img: '../image/prj/prj03.jpg',
         name: 'The Aston Vill Hotel',
         feedback: 5.0,
         adr: 'Alice Springs NT 0870, Australia',
@@ -50,7 +50,7 @@ export const ProjectsData = [
     },
     {
         id: '4',
-        img: 'image/prj/prj04.jpg',
+        img: '../image/prj/prj04.jpg',
         name: 'The Aston Vill Hotel',
         feedback: 5.0,
         adr: 'Alice Springs NT 0870, Australia',
@@ -66,7 +66,7 @@ export const ProjectsData = [
     },
     {
         id: '5',
-        img: 'image/prj/prj05.jpg',
+        img: '../image/prj/prj05.jpg',
         name: 'The Aston Vill Hotel',
         feedback: 5.0,
         adr: 'Alice Springs NT 0870, Australia',
@@ -82,7 +82,7 @@ export const ProjectsData = [
     },
     {
         id: '6',
-        img: 'image/prj/prj06.jpg',
+        img: '../image/prj/prj06.jpg',
         name: 'The Aston Vill Hotel',
         feedback: 5.0,
         adr: 'Alice Springs NT 0870, Australia',
@@ -98,7 +98,7 @@ export const ProjectsData = [
     },
     {
         id: '7',
-        img: 'image/prj/prj07.jpg',
+        img: '../image/prj/prj07.jpg',
         name: 'The Aston Vill Hotel',
         feedback: 5.0,
         adr: 'Alice Springs NT 0870, Australia',
@@ -114,7 +114,7 @@ export const ProjectsData = [
     },
     {
         id: '8',
-        img: 'image/prj/prj08.jpg',
+        img: '../image/prj/prj08.jpg',
         name: 'The Aston Vill Hotel',
         feedback: 5.0,
         adr: 'Alice Springs NT 0870, Australia',
