@@ -83,7 +83,9 @@
 }
 
 .project-list-feedback {
-    margin-left: 50px;
+    /* margin-left: 50px; */
+    margin-right: 15px;
+
 }
 
 .project-list-name {
