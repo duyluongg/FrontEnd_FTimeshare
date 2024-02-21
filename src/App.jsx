@@ -51,7 +51,7 @@ function App() {
   const isViewDetail = location.pathname.includes('/view-project-detail');
 
   const isAdminPage = location.pathname.includes('/admin');
-  const isTotalUser = location.pathname.includes('/admin/total-users');
+  
 
   return (
     <>
@@ -62,12 +62,12 @@ function App() {
         </>
       )}
 
-      <Navigation />
-      <Navbar />
+    
 
 
-      {!isDetailPage && !isLoginPage && !isRegisterPage && !isContactPage && !isAdminPage && !isCreateTimeshare && !isViewProject && !isViewDetail && <Header />}
-
+      {!isDetailPage && !isLoginPage && !isRegisterPage && !isContactPage && !isAdminPage && !isCreateTimeshare && !isViewProject && !isViewDetail  && <Header />}
+      {/* {!isDetailPage && !isLoginPage && !isRegisterPage && !isContactPage && !isAdminPage && !isCreateTimeshare && !isViewProject && !isViewDetail  && <Header />} */}
+      {/* <Header /> */}
 
       <Routes>
         <Route path='/' element={<Project />}></Route>

@@ -3,6 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
+
   "scripts": {
     "dev": "vite",
     "build": "vite build",
@@ -23,6 +24,7 @@
     "@mui/x-data-grid": "^6.19.4",
     "axios": "^1.6.7",
     "bootstrap": "^5.3.2",
+    "cors": "^2.8.5",
     "json-server": "^1.0.0-alpha.23",
     "ra-data-simple-rest": "^4.16.10",
     "react": "^18.2.0",
