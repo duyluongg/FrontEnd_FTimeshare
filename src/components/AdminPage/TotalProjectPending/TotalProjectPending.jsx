@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+
 import { red } from '@mui/material/colors';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
@@ -32,7 +33,9 @@ export default function RecipeReviewCard() {
 
     const fetchProjecPending = async () => {
         try {
-            const response = await axios.get('http://localhost:8080/api/news/view');
+            // const response = await axios.get('http://localhost:8080/api/news/view');
+            const response = await axios.get('http://localhost:8080/api/products/staff/pending');
+
             setProjectPending(response.data);
             console.log(response);
         } catch (error) {
@@ -48,11 +51,11 @@ export default function RecipeReviewCard() {
         setSearchQuery(event.target.value);
     };
 
-    const filteredProjects = projectPending.filter((project) =>
-        project.newsTitle.toLowerCase().includes(searchQuery.toLowerCase())
-    );
+    // const filteredProjects = projectPending.filter((project) =>
+    //     project.productName.toLowerCase().includes(searchQuery.toLowerCase())
+    // );
 
-    const limitedProjects = filteredProjects.slice(0, 9);
+    // const limitedProjects = filteredProjects.slice(0, 9);
 
     return (
         <>
@@ -70,12 +73,12 @@ export default function RecipeReviewCard() {
                 </IconButton>
             </div>
             <Grid container spacing={1} sx={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '10px', ml: '2' }}>
-                {limitedProjects.map((item) => (
+                {projectPending.map((item) => (
                     <Card key={item.id} sx={{ maxWidth: 400, ml: '35px', mb: '15px', boxShadow: '3' }}>
                         <CardHeader
                             avatar={
                                 <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
-                                    {item.newsTitle[1]}
+                                    {item.productName[1]}
                                 </Avatar>
                             }
                             action={
@@ -83,18 +86,18 @@ export default function RecipeReviewCard() {
                                     <MoreVertIcon />
                                 </IconButton>
                             }
-                            title={item.newsTitle}
-                            subheader={`Date: ${item.newsPost}`}
+                            title={item.productName}
+                            subheader={`Date: ${item.availableStartDate}`}
                         />
                         <CardMedia
                             component="img"
                             sx={{ width: '400px', height: '266px' }}
-                            image={item.newsPicture}
+                            image={item.productPicture}
                             alt="Project image"
                         />
                         <CardContent>
                             <Typography variant="body2" color="text.secondary">
-                                {item.newsTitle}
+                                {item.productDescription}
                             </Typography>
                         </CardContent>
                         <CardActions disableSpacing>
@@ -115,7 +118,7 @@ export default function RecipeReviewCard() {
                         </CardActions>
                         <Collapse in={expanded} timeout="auto" unmountOnExit>
                             <CardContent>
-                                <Typography paragraph>{item.newsContent}</Typography>
+                                <Typography paragraph>{item.productConvenience}</Typography>
                             </CardContent>
                         </Collapse>
                     </Card>

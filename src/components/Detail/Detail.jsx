@@ -27,7 +27,7 @@ import { MdArrowForwardIos, MdArrowBackIosNew } from "react-icons/md";
 function SampleNextArrow({ onClick }) {
 
     return (
-        <div className='arrow arrow-right' onClick={onClick}>
+        <div className='arrow-detail arrow-right' onClick={onClick}>
             <MdArrowForwardIos />
         </div>
 
@@ -37,7 +37,7 @@ function SampleNextArrow({ onClick }) {
 function SamplePrevArrow({ onClick }) {
 
     return (
-        <div className='arrow arrow-left' onClick={onClick}>
+        <div className='arrow-detail arrow-left' onClick={onClick}>
             <MdArrowBackIosNew />
         </div>
 
