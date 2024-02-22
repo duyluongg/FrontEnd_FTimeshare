@@ -1,25 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { styled } from '@mui/material/styles';
-import Card from '@mui/material/Card';
-import CardHeader from '@mui/material/CardHeader';
-import CardMedia from '@mui/material/CardMedia';
-import CardContent from '@mui/material/CardContent';
-import CardActions from '@mui/material/CardActions';
-import Collapse from '@mui/material/Collapse';
-import Avatar from '@mui/material/Avatar';
-import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
-import { red } from '@mui/material/colors';
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import ShareIcon from '@mui/icons-material/Share';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import MoreVertIcon from '@mui/icons-material/MoreVert';
-import Button from '@mui/material/Button';
-import { Grid } from '@mui/material';
-import TextField from '@mui/material/TextField';
-import SearchIcon from '@mui/icons-material/Search';
+
+import { ExpandMoreIcon, MoreVertIcon, SearchIcon } from '@mui/icons-material/ExpandMore';
+
+import {
+    Grid, Pagination, TextField, Button, red, Typography, IconButton, Avatar, Collapse, CardActions,
+    CardContent, CardMedia, CardHeader, Card, styled
+} from '@mui/material';
+
 import axios from 'axios';
-import Pagination from '@mui/material/Pagination';
+
 
 
 
@@ -135,7 +124,7 @@ export default function RecipeReviewCard() {
                 ))}
             </Grid>
 
-      <Pagination count={10} color="primary" sx={{display: 'flex', alignItems:'center', justifyContent: 'center', mt:'25px'}} />
+            <Pagination count={10} color="primary" sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', mt: '25px' }} />
 
         </>
     );
