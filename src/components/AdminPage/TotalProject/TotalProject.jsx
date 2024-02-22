@@ -14,15 +14,12 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import ShareIcon from '@mui/icons-material/Share';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
-import Button from '@mui/material/Button';
+import axios from 'axios';
 import { Grid } from '@mui/material';
+import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import SearchIcon from '@mui/icons-material/Search';
-import axios from 'axios';
 import Pagination from '@mui/material/Pagination';
-
-
-
 const ExpandMore = styled((props) => {
     const { expand, ...other } = props;
     return <IconButton {...other} />;
@@ -36,8 +33,12 @@ const ExpandMore = styled((props) => {
 
 export default function RecipeReviewCard() {
     const [expanded, setExpanded] = React.useState(false);
+    const [projectActive, setProjectActive] = React.useState([])
     const [searchQuery, setSearchQuery] = useState('');
-    const [projectActive, setProjectActive] = useState([]);
+
+    const handleSearchChange = (event) => {
+        setSearchQuery(event.target.value);
+    };
 
     useEffect(() => {
         fetchProjectActive();
@@ -57,18 +58,9 @@ export default function RecipeReviewCard() {
         setExpanded(!expanded);
     };
 
-    const handleSearchChange = (event) => {
-        setSearchQuery(event.target.value);
-    };
-
-    const filteredProjects = projectActive.filter((project) =>
-        project.newsTitle.toLowerCase().includes(searchQuery.toLowerCase())
-    );
-
-    const limitedProjects = filteredProjects.slice(0, 9);
-
     return (
         <>
+
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                 <TextField
                     sx={{ width: '500px', mb: '35px' }}
@@ -78,17 +70,18 @@ export default function RecipeReviewCard() {
                     value={searchQuery}
                     onChange={handleSearchChange}
                 />
-                <IconButton type="submit" aria-label="search" sx={{ mb: '20px' }}>
+                <IconButton type="submit" aria-label="search" sx={{ mb: '30px' }}>
                     <SearchIcon />
                 </IconButton>
-            </div>
-            <Grid container spacing={1} sx={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '10px', ml: '2' }}>
-                {limitedProjects.map((item) => (
-                    <Card key={item.id} sx={{ maxWidth: 400, ml: '35px', mb: '15px', boxShadow: '3' }}>
+            </div> 
+
+            <Grid container spacing={1} sx={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '10px', ml: '50px' }}>
+                {projectActive.map((item) => (
+                    <Card key={item.newsID} sx={{ maxWidth: 345, mb: '20px', boxShadow: 3 }}>
                         <CardHeader
                             avatar={
                                 <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
-                                    {item.newsTitle[1]}
+                                    {item.newsTitle[0]}
                                 </Avatar>
                             }
                             action={
@@ -97,25 +90,22 @@ export default function RecipeReviewCard() {
                                 </IconButton>
                             }
                             title={item.newsTitle}
-                            subheader={`Date: ${item.newsPost}`}
+                            subheader={item.newsPost}
                         />
                         <CardMedia
                             component="img"
-                            sx={{ width: '400px', height: '266px' }}
+                            height="194"
                             image={item.newsPicture}
                             alt="Project image"
                         />
                         <CardContent>
-                            <Typography variant="body2" color="text.secondary">
-                                {item.newsTitle}
+                            <Typography variant="body2" color="text.secondary" sx={{ overflow: 'hidden', textOverflow: 'ellipsis', display: '-webkit-box', WebkitLineClamp: '2', WebkitBoxOrient: "vertical" }}>
+                                {item.newsContent}
                             </Typography>
                         </CardContent>
                         <CardActions disableSpacing>
-                            <Button variant="outlined" sx={{ m: 1 }}>
-                                Accept
-                            </Button>
-                            <Button variant="outlined" color="error">
-                                REJECT
+                            <Button variant="contained" color="success">
+                                ACTIVE
                             </Button>
                             <ExpandMore
                                 expand={expanded}
@@ -128,15 +118,20 @@ export default function RecipeReviewCard() {
                         </CardActions>
                         <Collapse in={expanded} timeout="auto" unmountOnExit>
                             <CardContent>
-                                <Typography paragraph>{item.newsContent}</Typography>
+                                <Typography paragraph>Method:</Typography>
+                                <Typography paragraph>
+                                    {item.newsContent}
+                                </Typography>
+
                             </CardContent>
                         </Collapse>
                     </Card>
                 ))}
-            </Grid>
 
-      <Pagination count={10} color="primary" sx={{display: 'flex', alignItems:'center', justifyContent: 'center', mt:'25px'}} />
 
+            </Grid >
+            <Pagination count={10} color="primary" sx={{display: 'flex', alignItems:'center', justifyContent: 'center', mt:'25px'}} />
         </>
+
     );
 }
