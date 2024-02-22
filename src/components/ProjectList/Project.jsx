@@ -19,6 +19,7 @@ export default function Project() {
         const response = await axios.get('https://65d2a241987977636bfc786b.mockapi.io/project');
   
         setProject(response.data);
+        console.log(response.data);
       } catch (error) {
         console.error('Error fetching projects:', error);
       }
