@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from 'react';
+import { styled } from '@mui/material/styles';
+
+import { red } from '@mui/material/colors';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import MoreVertIcon from '@mui/icons-material/MoreVert';
 import axios from 'axios';
-
-import { ExpandMoreIcon, MoreVertIcon, SearchIcon } from '@mui/icons-material/ExpandMore';
-
-import {
-    Grid, styled, Card, CardHeader, CardMedia, CardContent, CardActions, Collapse, Avatar, IconButton,
-    Typography, red, Button, TextField, Pagination
-} from '@mui/material';
-
+import { Grid, Card, CardHeader, CardMedia, CardContent, CardActions, Collapse, Avatar, IconButton, Typography,Button, TextField, Pagination} from '@mui/material';
+// import Button from '@mui/material/Button';
+// import TextField from '@mui/material/TextField';
+import SearchIcon from '@mui/icons-material/Search';
+// import Pagination from '@mui/material/Pagination';
 const ExpandMore = styled((props) => {
     const { expand, ...other } = props;
     return <IconButton {...other} />;
@@ -61,7 +63,7 @@ export default function RecipeReviewCard() {
                 <IconButton type="submit" aria-label="search" sx={{ mb: '30px' }}>
                     <SearchIcon />
                 </IconButton>
-            </div>
+            </div> 
 
             <Grid container spacing={1} sx={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '10px', ml: '50px' }}>
                 {projectActive.map((item) => (
@@ -69,7 +71,7 @@ export default function RecipeReviewCard() {
                         <CardHeader
                             avatar={
                                 <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
-                                    {item.newsTitle[0]}
+                                    {item.newsTitle[1]}
                                 </Avatar>
                             }
                             action={
@@ -92,8 +94,8 @@ export default function RecipeReviewCard() {
                             </Typography>
                         </CardContent>
                         <CardActions disableSpacing>
-                            <Button variant="contained" color="success">
-                                ACTIVE
+                            <Button variant="outlined" color="success">
+                                {item.newsStatus}
                             </Button>
                             <ExpandMore
                                 expand={expanded}
@@ -106,7 +108,7 @@ export default function RecipeReviewCard() {
                         </CardActions>
                         <Collapse in={expanded} timeout="auto" unmountOnExit>
                             <CardContent>
-                                <Typography paragraph>Method:</Typography>
+                        
                                 <Typography paragraph>
                                     {item.newsContent}
                                 </Typography>
@@ -118,7 +120,7 @@ export default function RecipeReviewCard() {
 
 
             </Grid >
-            <Pagination count={10} color="primary" sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', mt: '25px' }} />
+            <Pagination count={10} color="primary" sx={{display: 'flex', alignItems:'center', justifyContent: 'center', mt:'25px'}} />
         </>
 
     );

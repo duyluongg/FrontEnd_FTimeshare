@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from 'react';
-
-import { ExpandMoreIcon, MoreVertIcon, SearchIcon } from '@mui/icons-material/ExpandMore';
-
-import {
-    Grid, Pagination, TextField, Button, red, Typography, IconButton, Avatar, Collapse, CardActions,
-    CardContent, CardMedia, CardHeader, Card, styled
-} from '@mui/material';
-
+import { red } from '@mui/material/colors';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import MoreVertIcon from '@mui/icons-material/MoreVert';
+import Button from '@mui/material/Button';
+import { Grid, Card, CardMedia, CardContent, CardActions,CardHeader, Collapse, Avatar, IconButton, Typography, TextField, Pagination,styled } from '@mui/material';
+import SearchIcon from '@mui/icons-material/Search';
 import axios from 'axios';
 
 
@@ -124,7 +122,7 @@ export default function RecipeReviewCard() {
                 ))}
             </Grid>
 
-            <Pagination count={10} color="primary" sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', mt: '25px' }} />
+      <Pagination count={10} color="primary" sx={{display: 'flex', alignItems:'center', justifyContent: 'center', mt:'25px'}} />
 
         </>
     );
