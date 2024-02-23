@@ -28,6 +28,7 @@ export default function Dashboard() {
         const fetchTotals = async () => {
             try {
                 const responses = await Promise.all([
+           
                     axios.get('http://localhost:8080/api/products/staff/totalActive'),
                     axios.get('http://localhost:8080/api/products/staff/totalPending'),
                     axios.get('http://localhost:8080/api/products/staff/totalClosed'),
@@ -51,7 +52,9 @@ export default function Dashboard() {
         { id: 2, number: 100, label: 'Total Users', link: 'total-users' },
         { id: 3, number: 50, label: 'Pending Project', link: 'pending-project' },
         { id: 4, number: 300, label: 'Closed Project', link: 'closed-project' },
-        { id: 5, number: 205, label: 'Rejected Project', link: 'rejected-prject' }
+        { id: 5, number: 205, label: 'Rejected Project', link: 'rejected-prject' },
+    
+
     ];
    
     return (
