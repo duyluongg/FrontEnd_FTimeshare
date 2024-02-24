@@ -94,7 +94,7 @@ export default function RecipeReviewCard() {
                             </Typography>
                         </CardContent>
                         <CardActions disableSpacing>
-                            <Button variant="outlined" color="success">
+                            <Button variant="outlined" color="error">
                                 {item.productStatus}
                             </Button>
                             <ExpandMore

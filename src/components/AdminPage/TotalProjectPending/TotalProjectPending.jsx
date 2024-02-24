@@ -53,6 +53,16 @@ export default function RecipeReviewCard() {
         }
     };
 
+    const handleRejectClick = async (productId) => {
+        console.log(productId);
+        try {
+            await axios.put(`http://localhost:8080/api/products/staff/reject/${productId}`);
+            fetchProjecPending();
+        } catch (error) {
+            console.error('Error accepting project:', error);
+        }
+    };
+
     const handleExpandClick = () => {
         setExpanded(!expanded);
     };
@@ -114,7 +124,7 @@ export default function RecipeReviewCard() {
                             <Button variant="outlined" sx={{ m: 1 }} onClick={() => handleAcceptClick(item.productID)} >
                                 Accept
                             </Button>
-                            <Button variant="outlined" color="error">
+                            <Button variant="outlined" color="error" onClick={() => handleRejectClick(item.productID)}>
                                 REJECT
                             </Button>
                             <ExpandMore
