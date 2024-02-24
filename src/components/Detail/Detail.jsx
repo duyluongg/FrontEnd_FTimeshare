@@ -10,6 +10,7 @@ import { ProjectsDataSimilar } from '../../Shared/ListOfProjectSimilar';
 import { RoomData } from '../../Shared/Room';
 import { useEffect } from 'react';
 import Review from '../Review/Review.jsx'
+import FormFeedback from '../FormFeedback/formfb.jsx'
 
 
 import {
@@ -234,6 +235,7 @@ export default function Detail() {
                 </div>
                 {/* REVIEW OF CUSTOMER */}
                 <Review />
+                <FormFeedback/>
                 <div>
 
                     <div className='project-similar'>

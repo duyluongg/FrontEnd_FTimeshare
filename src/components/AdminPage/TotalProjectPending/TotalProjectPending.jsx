@@ -4,7 +4,7 @@ import { red } from '@mui/material/colors';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import Button from '@mui/material/Button';
-import { Grid, Card, CardMedia, CardContent, CardActions,CardHeader, Collapse, Avatar, IconButton, Typography, TextField, Pagination,styled } from '@mui/material';
+import { Grid, Card, CardMedia, CardContent, CardActions, CardHeader, Collapse, Avatar, IconButton, Typography, TextField, Pagination, styled } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import axios from 'axios';
 
@@ -33,13 +33,23 @@ export default function RecipeReviewCard() {
 
     const fetchProjecPending = async () => {
         try {
-            // const response = await axios.get('http://localhost:8080/api/news/view');
+           
             const response = await axios.get('http://localhost:8080/api/products/staff/pending');
 
             setProjectPending(response.data);
             console.log(response);
         } catch (error) {
             console.error('Error fetching projects:', error);
+        }
+    };
+
+    const handleAcceptClick = async (productId) => {
+        console.log(productId);
+        try {
+            await axios.put(`http://localhost:8080/api/products/staff/active/${productId}`);
+            fetchProjecPending();
+        } catch (error) {
+            console.error('Error accepting project:', error);
         }
     };
 
@@ -74,7 +84,7 @@ export default function RecipeReviewCard() {
             </div>
             <Grid container spacing={1} sx={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '10px', ml: '2' }}>
                 {projectPending.map((item) => (
-                    <Card key={item.id} sx={{ maxWidth: 400, ml: '35px', mb: '15px', boxShadow: '3' }}>
+                    <Card key={item.productID} sx={{ maxWidth: 400, ml: '35px', mb: '15px', boxShadow: '3' }}>
                         <CardHeader
                             avatar={
                                 <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
@@ -101,7 +111,7 @@ export default function RecipeReviewCard() {
                             </Typography>
                         </CardContent>
                         <CardActions disableSpacing>
-                            <Button variant="outlined" sx={{ m: 1 }}>
+                            <Button variant="outlined" sx={{ m: 1 }} onClick={() => handleAcceptClick(item.productID)} >
                                 Accept
                             </Button>
                             <Button variant="outlined" color="error">
@@ -125,7 +135,7 @@ export default function RecipeReviewCard() {
                 ))}
             </Grid>
 
-      <Pagination count={10} color="primary" sx={{display: 'flex', alignItems:'center', justifyContent: 'center', mt:'25px'}} />
+            <Pagination count={10} color="primary" sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', mt: '25px' }} />
 
         </>
     );

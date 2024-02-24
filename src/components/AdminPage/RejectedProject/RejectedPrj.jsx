@@ -31,12 +31,12 @@ export default function RecipeReviewCard() {
     };
 
     useEffect(() => {
-        fetchProjectActive();
+        fetchProjectPending();
     }, []);
 
-    const fetchProjectActive = async () => {
+    const fetchProjectPending = async () => {
         try {
-            const response = await axios.get('http://localhost:8080/api/products/staff/active');
+            const response = await axios.get('http://localhost:8080/api/products/staff/rejected');
             setProjectActive(response.data);
             console.log(response);
         } catch (error) {
@@ -67,7 +67,7 @@ export default function RecipeReviewCard() {
 
             <Grid container spacing={1} sx={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '10px', ml: '50px' }}>
                 {projectActive.map((item) => (
-                    <Card key={item.productID} sx={{ maxWidth: 345, mb: '20px', boxShadow: 3 }}>
+                    <Card key={item.newsID} sx={{ maxWidth: 345, mb: '20px', boxShadow: 3 }}>
                         <CardHeader
                             avatar={
                                 <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">

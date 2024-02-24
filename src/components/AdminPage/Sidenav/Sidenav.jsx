@@ -26,6 +26,7 @@ import { blue, pink } from '@mui/material/colors';
 import TotalUser from '../TotalUser/TotalUser.jsx';
 import TotalProjects from '../TotalProject/TotalProject.jsx';
 import TotalProjectPending from '../TotalProjectPending/TotalProjectPending.jsx'
+import RejectedProject from '../RejectedProject/RejectedPrj.jsx';
 
 const drawerWidth = 240;
 
@@ -198,6 +199,8 @@ export default function MiniDrawer() {
                 {currentPage === '/admin/total-users' && <TotalUser />}
                 {currentPage === '/admin/total-project' && <TotalProjects />}
                 {currentPage === '/admin/pending-project' && <TotalProjectPending />}
+                {currentPage === '/admin/rejected-project' && <RejectedProject />}
+
               
 
             </Box>
