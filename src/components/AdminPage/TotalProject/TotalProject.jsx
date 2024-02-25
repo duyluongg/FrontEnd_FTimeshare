@@ -91,9 +91,11 @@ export default function RecipeReviewCard() {
                             }
                             action={
                                 <IconButton aria-label="settings">
-                                    <Link to={`/admin/report-project/${item.productID}`}>
+                                    {/* <Link to={`/admin/report-project/${item.productID}`}>
                                         <Button variant="contained" onClick={() => handleReportUserClick(item.productID)}>REPORT'S USER</Button>
-                                    </Link>
+                                    </Link> */}
+                                                <MoreVertIcon />
+
                                 </IconButton>
                             }
                             title={item.productName}

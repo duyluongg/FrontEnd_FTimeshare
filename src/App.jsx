@@ -41,6 +41,7 @@ import ViewReport from './components/AdminPage/ViewReport/ViewReport.jsx'
 import Sidenav from './components/AdminPage/Sidenav/Sidenav.jsx';
 
 import { useLocation } from 'react-router-dom';
+import SidenavReport from './components/SidenavReport.jsx'
 // import CardReport from './components/AdminPage/ViewReport/CardReport.jsx'
 
 function App() {
@@ -85,7 +86,7 @@ function App() {
         <Route path='/admin/*' element={<Sidenav />}></Route>
 
         {/* <Route path='/admin/report-project/:productID' element={<CardReport />}></Route> */}
-        <Route path='/admin/report-project/:reportID' element={<CardReport />}></Route>
+        <Route path='/admin/report-project/:reportID' element={<SidenavReport/>}></Route>
 
 
 

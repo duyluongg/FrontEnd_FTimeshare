@@ -129,7 +129,7 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import ShareIcon from '@mui/icons-material/Share';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
-
+import Button from '@mui/material/Button';
 import Review from '../../Review/Review';
 
 const ExpandMore = styled((props) => {
@@ -153,10 +153,10 @@ export default function CardReport() {
     }
 
     useEffect(() => {
-        fetchProjectActive();
+        fetchProjectReport();
     }, []);
 
-    const fetchProjectActive = async () => {
+    const fetchProjectReport = async () => {
         console.log(reportID);
         try {
             const response = await axios.get(`http://localhost:8080/api/reports/viewDetail/${reportID}`)
@@ -167,6 +167,17 @@ export default function CardReport() {
             console.error('Error fetching projects:', error);
         }
     };
+
+    const handleDelete = async (reportID) => {
+        try {
+          await axios.delete(`http://localhost:8080/api/reports/delete/${reportID}`);
+        
+            
+         
+        } catch (error) {
+          console.error('Error deleting row:', error);
+        }
+      };
 
     return (
         <>
@@ -202,12 +213,7 @@ export default function CardReport() {
                     </Typography>
                 </CardContent>
                 <CardActions disableSpacing>
-                    <IconButton aria-label="add to favorites">
-                        <FavoriteIcon />
-                    </IconButton>
-                    <IconButton aria-label="share">
-                        <ShareIcon />
-                    </IconButton>
+                <Button variant="outlined" color='error' onClick={() => handleDelete(projectReport.reportID)}>Delete</Button>
                     <ExpandMore
                         expand={expanded}
                         onClick={handleExpandClick}
