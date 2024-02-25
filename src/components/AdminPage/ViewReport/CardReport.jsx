@@ -131,6 +131,7 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import Button from '@mui/material/Button';
 import Review from '../../Review/Review';
+import ModalPopUpReport from './ModalPopUpReport';
 
 const ExpandMore = styled((props) => {
     const { expand, ...other } = props;
@@ -147,6 +148,8 @@ export default function CardReport() {
     const [projectReport, setProjectReport] = useState({});
     const { reportID } = useParams();
     const [expanded, setExpanded] = useState(false);
+    const [deleted, setDeleted] = useState(false);
+
 
     const handleExpandClick = () => {
         setExpanded(!expanded);
@@ -170,71 +173,80 @@ export default function CardReport() {
 
     const handleDelete = async (reportID) => {
         try {
-          await axios.delete(`http://localhost:8080/api/reports/delete/${reportID}`);
-        
-            
-         
+            await axios.delete(`http://localhost:8080/api/reports/delete/${reportID}`);
+
+            setDeleted(true);
+
+
         } catch (error) {
-          console.error('Error deleting row:', error);
+            console.error('Error deleting row:', error);
         }
-      };
+    };
 
     return (
         <>
+            
+            {!deleted && (
+               <div>
+               <Card sx={{ maxWidth: 345 }}>
+                   <CardHeader
+                       avatar={
+                           <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
+                               {projectReport.accID && projectReport.accID.accName[0]}
+                           </Avatar>
+                       }
+                       action={
+                           <IconButton aria-label="settings">
+                               <MoreVertIcon />
+                           </IconButton>
+                       }
+                       title={projectReport.productID && projectReport.productID.accID.accName}
 
-            <Card sx={{ maxWidth: 345 }}>
-                <CardHeader
-                    avatar={
-                        <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
-                            {projectReport.accID && projectReport.accID.accName[0]}
-                        </Avatar>
-                    }
-                    action={
-                        <IconButton aria-label="settings">
-                            <MoreVertIcon />
-                        </IconButton>
-                    }
-                    title= {projectReport.productID && projectReport.productID.accID.accName}
+                       subheader={projectReport.productID && projectReport.productID.projectID.projectBuildDate}
 
-                    subheader={projectReport.productID && projectReport.productID.projectID.projectBuildDate }
-                    
 
-                />
-                  <Typography paragraph>{projectReport.productID && projectReport.productID.productName}</Typography>
-                <CardMedia
-                    component="img"
-                    height="194"
-                    image={projectReport.productID && projectReport.productID.productPicture}
-                    alt="Paella dish"
-                />
-                <CardContent>
-                    <Typography variant="body2" color="text.secondary">
-                    {projectReport.productID && projectReport.productID.productDescription}
-                    </Typography>
-                </CardContent>
-                <CardActions disableSpacing>
-                <Button variant="outlined" color='error' onClick={() => handleDelete(projectReport.reportID)}>Delete</Button>
-                    <ExpandMore
-                        expand={expanded}
-                        onClick={handleExpandClick}
-                        aria-expanded={expanded}
-                        aria-label="show more"
-                    >
-                        <ExpandMoreIcon />
-                    </ExpandMore>
-                </CardActions>
-                <Collapse in={expanded} timeout="auto" unmountOnExit>
-                    <CardContent>
-                      
-                        <Typography variant="body2" color="text.secondary">
-                        {projectReport.productID && projectReport.productID.productConvenience}
-                        </Typography>
-                      
-                    </CardContent>
-                </Collapse>
-            </Card>
+                   />
+                   <Typography paragraph>{projectReport.productID && projectReport.productID.productName}</Typography>
+                   <CardMedia
+                       component="img"
+                       height="194"
+                       image={projectReport.productID && projectReport.productID.productPicture}
+                       alt="Paella dish"
+                   />
+                   <CardContent>
+                       <Typography variant="body2" color="text.secondary">
+                           {projectReport.productID && projectReport.productID.productDescription}
+                       </Typography>
+                   </CardContent>
+                   <CardActions disableSpacing>
+                       {/* <Button variant="outlined" color='error' onClick={() => handleDelete(projectReport.reportID)}>Delete</Button> */}
+                       {/* <Button variant="outlined" color='error' onClick={() => handleDelete(projectReport.reportID)}>Delete</Button> */}
+                       <ModalPopUpReport onDelete={() => handleDelete(projectReport.reportID)} color='error' />
 
-          <Review/>
+                       <ExpandMore
+                           expand={expanded}
+                           onClick={handleExpandClick}
+                           aria-expanded={expanded}
+                           aria-label="show more"
+                       >
+                           <ExpandMoreIcon />
+                       </ExpandMore>
+                   </CardActions>
+                   <Collapse in={expanded} timeout="auto" unmountOnExit>
+                       <CardContent>
+
+                           <Typography variant="body2" color="text.secondary">
+                               {projectReport.productID && projectReport.productID.productConvenience}
+                           </Typography>
+
+                       </CardContent>
+                   </Collapse>
+               </Card>
+               <Review />
+
+           </div>
+              
+            )}
         </>
 
     )

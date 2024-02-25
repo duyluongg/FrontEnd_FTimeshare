@@ -84,19 +84,19 @@ export default function RecipeReviewCard() {
                 {projectReport.map((item) => (
                     <Card key={item.reportID} sx={{ maxWidth: 345, mb: '20px', boxShadow: 3 }}>
                         <CardHeader
-                            avatar={
-                                <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
-                                    a
-                                </Avatar>
-                            }
-                            action={
-                                <IconButton aria-label="settings">
-                                    <Link to={`/admin/report-project/${item.reportID}`}>
-                                        <Button variant="contained" onClick={() => handleReportUserClick(item.reportID)}>REPORT'S USER</Button>
-                                    </Link>
-                                </IconButton>
-                            }
-                            title='abc'
+                            // avatar={
+                            //     <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
+                                 
+                            //     </Avatar>
+                            // }
+                            // action={
+                            //     <IconButton aria-label="settings">
+                            //         <Link to={`/admin/report-project/${item.reportID}`}>
+                            //             <Button variant="contained" onClick={() => handleReportUserClick(item.reportID)}>REPORT'S USER</Button>
+                            //         </Link>
+                            //     </IconButton>
+                            // }
+                            title={item.reportDetail}
                             subheader={item.reportCreateDate}
                         />
                         <CardMedia
@@ -111,9 +111,14 @@ export default function RecipeReviewCard() {
                             </Typography>
                         </CardContent>
                         <CardActions disableSpacing>
-                            <Button variant="outlined" color="success">
+                            <Button variant="outlined" color="success" sx={{fontSize:'12.5px'}}>
                                 {item.reportStatus}
                             </Button>
+                            <IconButton aria-label="settings">
+                                    <Link to={`/admin/report-project/${item.reportID}`}>
+                                        <Button variant="contained" onClick={() => handleReportUserClick(item.reportID)}>REPORT'S USER</Button>
+                                    </Link>
+                                </IconButton>
                             <ExpandMore
                                 expand={expanded}
                                 onClick={handleExpandClick}
