@@ -1,15 +1,16 @@
+// RecipeReviewCard.jsx
 import React, { useState, useEffect } from 'react';
 import { styled } from '@mui/material/styles';
-
 import { red } from '@mui/material/colors';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import axios from 'axios';
-import { Grid, Card, CardHeader, CardMedia, CardContent, CardActions, Collapse, Avatar, IconButton, Typography,Button, TextField, Pagination} from '@mui/material';
-// import Button from '@mui/material/Button';
-// import TextField from '@mui/material/TextField';
+import { Grid, Card, CardHeader, CardMedia, CardContent, CardActions, Collapse, Avatar, IconButton, Typography, Button, TextField, Pagination } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
-// import Pagination from '@mui/material/Pagination';
+import { Link } from 'react-router-dom';
+import CardReport from '../ViewReport/CardReport';
+// import { useHistory } from 'react-router-dom';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
 const ExpandMore = styled((props) => {
     const { expand, ...other } = props;
     return <IconButton {...other} />;
@@ -22,8 +23,11 @@ const ExpandMore = styled((props) => {
 }));
 
 export default function RecipeReviewCard() {
-    const [expanded, setExpanded] = React.useState(false);
-    const [projectActive, setProjectActive] = React.useState([])
+    const [expanded, setExpanded] = useState(false);
+    const [projectActive, setProjectActive] = useState([]);
+    const [selectedProject, setSelectedProject] = useState(null); // State để lưu trữ thông tin của mục được chọn
+    const [showCardReport, setShowCardReport] = useState(false);
+
     const [searchQuery, setSearchQuery] = useState('');
 
     const handleSearchChange = (event) => {
@@ -48,9 +52,20 @@ export default function RecipeReviewCard() {
         setExpanded(!expanded);
     };
 
+    const handleReportUserClick = (productId) => {
+        console.log("Report user for productID:", productId);
+        setSelectedProject(productId); // Cập nhật selectedProject trước
+        setShowCardReport(true);
+    };
+    
+    useEffect(() => {
+        console.log("Selected Project ID changed:", selectedProject);
+       
+    }, [selectedProject]);
+   
+
     return (
         <>
-
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                 <TextField
                     sx={{ width: '500px', mb: '35px' }}
@@ -63,7 +78,7 @@ export default function RecipeReviewCard() {
                 <IconButton type="submit" aria-label="search" sx={{ mb: '30px' }}>
                     <SearchIcon />
                 </IconButton>
-            </div> 
+            </div>
 
             <Grid container spacing={1} sx={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '10px', ml: '50px' }}>
                 {projectActive.map((item) => (
@@ -76,7 +91,9 @@ export default function RecipeReviewCard() {
                             }
                             action={
                                 <IconButton aria-label="settings">
-                                    <MoreVertIcon />
+                                    <Link to={`/admin/report-project/${item.productID}`}>
+                                        <Button variant="contained" onClick={() => handleReportUserClick(item.productID)}>REPORT'S USER</Button>
+                                    </Link>
                                 </IconButton>
                             }
                             title={item.productName}
@@ -108,20 +125,18 @@ export default function RecipeReviewCard() {
                         </CardActions>
                         <Collapse in={expanded} timeout="auto" unmountOnExit>
                             <CardContent>
-                        
                                 <Typography paragraph>
                                     {item.productConvenience}
                                 </Typography>
-
                             </CardContent>
                         </Collapse>
                     </Card>
                 ))}
-
-
             </Grid >
-            <Pagination count={10} color="primary" sx={{display: 'flex', alignItems:'center', justifyContent: 'center', mt:'25px'}} />
-        </>
+            <Pagination count={10} color="primary" sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', mt: '25px' }} />
+        
+        
 
+        </>
     );
 }

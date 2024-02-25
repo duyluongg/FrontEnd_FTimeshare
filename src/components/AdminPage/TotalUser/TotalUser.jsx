@@ -140,100 +140,174 @@
 // }
 
 
-import React, { useState, useEffect } from 'react'
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
-import axios from 'axios';
-import TextField from '@mui/material/TextField';
-import IconButton from '@mui/material/IconButton';
-import SearchIcon from '@mui/icons-material/Search';
-import Pagination from '@mui/material/Pagination';
-// function createData(name, calories, fat, carbs, protein) {
-//   return { name, calories, fat, carbs, protein };
+// import React, { useState, useEffect } from 'react'
+// import Table from '@mui/material/Table';
+// import TableBody from '@mui/material/TableBody';
+// import TableCell from '@mui/material/TableCell';
+// import TableContainer from '@mui/material/TableContainer';
+// import TableHead from '@mui/material/TableHead';
+// import TableRow from '@mui/material/TableRow';
+// import Paper from '@mui/material/Paper';
+// import axios from 'axios';
+// import TextField from '@mui/material/TextField';
+// import IconButton from '@mui/material/IconButton';
+// import SearchIcon from '@mui/icons-material/Search';
+// import Pagination from '@mui/material/Pagination';
+// // function createData(name, calories, fat, carbs, protein) {
+// //   return { name, calories, fat, carbs, protein };
+// // }
+
+// // const rows = [
+// //   createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
+// //   createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
+// //   createData('Eclair', 262, 16.0, 24, 6.0),
+// //   createData('Cupcake', 305, 3.7, 67, 4.3),
+// //   createData('Gingerbread', 356, 16.0, 49, 3.9),
+// // ];
+
+// export default function BasicTable() {
+//   const [user, setUser] = useState([])
+
+//   useEffect(() => {
+//     fetchUsers();
+//   }, []);
+//   const fetchUsers = async () => {
+//     try {
+
+//       const response = await axios.get('http://localhost:8080/api/users/ROLE_CUSTOMER');
+
+//       setUser(response.data)
+//       console.log(response);
+
+
+//     } catch (error) {
+//       console.error('Error fetching projects:', error);
+//     }
+//   };
+//   return (
+//     <>
+//       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+
+//         <TextField sx={{ width: '500px', mb: '35px' }}
+//           placeholder="Search..."
+//           variant="outlined"
+//           size="small"
+//           defaultValue=""
+//         // onChange={handleSearch}
+//         />
+//         <IconButton type="submit" aria-label="search" sx={{ mb: '30px' }}>
+//           <SearchIcon />
+//         </IconButton>
+//       </div>
+
+//       <TableContainer component={Paper}>
+//         <Table sx={{ minWidth: 650 }} aria-label="simple table">
+//           <TableHead>
+//             <TableRow>
+//               <TableCell>No</TableCell>
+//               <TableCell align="left">Fullname</TableCell>
+//               <TableCell align="left">Phone</TableCell>
+//               <TableCell align="left">Email</TableCell>
+//               <TableCell align="left">Birthday</TableCell>
+//             </TableRow>
+//           </TableHead>
+//           <TableBody>
+//             {user.map((row, index) => (
+//               <TableRow
+//                 key={row.name}
+//                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+//               >
+//                 <TableCell component="th" scope="row">
+//                   {index + 1}
+//                 </TableCell>
+//                 <TableCell align="left">{row.accName}</TableCell>
+//                 <TableCell align="left">{row.accPhone}</TableCell>
+//                 <TableCell align="left">{row.accEmail}</TableCell>
+//                 <TableCell align="left">{row.accBirthday}</TableCell>
+//               </TableRow>
+//             ))}
+//           </TableBody>
+//         </Table>
+//       </TableContainer>
+
+//       <Pagination count={10} color="primary" sx={{display: 'flex', alignItems:'center', justifyContent: 'center', mt:'25px'}} />
+
+//     </>
+
+
+//   );
 // }
 
-// const rows = [
-//   createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-//   createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-//   createData('Eclair', 262, 16.0, 24, 6.0),
-//   createData('Cupcake', 305, 3.7, 67, 4.3),
-//   createData('Gingerbread', 356, 16.0, 49, 3.9),
-// ];
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import { DataGrid } from '@mui/x-data-grid';
 
-export default function BasicTable() {
-  const [user, setUser] = useState([])
+
+
+
+
+export default function TotalStaff() {
+  const [rows, setRows] = useState([]);
+
+  const columns = [
+    { field: 'id', headerName: 'ID', width: 70 },
+    { field: 'accName', headerName: 'Name', width: 130 },
+    { field: 'accPhone', headerName: 'Phone', width: 130 },
+    { field: 'accEmail', headerName: 'Email', width: 200 },
+    {
+      field: 'delete',
+      headerName: 'Action',
+      width: 200,
+      renderCell: (params) => (
+        <button onClick={() => handleDelete(params.row)}>Delete</button>
+      ),
+    },
+  ];
 
   useEffect(() => {
-    fetchUsers();
+    const fetchRow = async () => {
+      try {
+        const response = await axios.get('http://localhost:8080/api/users/ROLE_CUSTOMER');
+        const rowsWithId = response.data.map((row, index) => ({ ...row, id: index + 1 }));
+        setRows(rowsWithId);
+        console.log(rows);
+      } catch (error) {
+        console.error('Error fetching staff:', error);
+      }
+      
+    };
+
+    fetchRow();
   }, []);
-  const fetchUsers = async () => {
+  const handleDelete = async (row) => {
     try {
 
-      const response = await axios.get('http://localhost:8080/api/users/customer');
+      await axios.delete(`http://localhost:8080/api/users/delete/${row.accID}`);
 
-      setUser(response.data)
-      console.log(response);
-
-
+      setRows((prevRows) => prevRows.filter((prevRow) => prevRow.id !== row.id));
+     
     } catch (error) {
-      console.error('Error fetching projects:', error);
+      console.error('Error deleting row:', error);
     }
   };
+
+
   return (
-    <>
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-
-        <TextField sx={{ width: '500px', mb: '35px' }}
-          placeholder="Search..."
-          variant="outlined"
-          size="small"
-          defaultValue=""
-        // onChange={handleSearch}
-        />
-        <IconButton type="submit" aria-label="search" sx={{ mb: '30px' }}>
-          <SearchIcon />
-        </IconButton>
-      </div>
-
-      <TableContainer component={Paper}>
-        <Table sx={{ minWidth: 650 }} aria-label="simple table">
-          <TableHead>
-            <TableRow>
-              <TableCell>No</TableCell>
-              <TableCell align="left">Fullname</TableCell>
-              <TableCell align="left">Phone</TableCell>
-              <TableCell align="left">Email</TableCell>
-              <TableCell align="left">Birthday</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {user.map((row, index) => (
-              <TableRow
-                key={row.name}
-                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-              >
-                <TableCell component="th" scope="row">
-                  {index + 1}
-                </TableCell>
-                <TableCell align="left">{row.accName}</TableCell>
-                <TableCell align="left">{row.accPhone}</TableCell>
-                <TableCell align="left">{row.accEmail}</TableCell>
-                <TableCell align="left">{row.accBirthday}</TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
-
-      <Pagination count={10} color="primary" sx={{display: 'flex', alignItems:'center', justifyContent: 'center', mt:'25px'}} />
-
-    </>
-
-
+    <div style={{ height: 400, width: '100%' }}>
+      <DataGrid
+        rows={rows}
+        columns={columns}
+        getRowId={(row) => row.id}
+        initialState={{
+          pagination: {
+            paginationModel: { page: 0, pageSize: 5 },
+          },
+        }}
+        pageSizeOptions={[5, 10]}
+        checkboxSelection
+      />
+    </div>
   );
 }
+
+
