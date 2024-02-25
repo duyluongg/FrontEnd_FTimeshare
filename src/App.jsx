@@ -36,9 +36,12 @@ import './components/AdminPage/Admin/Admin.css'
 // import Sidenav from './components/Admin/Admin.jsx'
 import TotalUser from './components/AdminPage/TotalUser/TotalUser.jsx'
 // import  './components/AdminPage/TotalUser/TotalUser.css'
-
+import CardReport from './components/AdminPage/ViewReport/CardReport.jsx'
+import ViewReport from './components/AdminPage/ViewReport/ViewReport.jsx'
+import Sidenav from './components/AdminPage/Sidenav/Sidenav.jsx';
 
 import { useLocation } from 'react-router-dom';
+// import CardReport from './components/AdminPage/ViewReport/CardReport.jsx'
 
 function App() {
   const location = useLocation();
@@ -78,8 +81,13 @@ function App() {
         <Route path='/view-projects' element={<ViewProject />}></Route>
         <Route path='/view-project-detail/:id' element={<ViewDetail />}></Route>
         <Route path='/contact-info' element={<Contact />}></Route>
-        <Route path='/admin/*' element={<AdminPage />}></Route>
-        {/* <Route path='/admin/total-users/*' element={<TotalUser />}></Route> */}
+        {/* <Route path='/admin/*' element={<AdminPage />}></Route> */}
+        <Route path='/admin/*' element={<Sidenav />}></Route>
+
+        {/* <Route path='/admin/report-project/:productID' element={<CardReport />}></Route> */}
+        <Route path='/admin/report-project/:reportID' element={<CardReport />}></Route>
+
+
 
     
       </Routes>

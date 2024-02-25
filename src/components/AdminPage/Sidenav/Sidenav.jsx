@@ -27,6 +27,12 @@ import TotalUser from '../TotalUser/TotalUser.jsx';
 import TotalProjects from '../TotalProject/TotalProject.jsx';
 import TotalProjectPending from '../TotalProjectPending/TotalProjectPending.jsx'
 import RejectedProject from '../RejectedProject/RejectedPrj.jsx';
+import ViewReport from '../ViewReport/ViewReport.jsx';
+import CardReport from '../ViewReport/CardReport.jsx';
+import TotalStaff from '../TotalStaff/TotalStaff.jsx';
+import TotalReport from '../TotalReport/TotalReport.jsx';
+
+
 
 const drawerWidth = 240;
 
@@ -200,8 +206,16 @@ export default function MiniDrawer() {
                 {currentPage === '/admin/total-project' && <TotalProjects />}
                 {currentPage === '/admin/pending-project' && <TotalProjectPending />}
                 {currentPage === '/admin/rejected-project' && <RejectedProject />}
+                {currentPage === '/admin/total-staff' && <TotalStaff />}
+                {currentPage === '/admin/total-report' && <TotalReport/>}
 
-              
+
+                {/* {currentPage === '/admin/report-project:productID' && < CardReport />} */}
+             
+
+
+
+
 
             </Box>
         </Box>

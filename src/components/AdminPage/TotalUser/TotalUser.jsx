@@ -238,31 +238,89 @@
 //   );
 // }
 
+// import React, { useState, useEffect } from 'react';
+// import axios from 'axios';
+// import { DataGrid } from '@mui/x-data-grid';
+// import DeleteIcon from '@mui/icons-material/Delete';
+// import ModalPopUp from './ModalPopUp.jsx'
+
+
+
+// export default function TotalStaff() {
+//   const [rows, setRows] = useState([]);
+
+//   const columns = [
+//     { field: 'id', headerName: 'ID', width: 70 },
+//     { field: 'accName', headerName: 'Name', width: 130 },
+//     { field: 'accPhone', headerName: 'Phone', width: 130 },
+//     { field: 'accEmail', headerName: 'Email', width: 200 },
+//     {
+//       field: 'delete',
+//       headerName: 'Action',
+//       width: 30,
+//       renderCell: (params) => (
+//         // <button onClick={() => handleDelete(params.row)}><ModalPopUp color='error'/></button>
+//         <button><ModalPopUp color='error'/></button>
+
+//       ),
+//     },
+//   ];
+
+//   useEffect(() => {
+//     const fetchRow = async () => {
+//       try {
+//         const response = await axios.get('http://localhost:8080/api/users/ROLE_CUSTOMER');
+//         const rowsWithId = response.data.map((row, index) => ({ ...row, id: index + 1 }));
+//         setRows(rowsWithId);
+//         console.log(rows);
+//       } catch (error) {
+//         console.error('Error fetching staff:', error);
+//       }
+      
+//     };
+
+//     fetchRow();
+//   }, []);
+//   // const handleDelete = async (row) => {
+//   //   try {
+
+//   //     await axios.delete(`http://localhost:8080/api/users/delete/${row.accID}`);
+
+//   //     setRows((prevRows) => prevRows.filter((prevRow) => prevRow.id !== row.id));
+     
+//   //   } catch (error) {
+//   //     console.error('Error deleting row:', error);
+//   //   }
+//   // };
+
+
+//   return (
+//     <div style={{ height: 400, width: '100%' }}>
+//       <DataGrid
+//         rows={rows}
+//         columns={columns}
+//         getRowId={(row) => row.id}
+//         initialState={{
+//           pagination: {
+//             paginationModel: { page: 0, pageSize: 5 },
+//           },
+//         }}
+//         pageSizeOptions={[5, 10]}
+//         checkboxSelection
+//       />
+//     </div>
+//   );
+// }
+
+
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { DataGrid } from '@mui/x-data-grid';
-
-
-
-
+import DeleteIcon from '@mui/icons-material/Delete';
+import ModalPopUp from './ModalPopUp.jsx';
 
 export default function TotalStaff() {
   const [rows, setRows] = useState([]);
-
-  const columns = [
-    { field: 'id', headerName: 'ID', width: 70 },
-    { field: 'accName', headerName: 'Name', width: 130 },
-    { field: 'accPhone', headerName: 'Phone', width: 130 },
-    { field: 'accEmail', headerName: 'Email', width: 200 },
-    {
-      field: 'delete',
-      headerName: 'Action',
-      width: 200,
-      renderCell: (params) => (
-        <button onClick={() => handleDelete(params.row)}>Delete</button>
-      ),
-    },
-  ];
 
   useEffect(() => {
     const fetchRow = async () => {
@@ -279,24 +337,34 @@ export default function TotalStaff() {
 
     fetchRow();
   }, []);
+
   const handleDelete = async (row) => {
     try {
-
       await axios.delete(`http://localhost:8080/api/users/delete/${row.accID}`);
-
       setRows((prevRows) => prevRows.filter((prevRow) => prevRow.id !== row.id));
-     
     } catch (error) {
       console.error('Error deleting row:', error);
     }
   };
 
-
   return (
     <div style={{ height: 400, width: '100%' }}>
       <DataGrid
         rows={rows}
-        columns={columns}
+        columns={[
+          { field: 'id', headerName: 'ID', width: 70 },
+          { field: 'accName', headerName: 'Name', width: 130 },
+          { field: 'accPhone', headerName: 'Phone', width: 130 },
+          { field: 'accEmail', headerName: 'Email', width: 200 },
+          {
+            field: 'delete',
+            headerName: 'Action',
+            width: 30,
+            renderCell: (params) => (
+              <ModalPopUp onDelete={handleDelete} row={params.row} color='error' />
+            ),
+          },
+        ]}
         getRowId={(row) => row.id}
         initialState={{
           pagination: {
@@ -309,5 +377,4 @@ export default function TotalStaff() {
     </div>
   );
 }
-
 
