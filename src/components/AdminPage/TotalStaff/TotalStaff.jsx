@@ -3,10 +3,13 @@ import axios from 'axios';
 import { DataGrid } from '@mui/x-data-grid';
 import DeleteIcon from '@mui/icons-material/Delete';
 import ModalPopUp from '../TotalUser/ModalPopUp.jsx';
-
+import { TextField } from '@mui/material';
+import IconButton from '@mui/material/IconButton';
+import SearchIcon from '@mui/icons-material/Search';
 export default function TotalStaff() {
   const [rows, setRows] = useState([]);
-
+  const [search, setSearch] = useState('');
+  
   useEffect(() => {
     const fetchRow = async () => {
       try {
@@ -17,7 +20,7 @@ export default function TotalStaff() {
       } catch (error) {
         console.error('Error fetching staff:', error);
       }
-      
+
     };
 
     fetchRow();
@@ -34,8 +37,23 @@ export default function TotalStaff() {
 
   return (
     <div style={{ height: 400, width: '100%' }}>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+
+        <TextField sx={{ width: '500px', mb: '35px' }}
+          placeholder="Search..."
+          variant="outlined"
+          size="small"
+          defaultValue=""
+          onChange={(s) => setSearch(s.target.value)}
+        />
+        <IconButton type="submit" aria-label="search" sx={{ mb: '30px' }}>
+          <SearchIcon />
+        </IconButton>
+      </div>
       <DataGrid
-        rows={rows}
+        rows={rows.filter((item) =>
+          search.trim() === '' ? true : item.accName.toLowerCase().includes(search.toLowerCase())
+        )}
         columns={[
           { field: 'id', headerName: 'ID', width: 70 },
           { field: 'accName', headerName: 'Name', width: 130 },
@@ -46,7 +64,7 @@ export default function TotalStaff() {
             headerName: 'Action',
             width: 30,
             renderCell: (params) => (
-           <button onClick={() => handleDelete(params.row)}><ModalPopUp color='error'/></button>
+              <button onClick={() => handleDelete(params.row)}><ModalPopUp color='error' /></button>
             ),
           },
         ]}

@@ -331,14 +331,16 @@ export default function TotalStaff() {
         const response = await axios.get('http://localhost:8080/api/users/ROLE_CUSTOMER');
         const rowsWithId = response.data.map((row, index) => ({ ...row, id: index + 1 }));
         setRows(rowsWithId);
-        console.log(rows);
+      
       } catch (error) {
         console.error('Error fetching staff:', error);
       }
 
     };
+    
 
     fetchRow();
+    console.log(rows);
   }, []);
 
   const handleDelete = async (row) => {
