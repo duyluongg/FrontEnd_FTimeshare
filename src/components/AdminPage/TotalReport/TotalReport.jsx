@@ -24,7 +24,7 @@ const ExpandMore = styled((props) => {
 
 export default function RecipeReviewCard() {
     const [expanded, setExpanded] = useState(false);
-    const [projectActive, setProjectActive] = useState([]);
+    const [projectReport, setProjectReport] = useState([]);
     const [selectedProject, setSelectedProject] = useState(null); // State để lưu trữ thông tin của mục được chọn
     const [showCardReport, setShowCardReport] = useState(false);
 
@@ -40,8 +40,8 @@ export default function RecipeReviewCard() {
 
     const fetchProjectActive = async () => {
         try {
-            const response = await axios.get('http://localhost:8080/api/products/staff/active');
-            setProjectActive(response.data);
+            const response = await axios.get('http://localhost:8080/api/reports/viewAll');
+            setProjectReport(response.data);
             console.log(response);
         } catch (error) {
             console.error('Error fetching projects:', error);
@@ -52,9 +52,9 @@ export default function RecipeReviewCard() {
         setExpanded(!expanded);
     };
 
-    const handleReportUserClick = (productId) => {
-        console.log("Report user for productID:", productId);
-        setSelectedProject(productId); // Cập nhật selectedProject trước
+    const handleReportUserClick = (reportID) => {
+        console.log("Report user for reportID:", reportID);
+        setSelectedProject(reportID); // Cập nhật selectedProject trước
         setShowCardReport(true);
     };
     
@@ -81,25 +81,23 @@ export default function RecipeReviewCard() {
             </div>
 
             <Grid container spacing={1} sx={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '10px', ml: '50px' }}>
-                {projectActive.map((item) => (
-                    <Card key={item.productID} sx={{ maxWidth: 345, mb: '20px', boxShadow: 3 }}>
+                {projectReport.map((item) => (
+                    <Card key={item.reportID} sx={{ maxWidth: 345, mb: '20px', boxShadow: 3 }}>
                         <CardHeader
-                            avatar={
-                                <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
-                                    {item.productName[1]}
-                                </Avatar>
-                            }
-                            action={
-                                <IconButton aria-label="settings">
-                                    {/* <Link to={`/admin/report-project/${item.productID}`}>
-                                        <Button variant="contained" onClick={() => handleReportUserClick(item.productID)}>REPORT'S USER</Button>
-                                    </Link> */}
-                                                <MoreVertIcon />
-
-                                </IconButton>
-                            }
-                            title={item.productName}
-                            subheader={item.availableStartDate}
+                            // avatar={
+                            //     <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
+                                 
+                            //     </Avatar>
+                            // }
+                            // action={
+                            //     <IconButton aria-label="settings">
+                            //         <Link to={`/admin/report-project/${item.reportID}`}>
+                            //             <Button variant="contained" onClick={() => handleReportUserClick(item.reportID)}>REPORT'S USER</Button>
+                            //         </Link>
+                            //     </IconButton>
+                            // }
+                            title={item.reportDetail}
+                            subheader={item.reportCreateDate}
                         />
                         <CardMedia
                             component="img"
@@ -109,29 +107,34 @@ export default function RecipeReviewCard() {
                         />
                         <CardContent>
                             <Typography variant="body2" color="text.secondary" sx={{ overflow: 'hidden', textOverflow: 'ellipsis', display: '-webkit-box', WebkitLineClamp: '2', WebkitBoxOrient: "vertical" }}>
-                                {item.productDescription}
+                                {item.reportDetail}
                             </Typography>
                         </CardContent>
                         <CardActions disableSpacing>
-                            <Button variant="outlined" color="success">
-                                {item.productStatus}
+                            <Button variant="outlined" color="success" sx={{fontSize:'12.5px'}}>
+                                {item.reportStatus}
                             </Button>
-                            <ExpandMore
+                            <IconButton aria-label="settings">
+                                    <Link to={`/admin/report-project/${item.reportID}`}>
+                                        <Button sx={{fontSize:"12.5px", mb:"3px"}} variant="contained" onClick={() => handleReportUserClick(item.reportID)}>USER'S REPORT</Button>
+                                    </Link>
+                                </IconButton>
+                            {/* <ExpandMore
                                 expand={expanded}
                                 onClick={handleExpandClick}
                                 aria-expanded={expanded}
                                 aria-label="show more"
                             >
                                 <ExpandMoreIcon />
-                            </ExpandMore>
+                            </ExpandMore> */}
                         </CardActions>
-                        <Collapse in={expanded} timeout="auto" unmountOnExit>
+                        {/* <Collapse in={expanded} timeout="auto" unmountOnExit>
                             <CardContent>
                                 <Typography paragraph>
-                                    {item.productConvenience}
+                                  abc
                                 </Typography>
                             </CardContent>
-                        </Collapse>
+                        </Collapse> */}
                     </Card>
                 ))}
             </Grid >

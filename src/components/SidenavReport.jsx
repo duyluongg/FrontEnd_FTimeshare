@@ -18,21 +18,7 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import InboxIcon from '@mui/icons-material/MoveToInbox';
 import MailIcon from '@mui/icons-material/Mail';
-import { Routes, Route, useLocation } from 'react-router-dom';
-import HomePageAdmin from '../HomepageAdmin/HomePageAdmin';
-import Dashboard from '../Dashboard/Dashboard.jsx';
-import '../Dashboard/Dashboard.css'
-import { blue, pink } from '@mui/material/colors';
-import TotalUser from '../TotalUser/TotalUser.jsx';
-import TotalProjects from '../TotalProject/TotalProject.jsx';
-import TotalProjectPending from '../TotalProjectPending/TotalProjectPending.jsx'
-import RejectedProject from '../RejectedProject/RejectedPrj.jsx';
-import ViewReport from '../ViewReport/ViewReport.jsx';
-import CardReport from '../ViewReport/CardReport.jsx';
-import TotalStaff from '../TotalStaff/TotalStaff.jsx';
-import TotalReport from '../TotalReport/TotalReport.jsx';
-
-
+import CardReport from './AdminPage/ViewReport/CardReport';
 
 const drawerWidth = 240;
 
@@ -62,7 +48,6 @@ const DrawerHeader = styled('div')(({ theme }) => ({
     alignItems: 'center',
     justifyContent: 'flex-end',
     padding: theme.spacing(0, 1),
-
     // necessary for content to be below app bar
     ...theme.mixins.toolbar,
 }));
@@ -102,15 +87,9 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
     }),
 );
 
-export default function MiniDrawer() {
+export default function SidenavReport() {
     const theme = useTheme();
     const [open, setOpen] = React.useState(false);
-    const location = useLocation();
-    const [currentPage, setCurrentPage] = React.useState('');
-
-    React.useEffect(() => {
-        setCurrentPage(location.pathname);
-    }, [location]);
 
     const handleDrawerOpen = () => {
         setOpen(true);
@@ -123,7 +102,7 @@ export default function MiniDrawer() {
     return (
         <Box sx={{ display: 'flex' }}>
             <CssBaseline />
-            <AppBar position="fixed" open={open} >
+            <AppBar position="fixed" open={open}>
                 <Toolbar>
                     <IconButton
                         color="inherit"
@@ -142,7 +121,7 @@ export default function MiniDrawer() {
                     </Typography>
                 </Toolbar>
             </AppBar>
-            <Drawer variant="permanent" open={open}  >
+            <Drawer variant="permanent" open={open}>
                 <DrawerHeader>
                     <IconButton onClick={handleDrawerClose}>
                         {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
@@ -199,24 +178,9 @@ export default function MiniDrawer() {
                     ))}
                 </List>
             </Drawer>
-            <Box component="main" sx={{ flexGrow: 2, p: 3 }}  >
+            <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
                 <DrawerHeader />
-                {currentPage === '/admin' && <Dashboard />}
-                {currentPage === '/admin/total-users' && <TotalUser />}
-                {currentPage === '/admin/total-project' && <TotalProjects />}
-                {currentPage === '/admin/pending-project' && <TotalProjectPending />}
-                {currentPage === '/admin/rejected-project' && <RejectedProject />}
-                {currentPage === '/admin/total-staff' && <TotalStaff />}
-                {currentPage === '/admin/total-report' && <TotalReport/>}
-
-
-                {/* {currentPage === '/admin/report-project:productID' && < CardReport />} */}
-             
-
-
-
-
-
+                <CardReport />
             </Box>
         </Box>
     );

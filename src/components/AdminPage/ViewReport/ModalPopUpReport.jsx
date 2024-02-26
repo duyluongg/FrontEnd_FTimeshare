@@ -9,7 +9,8 @@ import DialogTitle from '@mui/material/DialogTitle';
 import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
 
-export default function ModalPopUp({ onDelete, row, color }) {
+export default function ModalPopUpReport({ onDelete, reportID,color }) {
+
   const [open, setOpen] = React.useState(false);
 
   const handleClickOpen = () => {
@@ -20,10 +21,15 @@ export default function ModalPopUp({ onDelete, row, color }) {
     setOpen(false);
   };
 
-  const handleConfirmDelete = () => {
-    onDelete(row);
-    handleClose();
-  };
+  const handleConfirmDelete = async () => {
+    try {
+        await onDelete(reportID);
+        handleClose();
+   
+    } catch (error) {
+        console.error('Error deleting report:', error);
+    }
+};
 
   return (
     <React.Fragment>

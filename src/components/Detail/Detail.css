@@ -1,6 +1,7 @@
 .container-detail {
     margin: 0 auto;
     /* max-width: 1300px; */
+ 
 }
 
 /* .container-item{
@@ -98,7 +99,7 @@
 
 }
 
-.arrow {
+.arrow-detail {
     font-size: 30px;
     padding: 5px 15px;
     box-shadow: 0 0 5px 3px #ccc;

@@ -44,9 +44,13 @@ import './components/Booking/Booking.css'
 // import Sidenav from './components/Admin/Admin.jsx'
 import TotalUser from './components/AdminPage/TotalUser/TotalUser.jsx'
 // import  './components/AdminPage/TotalUser/TotalUser.css'
-
+import CardReport from './components/AdminPage/ViewReport/CardReport.jsx'
+import ViewReport from './components/AdminPage/ViewReport/ViewReport.jsx'
+import Sidenav from './components/AdminPage/Sidenav/Sidenav.jsx';
 
 import { useLocation } from 'react-router-dom';
+import SidenavReport from './components/SidenavReport.jsx'
+// import CardReport from './components/AdminPage/ViewReport/CardReport.jsx'
 
 function App() {
   const location = useLocation();
@@ -73,8 +77,7 @@ function App() {
         </>
       )}
 
-      {/* <Navigation />
-      <Navbar /> */}
+    
 
 
       {!isDetailPage && !isLoginPage && !isRegisterPage && !isContactPage && !isAdminPage && !isCreateTimeshare && !isViewProject && !isViewDetail && !isTotalUser &&!isViewNews && !isCreateNews &&!isAccommodation && !isBooking && <Header />}
@@ -95,6 +98,13 @@ function App() {
         <Route path='/accommodation' element={<Accommodation />}></Route>
         <Route path='/view-booking-history/:id' element={<Booking />}></Route> 
         {/* <Route path='/admin/total-users/*' element={<TotalUser />}></Route> */}
+        {/* <Route path='/admin/*' element={<AdminPage />}></Route> */}
+        <Route path='/admin/*' element={<Sidenav />}></Route>
+
+        {/* <Route path='/admin/report-project/:productID' element={<CardReport />}></Route> */}
+        <Route path='/admin/report-project/:reportID' element={<SidenavReport/>}></Route>
+
+
 
     
       </Routes>
