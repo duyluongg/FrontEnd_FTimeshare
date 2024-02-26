@@ -27,7 +27,8 @@ export default function RecipeReviewCard() {
     const [projectActive, setProjectActive] = useState([]);
     const [selectedProject, setSelectedProject] = useState(null); // State để lưu trữ thông tin của mục được chọn
     const [showCardReport, setShowCardReport] = useState(false);
-
+    const [currentPage, setCurrentPage] = useState(1);
+    const [projectsPerPage] = useState(6);
     const [searchQuery, setSearchQuery] = useState('');
 
     const handleSearchChange = (event) => {
@@ -36,7 +37,7 @@ export default function RecipeReviewCard() {
 
     useEffect(() => {
         fetchProjectActive();
-    }, []);
+    }, [currentPage]);
 
     const fetchProjectActive = async () => {
         try {
@@ -62,8 +63,14 @@ export default function RecipeReviewCard() {
         console.log("Selected Project ID changed:", selectedProject);
        
     }, [selectedProject]);
-   
+  
 
+    const handlePageChange = (event, value) => {
+        setCurrentPage(value);
+    };
+    const indexOfLastProject = currentPage * projectsPerPage;
+    const indexOfFirstProject = indexOfLastProject - projectsPerPage;
+    const currentProjects = projectActive.slice(indexOfFirstProject, indexOfLastProject);
     return (
         <>
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
@@ -81,7 +88,7 @@ export default function RecipeReviewCard() {
             </div>
 
             <Grid container spacing={1} sx={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '10px', ml: '50px' }}>
-                {projectActive.map((item) => (
+                {currentProjects.map((item) => (
                     <Card key={item.productID} sx={{ maxWidth: 345, mb: '20px', boxShadow: 3 }}>
                         <CardHeader
                             avatar={
@@ -136,7 +143,13 @@ export default function RecipeReviewCard() {
                     </Card>
                 ))}
             </Grid >
-            <Pagination count={10} color="primary" sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', mt: '25px' }} />
+            {/* <Pagination count={10} color="primary" sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', mt: '25px' }} /> */}
+            <Pagination 
+                count={10} 
+                color="primary" 
+                sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', mt: '25px' }} 
+                onChange={handlePageChange}
+            />
         
         
 

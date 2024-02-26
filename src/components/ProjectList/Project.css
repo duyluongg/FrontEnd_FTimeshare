@@ -86,6 +86,7 @@
 .card h4 {
     font-size: 13px;
     color: #878787;
+    
 }
 
 .project-list-title {
@@ -108,7 +109,7 @@
 
 .project-list-detail {
     /* margin-left: 15px; */
-    margin: 10px 15px;
+    margin: 10px 8px;
     padding: 2px;
 }
 
