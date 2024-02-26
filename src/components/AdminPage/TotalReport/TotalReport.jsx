@@ -116,25 +116,25 @@ export default function RecipeReviewCard() {
                             </Button>
                             <IconButton aria-label="settings">
                                     <Link to={`/admin/report-project/${item.reportID}`}>
-                                        <Button variant="contained" onClick={() => handleReportUserClick(item.reportID)}>REPORT'S USER</Button>
+                                        <Button sx={{fontSize:"12.5px", mb:"3px"}} variant="contained" onClick={() => handleReportUserClick(item.reportID)}>USER'S REPORT</Button>
                                     </Link>
                                 </IconButton>
-                            <ExpandMore
+                            {/* <ExpandMore
                                 expand={expanded}
                                 onClick={handleExpandClick}
                                 aria-expanded={expanded}
                                 aria-label="show more"
                             >
                                 <ExpandMoreIcon />
-                            </ExpandMore>
+                            </ExpandMore> */}
                         </CardActions>
-                        <Collapse in={expanded} timeout="auto" unmountOnExit>
+                        {/* <Collapse in={expanded} timeout="auto" unmountOnExit>
                             <CardContent>
                                 <Typography paragraph>
                                   abc
                                 </Typography>
                             </CardContent>
-                        </Collapse>
+                        </Collapse> */}
                     </Card>
                 ))}
             </Grid >

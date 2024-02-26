@@ -117,7 +117,7 @@ export default function SidenavReport() {
                         <MenuIcon />
                     </IconButton>
                     <Typography variant="h6" noWrap component="div">
-                        Mini variant drawer
+                        MANAGE SYSTEM
                     </Typography>
                 </Toolbar>
             </AppBar>
