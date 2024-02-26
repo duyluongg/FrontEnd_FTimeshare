@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { ProjectsDataSimilar } from '../../../Shared/ListOfProjectSimilar.js';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar } from '@fortawesome/free-solid-svg-icons';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
+import axios from 'axios';
 
 export default function ViewProject() {
 
@@ -34,7 +35,7 @@ export default function ViewProject() {
 
     // Hàm xử lý khi người dùng bấm nút chỉnh trạng thái
     const handleStatusChange = (projectId) => {
-        
+
     };
 
     // Hàm xử lý khi người dùng bấm nút xem phản hồi
@@ -54,6 +55,23 @@ export default function ViewProject() {
     //         </div>
     //     );
     // };
+
+    const [products, setProducts] = useState([]);
+    const userId = useParams();
+
+    useEffect(() => {
+        const fetchProductByUserId = async () => {
+            try {
+                const response = await axios.get(`http://localhost:8080/api/products/${userId.id}`);
+                setProducts(response.data);
+                console.log(response.data);
+            } catch (error) {
+                console.error('Error fetching projects:', error);
+            }
+        };
+
+        fetchProductByUserId();
+    }, [userId.id]);
 
     return (
         <>
@@ -83,27 +101,27 @@ export default function ViewProject() {
                 </div>
                 <div className='list-project'>
                     <h2 className="view-project-title">My Project</h2>
-                    {ProjectsDataSimilar.map((prjsimi) => (
-                        <div className="project-card" key={prjsimi.id}>
+                    {products.map((product) => (
+                        <div className="project-card" key={product.productID}>
 
                             <div className='content-card'>
                                 <div className='imgage'>
-                                    <img src={prjsimi.img} alt={prjsimi.name} />
+                                    <img src={product.productPicture} alt={product.productName} />
                                 </div>
                                 <div className='project-list-details'>
                                     <div className='project-list-title'>
-                                        <h3 className='project-list-name'>{prjsimi.name}</h3>
-                                        <h3 className='project-list-feedback'><FontAwesomeIcon icon={faStar} color='#FFD43B' />{prjsimi.feedback}</h3>
+                                        <h3 className='project-list-name'>{product.productName}</h3>
+                                        <h3 className='project-list-feedback'><FontAwesomeIcon icon={faStar} color='#FFD43B' />{product.productRating}</h3>
                                     </div>
-                                    <h4>{prjsimi.adr}</h4>
+                                    <h4>Area: {product.productArea}</h4>
                                     <div className='project-list-cost'>
-                                        ${prjsimi.cost} <a>/ night</a>
+                                        ${product.productPrice} <a>/ night</a>
                                     </div>
                                 </div>
                             </div>
                             <div className="button-group">
-                                <button onClick={() => handleStatusChange(project.id)}>Status</button>
-                                <Link to={`/view-project-detail/${prjsimi.id}`}>
+                                <button onClick={() => handleStatusChange(product.productID)}>Status</button>
+                                <Link to={`/view-project-detail/${product.productID}`}>
                                     <button>View Feedback</button>
                                 </Link>
                             </div>

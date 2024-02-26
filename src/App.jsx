@@ -89,7 +89,7 @@ function App() {
         <Route path='/contact-info' element={<Contact />}></Route> 
         <Route path='/owner-page' element={<OwnerPage />}></Route>
         <Route path='/create-timeshare' element={<CreateTimeshare />}></Route>
-        <Route path='/view-projects' element={<ViewProject />}></Route>
+        <Route path='/view-projects/:id' element={<ViewProject />}></Route>
         <Route path='/view-project-detail/:id' element={<ViewDetail />}></Route>
         <Route path='/contact-info' element={<Contact />}></Route>
         <Route path='/admin/*' element={<AdminPage />}></Route>
