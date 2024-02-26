@@ -36,13 +36,26 @@
     grid-template-columns: repeat(4, 1fr);
     align-items: center;
     margin: auto;
-    width: 81%;
-    /* border: 3px solid green; */
-    padding: 10px;
+    /* width: 81%; */
+    /* border: 3px solid green; 
+    padding: 10px;*/
+}
 
+/* .project-list {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0 50px;
+} */
+
+.column {
+    flex: 25%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .card {
+    /* border-radius: 20px; */
     max-width: 300px;
     /* width: 1000px; */
     /* border: 3px solid red; */
@@ -51,7 +64,6 @@
     box-sizing: border-box;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
     transition: box-shadow 0.3s ease-in-out;
-
 }
 
 /* .card img {
@@ -82,9 +94,9 @@
     margin-top: 3px;
 }
 
-.project-list-feedback {
+/* .project-list-feedback {
     margin-left: 50px;
-}
+} */
 
 .project-list-name {
 
@@ -95,7 +107,8 @@
 }
 
 .project-list-detail {
-    margin-left: 15px;
+    /* margin-left: 15px; */
+    margin: 10px 15px;
     padding: 2px;
 }
 
@@ -111,17 +124,27 @@
 
 }
 
-
+.card p {
+    display: flex;
+    justify-content: flex-end;
+}
 
 .project-list-button-view {
     background-color: #CD9A2B;
-    width: 25%;
-    margin-left: 180px;
+    /* width: 25%;
+    margin-left: 180px; */
+    /* width: 80px; */
+    padding: 5px 25px;
+    margin-right: 15px;
     color: white;
     font-family: 'Plaster';
     border-radius: 10px;
-    margin-bottom: 5px;
+    margin-bottom: 10px;
+}
 
+.project-list-button-view:hover {
+    background-color: #c27b19;
+    color: #fff;
 }
 
 .project-learn h1 {

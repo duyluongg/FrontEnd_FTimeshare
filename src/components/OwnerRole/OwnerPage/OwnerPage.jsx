@@ -1,34 +1,26 @@
-import React from 'react';
-import { useEffect } from 'react';
-
-
+import React, { useState, useEffect } from 'react';
 import Slider from "react-slick";
 import Project from '../../ProjectList/Project.jsx';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar } from '@fortawesome/free-solid-svg-icons';
-
 import { Link } from 'react-router-dom';
 import { ProjectsDataSimilar } from '../../../Shared/ListOfProjectSimilar.js';
-
 import { MdArrowForwardIos, MdArrowBackIosNew } from "react-icons/md";
+import axios from 'axios';
 
 function SampleNextArrowSt2({ onClick }) {
-
     return (
         <div className='arrowst arrowst-right' onClick={onClick}>
             <MdArrowForwardIos color='white' />
         </div>
-
     );
 }
 
 function SamplePrevArrowSt2({ onClick }) {
-
     return (
         <div className='arrowst arrowst-left' onClick={onClick}>
             <MdArrowBackIosNew color='white' />
         </div>
-
     );
 }
 
@@ -75,11 +67,10 @@ export default function OwnerPage() {
         prevArrow: < SamplePrevArrowSt2 />
     };
 
-
     return (
         <>
             <h1>Welcome to Owner Page</h1>
-            <a href="/api/create-timeshare">Post</a>
+            <a href="create-timeshare">Post</a>
             <div className='project-owner'>
                 <div className='project-owner-header'>
                     <div className='project-owner-title'>My Projects</div>
@@ -126,9 +117,11 @@ export default function OwnerPage() {
 
             </div>
 
-            <div className="owner-page">
-                {/* Hiển thị phần Project */}
+            {/* <div className="owner-page">
                 <Project />
+            </div> */}
+            <div className="owner-page">
+                    <Project />
             </div>
         </>
     );

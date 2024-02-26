@@ -33,6 +33,14 @@ import ViewDetail from './components/OwnerRole/ViewDetail/ViewDetail.jsx'
 import './components/OwnerRole/ViewDetail/ViewDetail.css'
 import AdminPage from './components/AdminPage/Admin/Admin.jsx'
 import './components/AdminPage/Admin/Admin.css'
+import ViewNews from './components/News/ViewNews/ViewNews.jsx'
+import './components/News/ViewNews/ViewNews.css'
+import CreateNews from './components/News/CreateNews/CreateNews.jsx'
+import './components/News/CreateNews/CreateNews.css'
+import Accommodation from './components/Accommodation/Accommodation.jsx'
+import './components/Accommodation/Accommodation.css'
+import Booking from './components/Booking/Booking.jsx'
+import './components/Booking/Booking.css'
 // import Sidenav from './components/Admin/Admin.jsx'
 import TotalUser from './components/AdminPage/TotalUser/TotalUser.jsx'
 // import  './components/AdminPage/TotalUser/TotalUser.css'
@@ -46,12 +54,15 @@ function App() {
   const isLoginPage = location.pathname.includes('/login');
   const isRegisterPage = location.pathname.includes('/register');
   const isContactPage = location.pathname.includes('/contact-info');
-  const isCreateTimeshare = location.pathname.includes('/api/create-timeshare');
+  const isCreateTimeshare = location.pathname.includes('/create-timeshare');
   const isViewProject = location.pathname.includes('/view-projects');
   const isViewDetail = location.pathname.includes('/view-project-detail');
-
   const isAdminPage = location.pathname.includes('/admin');
   const isTotalUser = location.pathname.includes('/admin/total-users');
+  const isViewNews = location.pathname.includes('/view-news');
+  const isCreateNews = location.pathname.includes('/create-news');
+  const isAccommodation = location.pathname.includes('/accommodation');
+  const isBooking = location.pathname.includes('/view-booking-history');
 
   return (
     <>
@@ -66,7 +77,7 @@ function App() {
       <Navbar /> */}
 
 
-      {!isDetailPage && !isLoginPage && !isRegisterPage && !isContactPage && !isAdminPage && !isCreateTimeshare && !isViewProject && !isViewDetail && isTotalUser && <Header />}
+      {!isDetailPage && !isLoginPage && !isRegisterPage && !isContactPage && !isAdminPage && !isCreateTimeshare && !isViewProject && !isViewDetail && !isTotalUser &&!isViewNews && !isCreateNews &&!isAccommodation && !isBooking && <Header />}
       <Routes>
         <Route path='/' element={<Project />}></Route>
         <Route path='/detail/:id' element={<Detail />}></Route>
@@ -74,11 +85,15 @@ function App() {
         <Route path='/register' element={<Register />}></Route>
         <Route path='/contact-info' element={<Contact />}></Route> 
         <Route path='/owner-page' element={<OwnerPage />}></Route>
-        <Route path='/api/create-timeshare' element={<CreateTimeshare />}></Route>
+        <Route path='/create-timeshare' element={<CreateTimeshare />}></Route>
         <Route path='/view-projects' element={<ViewProject />}></Route>
         <Route path='/view-project-detail/:id' element={<ViewDetail />}></Route>
         <Route path='/contact-info' element={<Contact />}></Route>
         <Route path='/admin/*' element={<AdminPage />}></Route>
+        <Route path='/view-news/:id' element={<ViewNews />}></Route>
+        <Route path='/create-news' element={<CreateNews />}></Route> 
+        <Route path='/accommodation' element={<Accommodation />}></Route>
+        <Route path='/view-booking-history/:id' element={<Booking />}></Route> 
         {/* <Route path='/admin/total-users/*' element={<TotalUser />}></Route> */}
 
     

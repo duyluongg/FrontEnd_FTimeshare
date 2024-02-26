@@ -9,6 +9,7 @@ import { ProjectsDataSimilar } from '../../../Shared/ListOfProjectSimilar.js';
 import { ProjectsData } from '../../../Shared/ListOfProject.js';
 import { RoomData } from '../../../Shared/Room.js';
 import { useEffect } from 'react';
+// import axios from 'axios';
 
 import {
     faPerson, faChild, faExpand, faBath,
@@ -105,6 +106,23 @@ export default function ViewDetail() {
         // Xử lý việc lưu trạng thái mới tại đây
         console.log('Trạng thái đã được lưu:', status);
     };
+
+    // const [feedback, setFeedback] = useState([])
+    // useEffect(() => {
+
+    //     const fetchFeedback = async () => {
+    //         try {
+
+    //             const response = await axios.get('http://localhost:8080/api/feedback/customer/viewfeedback');
+
+    //             setFeedback(response.data);
+    //         } catch (error) {
+    //             console.error('Error fetching projects:', error);
+    //         }
+    //     };
+
+    //     fetchFeedback();
+    // }, []);
 
     return (
         <>
@@ -308,16 +326,18 @@ export default function ViewDetail() {
                             </div>
 
                         </div> */}
+                        {/* {feedback.map((feedback) => (
                         <div className="view-detail">
                             <div className="feedback-header">
                                 <div className="rating">5 stars</div>
                                 <div className="user">
                                     <div className="username">John</div>
-                                    <div className="date">22/08/2023</div>
+                                    <div className="date">${feedback.feedbackCreateDate}</div>
                                 </div>
                             </div>
-                            <div className="feedback-body">Lorem ipsum dolor sit amet consectetur adipisicing elit. Error quibusdam beatae placeat quas maiores, sunt iure quae rerum numquam dicta ipsa odit ipsum ea. Praesentium temporibus quisquam eos nisi cumque.</div>
+                            <div className="feedback-body">${feedback.feedbackDetail}</div>
                         </div>
+                        ))} */}
 
                     </div>
 

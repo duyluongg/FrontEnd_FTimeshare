@@ -34,7 +34,7 @@ export default function ViewProject() {
 
     // Hàm xử lý khi người dùng bấm nút chỉnh trạng thái
     const handleStatusChange = (projectId) => {
-        // Thực hiện logic chỉnh trạng thái ở đây
+        
     };
 
     // Hàm xử lý khi người dùng bấm nút xem phản hồi
@@ -90,7 +90,7 @@ export default function ViewProject() {
                                 <div className='imgage'>
                                     <img src={prjsimi.img} alt={prjsimi.name} />
                                 </div>
-                                <div className='project-list-detail'>
+                                <div className='project-list-details'>
                                     <div className='project-list-title'>
                                         <h3 className='project-list-name'>{prjsimi.name}</h3>
                                         <h3 className='project-list-feedback'><FontAwesomeIcon icon={faStar} color='#FFD43B' />{prjsimi.feedback}</h3>

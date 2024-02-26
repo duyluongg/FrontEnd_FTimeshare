@@ -101,7 +101,7 @@
     object-fit: cover; 
 }
 
-.project-list-detail {
+.project-list-details {
     display: flex;
     flex-direction: column; 
 }

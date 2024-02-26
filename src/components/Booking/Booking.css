@@ -1,0 +1,12 @@
+.purchase-container {
+    margin: 20px 50px;
+    height: max-content;
+    display: flex;
+    flex-direction: column;
+}
+
+
+.purchase-tab-title {
+    display: flex;
+    justify-content: center;
+}
