@@ -1,0 +1,9 @@
+/* .card-report-information{
+    margin-top: 30px;
+    width: 120px;
+} */
+
+.flex-report-information{
+    display: flex;
+    gap: 100px;
+}
