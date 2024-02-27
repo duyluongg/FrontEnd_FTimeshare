@@ -67,6 +67,7 @@ function App() {
   const isCreateNews = location.pathname.includes('/create-news');
   const isAccommodation = location.pathname.includes('/accommodation');
   const isBooking = location.pathname.includes('/view-booking-history');
+  const isOwnerPage = location.pathname.includes('/owner-page');
 
   return (
     <>
@@ -80,14 +81,14 @@ function App() {
     
 
 
-      {!isDetailPage && !isLoginPage && !isRegisterPage && !isContactPage && !isAdminPage && !isCreateTimeshare && !isViewProject && !isViewDetail && !isTotalUser &&!isViewNews && !isCreateNews &&!isAccommodation && !isBooking && <Header />}
+      {!isDetailPage && !isLoginPage && !isRegisterPage && !isContactPage && !isAdminPage && !isCreateTimeshare && !isViewProject && !isViewDetail && !isTotalUser &&!isViewNews && !isCreateNews &&!isAccommodation && !isBooking && !isOwnerPage && <Header />}
       <Routes>
         <Route path='/' element={<Project />}></Route>
         <Route path='/detail/:id' element={<Detail />}></Route>
         <Route path='/login' element={<Login />}></Route>
         <Route path='/register' element={<Register />}></Route>
         <Route path='/contact-info' element={<Contact />}></Route> 
-        <Route path='/owner-page' element={<OwnerPage />}></Route>
+        <Route path='/owner-page/id' element={<OwnerPage />}></Route>
         <Route path='/create-timeshare' element={<CreateTimeshare />}></Route>
         <Route path='/view-projects/:id' element={<ViewProject />}></Route>
         <Route path='/view-project-detail/:id' element={<ViewDetail />}></Route>
