@@ -50,6 +50,7 @@ import Sidenav from './components/AdminPage/Sidenav/Sidenav.jsx';
 
 import { useLocation } from 'react-router-dom';
 import SidenavReport from './components/SidenavReport.jsx'
+import SidenavReportV2 from './components/SidenavReportV2.jsx'
 // import CardReport from './components/AdminPage/ViewReport/CardReport.jsx'
 
 function App() {
@@ -103,6 +104,8 @@ function App() {
 
         {/* <Route path='/admin/report-project/:productID' element={<CardReport />}></Route> */}
         <Route path='/admin/report-project/:reportID' element={<SidenavReport/>}></Route>
+        <Route path='/admin/report-projectid/:productID' element={<SidenavReportV2/>}></Route>
+
 
 
 

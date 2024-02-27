@@ -30,6 +30,10 @@ export default function RecipeReviewCard() {
     const [currentPage, setCurrentPage] = useState(1);
     const [projectsPerPage] = useState(6);
     const [searchQuery, setSearchQuery] = useState('');
+    const [getProjectID, setGetProjectID] = useState();
+    const indexOfLastProject = currentPage * projectsPerPage;
+    const indexOfFirstProject = indexOfLastProject - projectsPerPage;
+    const currentProjects = projectActive.slice(indexOfFirstProject, indexOfLastProject);
 
     const handleSearchChange = (event) => {
         setSearchQuery(event.target.value);
@@ -58,19 +62,29 @@ export default function RecipeReviewCard() {
         setSelectedProject(productId); // Cập nhật selectedProject trước
         setShowCardReport(true);
     };
-    
+
     useEffect(() => {
         console.log("Selected Project ID changed:", selectedProject);
-       
+
     }, [selectedProject]);
-  
+
 
     const handlePageChange = (event, value) => {
         setCurrentPage(value);
     };
-    const indexOfLastProject = currentPage * projectsPerPage;
-    const indexOfFirstProject = indexOfLastProject - projectsPerPage;
-    const currentProjects = projectActive.slice(indexOfFirstProject, indexOfLastProject);
+    useEffect(() => {
+        handleGetIDProject();
+
+    }, [getProjectID])
+
+    const handleGetIDProject = (getID) => {
+        setGetProjectID(getID);
+        console.log(getProjectID)
+    }
+
+
+
+
     return (
         <>
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
@@ -101,14 +115,15 @@ export default function RecipeReviewCard() {
                                     {/* <Link to={`/admin/report-project/${item.productID}`}>
                                         <Button variant="contained" onClick={() => handleReportUserClick(item.productID)}>REPORT'S USER</Button>
                                     </Link> */}
-                                                <MoreVertIcon />
+                                    <MoreVertIcon />
 
                                 </IconButton>
                             }
                             title={item.productName}
                             subheader={item.availableStartDate}
+
                         />
-                    
+
                         <CardMedia
                             component="img"
                             height="194"
@@ -124,6 +139,11 @@ export default function RecipeReviewCard() {
                             <Button variant="outlined" color="success">
                                 {item.productStatus}
                             </Button>
+                            <Link to={`/admin/report-projectid/${item.productID}`}>
+                                <Button variant="outlined" color="error" onClick={() => handleGetIDProject(item.productID)}>
+                                    DETAIL
+                                </Button>
+                            </Link>
                             <ExpandMore
                                 expand={expanded}
                                 onClick={handleExpandClick}
@@ -144,14 +164,14 @@ export default function RecipeReviewCard() {
                 ))}
             </Grid >
             {/* <Pagination count={10} color="primary" sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', mt: '25px' }} /> */}
-            <Pagination 
-                count={10} 
-                color="primary" 
-                sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', mt: '25px' }} 
+            <Pagination
+                count={10}
+                color="primary"
+                sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', mt: '25px' }}
                 onChange={handlePageChange}
             />
-        
-        
+
+
 
         </>
     );
