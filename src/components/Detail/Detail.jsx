@@ -50,7 +50,7 @@ function SamplePrevArrow({ onClick }) {
 function SampleNextArrowSt2({ onClick }) {
 
     return (
-        <div className='arrowst arrowst-right' onClick={onClick}>
+        <div className='arrowst-detail arrowst-right-detail' onClick={onClick}>
             <MdArrowForwardIos color='white' />
         </div>
 
@@ -60,7 +60,7 @@ function SampleNextArrowSt2({ onClick }) {
 function SamplePrevArrowSt2({ onClick }) {
 
     return (
-        <div className='arrowst arrowst-left' onClick={onClick}>
+        <div className='arrowst-detail arrowst-left-detail' onClick={onClick}>
             <MdArrowBackIosNew color='white' />
         </div>
 
@@ -88,22 +88,27 @@ export default function Detail() {
         prevArrow: < SamplePrevArrowSt2 />
     };
 
-    // useEffect(() => {
-    //     window.scrollTo(0, 0);
-    // }, []);
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
     // const [products, setProducts] = useState([]);
     const [productDetail, setProductDetail] = useState([]);
     const productId = useParams();
     console.log(productId.id);
     const [activeContentIndex, setActiveContentIndex] = useState('');
+    const [images, setImages] = useState([]);
+
+
 
     useEffect(() => {
+
         const fetchProductDetail = async () => {
             try {
                 const response = await axios.get(`http://localhost:8080/api/products/viewById/${productId.id}`);
                 setProductDetail(response.data[0]);
                 const defaultContentIndex = productDetail.productDescription;
-                setActiveContentIndex(defaultContentIndex);
+                // setActiveContentIndex(defaultContentIndex);
+                setActiveContentIndex(response.data[0].productDescription);
             } catch (error) {
                 console.error('Error fetching products:', error);
             }
@@ -122,6 +127,20 @@ export default function Detail() {
     //         setActiveContentIndex(defaultContentIndex);
     //     }
     // }, [products, productId.id]);
+
+    useEffect(() => {
+        const fetchImg = async () => {
+            try {
+                const response = await axios.get(`http://localhost:8080/api/pictures/viewPicture/${productId.id}`);
+                setImages(response.data);
+                console.log(images);
+            } catch (error) {
+                console.error('Error fetching view img:', error);
+            }
+        };
+
+        fetchImg();
+    }, []);
 
     const [bookingData, setBookingData] = useState({
         startDate: '',
@@ -184,7 +203,9 @@ export default function Detail() {
     // if (!productDetail) {
     //     return <div>Loading...</div>;
     // }
+
     return (
+
         <>
             <div className='container-detail'>
                 <div className='container-item'>
@@ -193,14 +214,17 @@ export default function Detail() {
 
                             <Slider {...settings}>
                                 <div className='container-item-img-item'>
-                                    <img src="#" />
+                                {images.length > 0 && <img src={images[0].imgUrl} />}
+
                                 </div>
                                 <div className='container-item-img-item'>
-                                    {/* <img src={`../${productDetail.productPicture}`} /> */}
-                                    <img src="#" />
+                                    {images.length > 0 && <img src={images[1].imgUrl} />}
+
+                                    {/* <img src="#" /> */}
                                 </div>
                                 <div className='container-item-img-item'>
-                                    <img src="#" />
+                                {images.length > 0 && <img src={images[0].imgUrl} />}
+
                                 </div>
                             </Slider>
                         </div>
@@ -304,7 +328,7 @@ export default function Detail() {
                                 setProductDetail(productDetail);
                             }}
                         >
-                            Why React?
+                            Popular
                         </button>
                         <button
                             className={`custom-button ${activeContentIndex === productDetail.productConvenience ? "active" : ""}`}
