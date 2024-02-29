@@ -1,24 +1,35 @@
-import React from "react";
-import { useState } from "react";
+import React, { useState } from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-    faFacebookF, faGooglePlusG
-} from '@fortawesome/free-brands-svg-icons';
+import { faFacebookF, faGooglePlusG } from '@fortawesome/free-brands-svg-icons';
+import axios from 'axios';
 
 export default function Register() {
     const [firstName, setFirstName] = useState('');
-    const [lastName, setLastName] = useState('');
     const [email, setEmail] = useState('');
     const [phoneNumber, setPhoneNumber] = useState('');
     const [password, setPassword] = useState('');
 
-    const handleRegister = (e) => {
+    const handleRegister = async (e) => {
         e.preventDefault();
-        // handle sign-up logic here
+        
+        try {
+            const response = await axios.post('http://localhost:8080/auth/register-user', {
+                accName: firstName,
+                accEmail: email,
+                accPhone: phoneNumber,
+                accPassword: password,
+                accStatus: 'active',
+                accBirthday: '2024-03-25T10:00:00'
+            });
+    
+            console.log(response.data); // Xử lý phản hồi thành công
+        } catch (error) {
+            console.error('Lỗi đăng ký người dùng:', error); // Xử lý lỗi
+        }
     }
+    
 
     return (
-
         <div className="register-container">
             <div className="register-form">
                 <form onSubmit={handleRegister}>
@@ -39,14 +50,7 @@ export default function Register() {
                             onChange={(e) => setFirstName(e.target.value)}
                         />
                     </div>
-                    <div className="input-container">
-                        <input
-                            type="text"
-                            placeholder="Last Name"
-                            value={lastName}
-                            onChange={(e) => setLastName(e.target.value)}
-                        />
-                    </div>
+                   
                     <div className="input-container">
                         <input
                             type="email"
