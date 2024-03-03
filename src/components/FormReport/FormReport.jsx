@@ -15,6 +15,8 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
+import SnackBar from '../SnackBar.jsx';
+
 
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
@@ -24,6 +26,9 @@ export default function FormReport({ getID }) {
     console.log(getID);
     const [open, setOpen] = React.useState(false);
     const [reportDetail, setReportDetail] = React.useState('');
+    const [snackbarOpen, setSnackbarOpen] = React.useState(false);
+    const [snackbarMessage, setSnackbarMessage] = React.useState('');
+    const [snackbarColor, setSnackbarColor] = React.useState('success'); 
 
 
     const handleClickOpen = () => {
@@ -32,6 +37,10 @@ export default function FormReport({ getID }) {
 
     const handleClose = () => {
         setOpen(false);
+    };
+
+    const handleSnackbarClose = () => {
+        setSnackbarOpen(false); 
     };
 
     const handleReport = async (e) => {
@@ -45,10 +54,16 @@ export default function FormReport({ getID }) {
                 productID: getID
             });
 
-            console.log(response.data); // Xử lý phản hồi thành công
+            console.log(response.data); 
             setOpen(true);
+            setSnackbarMessage('Send report successfully !!!')
+            setSnackbarColor("success"); 
+            setSnackbarOpen(true);
         } catch (error) {
-            console.error('Cannot report:', error); // Xử lý lỗi
+            console.error('Cannot report:', error); 
+            setSnackbarMessage('Send report failed !!!')
+            setSnackbarColor("error"); 
+            setSnackbarOpen(true);
         }
     }
 
@@ -57,7 +72,7 @@ export default function FormReport({ getID }) {
             <Button variant="outlined" onClick={handleClickOpen} color='error'>
                 Report
             </Button>
-            <Dialog
+            <Dialog  
                 open={open}
                 TransitionComponent={Transition}
                 keepMounted
@@ -81,6 +96,8 @@ export default function FormReport({ getID }) {
                     />
                
                 </DialogContent>
+                <SnackBar open={snackbarOpen} message={snackbarMessage} onClose={handleSnackbarClose} color={snackbarColor} />
+
                 <DialogActions>
                     <Button onClick={handleClose}>cancel</Button>
                     <Button onClick={handleReport}>save</Button>

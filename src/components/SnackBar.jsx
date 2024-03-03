@@ -4,7 +4,7 @@ import Snackbar from '@mui/material/Snackbar';
 import Button from '@mui/material/Button';
 import Alert from '@mui/material/Alert';
 
-export default function SnackBarRegister({ open, message, onClose, color }) {
+export default function SnackBar({ open, message, onClose, color }) {
     const handleCloseSnackbar = () => {
         onClose(); 
     };

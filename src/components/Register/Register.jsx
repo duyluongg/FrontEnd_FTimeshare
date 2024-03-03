@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFacebookF, faGooglePlusG } from '@fortawesome/free-brands-svg-icons';
 import axios from 'axios';
-import SnackBarRegister from "./SnackBarRegister.jsx";
+import SnackBar from "../SnackBar.jsx";
 
 export default function Register() {
     const [firstName, setFirstName] = useState('');
@@ -156,7 +156,7 @@ export default function Register() {
 
                     <button className="register-button" type="submit">REGISTER</button>
                 </form>
-                <SnackBarRegister open={snackbarOpen} message={snackbarMessage} onClose={handleSnackbarClose} color={snackbarColor} />
+                <SnackBar open={snackbarOpen} message={snackbarMessage} onClose={handleSnackbarClose} color={snackbarColor} />
                 <div className="line-container">
                     <div className="line"></div>
                     <div className="or">Or login with</div>
