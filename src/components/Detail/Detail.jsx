@@ -12,6 +12,10 @@ import { useEffect } from 'react';
 import axios from 'axios';
 import Review from '../Review/Review.jsx'
 import FormFeedback from '../FormFeedback/FormFeedback.jsx'
+import FormReport from '../FormReport/FormReport.jsx'
+
+import ReviewCustomer from './ReviewCustomer.jsx'
+
 
 
 import {
@@ -106,6 +110,7 @@ export default function Detail() {
             try {
                 const response = await axios.get(`http://localhost:8080/api/products/viewById/${productId.id}`);
                 setProductDetail(response.data[0]);
+              
                 const defaultContentIndex = productDetail.productDescription;
                 // setActiveContentIndex(defaultContentIndex);
                 setActiveContentIndex(response.data[0].productDescription);
@@ -358,6 +363,9 @@ export default function Detail() {
                         </div>
 
                     </div>
+                    <FormFeedback getID={productId.id}/>
+                    <FormReport getID={productId.id}/>
+                    <ReviewCustomer/>
 
                     <div>
 

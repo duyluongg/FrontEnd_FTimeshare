@@ -79,9 +79,11 @@ export default function RecipeReviewCard() {
 
     const handleGetIDProject = (getID) => {
         setGetProjectID(getID);
-        console.log(getProjectID)
-        
+        console.log("Selected project ID:", getProjectID); 
+       
+
     }
+    
 
     return (
         <>

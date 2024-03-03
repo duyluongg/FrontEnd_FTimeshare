@@ -19,13 +19,13 @@ function classNames(...classes) {
 }
 
 export default function Navbar() {
-  const location = useLocation(); // Lấy thông tin về đường dẫn hiện tại
-  const [selectedItem, setSelectedItem] = useState(null); // State để lưu trạng thái mục được chọn
+  const location = useLocation();
+  const [selectedItem, setSelectedItem] = useState(null);
 
-  // Hàm xử lý khi một mục được nhấp
-  const handleItemClick = (index) => {
-    setSelectedItem(index); // Cập nhật trạng thái mục được chọn
-  };
+
+  // const handleItemClick = (index) => {
+  //   setSelectedItem(index);
+  // };
   return (
     <Disclosure as="nav" className="bg-white-800">
       {({ open }) => (
@@ -71,7 +71,7 @@ export default function Navbar() {
 
                 <div className="hidden sm:ml-12 sm:block ">
                   <div className="flex space-x-4">
-                    {navigation.map((item, index) => (
+                    {navigation.map((item) => (
                       <a
                         key={item.name}
                         href={item.href}
@@ -80,7 +80,7 @@ export default function Navbar() {
                           'rounded-md px-3 py-2 text-sm font-medium', 'mt-4'
                         )}
                         aria-current={item.current ? 'page' : undefined}
-                        onClick={() => handleItemClick(index)} 
+                      // onClick={() => handleItemClick(index)} 
                       >
                         {item.name}
                       </a>
@@ -123,12 +123,15 @@ export default function Navbar() {
                     <Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                       <Menu.Item>
                         {({ active }) => (
-                          <a
-                            href="#"
-                            className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
-                          >
-                            Your Profile
-                          </a>
+                          <Link to='/profile'>
+                            <a
+                              href="#"
+                              className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
+                            >
+                              Your Profile
+                            </a>
+                          </Link>
+
                         )}
                       </Menu.Item>
 

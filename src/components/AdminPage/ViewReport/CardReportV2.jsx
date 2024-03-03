@@ -54,6 +54,7 @@ export default function CardReportV2() {
         try {
             const response = await axios.get(`http://localhost:8080/api/reports/viewByProductId/${productID}`)
             setProjectReport(response.data);
+            console.log(projectReport);
             if (response.data.length > 0) {
                 response.data.forEach(item => {
                     fetchProjectReportDetail(item.reportID);
@@ -86,22 +87,34 @@ export default function CardReportV2() {
                 [reportID]: { accID, productID }
             }));
             console.log(reportDetails);
-
         } catch (error) {
             console.error('Error fetching report details:', error);
         }
     };
 
 
+    // const handleDelete = async (reportID) => {
+    //     try {
+    //         await axios.delete(`http://localhost:8080/api/reports/delete/${reportID}`);
+    //         setDeleted(true);
+    //     } catch (error) {
+    //         console.error('Error deleting report:', error);
+    //     }
+    // };
 
     const handleDelete = async (reportID) => {
         try {
             await axios.delete(`http://localhost:8080/api/reports/delete/${reportID}`);
-            setDeleted(true);
+            // Sau khi xóa thành công, cập nhật lại danh sách báo cáo bằng cách loại bỏ báo cáo đã xóa
+            setProjectReport(prevProjectReport => prevProjectReport.filter(item => item.reportID !== reportID));
+            // setProjectReport(true);
+
         } catch (error) {
             console.error('Error deleting report:', error);
         }
     };
+    
+    
 
 
     return (
@@ -110,7 +123,7 @@ export default function CardReportV2() {
             <div className='flex-report-information'>
                 <div>
                     <div className='card-report-information'>
-                        {!deleted && projectReport.length > 0 && (
+                        { projectReport.length > 0 && (
                             <Card sx={{ maxWidth: 500 }}>
                                 <CardHeader
                                     avatar={
@@ -118,7 +131,6 @@ export default function CardReportV2() {
                                             {/* {reportDetails[projectReport[0].reportID] && reportDetails[projectReport[0].reportID].productID.accID.accName[0]} */}
                                             {/* <ModalProfile  accName={reportDetails[projectReport[0].reportID] && reportDetails[projectReport[0].reportID].productID.accID} /> */}
                                             <ModalProfile accID={reportDetails[projectReport[0].reportID] && reportDetails[projectReport[0].reportID].productID.accID} />
-
                                         </Avatar>
                                     }
                                     action={
@@ -149,12 +161,8 @@ export default function CardReportV2() {
                                     </Typography>
                                 </CardContent>
                                 <CardActions disableSpacing>
-                                    <IconButton aria-label="add to favorites">
-                                        <FavoriteIcon />
-                                    </IconButton>
-                                    <IconButton aria-label="share">
-                                        <ShareIcon />
-                                    </IconButton>
+                                {/* <ModalPopUpReport onDelete={() => handleDelete(projectReport[0].reportID)} color='error' /> */}
+                                    
                                     <ExpandMore
                                         expand={expanded}
                                         onClick={handleExpandClick}
@@ -188,11 +196,10 @@ export default function CardReportV2() {
                     </div>
                 </div>
 
-
                 <div>
                     <Grid container spacing={1} sx={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '10px', ml: 'auto' }}>
 
-                        {!deleted && projectReport.map((item) => (
+                        { !deleted && projectReport.map((item) => (
                             <>
 
                                 <Card key={item.reportID} sx={{ maxWidth: 345, margin: "20px" }}>
