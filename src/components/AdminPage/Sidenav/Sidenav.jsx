@@ -33,6 +33,8 @@ import TotalStaff from '../TotalStaff/TotalStaff.jsx';
 import TotalReport from '../TotalReport/TotalReport.jsx';
 import TotalViewPendingBooking from '../TotalViewPendingBooking/TotalViewPendingBooking.jsx';
 import TotalViewActiveBooking from '../TotalViewActiveBooking/TotalViewActiveBooking.jsx';
+import ViewBookingConfirm from '../VIewConfirmBooking/ViewBookingConfirm.jsx';
+import ViewCustomerPayment from '../ViewCustomerPayment/ViewCustomerPayment.jsx';
 
 
 
@@ -213,6 +215,10 @@ export default function MiniDrawer() {
                 {currentPage === '/admin/total-report' && <TotalReport/>}
                 {currentPage === '/admin/pending-list' && <TotalViewPendingBooking/>}
                 {currentPage === '/admin/active-list' && <TotalViewActiveBooking/>}
+                {currentPage === '/admin/wait-to-confirm-list' && <ViewBookingConfirm/>}
+                {currentPage === '/admin/wait-customer-to-confirm-payment-list' && <ViewCustomerPayment/>}
+
+
 
 
 

@@ -111,7 +111,7 @@ function App() {
 
         {/* <Route path='/admin/report-project/:productID' element={<CardReport />}></Route> */}
         <Route path='/admin/report-project/:reportID' element={<SidenavReport/>}></Route>
-        <Route path='/admin/report-projectid/:productID' element={<SidenavReportV2/>}></Route>
+        <Route path='/admin/report-projectid/:productID/:accID' element={<SidenavReportV2/>}></Route>
 
 
 

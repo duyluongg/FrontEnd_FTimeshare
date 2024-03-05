@@ -40,6 +40,8 @@ export default function Dashboard() {
                     // axios.get('http://localhost:8080/api/bookings/staff/totalCancel'),
                     axios.get('http://localhost:8080/api/bookings/staff/totalPending'),
                     axios.get('http://localhost:8080/api/bookings/staff/totalActive'),
+                    // axios.get('http://localhost:8080/api/bookings/staff/totalActive')
+
 
 
 
@@ -70,6 +72,10 @@ export default function Dashboard() {
         // { id: 6, label: 'Cancel List', link: 'cancel-list' },
         { id: 6, label: 'View Pending Booking List', link: 'pending-list' },
         { id: 7, label: 'View Active Booking List', link: 'active-list' },
+        { id: 8, label: 'View Booking with wait to confirm', link: 'wait-to-confirm-list' },
+        { id: 9, label: 'View Booking with Wait customer to confirm respond payment', link: 'wait-customer-to-confirm-payment-list' },
+
+
 
 
 
