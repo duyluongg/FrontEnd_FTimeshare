@@ -113,6 +113,7 @@ export default function TotalViewPendingBooking() {
                 {currentProjects.map((item) => {
                     const projectImage = images.find(image => image.productID === item.productID);
                     const profileAccount = profiles.find(profile => profile.accID === item.accID);
+                    console.log(projectImage);
 
                     return (
                         <Card key={item.bookingID} sx={{ maxWidth: 345, mb: '20px', boxShadow: 3 }}>
@@ -135,6 +136,8 @@ export default function TotalViewPendingBooking() {
                                 component="img"
                                 height="194"
                                 image={projectImage ? projectImage.imgName : ""}
+                                // image={item.imgName}
+
                                 alt="Project image"
                                 sx={{ width: "350px", height: "350px", objectFit: "cover", maxWidth: "100%" }}
                             />
