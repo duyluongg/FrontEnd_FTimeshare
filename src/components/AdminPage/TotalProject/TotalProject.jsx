@@ -25,31 +25,55 @@ const ExpandMore = styled((props) => {
 export default function RecipeReviewCard() {
     const [expanded, setExpanded] = useState(false);
     const [projectActive, setProjectActive] = useState([]);
-    const [selectedProject, setSelectedProject] = useState(null); // State để lưu trữ thông tin của mục được chọn
+    const [selectedProject, setSelectedProject] = useState(null); 
     const [showCardReport, setShowCardReport] = useState(false);
     const [currentPage, setCurrentPage] = useState(1);
-    const [projectsPerPage] = useState(6);
+    // const [projectsPerPage] = useState(6);
     const [searchQuery, setSearchQuery] = useState('');
     const [getProjectID, setGetProjectID] = useState();
+    const projectsPerPage = 6;
     const indexOfLastProject = currentPage * projectsPerPage;
     const indexOfFirstProject = indexOfLastProject - projectsPerPage;
     const currentProjects = projectActive.slice(indexOfFirstProject, indexOfLastProject);
-
+    const [images, setImages] = useState([]);
+    const [profiles, setProfiles] = useState([]);
     const handleSearchChange = (event) => {
         setSearchQuery(event.target.value);
     };
 
-    useEffect(() => {
-        fetchProjectActive();
-    }, [currentPage]);
+    // useEffect(() => {
+    //     fetchProjectActive();
+    // }, [currentPage]);
 
-    const fetchProjectActive = async () => {
+    // const fetchProjectActive = async () => {
+    //     try {
+    //         const response = await axios.get('http://localhost:8080/api/products/staff/active');
+    //         setProjectActive(response.data);
+    //         console.log(response);
+    //     } catch (error) {
+    //         console.error('Error fetching projects:', error);
+    //     }
+    // };
+
+    useEffect(() => {
+        fetchData();
+    }, [currentPage]);
+    const fetchData = async () => {
         try {
-            const response = await axios.get('http://localhost:8080/api/products/staff/active');
-            setProjectActive(response.data);
-            console.log(response);
+            const [pendingResponse, imagesResponse, profilesResponse] = await Promise.all([
+                axios.get('http://localhost:8080/api/products/staff/active'),
+                axios.get('http://localhost:8080/api/pictures/customerview'),
+                axios.get('http://localhost:8080/api/users/staffview')
+            ]);
+
+            setProjectActive(pendingResponse.data);
+            setImages(imagesResponse.data);
+            setProfiles(profilesResponse.data);
+
+            setLoading(false);
         } catch (error) {
-            console.error('Error fetching projects:', error);
+            console.error('Error fetching data:', error);
+            setLoading(false);
         }
     };
 
@@ -79,11 +103,11 @@ export default function RecipeReviewCard() {
 
     const handleGetIDProject = (getID) => {
         setGetProjectID(getID);
-        console.log("Selected project ID:", getProjectID); 
-       
+        console.log("Selected project ID:", getProjectID);
+
 
     }
-    
+
 
     return (
         <>
@@ -102,66 +126,72 @@ export default function RecipeReviewCard() {
             </div>
 
             <Grid container spacing={1} sx={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '10px', ml: '50px' }}>
-                {currentProjects.map((item) => (
-                    <Card key={item.productID} sx={{ maxWidth: 345, mb: '20px', boxShadow: 3 }}>
-                        <CardHeader
-                            avatar={
-                                <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
-                                    {item.productName[1]}
-                                </Avatar>
-                            }
-                            action={
-                                <IconButton aria-label="settings">
-                                    {/* <Link to={`/admin/report-project/${item.productID}`}>
+                {currentProjects.map((item) => {
+                    const projectImage = images.find(image => image.productID === item.productID);
+                    // const profileAccount = profiles.find(profile => profile.accID === item.accID);
+                    console.log(projectImage);
+                    return (
+                        <Card key={item.productID} sx={{ maxWidth: 345, mb: '20px', boxShadow: 3 }}>
+                            <CardHeader
+                                avatar={
+                                    <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
+                                        {item.productName[1]}
+                                    </Avatar>
+                                }
+                                action={
+                                    <IconButton aria-label="settings">
+                                        {/* <Link to={`/admin/report-project/${item.productID}`}>
                                         <Button variant="contained" onClick={() => handleReportUserClick(item.productID)}>REPORT'S USER</Button>
                                     </Link> */}
-                                    <MoreVertIcon />
+                                        <MoreVertIcon />
 
-                                </IconButton>
-                            }
-                            title={item.productName}
-                            subheader={item.availableStartDate}
+                                    </IconButton>
+                                }
+                                title={item.productName}
+                                subheader={item.availableStartDate}
 
-                        />
+                            />
 
-                        <CardMedia
-                            component="img"
-                            height="194"
-                            image={item.productPicture}
-                            alt="Project image"
-                        />
-                        <CardContent>
-                            <Typography variant="body2" color="text.secondary" sx={{ overflow: 'hidden', textOverflow: 'ellipsis', display: '-webkit-box', WebkitLineClamp: '2', WebkitBoxOrient: "vertical" }}>
-                                {item.productDescription}
-                            </Typography>
-                        </CardContent>
-                        <CardActions disableSpacing>
-                            <Button variant="outlined" color="success">
-                                {item.productStatus}
-                            </Button>
-                            <Link to={`/admin/report-projectid/${item.productID}`}>
-                                <Button variant="outlined" color="error" onClick={() => handleGetIDProject(item.productID)}>
-                                    DETAIL
-                                </Button>
-                            </Link>
-                            <ExpandMore
-                                expand={expanded}
-                                onClick={handleExpandClick}
-                                aria-expanded={expanded}
-                                aria-label="show more"
-                            >
-                                <ExpandMoreIcon />
-                            </ExpandMore>
-                        </CardActions>
-                        <Collapse in={expanded} timeout="auto" unmountOnExit>
+                            <CardMedia
+                                component="img"
+                                height="194"
+                                image={projectImage ? projectImage.imgName : ""}
+                                alt="Project image"
+                                sx={{ width: "350px", height: "350px", objectFit: "cover", maxWidth: "100%" }}
+                            />
                             <CardContent>
-                                <Typography paragraph>
-                                    {item.productConvenience}
+                                <Typography variant="body2" color="text.secondary" sx={{ overflow: 'hidden', textOverflow: 'ellipsis', display: '-webkit-box', WebkitLineClamp: '2', WebkitBoxOrient: "vertical" }}>
+                                    {item.productDescription}
                                 </Typography>
                             </CardContent>
-                        </Collapse>
-                    </Card>
-                ))}
+                            <CardActions disableSpacing>
+                                <Button variant="outlined" color="success">
+                                    {item.productStatus}
+                                </Button>
+                                <Link to={`/admin/report-projectid/${item.productID}/${item.accID}`}>
+                                    <Button variant="outlined" color="error" onClick={() => handleGetIDProject(item.productID)}>
+                                        DETAIL
+                                    </Button>
+                                </Link>
+                                <ExpandMore
+                                    expand={expanded}
+                                    onClick={handleExpandClick}
+                                    aria-expanded={expanded}
+                                    aria-label="show more"
+                                >
+                                    <ExpandMoreIcon />
+                                </ExpandMore>
+                            </CardActions>
+                            <Collapse in={expanded} timeout="auto" unmountOnExit>
+                                <CardContent>
+                                    <Typography paragraph>
+                                        {item.productConvenience}
+                                    </Typography>
+                                </CardContent>
+                            </Collapse>
+                        </Card>
+                    );
+                })}
             </Grid >
             {/* <Pagination count={10} color="primary" sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', mt: '25px' }} /> */}
             <Pagination
