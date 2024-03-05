@@ -3,7 +3,8 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
-
+import Avatar from '@mui/material/Avatar';
+import { red } from '@mui/material/colors';
 const style = {
     position: 'absolute',
     top: '50%',
@@ -26,9 +27,21 @@ export default function ModalProfile({ accID }) {
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
 
+    const formatDate = (timestamp) => {
+        const date = new Date(timestamp);
+        const day = String(date.getDate()).padStart(2, '0');
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const year = date.getFullYear();
+        return `${day}/${month}/${year}`;
+    };
+    
     return (
         <div>
-            <Button onClick={handleOpen}>Open modal</Button>
+            <Button onClick={handleOpen}>
+                <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
+                    {accName[0]}
+                </Avatar>
+            </Button>
             <Modal
                 open={open}
                 onClose={handleClose}
@@ -42,7 +55,7 @@ export default function ModalProfile({ accID }) {
                         Full of Name: {accName}
                     </Typography>
                     <Typography id="modal-modal-title" variant="h6" component="h2">
-                        Birthday: {accBirthday}
+                        Birthday: {formatDate(accBirthday)}
                     </Typography>
                     <Typography id="modal-modal-description" sx={{ mt: 2 }}>
                         Phone Number: {accPhone}
@@ -50,9 +63,7 @@ export default function ModalProfile({ accID }) {
                     <Typography id="modal-modal-description" sx={{ mt: 2 }}>
                         Email: {accEmail}
                     </Typography>
-                    <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-                        Role: {roleID.roleName}
-                    </Typography>
+
 
 
                 </Box>
