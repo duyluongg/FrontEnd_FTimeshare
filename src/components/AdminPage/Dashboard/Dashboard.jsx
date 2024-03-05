@@ -37,6 +37,12 @@ export default function Dashboard() {
                     axios.get('http://localhost:8080/api/products/staff/totalRejected'),
                     axios.get('http://localhost:8080/api/users/staff/count/ROLE_STAFF'),
                     // axios.get('http://localhost:8080/api/reports/viewAll'),
+                    // axios.get('http://localhost:8080/api/bookings/staff/totalCancel'),
+                    axios.get('http://localhost:8080/api/bookings/staff/totalPending'),
+                    axios.get('http://localhost:8080/api/bookings/staff/totalActive'),
+
+
+
 
 
                 ]);
@@ -60,7 +66,13 @@ export default function Dashboard() {
         { id: 4, label: 'Rejected Project', link: 'rejected-project' },
         // { id: 5,  label: 'Report Project', link: 'report-project' },
         { id: 5, label: 'Total Staff', link: 'total-staff' },
-        { id: 6, label: 'Total Report', link: 'total-report' },
+        // { id: 6, label: 'Total Report', link: 'total-report' },
+        // { id: 6, label: 'Cancel List', link: 'cancel-list' },
+        { id: 6, label: 'View Pending Booking List', link: 'pending-list' },
+        { id: 7, label: 'View Active Booking List', link: 'active-list' },
+
+
+
 
 
 

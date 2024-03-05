@@ -15,7 +15,7 @@ import FormFeedback from '../FormFeedback/FormFeedback.jsx'
 import FormReport from '../FormReport/FormReport.jsx'
 
 import ReviewCustomer from './ReviewCustomer.jsx'
-
+// import ViewFeedback from './ViewFeedback.jsx';
 
 
 import {
@@ -219,16 +219,15 @@ export default function Detail() {
 
                             <Slider {...settings}>
                                 <div className='container-item-img-item'>
-                                {images.length > 0 && <img src={images[0].imgUrl} />}
+                                {images.length > 0 && <img src={images[1].imgName} />}
 
                                 </div>
                                 <div className='container-item-img-item'>
-                                    {images.length > 0 && <img src={images[1].imgUrl} />}
+                                    {images.length > 0 && <img src={images[2].imgName} />}
 
-                                    {/* <img src="#" /> */}
                                 </div>
                                 <div className='container-item-img-item'>
-                                {images.length > 0 && <img src={images[0].imgUrl} />}
+                                {images.length > 0 && <img src={images[3].imgName} />}
 
                                 </div>
                             </Slider>
@@ -365,7 +364,10 @@ export default function Detail() {
                     </div>
                     <FormFeedback getID={productId.id}/>
                     <FormReport getID={productId.id}/>
-                    <ReviewCustomer/>
+                    {/* <ViewFeedback /> */}
+
+                    <ReviewCustomer getID={productId.id}/>
+                  
 
                     <div>
 

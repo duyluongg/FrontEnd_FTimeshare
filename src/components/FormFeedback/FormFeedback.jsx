@@ -51,7 +51,7 @@ export default function FormFeedback({ getID }) {
             const response = await axios.post('http://localhost:8080/api/feedback/customer/submitfeedback', {
                 feedbackDetail: feedbackDetail,
                 feedbackRating: feedbackRating,
-                bookingID: 11,
+                bookingID: 34,
                 productID: getID
                 
             });
