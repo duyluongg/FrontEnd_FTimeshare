@@ -5,13 +5,16 @@ const UserContext = createContext({ id: '', auth: false });
 const UserProvider = ({ children }) => {
     const [user, setUser] = useState({ id: '', auth: false });
     // Login updates the user data with a name parameter
-    const loginContext = (id, token) => {
+    const loginContext = (id,role, token) => {
         setUser((user) => ({
             id: id,
             auth: true,
+            role: role
         }));
         localStorage.setItem("token", token);
         localStorage.setItem("id", id);
+        localStorage.setItem("role", role);
+
         // window.location.href = '/owner-page';
     };
 
@@ -19,6 +22,8 @@ const UserProvider = ({ children }) => {
     const logout = () => {
         localStorage.removeItem("token");
         localStorage.removeItem("id");
+        localStorage.removeItem("role");
+
         setUser((user) => ({
             id: '',
             auth: false,

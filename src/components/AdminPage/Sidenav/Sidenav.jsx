@@ -128,7 +128,7 @@ export default function MiniDrawer() {
     return (
         <Box sx={{ display: 'flex' }}>
             <CssBaseline />
-            <AppBar position="fixed" open={open} >
+            <AppBar position="fixed" open={open} sx={{backgroundColor: "#CD9A2B"}}>
                 <Toolbar>
                     <IconButton
                         color="inherit"
@@ -208,7 +208,7 @@ export default function MiniDrawer() {
                 <DrawerHeader />
                 {currentPage === '/admin' && <Dashboard />}
                 {currentPage === '/admin/total-users' && <TotalUser />}
-                {currentPage === '/admin/total-project' && <TotalProjects />}
+                {currentPage === '/admin/total-product' && <TotalProjects />}
                 {currentPage === '/admin/pending-project' && <TotalProjectPending />}
                 {currentPage === '/admin/rejected-project' && <RejectedProject />}
                 {currentPage === '/admin/total-staff' && <TotalStaff />}
