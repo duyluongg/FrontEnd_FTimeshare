@@ -2,13 +2,13 @@ import React from "react";
 import { useState } from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
-    faFacebookF, faGooglePlusG 
+    faFacebookF, faGooglePlusG
 } from '@fortawesome/free-brands-svg-icons';
 import { faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import axios from "axios";
 import { useContext } from 'react'
 import { UserContext } from '../UserContext'
-import { useNavigate } from 'react-router-dom'; 
+import { useNavigate } from 'react-router-dom';
 
 export default function Login() {
     const { loginContext } = useContext(UserContext);

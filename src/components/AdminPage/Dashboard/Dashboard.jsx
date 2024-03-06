@@ -63,7 +63,7 @@ export default function Dashboard() {
     const cards = [
         { id: 1, label: 'Total Project', link: 'total-project' },
         { id: 2, label: 'Total Users', link: 'total-users' },
-        { id: 3, label: 'Pending Project', link: 'pending-project' },
+        { id: 3, label: 'Pending Product', link: 'pending-Product' },
         // { id: 4, number: 300, label: 'Closed Project', link: 'closed-project' },
         { id: 4, label: 'Rejected Project', link: 'rejected-project' },
         // { id: 5,  label: 'Report Project', link: 'report-project' },

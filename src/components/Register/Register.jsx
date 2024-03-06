@@ -15,7 +15,7 @@ export default function Register() {
     const [avatarPreview, setAvatarPreview] = useState(null);
     const [snackbarOpen, setSnackbarOpen] = useState(false);
     const [snackbarMessage, setSnackbarMessage] = useState('');
-    const [snackbarColor, setSnackbarColor] = useState('success'); 
+    const [snackbarColor, setSnackbarColor] = useState('success');
 
     const formatDate = (date) => {
         const d = new Date(date);
@@ -29,33 +29,26 @@ export default function Register() {
         e.preventDefault();
 
         try {
-            const formattedBirthday = formatDate(birthday);
-            const formData = new FormData();
-            formData.append('Avatar', avatar);
-            formData.append('accName', firstName);
-            formData.append('accEmail', email);
-            formData.append('accPhone', phoneNumber);
-            formData.append('accPassword', password);
-            formData.append('accStatus', 'active');
-            formData.append('roleID', '2');
-            formData.append('accBirthday', formattedBirthday);
-
-            const response = await axios.post('http://localhost:8080/api/users', formData, {
-                headers: {
-                    'Content-Type': 'multipart/form-data'
-                }
+            const response = await axios.post('http://localhost:8080/auth/register-user', {
+                accName: firstName,
+                accPhone: phoneNumber,
+                accEmail: email,
+                accPassword: password,
+                accImg: avatar,
+                "accStatus": "active",
+                accBirthday: birthday,
             });
 
-            console.log(response.data); 
+            console.log(response.data);
             setSnackbarMessage('Registration successfully !!!')
-            setSnackbarColor("success"); 
+            setSnackbarColor("success");
             setSnackbarOpen(true);
 
         } catch (error) {
             console.error('Lỗi đăng ký người dùng:', error.response.data); // Xử lý lỗi
             setSnackbarMessage('Registration failed :(((');
-            setSnackbarColor("error"); 
-             // Thiết lập thông điệp Snackbar
+            setSnackbarColor("error");
+            // Thiết lập thông điệp Snackbar
             setSnackbarOpen(true); // Hiển thị Snackbar
         }
     }
@@ -78,7 +71,7 @@ export default function Register() {
     };
 
     const handleSnackbarClose = () => {
-        setSnackbarOpen(false); 
+        setSnackbarOpen(false);
     };
 
     return (
@@ -137,14 +130,6 @@ export default function Register() {
                     </div>
                     <div className="input-container">
                         <input
-                            type="date"
-                            placeholder="Date of Birth"
-                            value={dateOfBirth}
-                            onChange={(e) => setDateOfBirth(e.target.value)}
-                        />
-                    </div>
-                    <div className="input-container">
-                        <input
                             type="password"
                             placeholder="Password"
                             value={password}
@@ -184,93 +169,3 @@ export default function Register() {
         </div>
     );
 }
-
-
-
-// import React, { useState } from "react";
-// import axios from 'axios';
-
-// export default function Register() {
-//     const [avatars, setAvatars] = useState([]);
-//     const [avatarPreviews, setAvatarPreviews] = useState([]);
-
-//     const handleRegister = async (e) => {
-//         e.preventDefault();
-
-//         try {
-//             const formData = new FormData();
-//             avatars.forEach((avatar) => {
-//                 formData.append('pictures', avatar);
-//             });
-
-//             const response = await axios.post('http://localhost:8080/api/pictures/19', formData, {
-//                 headers: {
-//                     'Content-Type': 'multipart/form-data'
-//                 }
-//             });
-
-//             console.log(response.data);
-           
-//         } catch (error) {
-//             console.error('Lỗi up ảnh người dùng:', error.response.data); 
-      
-//         }
-//     };
-
-//     const handleAvatarChange = (e) => {
-//         const files = Array.from(e.target.files);
-//         const previews = files.map((file) => URL.createObjectURL(file));
-
-//         setAvatars([...avatars, ...files]);
-//         setAvatarPreviews([...avatarPreviews, ...previews]);
-//     };
-
-//     const handleDeselect = (index) => {
-//         const newAvatars = [...avatars];
-//         const newAvatarPreviews = [...avatarPreviews];
-
-//         newAvatars.splice(index, 1);
-//         newAvatarPreviews.splice(index, 1);
-
-//         setAvatars(newAvatars);
-//         setAvatarPreviews(newAvatarPreviews);
-//     };
-
-//     return (
-//         <div className="register-container">
-//             <div className="register-form">
-//                 <form onSubmit={handleRegister}>
-//                     <h2>REGISTER</h2>
-//                     <div className="line-container line-header">
-//                         <div className="line-register"></div>
-//                     </div>
-//                     <div className="login-here">
-//                         <span>
-//                             Already have an account? <a href="/login">Login here</a>
-//                         </span>
-//                     </div>
-
-//                     <div className="input-container">
-//                         <label htmlFor="avatar">Avatar</label>
-//                         <input
-//                             type="file"
-//                             id="avatar"
-//                             onChange={handleAvatarChange}
-//                             multiple 
-//                             value={avatarPreviews.length === 0 ? '' : undefined} 
-//                         />
-//                         {avatarPreviews.map((preview, index) => (
-//                             <div className="input-container" key={index}>                          
-//                                 <img src={preview} alt="Avatar Preview" style={{ maxWidth: "100px", maxHeight: "100px" }} />
-//                                 <button type="button" onClick={() => handleDeselect(index)}>Remove</button>
-//                             </div>
-//                         ))}
-//                     </div>
-
-//                     <button className="register-button" type="submit">REGISTER</button>
-//                 </form>
-    
-//             </div>
-//         </div>
-//     );
-// }
