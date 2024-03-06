@@ -22,9 +22,9 @@ const ExpandMore = styled((props) => {
     }),
 }));
 
-export default function RecipeReviewCard() {
+export default function TotalProductPending() {
     const [expanded, setExpanded] = useState(false);
-    const [projectActive, setProjectActive] = useState([]);
+    const [projectPending, setProjectPending] = useState([]);
     const [selectedProject, setSelectedProject] = useState(null); 
     const [showCardReport, setShowCardReport] = useState(false);
     const [currentPage, setCurrentPage] = useState(1);
@@ -34,7 +34,7 @@ export default function RecipeReviewCard() {
     const projectsPerPage = 6;
     const indexOfLastProject = currentPage * projectsPerPage;
     const indexOfFirstProject = indexOfLastProject - projectsPerPage;
-    const currentProjects = projectActive.slice(indexOfFirstProject, indexOfLastProject);
+    const currentProjects = projectPending.slice(indexOfFirstProject, indexOfLastProject);
     const [images, setImages] = useState([]);
     const [profiles, setProfiles] = useState([]);
     const handleSearchChange = (event) => {
@@ -61,12 +61,12 @@ export default function RecipeReviewCard() {
     const fetchData = async () => {
         try {
             const [pendingResponse, imagesResponse, profilesResponse] = await Promise.all([
-                axios.get('http://localhost:8080/api/products/staff/active'),
+                axios.get('localhost:8080/api/products/staff/pending'),
                 axios.get('http://localhost:8080/api/pictures/customerview'),
                 axios.get('http://localhost:8080/api/users/staffview')
             ]);
 
-            setProjectActive(pendingResponse.data);
+            setProjectPending(pendingResponse.data);
             setImages(imagesResponse.data);
             setProfiles(profilesResponse.data);
 

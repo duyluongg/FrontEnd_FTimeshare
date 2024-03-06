@@ -60,6 +60,7 @@ import { useContext } from "react"
 // import CardReport from './components/AdminPage/ViewReport/CardReport.jsx'
 import Profile from './components/Profile/Profile.jsx'
 import  './components/Profile/Profile.css'
+import ViewBookingConfirm from './components/AdminPage/VIewConfirmBooking/ViewBookingConfirm.jsx'
 
 
 function App() {
@@ -131,6 +132,8 @@ function App() {
         {/* <Route path='/admin/report-project/:productID' element={<CardReport />}></Route> */}
         <Route path='/admin/report-project/:reportID' element={<SidenavReport/>}></Route>
         <Route path='/admin/report-projectid/:productID/:accID' element={<SidenavReportV2/>}></Route>
+        <Route path='/admin/booking-detail' element={<ViewBookingConfirm/>}></Route>
+
 
       </Routes>
       {!isAdminPage && <Footer />}

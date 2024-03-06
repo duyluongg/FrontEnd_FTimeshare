@@ -320,27 +320,29 @@ import ModalPopUp from './ModalPopUp.jsx';
 import { TextField } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
 import SearchIcon from '@mui/icons-material/Search';
-export default function TotalStaff() {
+import SelectOption from './SelectOption.jsx';
+export default function TotalUser() {
   const [rows, setRows] = useState([]);
   const [search, setSearch] = useState('');
+
   console.log(search);
 
   useEffect(() => {
     const fetchRow = async () => {
       try {
         const response = await axios.get('http://localhost:8080/api/users/ROLE_CUSTOMER');
-        const rowsWithId = response.data.map((row, index) => ({ ...row, id: index + 1 }));
-        setRows(rowsWithId);
-      
+        const updatedRows = response.data.map((row, index) => ({
+          ...row,
+          id: index + 1,
+          status: row.accStatus === 'active' ? 'Active' : 'Block' // Cập nhật trạng thái
+        }));
+        setRows(updatedRows);
       } catch (error) {
         console.error('Error fetching staff:', error);
       }
-
     };
-    
-
+  
     fetchRow();
-    console.log(rows);
   }, []);
 
   const handleDelete = async (row) => {
@@ -351,6 +353,26 @@ export default function TotalStaff() {
       console.error('Error deleting row:', error);
     }
   };
+
+  const handleRole = async (row, newRole) => {
+    try {
+      let response;
+      if (newRole === 'active') {
+        response = await axios.put(`http://localhost:8080/api/users/staff/active/${row.accID}`);
+      } else if (newRole === 'block') {
+        response = await axios.put(`http://localhost:8080/api/users/staff/block/${row.accID}`);
+      }
+
+      console.log(response.data);
+
+
+    } catch (error) {
+      console.error('Error updating role:', error);
+    }
+  };
+
+
+
 
   return (
     <div style={{ height: 400, width: '100%' }}>
@@ -380,9 +402,17 @@ export default function TotalStaff() {
           {
             field: 'delete',
             headerName: 'Action',
-            width: 30,
+            width: 100,
             renderCell: (params) => (
               <ModalPopUp onDelete={handleDelete} row={params.row} color='error' />
+            ),
+          },
+          {
+            field: 'role',
+            headerName: 'Role',
+            width: 100,
+            renderCell: (params) => (
+              <SelectOption onRole={handleRole} row={params.row} />
             ),
           },
         ]}

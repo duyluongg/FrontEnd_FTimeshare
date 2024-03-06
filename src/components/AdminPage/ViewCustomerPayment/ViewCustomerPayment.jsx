@@ -54,7 +54,7 @@ export default function ViewCustomerPayment() {
     const fetchData = async () => {
         try {
             const [pendingResponse, imagesResponse, profilesResponse] = await Promise.all([
-                axios.get('http://localhost:8080/api/bookings/view-booking-by-status/Wait customer to confirm respond payment'),
+                axios.get('http://localhost:8080/api/bookings/staff/WaitRespondPayment(100)'),
                 axios.get('http://localhost:8080/api/pictures/customerview'),
                 axios.get('http://localhost:8080/api/users/staffview')
             ]);
@@ -72,23 +72,15 @@ export default function ViewCustomerPayment() {
 
 
 
-    const handleAcceptDone = async (bookingID) => {
+    const handleAcceptCancelRespond = async (bookingID) => {
         try {
-            await axios.put(`http://localhost:8080/api/bookings/staff/Done/${bookingID}`);
+            await axios.put(`http://localhost:8080/api/bookings/staff/finalcancel/${bookingID}`);
             fetchData();
         } catch (error) {
             console.error('Error fetching projects:', error);
         }
     };
-
-    const handleAcceptCancel = async (bookingID) => {
-        try {
-            await axios.put(`http://localhost:8080/api/bookings/staff/cancel/${bookingID}`);
-            fetchData();
-        } catch (error) {
-            console.error('Error fetching projects:', error);
-        }
-    };
+ 
 
     if (loading) {
         return <div>Loading...</div>;
@@ -164,12 +156,10 @@ export default function ViewCustomerPayment() {
                                 </Typography>
                             </CardContent>
                             <CardActions disableSpacing>
-                                <Button variant="outlined" color="success" onClick={() => handleAcceptDone(item.bookingID)}>
+                                <Button variant="outlined" color="success" onClick={() => handleAcceptCancelRespond(item.bookingID)}>
                                     ACCEPT
                                 </Button>
-                                <Button variant="outlined" color="error" onClick={() => handleAcceptCancel(item.bookingID)}>
-                                    CANCEL
-                                </Button>
+                              
                                 <ExpandMore
                                     expand={expanded}
                                     onClick={handleExpandClick}
