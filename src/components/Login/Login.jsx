@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
     faFacebookF, faGooglePlusG 
 } from '@fortawesome/free-brands-svg-icons';
+import { faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import axios from "axios";
 import { useContext } from 'react'
 import { UserContext } from '../UserContext'
@@ -15,8 +16,6 @@ export default function Login() {
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    // const [loginData, setLoginData] = useState('');
-    // const [loggedIn, setLoggedIn] = useState(false);
 
     const [loginData, setLoginData] = useState({
         email: '',
@@ -92,7 +91,7 @@ export default function Login() {
                             onChange={handleChange}
                             required
                         />
-                        <FontAwesomeIcon icon={faFacebookF} />
+                        <FontAwesomeIcon icon={faEyeSlash} />
                     </div>
                     <button className="login-button" type="submit">LOGIN</button>
                 </form>
