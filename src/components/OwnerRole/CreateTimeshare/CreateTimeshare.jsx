@@ -1,32 +1,111 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
+import axios from 'axios';
+
 
 export default function CreateTimeshare() {
 
-    const [title, setTitle] = useState('');
-    const [description, setDescription] = useState('');
-    const [location, setLocation] = useState('');
     const [images, setImages] = useState([]);
+    const [imagePreviews, setImagePreviews] = useState([]);
+    const userId = useParams();
+    const [projects, setProjects] = useState([]);
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        console.log('Form submitted:', { title, description, location, images });
-        setTitle('');
-        setDescription('');
-        setLocation('');
-        setImages([]);
-    };
-
-    const handleImageUpload = (e) => {
-        const file = e.target.files[0];
-        const reader = new FileReader();
-
-        reader.onloadend = () => {
-            setImages([...images, reader.result]);
+    useEffect(() => {
+        const fetchProjectData = async () => {
+            try {
+                const response = await axios.get('http://localhost:8080/api/project/customer/viewproject');
+                setProjects(response.data);
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            }
         };
 
-        if (file) {
-            reader.readAsDataURL(file);
+        fetchProjectData();
+    }, []);
+
+    const [createProductData, setCreateProductData] = useState({
+        productName: '',
+        productArea: 0.0,
+        productAddress: '',
+        productDescription: '',
+        productConvenience: '',
+        productPrice: 0.0,
+        availableStartDate: '',
+        availableEndDate: '',
+        productStatus: "Pending",
+        productPerson: 0,
+        productRating: 0.0,
+        productSale: 0,
+        productViewer: 0,
+        projectID: 2, //
+        productTypeID: 1, //
+        accID: userId.id
+    });
+
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setCreateProductData({
+            ...createProductData,
+            [name]: value,
+        });
+    };
+
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+
+        const formattedStartDate = new Date(createProductData.availableStartDate).toISOString();
+        const formattedEndDate = new Date(createProductData.availableEndDate).toISOString();
+
+        const productDataToSend = {
+            ...createProductData,
+            availableStartDate: formattedStartDate,
+            availableEndDate: formattedEndDate,
+        };
+
+        try {
+            const productResponse = await axios.post('http://localhost:8080/api/products/add', productDataToSend);
+            console.log('Product created:', productResponse.data);
+
+            const productID = productResponse.data.productID;
+
+            const formData = new FormData();
+            images.forEach((image) => {
+                console.log(image);
+                formData.append('pictures', image);
+                console.log(formData);
+            });
+            console.log(images);
+
+            const imageResponse = await axios.post(`http://localhost:8080/api/pictures/${productID}`, formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            });
+            console.log('Image uploaded successfully', imageResponse.data);
+
+        } catch (error) {
+            console.error('Error creating product:', error);
         }
+    };
+
+    const handleUpload = (e) => {
+        const files = Array.from(e.target.files);
+        const previews = files.map((file) => URL.createObjectURL(file));
+
+        setImages([...images, ...files]);
+        setImagePreviews([...imagePreviews, ...previews]);
+    };
+
+    const handleDeselect = (index) => {
+        const newImages = [...images];
+        const newImagePreviews = [...imagePreviews];
+
+        newImages.splice(index, 1);
+        newImagePreviews.splice(index, 1);
+
+        setImages(newImages);
+        setImagePreviews(newImagePreviews);
     };
 
     return (
@@ -38,11 +117,12 @@ export default function CreateTimeshare() {
                         <div className="create-form">
                             <div className="input-container">
                                 <label>
-                                    Title
+                                    Name
                                     <input
                                         type="text"
-                                        value={title}
-                                        onChange={(e) => setTitle(e.target.value)}
+                                        name="productName"
+                                        value={createProductData.productName}
+                                        onChange={handleChange}
                                     />
                                 </label>
                             </div>
@@ -50,36 +130,140 @@ export default function CreateTimeshare() {
                                 <label>
                                     Description
                                     <textarea
-                                        value={description}
-                                        onChange={(e) => setDescription(e.target.value)}
+                                        name="productDescription"
+                                        value={createProductData.productDescription}
+                                        onChange={handleChange}
                                     />
                                 </label>
                             </div>
                             <div className="input-container">
                                 <label>
-                                    Location
+                                    Address
                                     <input
+                                        name="productAddress"
                                         type="text"
-                                        value={location}
-                                        onChange={(e) => setLocation(e.target.value)}
+                                        value={createProductData.productAddress}
+                                        onChange={handleChange}
                                     />
                                 </label>
                             </div>
+                            <div className="input-container">
+                                <label>
+                                    Convenience
+                                    <textarea
+                                        name="productConvenience"
+                                        value={createProductData.productConvenience}
+                                        onChange={handleChange}
+                                    />
+                                </label>
+                            </div>
+                            <div className="input-container flex-2">
+                                <label>
+                                    Project Name
+                                    <select
+                                        name="projectID"
+                                        value={createProductData.projectID}
+                                        onChange={handleChange}
+                                    >
+                                        {projects.map(project => (
+                                            <option key={project.projectID} value={project.projectID}>
+                                                {project.projectName}
+                                            </option>
+                                        ))}
+                                    </select>
+                                </label>
+                                {/* <label>
+                                    Type of timeshare
+                                    <select
+                                        name="productTypeID"
+                                        value={createProductData.productTypeID}
+                                        onChange={handleChange}
+                                    >
+                                        {projects.map(project => (
+                                            <option key={project.projectID} value={project.projectID}>
+                                                {project.projectName}
+                                            </option>
+                                        ))}
+                                    </select>
+                                </label> */}
+                            </div>
+                            <div className="input-container flex-3">
+                                <label>
+                                    Area
+                                    <input
+                                        name="productArea"
+                                        type="number"
+                                        value={createProductData.productArea}
+                                        onChange={handleChange}
+                                        placeholder='Square metre'
+                                    />
+                                </label>
+                                <label>
+                                    Price
+                                    <input
+                                        name="productPrice"
+                                        type="number"
+                                        value={createProductData.productPrice}
+                                        onChange={handleChange}
+
+                                    />
+                                </label>
+                                <label>
+                                    Person
+                                    <input
+                                        name="productPerson"
+                                        type="number"
+                                        value={createProductData.productPerson}
+                                        onChange={handleChange}
+
+                                    />
+                                </label>
+                            </div>
+                            <div className="input-container flex-2">
+                                <label>
+                                    Available start-date
+                                    <input
+                                        name="availableStartDate"
+                                        type="date"
+                                        value={createProductData.availableStartDate}
+                                        onChange={handleChange}
+                                    />
+                                </label>
+                                <label>
+                                    Available end-date
+                                    <input
+                                        name="availableEndDate"
+                                        type="date"
+                                        value={createProductData.availableEndDate}
+                                        onChange={handleChange}
+                                    />
+                                </label>
+                            </div>
+
                         </div>
                         <div className="create-submit">
                             <div className="input-container">
                                 <label>
                                     Image
-                                    <input type="file" onChange={handleImageUpload} />
+                                    <input
+                                        type="file"
+                                        id="image"
+                                        onChange={handleUpload}
+                                        multiple
+                                        value={imagePreviews.length === 0 ? '' : undefined}
+                                    />
                                 </label>
                             </div>
-                            <div className="images-container">
-                                {images.map((image, index) => (
-                                    <img key={index} className='image' src={image} alt="Uploaded" />
-                                ))}
-                            </div>
-                            <button className="create-button" type="submit">Create Post</button>
+                            {imagePreviews.map((preview, index) => (
+                                <div className="input-container" key={index}>
+                                    <img src={preview} alt="Image Preview" />
+                                    <button type="button" onClick={() => handleDeselect(index)}>Remove</button>
+                                </div>
+                            ))}
+                            
+                            
                         </div>
+                        <button className="create-button" type="submit">Create Post</button>
                     </div>
                 </form>
             </div>

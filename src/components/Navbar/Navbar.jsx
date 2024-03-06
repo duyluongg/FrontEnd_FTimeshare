@@ -3,6 +3,9 @@ import { Disclosure, Menu, Transition } from '@headlessui/react'
 import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import Logo from '../../assets/logo.png'
 import { Link } from 'react-router-dom'
+import { useState, useEffect } from 'react'
+import { useContext } from 'react'
+import { UserContext } from '../UserContext'
 
 const navigation = [
   { name: 'Home', href: '#', current: true },
@@ -10,7 +13,6 @@ const navigation = [
   { name: 'Accommodation', href: '/accommodation', current: false },
   { name: 'Sale off', href: '#', current: false },
   { name: 'Contact', href: '/contact-info', current: false },
-  { name: 'OwnerPage', href: '/owner-page', current: false }
 ]
 
 function classNames(...classes) {
@@ -18,6 +20,15 @@ function classNames(...classes) {
 }
 
 export default function Navbar() {
+
+  const { logout } = useContext(UserContext);
+
+  const handleSignOut = () => {
+    // Xóa dữ liệu đăng nhập khỏi localStorage
+    logout();
+    window.location.href = '/login';
+  };
+
   return (
     <Disclosure as="nav" className="bg-white-800">
       {({ open }) => (
@@ -112,6 +123,16 @@ export default function Navbar() {
                     leaveTo="transform opacity-0 scale-95"
                   >
                     <Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                      {/* <Menu.Item>
+                        {({ active }) => (
+                          <a
+                            href="#"
+                            className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
+                          >
+                            {loggedInUser.id}
+                          </a>
+                        )}
+                      </Menu.Item> */}
                       <Menu.Item>
                         {({ active }) => (
                           <a
@@ -125,12 +146,16 @@ export default function Navbar() {
 
                       <Menu.Item>
                         {({ active }) => (
-                          <a
-                            href="#"
-                            className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
-                          >
+                          // <a
+                          //   href="#"
+                          //   className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
+                          // >
+                          //   Booking
+                          // </a>
+                          <Link to={'/view-booking-history'} className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}>
                             Booking
-                          </a>
+                          </Link>
+
                         )}
                       </Menu.Item>
 
@@ -147,7 +172,8 @@ export default function Navbar() {
                       <Menu.Item>
                         {({ active }) => (
                           <a
-                            href="#"
+                            href="login"
+                            onClick={handleSignOut}
                             className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
                           >
                             Sign out

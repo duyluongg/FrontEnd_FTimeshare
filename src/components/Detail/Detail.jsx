@@ -10,6 +10,7 @@ import { ProjectsDataSimilar } from '../../Shared/ListOfProjectSimilar';
 import { RoomData } from '../../Shared/Room';
 import { useEffect } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 import Review from '../Review/Review.jsx'
 import FormFeedback from '../FormFeedback/FormFeedback.jsx'
 
@@ -149,7 +150,7 @@ export default function Detail() {
         bookingRating: 0.0,
         bookingStatus: 'Active',
         accID: 9, // Thay thế giá trị này bằng account ID của người dùng đăng nhập
-        productID: productId.id, // Thay thế giá trị này bằng ID của sản phẩm được đặt booking
+        productID: productId.id, 
     });
 
     const [totalDays, setTotalDays] = useState(0);
@@ -175,29 +176,38 @@ export default function Detail() {
         setTotalCost(totalCost);
     };
 
+    const navigate = useNavigate();
+
     const handleBooking = async (e) => {
         e.preventDefault();
 
-        const formattedStartDate = new Date(bookingData.startDate).toISOString();
-        const formattedEndDate = new Date(bookingData.endDate).toISOString();
+        // const formattedStartDate = new Date(bookingData.startDate).toISOString();
+        // const formattedEndDate = new Date(bookingData.endDate).toISOString();
 
-        const dataToSend = {
-            ...bookingData,
-            bookingPrice: totalCost,
-            startDate: formattedStartDate,
-            endDate: formattedEndDate,
-        };
+        // const dataToSend = {
+        //     ...bookingData,
+        //     bookingPrice: totalCost,
+        //     startDate: formattedStartDate,
+        //     endDate: formattedEndDate,
+        // };
 
-        try {
-            const response = await axios.post('http://localhost:8080/api/bookings/customer/createbooking', dataToSend);
-            console.log('Booking created:', response.data);
-            console.log('Response status:', response.status);
-            console.log('Response status text:', response.statusText);
-            // Xử lý sau khi tạo booking thành công, ví dụ: chuyển hướng hoặc hiển thị thông báo thành công
-        } catch (error) {
-            console.error('Error creating booking:', error);
-            // Xử lý lỗi, ví dụ: hiển thị thông báo lỗi
-        }
+        // try {
+        //     const response = await axios.post('http://localhost:8080/api/bookings/customer/createbooking', dataToSend);
+        //     console.log('Booking created:', response.data);
+        //     console.log('Response status:', response.status);
+        //     console.log('Response status text:', response.statusText);
+        //     // Xử lý sau khi tạo booking thành công, ví dụ: chuyển hướng hoặc hiển thị thông báo thành công
+        // } catch (error) {
+        //     console.error('Error creating booking:', error);
+        //     // Xử lý lỗi, ví dụ: hiển thị thông báo lỗi
+        // }
+
+        navigate('/create-booking', {
+            state: {
+                productID: productId.id,
+                productPrice: productDetail.productPrice
+            }
+        });
     };
 
     // if (!productDetail) {
@@ -292,22 +302,23 @@ export default function Detail() {
                                     {/* <label for="person">Person:</label>
                                 <input type="number" id="person" name="person" min="1" required />
                                 <button type="submit">Provisional Price</button> */}
-                                    <button type="button" onClick={calculateTotal}>Calculate Total</button>
+
+                                    {/* <button type="button" onClick={calculateTotal}>Calculate Total</button>
 
                                     <div>
                                         Total Days: {totalDays}
                                     </div>
                                     <div>
                                         Total Cost: ${totalCost}
-                                    </div>
+                                    </div> */}
 
                                 </div>
                                 <div className='column-form column-2'>
-                                    <label htmlFor="startDate">Check-In Date:</label>
+                                    {/* <label htmlFor="startDate">Check-In Date:</label>
                                     <input type="date" id="startDate" name="startDate" value={bookingData.startDate} onChange={handleChange} required />
 
                                     <label htmlFor="endDate">Check-Out Date:</label>
-                                    <input type="date" id="endDate" name="endDate" value={bookingData.endDate} onChange={handleChange} required />
+                                    <input type="date" id="endDate" name="endDate" value={bookingData.endDate} onChange={handleChange} required /> */}
 
                                     {/* <label for="children">Child:</label>
                                 <input type="number" id="children" name="children" min="0" required /> */}

@@ -4,18 +4,38 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
     faFacebookF, faGooglePlusG
 } from '@fortawesome/free-brands-svg-icons';
+import axios from "axios";
 
 export default function Register() {
-    const [firstName, setFirstName] = useState('');
-    const [lastName, setLastName] = useState('');
+    const [name, setName] = useState('');
+    const [dateOfBirth, setDateOfBirth] = useState('');
     const [email, setEmail] = useState('');
     const [phoneNumber, setPhoneNumber] = useState('');
     const [password, setPassword] = useState('');
 
-    const handleRegister = (e) => {
+    const handleRegister = async (e) => {
         e.preventDefault();
-        // handle sign-up logic here
-    }
+
+        try {
+            const response = await axios.post('http://localhost:8080/auth/register-user', {
+                accName: name,
+                accEmail: email,
+                accPhone: phoneNumber,
+                accBirthday: dateOfBirth,
+                accImg: "xxx",
+                accStatus:"active",
+                accPassword: password
+            });
+
+            console.log('Registration successful:', response.data);
+            // Xử lý kết quả của việc đăng ký ở đây (ví dụ: chuyển hướng người dùng đến trang đăng nhập)
+        } catch (error) {
+            console.error('Registration failed:', error);
+            // Xử lý lỗi ở đây (ví dụ: hiển thị thông báo lỗi cho người dùng)
+        }
+    };
+
+
 
     return (
 
@@ -34,17 +54,9 @@ export default function Register() {
                     <div className="input-container">
                         <input
                             type="text"
-                            placeholder="First Name"
-                            value={firstName}
-                            onChange={(e) => setFirstName(e.target.value)}
-                        />
-                    </div>
-                    <div className="input-container">
-                        <input
-                            type="text"
-                            placeholder="Last Name"
-                            value={lastName}
-                            onChange={(e) => setLastName(e.target.value)}
+                            placeholder="Name"
+                            value={name}
+                            onChange={(e) => setName(e.target.value)}
                         />
                     </div>
                     <div className="input-container">
@@ -61,6 +73,14 @@ export default function Register() {
                             placeholder="Phone Number"
                             value={phoneNumber}
                             onChange={(e) => setPhoneNumber(e.target.value)}
+                        />
+                    </div>
+                    <div className="input-container">
+                        <input
+                            type="date"
+                            placeholder="Date of Birth"
+                            value={dateOfBirth}
+                            onChange={(e) => setDateOfBirth(e.target.value)}
                         />
                     </div>
                     <div className="input-container">

@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 
@@ -41,6 +41,10 @@ import Accommodation from './components/Accommodation/Accommodation.jsx'
 import './components/Accommodation/Accommodation.css'
 import Booking from './components/Booking/Booking.jsx'
 import './components/Booking/Booking.css'
+import CreateBooking from './components/OwnerRole/CreateBooking/CreateBooking.jsx'
+import  './components/OwnerRole/CreateBooking/CreateBooking.css'
+import BookingStage from './components/OwnerRole/BookingStage/BookingStage.jsx'
+import './components/OwnerRole/BookingStage/BookingStage.css'
 // import Sidenav from './components/Admin/Admin.jsx'
 import TotalUser from './components/AdminPage/TotalUser/TotalUser.jsx'
 // import  './components/AdminPage/TotalUser/TotalUser.css'
@@ -51,9 +55,21 @@ import Sidenav from './components/AdminPage/Sidenav/Sidenav.jsx';
 import { useLocation } from 'react-router-dom';
 import SidenavReport from './components/SidenavReport.jsx'
 import SidenavReportV2 from './components/SidenavReportV2.jsx'
+import { UserContext } from './components/UserContext.jsx'
+import { useContext } from "react"
 // import CardReport from './components/AdminPage/ViewReport/CardReport.jsx'
 
 function App() {
+
+  const { user, loginContext } = useContext(UserContext);
+  console.log("user: ", user);
+
+  useEffect(() => {
+    if(localStorage.getItem("token")) {
+      loginContext(localStorage.getItem("id"), localStorage.getItem("token"));
+    }
+  }, [])
+
   const location = useLocation();
   const isDetailPage = location.pathname.includes('/detail');
   const isLoginPage = location.pathname.includes('/login');
@@ -69,6 +85,8 @@ function App() {
   const isAccommodation = location.pathname.includes('/accommodation');
   const isBooking = location.pathname.includes('/view-booking-history');
   const isOwnerPage = location.pathname.includes('/owner-page');
+  const isCreateBooking = location.pathname.includes('/create-booking');
+  const isBookingStage = location.pathname.includes('/booking-stage');
 
   return (
     <>
@@ -79,18 +97,15 @@ function App() {
         </>
       )}
 
-    
-
-
-      {!isDetailPage && !isLoginPage && !isRegisterPage && !isContactPage && !isAdminPage && !isCreateTimeshare && !isViewProject && !isViewDetail && !isTotalUser &&!isViewNews && !isCreateNews &&!isAccommodation && !isBooking && !isOwnerPage && <Header />}
+      {!isDetailPage && !isLoginPage && !isRegisterPage && !isContactPage && !isAdminPage && !isCreateTimeshare && !isViewProject && !isViewDetail && !isTotalUser &&!isViewNews && !isCreateNews &&!isAccommodation && !isBooking && !isCreateBooking &&!isBookingStage && <Header />}
       <Routes>
         <Route path='/' element={<Project />}></Route>
         <Route path='/detail/:id' element={<Detail />}></Route>
         <Route path='/login' element={<Login />}></Route>
         <Route path='/register' element={<Register />}></Route>
         <Route path='/contact-info' element={<Contact />}></Route> 
-        <Route path='/owner-page/id' element={<OwnerPage />}></Route>
-        <Route path='/create-timeshare' element={<CreateTimeshare />}></Route>
+        <Route path='/owner-page' element={<OwnerPage />}></Route>
+        <Route path='/create-timeshare/:id' element={<CreateTimeshare />}></Route>
         <Route path='/view-projects/:id' element={<ViewProject />}></Route>
         <Route path='/view-project-detail/:id' element={<ViewDetail />}></Route>
         <Route path='/contact-info' element={<Contact />}></Route>
@@ -98,7 +113,9 @@ function App() {
         <Route path='/view-news/:id' element={<ViewNews />}></Route>
         <Route path='/create-news' element={<CreateNews />}></Route> 
         <Route path='/accommodation' element={<Accommodation />}></Route>
-        <Route path='/view-booking-history/:id' element={<Booking />}></Route> 
+        <Route path='/view-booking-history' element={<Booking />}></Route>
+        <Route path='/create-booking' element={<CreateBooking />}></Route>
+        <Route path='/booking-stage' element={<BookingStage />}></Route>
         {/* <Route path='/admin/total-users/*' element={<TotalUser />}></Route> */}
         {/* <Route path='/admin/*' element={<AdminPage />}></Route> */}
         <Route path='/admin/*' element={<Sidenav />}></Route>
@@ -107,10 +124,6 @@ function App() {
         <Route path='/admin/report-project/:reportID' element={<SidenavReport/>}></Route>
         <Route path='/admin/report-projectid/:productID' element={<SidenavReportV2/>}></Route>
 
-
-
-
-    
       </Routes>
       {!isAdminPage && <Footer />}
     </>

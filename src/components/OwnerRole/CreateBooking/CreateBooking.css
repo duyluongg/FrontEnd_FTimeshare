@@ -1,0 +1,269 @@
+/* * {
+    box-sizing: border-box;
+} */
+
+.create-booking-page {
+    display: block;
+    font-size: 14px;
+    color: #323c42;
+}
+
+.create-booking-container {
+    padding-left: 10px;
+    padding-right: 10px;
+    width: 100%;
+    max-width: 100%;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+@media (min-width: 1200px) {
+    .create-booking-container {
+        padding-right: 45px;
+        padding-left: 45px;
+        max-width: 1349px;
+    }
+}
+
+@media (min-width: 1200px) {
+    .container {
+        max-width: 1140px;
+    }
+}
+
+@media (min-width: 992px) {
+    .container {
+        max-width: 960px;
+    }
+}
+
+@media (min-width: 768px) {
+    .container {
+        max-width: 720px;
+    }
+}
+
+@media (min-width: 576px) {
+    .container {
+        max-width: 540px;
+    }
+}
+
+.padding-top-15 {
+    padding-top: 15px !important;
+}
+
+.booking-col-12 {
+    flex: 0 0 100%;
+    max-width: 100%;
+    position: relative;
+    width: 100%;
+    padding-right: 15px;
+    padding-left: 15px;
+}
+
+.create-booking-page-title .title-head {
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+.create-booking-page-title .title-head p {
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+    position: relative;
+    font-size: 30px;
+    text-transform: uppercase;
+    font-weight: 600;
+    padding-top: 20px;
+    color: #CD9A2B;
+}
+
+.create-booking-page-content {
+    margin-right: -10px;
+    margin-left: -10px;
+    display: flex;
+    flex-wrap: wrap;
+    min-height: 400px;
+}
+
+.content-column {
+    flex: 50%;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+@media (max-width: 800px) {
+    .content-column {
+        flex: 100%;
+        max-width: 100%;
+    }
+}
+
+.create-booking-form {
+    flex: 50%;
+    max-width: 50%;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.create-booking-page .banner-booking {
+    position: relative;
+}
+
+.create-booking-page .banner-booking img {
+    border-radius: 10px;
+    width: 100%;
+}
+
+.create-booking-page form {
+    margin-bottom: 15px;
+    position: relative;
+    padding: 26px 25px 26px;
+    background: #F2F2F2;
+    border-radius: 10px;
+    display: block;
+    margin-top: 0em;
+}
+
+@media (max-width: 800px) {
+    .content-column {
+        flex: 100%;
+        max-width: 100%;
+    }
+}
+
+.pad-room {
+    margin-right: -10px;
+    margin-left: -10px;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.create-booking-page input {
+    line-height: 1.7;
+}
+
+.content-column-left,
+.content-column-right {
+    padding-left: 10px;
+    padding-right: 10px;
+    flex: 50%;
+    max-width: 50%;
+}
+
+.margin-bottom-5 {
+    margin-bottom: 12px;
+}
+
+.margin-bottom-5 .text-left {
+    text-align: left;
+    padding: 0;
+}
+
+.margin-bottom-5 .text-left label {
+    display: inline-block;
+    font-weight: 400;
+    margin-bottom: 0.5rem;
+}
+
+.margin-bottom-5 .form-booking {
+    height: 40px;
+    display: flex;
+    align-items: center;
+    vertical-align: middle;
+    cursor: pointer;
+    background: #fff;
+    transition: all .3s linear;
+    user-select: none;
+    color: #494b55;
+    padding-left: 8px;
+    margin-bottom: 5px;
+    border-radius: 5px;
+}
+
+.form-booking input,
+.form-booking select {
+    padding-left: 5px;
+    border: none;
+    min-height: 25px;
+    color: #6c707e;
+    font-size: 15px;
+    margin-bottom: 0;
+    padding-right: 7px;
+    outline: none;
+    padding: 0 70px 0 15px;
+    width: 100%;
+    max-width: 100%;
+    display: block;
+}
+
+/* .form-booking input[type="text"],
+input[type="tel"],
+input[type="number"],
+input[type="date"],
+select {
+    outline: none;
+    padding: 0 110px 0 15px;
+    width: 100%;
+    max-width: 100%;
+    display: block;
+} */
+
+.form-booking .form-booking-icon {
+    width: 30px;
+    padding-right: 5px;
+    border-right: 1px dotted #a0a0a0;
+}
+
+.form-booking .form-booking-date {
+    padding-left: 5px;
+    padding-right: 10px;
+    width: 100%;
+}
+
+@media (min-width: 1200px) {
+    .margin-bottom-5 {
+        flex: 0 0 100%;
+        max-width: 100%;
+    }
+}
+
+.booking-button-col-12 {
+    display: flex;
+    flex: 100%;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.div-tem-price {
+    position: relative;
+    display: flex;
+    margin-top: 5px;
+    width: 100%;
+}
+
+.div-tem-price .create-booking-button {
+    background: #cd9a2b;
+    border: 1px #cd9a2b solid;
+    color: #fff;
+    border-radius: 5px;
+    line-height: 40px;
+    cursor: pointer;
+    position: relative;
+    flex: auto;
+    display: inline-block;
+    vertical-align: top;
+    text-align: center;
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 16px;
+    padding: 0;
+    width: 50%;
+    height: 45px;
+}
+
+.div-tem-price .create-booking-button:hover {
+    background: #fff;
+    border: 1px #cd9a2b solid;
+    color: #cd9a2b;
+}

@@ -13,16 +13,20 @@ import ButtonBase from '@mui/material/ButtonBase';
 import Button from '@mui/material/Button';
 import DeleteIcon from '@mui/icons-material/Delete';
 import axios from 'axios';
+import { useContext } from 'react'
+import { UserContext } from '../UserContext'
 
 export default function Booking() {
     const [value, setValue] = useState('1');
-    const userId = useParams();
+
+    const { user } = useContext(UserContext);
+
     const [bookingInfo, setBookingInfo] = useState([]);
 
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const bookingResponse = await axios.get(`http://localhost:8080/api/bookings/by-account/${userId.id}`);
+                const bookingResponse = await axios.get(`http://localhost:8080/api/bookings/by-account/${user.id}`);
 
                 // Combine booking and product information
                 const combinedData = await Promise.all(bookingResponse.data.map(async (booking) => {
@@ -39,7 +43,7 @@ export default function Booking() {
         };
 
         fetchData();
-    }, [userId.id]);
+    }, [user.id]);
 
     const handleChange = (event, newValue) => {
         setValue(newValue);

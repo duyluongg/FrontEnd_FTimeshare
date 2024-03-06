@@ -7,7 +7,7 @@ import axios from 'axios';
 import { ProjectsData } from '../../Shared/ListOfProject'
 import { LearnAbout } from '../../Shared/LearnAbout'
 
-export default function Project() {
+export default function Project(props) {
   const [project, setProject] = useState([]);
   const [topNews, setTopNews] = useState([]);
   const [images, setImages] = useState([]);
@@ -83,8 +83,8 @@ export default function Project() {
                   <div className='project-list-cost'>${projectItem.productPrice}  <a>/ night</a></div>
                 </div>
                 <p>
-                  <Link to={`detail/${projectItem.productID}`}>
-                
+                  {/* <Link to={`detail/${projectItem.productID}`}> */}
+                  <Link to={`${props.basePath}/${projectItem.productID}`}>
                     <button className='project-list-button-view'>
                       <a className='project-list-view'>View</a>
                     </button>

@@ -1,0 +1,12 @@
+.booking-stage-container {
+    display: flex;
+    justify-content: center;
+}
+
+.booking-stage-container .MuiSvgIcon-root {
+    color: #cd9a2b !important; /* Màu xanh cho hình tròn của bước đang được chọn */
+}
+
+.booking-stage-container .Mui-completed {
+    color: green !important; /* Màu xanh cho hình tròn của các bước đã hoàn thành */
+}
