@@ -8,6 +8,7 @@ const UserProvider = ({ children }) => {
     const loginContext = (id,role, token) => {
         setUser((user) => ({
             id: id,
+            role: role,
             auth: true,
             role: role
         }));
@@ -23,9 +24,9 @@ const UserProvider = ({ children }) => {
         localStorage.removeItem("token");
         localStorage.removeItem("id");
         localStorage.removeItem("role");
-
         setUser((user) => ({
             id: '',
+            role: '',
             auth: false,
         }));
     };

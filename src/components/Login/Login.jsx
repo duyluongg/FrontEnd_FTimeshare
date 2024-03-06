@@ -5,7 +5,6 @@ import {
     faFacebookF, faGooglePlusG
 } from '@fortawesome/free-brands-svg-icons';
 import axios from "axios";
-// import { toast } from 'react-toastify'
 import { useContext } from 'react'
 import { UserContext } from '../UserContext'
 import { useNavigate } from 'react-router-dom';
@@ -37,44 +36,27 @@ export default function Login() {
         e.preventDefault();
 
         alert("Me");
-        if (!loginData.email || !loginData.password) {
-            toast.error("Email/Password is required");
+        if(!loginData.email || !loginData.password) {
+            // toast.error("Email/Password is required");
             return;
         }
 
         try {
             const response = await axios.post('http://localhost:8080/auth/login', loginData);
             console.log(response);
-            console.log(response.data);
-            console.log('Registration successful:', response.data);
 
-            if (response && response.data.token) {
-                loginContext(response.data.id, response.data.token, response.data.role);
-                console.log(response.data.role);
-                if (response.data.role === "[ROLE_ADMIN]") {
-                    console.log(response.data.role);
+            console.log('Login successful:', response.data);
+
+            if(response && response.data.token) {
+                loginContext(response.data.id, response.data.role, response.data.token);
+                if(response.data.role === '[ROLE_ADMIN]') {
                     navigate('/admin');
-
                 } else {
                     navigate('/owner-page');
-
                 }
+                
             }
-
-
-            // localStorage.setItem('userData', JSON.stringify(response.data));
-            // console.log(JSON.stringify(response.data));
-
-            // console.log(localStorage.getItem('userData'));
-
-            // Redirect to the home page
-            // if(response.data.role === 1) {
-            //     window.location.href = '/admin';
-            // } else if (response.data.role === 2) {
-            //     window.location.href = '/staff';
-            // } else 
-            //     window.location.href = '/owner-page';
-
+            
         } catch (error) {
             console.error('Registration failed:', error);
             // Xử lý lỗi ở đây (ví dụ: hiển thị thông báo lỗi cho người dùng)
