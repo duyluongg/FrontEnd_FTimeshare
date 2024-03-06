@@ -13,6 +13,10 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import Review from '../Review/Review.jsx'
 import FormFeedback from '../FormFeedback/FormFeedback.jsx'
+import FormReport from '../FormReport/FormReport.jsx'
+
+import ReviewCustomer from './ReviewCustomer.jsx'
+// import ViewFeedback from './ViewFeedback.jsx';
 
 
 import {
@@ -107,6 +111,7 @@ export default function Detail() {
             try {
                 const response = await axios.get(`http://localhost:8080/api/products/viewById/${productId.id}`);
                 setProductDetail(response.data[0]);
+              
                 const defaultContentIndex = productDetail.productDescription;
                 // setActiveContentIndex(defaultContentIndex);
                 setActiveContentIndex(response.data[0].productDescription);
@@ -224,16 +229,15 @@ export default function Detail() {
 
                             <Slider {...settings}>
                                 <div className='container-item-img-item'>
-                                {images.length > 0 && <img src={images[0].imgUrl} />}
+                                {images.length > 0 && <img src={images[1].imgName} />}
 
                                 </div>
                                 <div className='container-item-img-item'>
-                                    {images.length > 0 && <img src={images[1].imgUrl} />}
+                                    {images.length > 0 && <img src={images[2].imgName} />}
 
-                                    {/* <img src="#" /> */}
                                 </div>
                                 <div className='container-item-img-item'>
-                                {images.length > 0 && <img src={images[0].imgUrl} />}
+                                {images.length > 0 && <img src={images[3].imgName} />}
 
                                 </div>
                             </Slider>
@@ -369,6 +373,12 @@ export default function Detail() {
                         </div>
 
                     </div>
+                    <FormFeedback getID={productId.id}/>
+                    <FormReport getID={productId.id}/>
+                    {/* <ViewFeedback /> */}
+
+                    <ReviewCustomer getID={productId.id}/>
+                  
 
                     <div>
 

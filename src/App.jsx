@@ -58,6 +58,9 @@ import SidenavReportV2 from './components/SidenavReportV2.jsx'
 import { UserContext } from './components/UserContext.jsx'
 import { useContext } from "react"
 // import CardReport from './components/AdminPage/ViewReport/CardReport.jsx'
+import Profile from './components/Profile/Profile.jsx'
+import  './components/Profile/Profile.css'
+
 
 function App() {
 
@@ -87,6 +90,8 @@ function App() {
   const isOwnerPage = location.pathname.includes('/owner-page');
   const isCreateBooking = location.pathname.includes('/create-booking');
   const isBookingStage = location.pathname.includes('/booking-stage');
+  const isProfile = location.pathname.includes('/profile');
+  
 
   return (
     <>
@@ -97,7 +102,8 @@ function App() {
         </>
       )}
 
-      {!isDetailPage && !isLoginPage && !isRegisterPage && !isContactPage && !isAdminPage && !isCreateTimeshare && !isViewProject && !isViewDetail && !isTotalUser &&!isViewNews && !isCreateNews &&!isAccommodation && !isBooking && !isCreateBooking &&!isBookingStage && <Header />}
+      {!isDetailPage && !isLoginPage && !isRegisterPage && !isContactPage && !isAdminPage && !isCreateTimeshare && !isViewProject && !isViewDetail && !isTotalUser &&!isViewNews && !isCreateNews &&!isAccommodation && !isBooking && !isCreateBooking &&!isBookingStage && !isProfile && <Header />}
+    
       <Routes>
         <Route path='/' element={<Project />}></Route>
         <Route path='/detail/:id' element={<Detail />}></Route>
@@ -119,10 +125,12 @@ function App() {
         {/* <Route path='/admin/total-users/*' element={<TotalUser />}></Route> */}
         {/* <Route path='/admin/*' element={<AdminPage />}></Route> */}
         <Route path='/admin/*' element={<Sidenav />}></Route>
+        <Route path='/profile' element={<Profile />}></Route>
+
 
         {/* <Route path='/admin/report-project/:productID' element={<CardReport />}></Route> */}
         <Route path='/admin/report-project/:reportID' element={<SidenavReport/>}></Route>
-        <Route path='/admin/report-projectid/:productID' element={<SidenavReportV2/>}></Route>
+        <Route path='/admin/report-projectid/:productID/:accID' element={<SidenavReportV2/>}></Route>
 
       </Routes>
       {!isAdminPage && <Footer />}

@@ -31,6 +31,11 @@ import ViewReport from '../ViewReport/ViewReport.jsx';
 import CardReport from '../ViewReport/CardReport.jsx';
 import TotalStaff from '../TotalStaff/TotalStaff.jsx';
 import TotalReport from '../TotalReport/TotalReport.jsx';
+import TotalViewPendingBooking from '../TotalViewPendingBooking/TotalViewPendingBooking.jsx';
+import TotalViewActiveBooking from '../TotalViewActiveBooking/TotalViewActiveBooking.jsx';
+import ViewBookingConfirm from '../VIewConfirmBooking/ViewBookingConfirm.jsx';
+import ViewCustomerPayment from '../ViewCustomerPayment/ViewCustomerPayment.jsx';
+
 
 
 
@@ -208,6 +213,14 @@ export default function MiniDrawer() {
                 {currentPage === '/admin/rejected-project' && <RejectedProject />}
                 {currentPage === '/admin/total-staff' && <TotalStaff />}
                 {currentPage === '/admin/total-report' && <TotalReport/>}
+                {currentPage === '/admin/pending-list' && <TotalViewPendingBooking/>}
+                {currentPage === '/admin/active-list' && <TotalViewActiveBooking/>}
+                {currentPage === '/admin/wait-to-confirm-list' && <ViewBookingConfirm/>}
+                {currentPage === '/admin/wait-customer-to-confirm-payment-list' && <ViewCustomerPayment/>}
+
+
+
+
 
 
                 {/* {currentPage === '/admin/report-project:productID' && < CardReport />} */}

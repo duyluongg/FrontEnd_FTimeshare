@@ -46,7 +46,7 @@ export default function Project(props) {
         const response = await axios.get(`http://localhost:8080/api/pictures/customerview`);
         
         setImages(response.data);
-        console.log(images);
+        console.log(response.data);
       } catch (error) {
         console.error('Error fetching view img:', error);
       }
@@ -64,15 +64,14 @@ export default function Project(props) {
       </div>
       <div className='project-list'>
         {project.map((projectItem) => {
-          // Tìm hình ảnh có productID tương ứng với productID của project
+          
           const projectImage = images.find(image => image.productID === projectItem.productID);
           console.log(projectImage);
           return (
             <div className='column' key={projectItem.productID}>
               <div className='card'>
-                <div className='card-item-img'>
-                 
-                  {projectImage && <img src={projectImage.imgUrl} />}
+                <div className='card-item-img'>                
+                  {projectImage && <img src={projectImage.imgName} />}
                 </div>
                 <div className='project-list-detail'>
                   <div className='project-list-title'>

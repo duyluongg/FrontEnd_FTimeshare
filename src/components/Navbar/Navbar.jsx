@@ -6,12 +6,12 @@ import { Link } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 import { useContext } from 'react'
 import { UserContext } from '../UserContext'
-
+import { useLocation } from 'react-router-dom';
 const navigation = [
-  { name: 'Home', href: '#', current: true },
-  { name: 'About us', href: '#', current: false },
+  { name: 'Home', href: '/', current: false },
+  { name: 'About us', href: '/aboutus', current: false },
   { name: 'Accommodation', href: '/accommodation', current: false },
-  { name: 'Sale off', href: '#', current: false },
+  { name: 'Sale off', href: '/saleoff', current: false },
   { name: 'Contact', href: '/contact-info', current: false },
 ]
 
@@ -29,6 +29,13 @@ export default function Navbar() {
     window.location.href = '/login';
   };
 
+  const location = useLocation();
+  const [selectedItem, setSelectedItem] = useState(null);
+
+
+  // const handleItemClick = (index) => {
+  //   setSelectedItem(index);
+  // };
   return (
     <Disclosure as="nav" className="bg-white-800">
       {({ open }) => (
@@ -79,10 +86,11 @@ export default function Navbar() {
                         key={item.name}
                         href={item.href}
                         className={classNames(
-                          item.current ? 'bg-gray-900 text-white' : 'text-black-300 hover:bg-gray-700 hover:text-white',
+                          (location.pathname === item.href || (location.pathname === "/" && item.href === "#")) ? 'bg-gray-900 text-white' : 'text-black-300 hover:bg-gray-700 hover:text-white',
                           'rounded-md px-3 py-2 text-sm font-medium', 'mt-4'
                         )}
                         aria-current={item.current ? 'page' : undefined}
+                      // onClick={() => handleItemClick(index)} 
                       >
                         {item.name}
                       </a>
@@ -135,12 +143,15 @@ export default function Navbar() {
                       </Menu.Item> */}
                       <Menu.Item>
                         {({ active }) => (
-                          <a
-                            href="#"
-                            className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
-                          >
-                            Your Profile
-                          </a>
+                          <Link to='/profile'>
+                            <a
+                              href="#"
+                              className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
+                            >
+                              Your Profile
+                            </a>
+                          </Link>
+
                         )}
                       </Menu.Item>
 

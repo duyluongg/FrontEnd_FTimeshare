@@ -1,4 +1,3 @@
-// RecipeReviewCard.jsx
 import React, { useState, useEffect } from 'react';
 import { styled } from '@mui/material/styles';
 import { red } from '@mui/material/colors';
@@ -8,9 +7,8 @@ import axios from 'axios';
 import { Grid, Card, CardHeader, CardMedia, CardContent, CardActions, Collapse, Avatar, IconButton, Typography, Button, TextField, Pagination } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import { Link } from 'react-router-dom';
-import CardReport from '../ViewReport/CardReport';
-// import { useHistory } from 'react-router-dom';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
+import ModalProfile from '../ViewReport/ModalProfile';
+
 const ExpandMore = styled((props) => {
     const { expand, ...other } = props;
     return <IconButton {...other} />;
@@ -22,38 +20,33 @@ const ExpandMore = styled((props) => {
     }),
 }));
 
-export default function RecipeReviewCard() {
-    const [expanded, setExpanded] = useState(false);
-    const [projectActive, setProjectActive] = useState([]);
-    const [selectedProject, setSelectedProject] = useState(null); 
-    const [showCardReport, setShowCardReport] = useState(false);
+export default function ViewBookingConfirm() {
+    const [loading, setLoading] = useState(true);
+    const [productToConfirm, setProductToConfirm] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
-    // const [projectsPerPage] = useState(6);
+    const [images, setImages] = useState([]);
+    const [profiles, setProfiles] = useState([]);
     const [searchQuery, setSearchQuery] = useState('');
-    const [getProjectID, setGetProjectID] = useState();
+    const [expanded, setExpanded] = useState(false);
+
     const projectsPerPage = 6;
     const indexOfLastProject = currentPage * projectsPerPage;
     const indexOfFirstProject = indexOfLastProject - projectsPerPage;
-    const currentProjects = projectActive.slice(indexOfFirstProject, indexOfLastProject);
-    const [images, setImages] = useState([]);
-    const [profiles, setProfiles] = useState([]);
+    const currentProjects = productToConfirm.slice(indexOfFirstProject, indexOfLastProject);
+
+    const handleExpandClick = () => {
+        setExpanded(!expanded);
+    };
+
     const handleSearchChange = (event) => {
         setSearchQuery(event.target.value);
     };
 
-    // useEffect(() => {
-    //     fetchProjectActive();
-    // }, [currentPage]);
+    const handlePageChange = (event, value) => {
+        setCurrentPage(value);
+    };
 
-    // const fetchProjectActive = async () => {
-    //     try {
-    //         const response = await axios.get('http://localhost:8080/api/products/staff/active');
-    //         setProjectActive(response.data);
-    //         console.log(response);
-    //     } catch (error) {
-    //         console.error('Error fetching projects:', error);
-    //     }
-    // };
+
 
     useEffect(() => {
         fetchData();
@@ -61,12 +54,12 @@ export default function RecipeReviewCard() {
     const fetchData = async () => {
         try {
             const [pendingResponse, imagesResponse, profilesResponse] = await Promise.all([
-                axios.get('http://localhost:8080/api/products/staff/active'),
+                axios.get('http://localhost:8080/api/bookings/view-booking-by-status/Wait to confirm'),
                 axios.get('http://localhost:8080/api/pictures/customerview'),
                 axios.get('http://localhost:8080/api/users/staffview')
             ]);
 
-            setProjectActive(pendingResponse.data);
+            setProductToConfirm(pendingResponse.data);
             setImages(imagesResponse.data);
             setProfiles(profilesResponse.data);
 
@@ -77,36 +70,33 @@ export default function RecipeReviewCard() {
         }
     };
 
-    const handleExpandClick = () => {
-        setExpanded(!expanded);
+
+
+    const handleAcceptDone = async (bookingID) => {
+        try {
+            await axios.put(`http://localhost:8080/api/bookings/staff/Done/${bookingID}`);
+            fetchData();
+        } catch (error) {
+            console.error('Error fetching projects:', error);
+        }
     };
 
-    const handleReportUserClick = (productId) => {
-        console.log("Report user for productID:", productId);
-        setSelectedProject(productId); // Cập nhật selectedProject trước
-        setShowCardReport(true);
+    const handleAcceptCancel = async (bookingID) => {
+        try {
+            await axios.put(`http://localhost:8080/api/bookings/staff/cancel/${bookingID}`);
+            fetchData();
+        } catch (error) {
+            console.error('Error fetching projects:', error);
+        }
     };
 
-    useEffect(() => {
-        console.log("Selected Project ID changed:", selectedProject);
-
-    }, [selectedProject]);
-
-
-    const handlePageChange = (event, value) => {
-        setCurrentPage(value);
-    };
-    useEffect(() => {
-        handleGetIDProject();
-
-    }, [getProjectID])
-
-    const handleGetIDProject = (getID) => {
-        setGetProjectID(getID);
-        console.log("Selected project ID:", getProjectID);
-
-
+    if (loading) {
+        return <div>Loading...</div>;
     }
+    const formatDate = (dateArray) => {
+        const [year, month, day] = dateArray;
+        return `${day}/${month}/${year}`;
+    };
 
 
     return (
@@ -128,28 +118,25 @@ export default function RecipeReviewCard() {
             <Grid container spacing={1} sx={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '10px', ml: '50px' }}>
                 {currentProjects.map((item) => {
                     const projectImage = images.find(image => image.productID === item.productID);
-                    // const profileAccount = profiles.find(profile => profile.accID === item.accID);
+                    const profileAccount = profiles.find(profile => profile.accID === item.accID);
                     console.log(projectImage);
+
                     return (
-                        <Card key={item.productID} sx={{ maxWidth: 345, mb: '20px', boxShadow: 3 }}>
+                        <Card key={item.bookingID} sx={{ maxWidth: 345, mb: '20px', boxShadow: 3 }}>
                             <CardHeader
                                 avatar={
                                     <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
-                                        {item.productName[1]}
+                                        {/* {item.productName[1]} */}
+                                        <ModalProfile accID={profileAccount} />
                                     </Avatar>
                                 }
                                 action={
                                     <IconButton aria-label="settings">
-                                        {/* <Link to={`/admin/report-project/${item.productID}`}>
-                                        <Button variant="contained" onClick={() => handleReportUserClick(item.productID)}>REPORT'S USER</Button>
-                                    </Link> */}
                                         <MoreVertIcon />
-
                                     </IconButton>
                                 }
-                                title={item.productName}
-                                subheader={item.availableStartDate}
-
+                                title={profileAccount ? profileAccount.accName : ""}
+                              
                             />
 
                             <CardMedia
@@ -160,19 +147,29 @@ export default function RecipeReviewCard() {
                                 sx={{ width: "350px", height: "350px", objectFit: "cover", maxWidth: "100%" }}
                             />
                             <CardContent>
-                                <Typography variant="body2" color="text.secondary" sx={{ overflow: 'hidden', textOverflow: 'ellipsis', display: '-webkit-box', WebkitLineClamp: '2', WebkitBoxOrient: "vertical" }}>
-                                    {item.productDescription}
+                                <Typography variant="body2" color="text.secondary">
+                                    Start Date: {formatDate(item.startDate)}
+                                </Typography>
+                                <Typography variant="body2" color="text.secondary">
+                                    End Date: {formatDate(item.endDate)}
+                                </Typography>
+                                <Typography variant="body2" color="text.secondary">
+                                    Price: {item.bookingPrice}
+                                </Typography>
+                                <Typography variant="body2" color="text.secondary">
+                                    Person: {item.bookingPerson}
+                                </Typography>
+                                <Typography variant="body2" color="text.secondary">
+                                    Status: {item.bookingStatus}
                                 </Typography>
                             </CardContent>
                             <CardActions disableSpacing>
-                                <Button variant="outlined" color="success">
-                                    {item.productStatus}
+                                <Button variant="outlined" color="success" onClick={() => handleAcceptDone(item.bookingID)}>
+                                    ACCEPT
                                 </Button>
-                                <Link to={`/admin/report-projectid/${item.productID}/${item.accID}`}>
-                                    <Button variant="outlined" color="error" onClick={() => handleGetIDProject(item.productID)}>
-                                        DETAIL
-                                    </Button>
-                                </Link>
+                                <Button variant="outlined" color="error" onClick={() => handleAcceptCancel(item.bookingID)}>
+                                    CANCEL
+                                </Button>
                                 <ExpandMore
                                     expand={expanded}
                                     onClick={handleExpandClick}
@@ -185,24 +182,20 @@ export default function RecipeReviewCard() {
                             <Collapse in={expanded} timeout="auto" unmountOnExit>
                                 <CardContent>
                                     <Typography paragraph>
-                                        {item.productConvenience}
+                                        {/* {item.productConvenience} */}
                                     </Typography>
                                 </CardContent>
                             </Collapse>
                         </Card>
                     );
                 })}
-            </Grid >
-            {/* <Pagination count={10} color="primary" sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', mt: '25px' }} /> */}
+            </Grid>
             <Pagination
                 count={10}
                 color="primary"
                 sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', mt: '25px' }}
                 onChange={handlePageChange}
             />
-
-
-
         </>
     );
 }
