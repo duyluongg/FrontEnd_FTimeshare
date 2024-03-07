@@ -66,7 +66,7 @@ import ViewBookingConfirm from './components/AdminPage/VIewConfirmBooking/ViewBo
 function App() {
 
   const { user, loginContext } = useContext(UserContext);
-  console.log("user: ", user);
+  console.log("user: ", user.id);
 
   useEffect(() => {
     if(localStorage.getItem("token")) {
@@ -126,13 +126,13 @@ function App() {
         {/* <Route path='/admin/total-users/*' element={<TotalUser />}></Route> */}
         {/* <Route path='/admin/*' element={<AdminPage />}></Route> */}
         <Route path='/admin/*' element={<Sidenav />}></Route>
-        <Route path='/profile' element={<Profile />}></Route>
+        <Route path='/profile' element={<Profile getData={user.id}/>}></Route>
 
 
         {/* <Route path='/admin/report-project/:productID' element={<CardReport />}></Route> */}
         <Route path='/admin/report-project/:reportID' element={<SidenavReport/>}></Route>
         <Route path='/admin/report-projectid/:productID/:accID' element={<SidenavReportV2/>}></Route>
-        <Route path='/admin/booking-detail' element={<ViewBookingConfirm/>}></Route>
+    
 
 
       </Routes>
