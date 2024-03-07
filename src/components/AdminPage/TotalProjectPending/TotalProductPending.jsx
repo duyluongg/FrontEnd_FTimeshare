@@ -61,7 +61,7 @@ export default function TotalProductPending() {
     const fetchData = async () => {
         try {
             const [pendingResponse, imagesResponse, profilesResponse] = await Promise.all([
-                axios.get('localhost:8080/api/products/staff/pending'),
+                axios.get('http://localhost:8080/api/products/staff/pending'),
                 axios.get('http://localhost:8080/api/pictures/customerview'),
                 axios.get('http://localhost:8080/api/users/staffview')
             ]);
@@ -69,11 +69,12 @@ export default function TotalProductPending() {
             setProjectPending(pendingResponse.data);
             setImages(imagesResponse.data);
             setProfiles(profilesResponse.data);
+            console.log(imagesResponse.data);
 
-            setLoading(false);
+            // setLoading(false);
         } catch (error) {
             console.error('Error fetching data:', error);
-            setLoading(false);
+            // setLoading(false);
         }
     };
 
