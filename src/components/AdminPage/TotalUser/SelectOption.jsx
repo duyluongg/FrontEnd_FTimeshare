@@ -1,33 +1,33 @@
-import React from 'react';
+import React, { useState } from 'react';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 
 export default function SelectOption({ row, onRole }) {
-    console.log(row);
+    const [selectedRole, setSelectedRole] = useState(row.status);
+
     const handleRoleChange = (event) => {
         const newRole = event.target.value;
         onRole(row, newRole);
+        setSelectedRole(newRole); // Cập nhật giá trị mới
     };
-    const status = row.status === 'active' || row.accStatus === 'block' ? row.accStatus : '';
-console.log(status);
+
     return (
         <div>
             <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
-                <InputLabel id={`role-label-${row.id}`}>{status}</InputLabel>
+                <InputLabel id={`role-label-${row.id}`}>{selectedRole}</InputLabel>
                 <Select
                     labelId={`role-label-${row.id}`}
                     id={`role-select-${row.id}`}
-                    value={status} // Hiển thị trạng thái tài khoản hiện tại
+                    value={selectedRole}
                     onChange={handleRoleChange}
                     label="Role"
                 >
-                    <MenuItem value="Active">Active</MenuItem>
-                    <MenuItem value="Block">Block</MenuItem>
+                    <MenuItem value="active">Active</MenuItem>
+                    <MenuItem value="block">Block</MenuItem>
                 </Select>
             </FormControl>
         </div>
     );
 }
-
