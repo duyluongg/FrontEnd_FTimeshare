@@ -23,6 +23,8 @@ export default function Booking() {
 
     const [bookingInfoAccepted, setBookingInfoAccepted] = useState([]);
     const [bookingInfoConfirm, setBookingInfoConfirm] = useState([]);
+    const [bookingInfoComplete, setBookingInfoComplete] = useState([]);
+    const [bookingInfoCancel, setBookingInfoCancel] = useState([]);
 
     // useEffect(() => {
     //     const fetchData = async () => {
@@ -85,6 +87,48 @@ export default function Booking() {
             }));
 
             setBookingInfoConfirm(combinedData);
+        } catch (error) {
+            console.error("Error fetching data:", error);
+        }
+    };
+
+    useEffect(() => {
+        fetchDataComplete();
+    }, [user.id]);
+    const fetchDataComplete = async () => {
+        try {
+            const bookingResponse = await axios.get(`http://localhost:8080/api/bookings/by-account/done/${user.id}`);
+
+            // Combine booking and product information
+            const combinedData = await Promise.all(bookingResponse.data.map(async (booking) => {
+                console.log(booking.productID);
+                const productResponse = await axios.get(`http://localhost:8080/api/products/viewById/${booking.productID}`);
+                console.log(productResponse.data[0].productName);
+                return { ...booking, product: productResponse.data[0] };
+            }));
+
+            setBookingInfoComplete(combinedData);
+        } catch (error) {
+            console.error("Error fetching data:", error);
+        }
+    };
+
+    useEffect(() => {
+        fetchDataCancel();
+    }, [user.id]);
+    const fetchDataCancel = async () => {
+        try {
+            const bookingResponse = await axios.get(`http://localhost:8080/api/bookings/by-account/cancel/${user.id}`);
+
+            // Combine booking and product information
+            const combinedData = await Promise.all(bookingResponse.data.map(async (booking) => {
+                console.log(booking.productID);
+                const productResponse = await axios.get(`http://localhost:8080/api/products/viewById/${booking.productID}`);
+                console.log(productResponse.data[0].productName);
+                return { ...booking, product: productResponse.data[0] };
+            }));
+
+            setBookingInfoCancel(combinedData);
         } catch (error) {
             console.error("Error fetching data:", error);
         }
@@ -202,7 +246,7 @@ export default function Booking() {
                                                 <ButtonBase sx={{ width: 128, height: 128 }}>
                                                     <Img
                                                         alt="complex"
-                                                        src= {projectImage.imgName}
+                                                        src={projectImage.imgName}
                                                     />
                                                 </ButtonBase>
                                             </Grid>
@@ -318,8 +362,152 @@ export default function Booking() {
                                 </Paper>
                             ))}
                         </TabPanel>
-                        <TabPanel className="MuiTabPanel-root" value="3">Item One</TabPanel>
-                        <TabPanel className="MuiTabPanel-root" value="4">Item One</TabPanel>
+                        <TabPanel className="MuiTabPanel-root" value="3">
+                            {bookingInfoComplete.map((bookingInfo, index) => {
+                                console.log(bookingInfo);
+                                const projectImage = images.find(image => image.productID === bookingInfo.product.productID);
+                                console.log(projectImage);
+
+                                return (
+                                    <Paper
+                                        sx={{
+                                            p: 2,
+                                            margin: "auto",
+                                            maxWidth: 600,
+                                            flexGrow: 1,
+                                            marginBottom: "16px",
+                                            backgroundColor: (theme) =>
+                                                theme.palette.mode === "dark" ? "#1A2027" : "#fff",
+                                        }}
+                                    >
+
+                                        <Grid container spacing={2}>
+                                            <Grid key={index}>
+                                                <ButtonBase sx={{ width: 128, height: 128 }}>
+                                                    <Img
+                                                        alt="complex"
+                                                        src={projectImage.imgName}
+                                                    />
+                                                </ButtonBase>
+                                            </Grid>
+                                            <Grid item xs={12} sm container>
+                                                <Grid item xs container direction="column" spacing={2}>
+                                                    <Grid item xs>
+                                                        <Typography gutterBottom variant="subtitle1" component="div">
+                                                            {bookingInfo.product.productName}
+                                                        </Typography>
+                                                        <Typography variant="body2" gutterBottom>
+                                                            {bookingInfo.product.productDescription}
+                                                        </Typography>
+                                                        <Typography variant="body2" color="text.secondary" gutterBottom>
+                                                            {bookingInfo.startDate} - {bookingInfo.endDate}
+                                                        </Typography>
+                                                        <Grid item container direction="row" justifyContent="flex-end" alignItems="center">
+                                                            <Grid item>
+                                                                {bookingInfo.bookingStatus === 'Wait to confirm (request cancel)' ? (
+
+                                                                    <Typography variant="body2">Wait to confirm (request cancel)</Typography>
+                                                                ) : (
+                                                                    <Button
+                                                                        onClick={() => handleCancelActive(bookingInfo.bookingID)}
+                                                                        sx={{ cursor: 'pointer', fontSize: '0.8rem' }}
+                                                                        color="error"
+                                                                        variant="contained"
+                                                                        startIcon={<DeleteIcon />}
+                                                                    >
+                                                                        Cancel
+                                                                    </Button>
+                                                                )}
+                                                            </Grid>
+                                                        </Grid>
+                                                    </Grid>
+                                                </Grid>
+                                                <Grid item>
+                                                    <Typography variant="subtitle1" component="div">
+                                                        ${bookingInfo.bookingPrice}
+                                                    </Typography>
+                                                </Grid>
+                                            </Grid>
+                                        </Grid>
+
+                                    </Paper>
+                                )
+
+                            })}
+                        </TabPanel>
+                        <TabPanel className="MuiTabPanel-root" value="4">
+                            {bookingInfoCancel.map((bookingInfo, index) => {
+                                console.log(bookingInfo);
+                                const projectImage = images.find(image => image.productID === bookingInfo.product.productID);
+                                console.log(projectImage);
+
+                                return (
+                                    <Paper
+                                        sx={{
+                                            p: 2,
+                                            margin: "auto",
+                                            maxWidth: 600,
+                                            flexGrow: 1,
+                                            marginBottom: "16px",
+                                            backgroundColor: (theme) =>
+                                                theme.palette.mode === "dark" ? "#1A2027" : "#fff",
+                                        }}
+                                    >
+
+                                        <Grid container spacing={2}>
+                                            <Grid key={index}>
+                                                <ButtonBase sx={{ width: 128, height: 128 }}>
+                                                    <Img
+                                                        alt="complex"
+                                                        src={projectImage.imgName}
+                                                    />
+                                                </ButtonBase>
+                                            </Grid>
+                                            <Grid item xs={12} sm container>
+                                                <Grid item xs container direction="column" spacing={2}>
+                                                    <Grid item xs>
+                                                        <Typography gutterBottom variant="subtitle1" component="div">
+                                                            {bookingInfo.product.productName}
+                                                        </Typography>
+                                                        <Typography variant="body2" gutterBottom>
+                                                            {bookingInfo.product.productDescription}
+                                                        </Typography>
+                                                        <Typography variant="body2" color="text.secondary" gutterBottom>
+                                                            {bookingInfo.startDate} - {bookingInfo.endDate}
+                                                        </Typography>
+                                                        <Grid item container direction="row" justifyContent="flex-end" alignItems="center">
+                                                            <Grid item>
+                                                                {bookingInfo.bookingStatus === 'Wait to confirm (request cancel)' ? (
+
+                                                                    <Typography variant="body2">Wait to confirm (request cancel)</Typography>
+                                                                ) : (
+                                                                    <Button
+                                                                        onClick={() => handleCancelActive(bookingInfo.bookingID)}
+                                                                        sx={{ cursor: 'pointer', fontSize: '0.8rem' }}
+                                                                        color="error"
+                                                                        variant="contained"
+                                                                        startIcon={<DeleteIcon />}
+                                                                    >
+                                                                        Cancel
+                                                                    </Button>
+                                                                )}
+                                                            </Grid>
+                                                        </Grid>
+                                                    </Grid>
+                                                </Grid>
+                                                <Grid item>
+                                                    <Typography variant="subtitle1" component="div">
+                                                        ${bookingInfo.bookingPrice}
+                                                    </Typography>
+                                                </Grid>
+                                            </Grid>
+                                        </Grid>
+
+                                    </Paper>
+                                )
+
+                            })}
+                        </TabPanel>
                         {/* <TabPanel className="MuiTabPanel-root" value="5">Item One</TabPanel>
                         <TabPanel className="MuiTabPanel-root" value="6">Item One</TabPanel> */}
                     </TabContext>
