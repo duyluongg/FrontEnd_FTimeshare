@@ -126,6 +126,8 @@ function App() {
         <Route path='/create-booking' element={<CreateBooking />}></Route>
         <Route path='/booking-stage' element={<BookingStage />}></Route>
         <Route path='/payment' element={<Payment />}></Route>
+   
+
         {/* <Route path='/admin/total-users/*' element={<TotalUser />}></Route> */}
         {/* <Route path='/admin/*' element={<AdminPage />}></Route> */}
         <Route path='/admin/*' element={<Sidenav />}></Route>

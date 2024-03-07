@@ -8,11 +8,12 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import Button from '@mui/material/Button';
-import { useLocation } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import axios from "axios";
 import { useContext } from 'react';
 import { UserContext } from '../UserContext';
 import SnackBar from "../SnackBar.jsx";
+import { useNavigate } from "react-router-dom";
 
 export default function Payment() {
     const [orderSummary, setOrderSummary] = useState('');
@@ -36,6 +37,8 @@ export default function Payment() {
         const day = ('0' + d.getDate()).slice(-2);
         return `${year}-${month}-${day}`;
     };
+
+    const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -67,19 +70,19 @@ export default function Payment() {
                 }
             });
 
-            console.log(response.data);
+            // console.log(response.data);
 
             navigate('/view-booking-history');
-            setSnackbarMessage('Booking successfully !!!')
-            setSnackbarColor("success");
-            setSnackbarOpen(true);
+            // setSnackbarMessage('Booking successfully !!!')
+            // setSnackbarColor("success");
+            // setSnackbarOpen(true);
 
         } catch (error) {
             console.error('Lỗi đăng ký người dùng:', error.response.data); // Xử lý lỗi
-            setSnackbarMessage('Booking failed :(((');
-            setSnackbarColor("error");
-            // Thiết lập thông điệp Snackbar
-            setSnackbarOpen(true); // Hiển thị Snackbar
+            // setSnackbarMessage('Booking failed :(((');
+            // setSnackbarColor("error");
+            // // Thiết lập thông điệp Snackbar
+            // setSnackbarOpen(true); // Hiển thị Snackbar
         }
     }
 
@@ -102,6 +105,10 @@ export default function Payment() {
 
     const handleSnackbarClose = () => {
         setSnackbarOpen(false);
+    };
+
+    const handleNavigate = () => {
+        navigate('/view-booking-history');
     };
 
 
@@ -163,7 +170,9 @@ export default function Payment() {
                     )}
                 </div>
                 <div className="submit-section">
-                    <button onClick={handleSubmit}>Submit</button>
+                  
+                        <button onClick={handleSubmit}>Submit</button>
+                   
                 </div>
                 <SnackBar open={snackbarOpen} message={snackbarMessage} onClose={handleSnackbarClose} color={snackbarColor} />
                 {/* <div className="order-summary">

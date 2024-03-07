@@ -10,7 +10,7 @@ export default function SelectOption({ row, onRole }) {
     const handleRoleChange = (event) => {
         const newRole = event.target.value;
         onRole(row, newRole);
-        setSelectedRole(newRole); // Cập nhật giá trị mới
+        setSelectedRole(newRole); 
     };
 
     return (

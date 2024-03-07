@@ -33,7 +33,7 @@ export default function Login() {
     const handleLogin = async (e) => {
         e.preventDefault();
 
-        alert("Me");
+     
         if(!loginData.email || !loginData.password) {
             // toast.error("Email/Password is required");
             return;

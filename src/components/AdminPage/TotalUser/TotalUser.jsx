@@ -410,7 +410,7 @@ export default function TotalUser() {
           {
             field: 'role',
             headerName: 'Role',
-            width: 100,
+            width: 200,
             renderCell: (params) => (
               <SelectOption onRole={handleRole} row={params.row} />
             ),
