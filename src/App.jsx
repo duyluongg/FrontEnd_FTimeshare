@@ -42,7 +42,7 @@ import './components/Accommodation/Accommodation.css'
 import Booking from './components/Booking/Booking.jsx'
 import './components/Booking/Booking.css'
 import CreateBooking from './components/OwnerRole/CreateBooking/CreateBooking.jsx'
-import  './components/OwnerRole/CreateBooking/CreateBooking.css'
+import './components/OwnerRole/CreateBooking/CreateBooking.css'
 import BookingStage from './components/OwnerRole/BookingStage/BookingStage.jsx'
 import './components/OwnerRole/BookingStage/BookingStage.css'
 // import Sidenav from './components/Admin/Admin.jsx'
@@ -59,7 +59,7 @@ import { UserContext } from './components/UserContext.jsx'
 import { useContext } from "react"
 // import CardReport from './components/AdminPage/ViewReport/CardReport.jsx'
 import Profile from './components/Profile/Profile.jsx'
-import  './components/Profile/Profile.css'
+import './components/Profile/Profile.css'
 import Payment from './components/Payment/Payment.jsx'
 import './components/Payment/Payment.css'
 import ViewBookingConfirm from './components/AdminPage/VIewConfirmBooking/ViewBookingConfirm.jsx'
@@ -68,9 +68,9 @@ import ViewBookingConfirm from './components/AdminPage/VIewConfirmBooking/ViewBo
 function App() {
 
   const { user, loginContext } = useContext(UserContext);
-
+  console.log(user.id);
   useEffect(() => {
-    if(localStorage.getItem("token")) {
+    if (localStorage.getItem("token")) {
       loginContext(localStorage.getItem("id"), localStorage.getItem("role"), localStorage.getItem("token"));
     }
   }, [])
@@ -94,50 +94,50 @@ function App() {
   const isBookingStage = location.pathname.includes('/booking-stage');
   const isProfile = location.pathname.includes('/profile');
   const isPayment = location.pathname.includes('/payment');
-  
+
 
   return (
     <>
-      {!isAdminPage  && (
+      {!isAdminPage && (
         <>
           <Navigation />
           <Navbar />
         </>
       )}
 
-      {!isDetailPage && !isLoginPage && !isRegisterPage && !isContactPage && !isAdminPage && !isCreateTimeshare && !isViewProject && !isViewDetail && !isTotalUser &&!isViewNews && !isCreateNews &&!isAccommodation && !isBooking && !isCreateBooking &&!isBookingStage && !isProfile && !isPayment && <Header />}
-    
+      {!isDetailPage && !isLoginPage && !isRegisterPage && !isContactPage && !isAdminPage && !isCreateTimeshare && !isViewProject && !isViewDetail && !isTotalUser && !isViewNews && !isCreateNews && !isAccommodation && !isBooking && !isCreateBooking && !isBookingStage && !isProfile && !isPayment && <Header />}
+
       <Routes>
         <Route path='/' element={<Project />}></Route>
         <Route path='/detail/:id' element={<Detail />}></Route>
         <Route path='/login' element={<Login />}></Route>
         <Route path='/register' element={<Register />}></Route>
-        <Route path='/contact-info' element={<Contact />}></Route> 
+        <Route path='/contact-info' element={<Contact />}></Route>
         <Route path='/owner-page' element={<OwnerPage />}></Route>
-        <Route path='/create-timeshare' element={<CreateTimeshare />}></Route>
+        <Route path='/create-timeshare' element={<CreateTimeshare getData={user.id}/>}></Route>
         <Route path='/view-projects/:id' element={<ViewProject />}></Route>
         <Route path='/view-project-detail/:id' element={<ViewDetail />}></Route>
         <Route path='/contact-info' element={<Contact />}></Route>
         <Route path='/admin/*' element={<AdminPage />}></Route>
         <Route path='/view-news/:id' element={<ViewNews />}></Route>
-        <Route path='/create-news' element={<CreateNews />}></Route> 
+        <Route path='/create-news' element={<CreateNews />}></Route>
         <Route path='/accommodation' element={<Accommodation />}></Route>
         <Route path='/view-booking-history' element={<Booking />}></Route>
         <Route path='/create-booking' element={<CreateBooking />}></Route>
         <Route path='/booking-stage' element={<BookingStage />}></Route>
         <Route path='/payment' element={<Payment />}></Route>
-   
+
 
         {/* <Route path='/admin/total-users/*' element={<TotalUser />}></Route> */}
         {/* <Route path='/admin/*' element={<AdminPage />}></Route> */}
         <Route path='/admin/*' element={<Sidenav />}></Route>
-        <Route path='/profile' element={<Profile getData={user.id}/>}></Route>
+        <Route path='/profile' element={<Profile getData={user.id} />}></Route>
 
 
         {/* <Route path='/admin/report-project/:productID' element={<CardReport />}></Route> */}
-        <Route path='/admin/report-project/:reportID' element={<SidenavReport/>}></Route>
-        <Route path='/admin/report-projectid/:productID/:accID' element={<SidenavReportV2/>}></Route>
-    
+        <Route path='/admin/report-project/:reportID' element={<SidenavReport />}></Route>
+        <Route path='/admin/report-projectid/:productID/:accID' element={<SidenavReportV2 />}></Route>
+
 
 
       </Routes>
