@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFacebookF, faGooglePlusG } from '@fortawesome/free-brands-svg-icons';
 import axios from 'axios';
 import SnackBar from "../SnackBar.jsx";
+import { useNavigate } from "react-router";
 
 export default function Register() {
     const [firstName, setFirstName] = useState('');
@@ -25,6 +26,8 @@ export default function Register() {
         return `${year}-${month}-${day}`;
     };
 
+    const navigate = useNavigate();
+
     const handleRegister = async (e) => {
         e.preventDefault();
 
@@ -43,6 +46,7 @@ export default function Register() {
             setSnackbarMessage('Registration successfully !!!')
             setSnackbarColor("success");
             setSnackbarOpen(true);
+            navigate("/login");
 
         } catch (error) {
             console.error('Lỗi đăng ký người dùng:', error.response.data); // Xử lý lỗi
