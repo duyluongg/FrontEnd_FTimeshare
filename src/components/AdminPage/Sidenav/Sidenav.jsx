@@ -129,7 +129,7 @@ export default function Sidenav() {
     return (
         <Box sx={{ display: 'flex' }}>
             <CssBaseline />
-            <AppBar position="fixed" open={open} sx={{backgroundColor: "#CD9A2B"}}>
+            <AppBar position="fixed" open={open} sx={{ backgroundColor: "#CD9A2B" }}>
                 <Toolbar>
                     <IconButton
                         color="inherit"
@@ -208,6 +208,10 @@ export default function Sidenav() {
             <Box component="main" sx={{ flexGrow: 2, p: 3 }}  >
                 <DrawerHeader />
                 {currentPage === '/admin' && <Dashboard />}
+                {/* <Routes>
+                    <Route path='/admin/total-users' element={<TotalUser />}></Route>
+
+                </Routes> */}
                 {currentPage === '/admin/total-users' && <TotalUser />}
                 {currentPage === '/admin/total-product' && <TotalProduct />}
                 {currentPage === '/admin/pending-product' && <TotalProductPending />}
@@ -226,7 +230,7 @@ export default function Sidenav() {
 
 
                 {/* {currentPage === '/admin/report-project:productID' && < CardReport />} */}
-             
+
 
 
 
