@@ -1,14 +1,22 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
-
+// import SnackBar from '../../SnackBar';
+import { useNavigate } from 'react-router-dom';
+import { useContext } from 'react';
+import { UserContext } from '../../UserContext';
 
 export default function CreateTimeshare() {
 
+    const { user } = useContext(UserContext);
     const [images, setImages] = useState([]);
     const [imagePreviews, setImagePreviews] = useState([]);
-    const userId = useParams();
     const [projects, setProjects] = useState([]);
+    const [productTypes, setProductTypes] = useState([]);
+    // const [snackbarOpen, setSnackbarOpen] = useState(false);
+    // const [snackbarMessage, setSnackbarMessage] = useState('');
+    // const [snackbarColor, setSnackbarColor] = useState('success');
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchProjectData = async () => {
@@ -21,6 +29,19 @@ export default function CreateTimeshare() {
         };
 
         fetchProjectData();
+    }, []);
+
+    useEffect(() => {
+        const fetchProductTypeData = async () => {
+            try {
+                const response = await axios.get('http://localhost:8080/api/productType/customer/viewproductType');
+                setProductTypes(response.data);
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            }
+        };
+
+        fetchProductTypeData();
     }, []);
 
     const [createProductData, setCreateProductData] = useState({
@@ -39,7 +60,7 @@ export default function CreateTimeshare() {
         productViewer: 0,
         projectID: 2, //
         productTypeID: 1, //
-        accID: userId.id
+        accID: user.id
     });
 
     const handleChange = (e) => {
@@ -71,9 +92,7 @@ export default function CreateTimeshare() {
 
             const formData = new FormData();
             images.forEach((image) => {
-                console.log(image);
                 formData.append('pictures', image);
-                console.log(formData);
             });
             console.log(images);
 
@@ -83,9 +102,16 @@ export default function CreateTimeshare() {
                 }
             });
             console.log('Image uploaded successfully', imageResponse.data);
+            // setSnackbarMessage('Create timeshare successfully!!!')
+            // setSnackbarColor("success");
+            // setSnackbarOpen(true);
+            navigate('/owner-page');
 
         } catch (error) {
             console.error('Error creating product:', error);
+            // setSnackbarMessage('Create timeshare failed!!!');
+            // setSnackbarColor("error");
+            // setSnackbarOpen(true);
         }
     };
 
@@ -106,6 +132,10 @@ export default function CreateTimeshare() {
 
         setImages(newImages);
         setImagePreviews(newImagePreviews);
+    };
+
+    const handleSnackbarClose = () => {
+        setSnackbarOpen(false);
     };
 
     return (
@@ -172,20 +202,20 @@ export default function CreateTimeshare() {
                                         ))}
                                     </select>
                                 </label>
-                                {/* <label>
+                                <label>
                                     Type of timeshare
                                     <select
                                         name="productTypeID"
                                         value={createProductData.productTypeID}
                                         onChange={handleChange}
                                     >
-                                        {projects.map(project => (
-                                            <option key={project.projectID} value={project.projectID}>
-                                                {project.projectName}
+                                        {productTypes.map(productType => (
+                                            <option key={productType.productTypeID} value={productType.productTypeID}>
+                                                {productType.productTypeName}
                                             </option>
                                         ))}
                                     </select>
-                                </label> */}
+                                </label>
                             </div>
                             <div className="input-container flex-3">
                                 <label>
@@ -266,6 +296,7 @@ export default function CreateTimeshare() {
                         <button className="create-button" type="submit">Create Post</button>
                     </div>
                 </form>
+                {/* <SnackBar open={snackbarOpen} message={snackbarMessage} onClose={handleSnackbarClose} color={snackbarColor} /> */}
             </div>
         </>
     );

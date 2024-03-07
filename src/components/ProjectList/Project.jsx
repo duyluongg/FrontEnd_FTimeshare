@@ -66,7 +66,7 @@ export default function Project(props) {
         {project.map((projectItem) => {
           
           const projectImage = images.find(image => image.productID === projectItem.productID);
-          console.log(projectImage);
+          // console.log(projectImage);
           return (
             <div className='column' key={projectItem.productID}>
               <div className='card'>

@@ -7,6 +7,7 @@ import { useState, useEffect } from 'react'
 import { useContext } from 'react'
 import { UserContext } from '../UserContext'
 import { useLocation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 const navigation = [
   { name: 'Home', href: '/', current: false },
   { name: 'About us', href: '/aboutus', current: false },
@@ -26,7 +27,7 @@ export default function Navbar() {
   const handleSignOut = () => {
     // Xóa dữ liệu đăng nhập khỏi localStorage
     logout();
-    window.location.href = '/login';
+    navigate('/login');
   };
 
   const location = useLocation();

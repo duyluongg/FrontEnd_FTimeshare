@@ -1,0 +1,44 @@
+.payment-container {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: 20px;
+    align-items: center;
+}
+
+.payment-image {
+    grid-column: span 4;
+    max-width: 100%;
+}
+
+.payment-details {
+    grid-column: span 6;
+    display: grid;
+    grid-template-rows: repeat(5, auto);
+    gap: 20px;
+}
+
+.order-summary,
+.total-price,
+.qr-code,
+.upload-section,
+.submit-section {
+    /* border: 1px solid #ccc; */
+    padding: 10px;
+}
+
+.upload-section input[type="file"] {
+    width: 100%;
+}
+
+.submit-section button {
+    padding: 10px 20px;
+    background-color: #CD9A2B;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.submit-section button:hover {
+    background-color: #816c0d;
+}

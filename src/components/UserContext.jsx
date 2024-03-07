@@ -5,12 +5,11 @@ const UserContext = createContext({ id: '', auth: false });
 const UserProvider = ({ children }) => {
     const [user, setUser] = useState({ id: '', auth: false });
     // Login updates the user data with a name parameter
-    const loginContext = (id,role, token) => {
+    const loginContext = (id, role, token) => {
         setUser((user) => ({
             id: id,
             role: role,
             auth: true,
-            role: role
         }));
         localStorage.setItem("token", token);
         localStorage.setItem("id", id);

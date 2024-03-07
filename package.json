@@ -21,7 +21,7 @@
     "@headlessui/react": "^1.7.18",
     "@heroicons/react": "^2.1.1",
     "@mui/lab": "^5.0.0-alpha.166",
-    "@mui/material": "^5.15.11",
+    "@mui/material": "^5.15.12",
     "@mui/x-data-grid": "^6.19.4",
     "axios": "^1.6.7",
     "bootstrap": "^5.3.2",

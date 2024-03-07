@@ -29,7 +29,6 @@ export default function Login() {
             [name]: value,
         });
     };
-    console.log(loginData);
 
     const handleLogin = async (e) => {
         e.preventDefault();
@@ -42,9 +41,8 @@ export default function Login() {
 
         try {
             const response = await axios.post('http://localhost:8080/auth/login', loginData);
-            console.log(response);
 
-            console.log('Login successful:', response.data);
+            console.log('Login successful');
 
             if(response && response.data.token) {
                 loginContext(response.data.id, response.data.role, response.data.token);
@@ -52,14 +50,11 @@ export default function Login() {
                     navigate('/admin');
                 } else {
                     navigate('/owner-page');
-                }
-                
+                }     
             }
             
         } catch (error) {
             console.error('Registration failed:', error);
-            // Xử lý lỗi ở đây (ví dụ: hiển thị thông báo lỗi cho người dùng)
-
         }
 
     }

@@ -2,73 +2,100 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from 'react-router-dom';
 import { useLocation } from 'react-router-dom';
 import axios from "axios";
-import { useContext } from 'react'
-import { UserContext } from '../../UserContext'
+import SnackBar from "../../SnackBar.jsx";
+import { useContext } from 'react';
+import { UserContext } from '../../UserContext';
 
 const Booking = () => {
     const { user } = useContext(UserContext);
 
     const [name, setName] = useState("");
+    const [phone, setPhone] = useState("");
     const [checkInDate, setCheckInDate] = useState("");
     const [numPeople, setNumPeople] = useState(1);
-    const [phone, setPhone] = useState("");
     const [checkOutDate, setCheckOutDate] = useState("");
+    const [image, setImage] = useState('');
+    const [imagePreview, setImagePreview] = useState(null);
+    const [snackbarOpen, setSnackbarOpen] = useState(false);
+    const [snackbarMessage, setSnackbarMessage] = useState('');
+    const [snackbarColor, setSnackbarColor] = useState('success');
 
     const location = useLocation();
     const { productID, productPrice } = location.state;
 
     const navigate = useNavigate();
 
-    const [bookingData, setBookingData] = useState({
-        startDate: '',
-        endDate: '',
-        bookingPerson: numPeople,
-        bookingStatus: 'Pending',
-        imgName: null,
-        imgData: null,
-        accID: user.id,
-        productID: productID,
-        // paymentID: 2
-    });
 
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-        setBookingData({
-            ...bookingData,
-            [name]: value,
-        });
-    };
+
+    // const [bookingData, setBookingData] = useState({
+    //     startDate: '',
+    //     endDate: '',
+    //     bookingPerson: numPeople,
+    //     bookingStatus: 'Pending',
+    //     imgName: null,
+    //     imgData: null,
+    //     accID: user.id,
+    //     productID: productID,
+    //     // paymentID: 2
+    // });
+
+    // const handleChange = (e) => {
+    //     const { name, value } = e.target;
+    //     setBookingData({
+    //         ...bookingData,
+    //         [name]: value,
+    //     });
+    // };
+
+    // const handleSubmit = async (e) => {
+    //     e.preventDefault();
+
+    //     const formattedStartDate = new Date(bookingData.startDate).toISOString();
+    //     const formattedEndDate = new Date(bookingData.endDate).toISOString();
+
+    //     const bookingDataToSend = {
+    //         ...bookingData,
+    //         startDate: formattedStartDate,
+    //         endDate: formattedEndDate
+    //     };
+
+    //     try {
+    //         const response = await axios.post('http://localhost:8080/api/bookings/customer/createbooking', bookingDataToSend);
+    //         console.log('Booking created:', response.data);
+    //         console.log('Response status:', response.status);
+    //         console.log('Response status text:', response.statusText);
+    //         console.log(response.data.bookingID);
+    //         // Xử lý sau khi tạo booking thành công, ví dụ: chuyển hướng hoặc hiển thị thông báo thành công
+    //         navigate('/booking-stage', {
+    //             state: {
+    //                 bookingID: response.data.bookingID,
+    //                 productID: response.data.productID
+    //             }
+    //         });
+    //     } catch (error) {
+    //         console.error('Error creating booking:', error);
+    //         // Xử lý lỗi, ví dụ: hiển thị thông báo lỗi
+    //     }
+    // };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        const formattedStartDate = new Date(bookingData.startDate).toISOString();
-        const formattedEndDate = new Date(bookingData.endDate).toISOString();
-
-        const bookingDataToSend = {
-            ...bookingData,
-            startDate: formattedStartDate,
-            endDate: formattedEndDate
-        };
-
         try {
-            const response = await axios.post('http://localhost:8080/api/bookings/customer/createbooking', bookingDataToSend);
-            console.log('Booking created:', response.data);
-            console.log('Response status:', response.status);
-            console.log('Response status text:', response.statusText);
-            console.log(response.data.bookingID);
-            // Xử lý sau khi tạo booking thành công, ví dụ: chuyển hướng hoặc hiển thị thông báo thành công
-            navigate('/booking-stage', {
+            navigate('/payment', {
                 state: {
-                    bookingID: response.data.bookingID,
-                    productID: response.data.productID
+                    startDate: checkInDate,
+                    endDate: checkOutDate,
+                    productPrice: productPrice,
+                    bookingPerson: numPeople,
+                    productID: productID
                 }
-            });
+            })
+
         } catch (error) {
-            console.error('Error creating booking:', error);
-            // Xử lý lỗi, ví dụ: hiển thị thông báo lỗi
+            console.error('Error booking:', error);
         }
-    };
+    }
 
     return (
         <>
@@ -99,38 +126,38 @@ const Booking = () => {
                                                             id="name"
                                                             name="name"
                                                             value={name}
-                                                            onChange={handleChange}
+                                                            onChange={(e) => setName(e.target.value)}
                                                         />
                                                     </div>
                                                 </div>
                                                 <div class="margin-bottom-5">
                                                     <div className="text-left">
-                                                        <label htmlFor="startDate">Start Date *</label>
+                                                        <label htmlFor="checkInDate">Start Date *</label>
                                                     </div>
                                                     <div className="form-booking">
                                                         <div className="form-booking-icon"></div>
                                                         <div className="form-booking-date">
                                                             <input
                                                                 type="date" //type="text" dùng datepicker
-                                                                id="startDate"
-                                                                name="startDate"
-                                                                value={bookingData.startDate}
-                                                                onChange={handleChange}
+                                                                id="checkInDate"
+                                                                name="checkInDate"
+                                                                value={checkInDate}
+                                                                onChange={(e) => setCheckInDate(e.target.value)}
                                                             />
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="margin-bottom-5">
                                                     <div className="text-left">
-                                                        <label htmlFor="bookingPerson">Number of People</label>
+                                                        <label htmlFor="numPeople">Number of People</label>
                                                     </div>
                                                     <div className="form-booking">
                                                         <input
                                                             type="number"
-                                                            id="bookingPerson"
-                                                            name="bookingPerson"
-                                                            value={bookingData.bookingPerson}
-                                                            onChange={handleChange}
+                                                            id="numPeople"
+                                                            name="numPeople"
+                                                            value={numPeople}
+                                                            onChange={(e) => setNumPeople(e.target.value)}
                                                             min="1"
                                                         />
                                                     </div>
@@ -147,48 +174,32 @@ const Booking = () => {
                                                             id="phone"
                                                             name="phone"
                                                             value={phone}
-                                                            onChange={handleChange}
+                                                            onChange={(e) => setPhone(e.target.value)}
                                                         />
                                                     </div>
                                                 </div>
                                                 <div class="margin-bottom-5">
                                                     <div className="text-left">
-                                                        <label htmlFor="endDate">End Date *</label>
+                                                        <label htmlFor="checkOutDate">End Date *</label>
                                                     </div>
                                                     <div className="form-booking">
                                                         <div className="form-booking-icon"></div>
                                                         <div className="form-booking-date">
                                                             <input
                                                                 type="date"
-                                                                id="endDate"
-                                                                name="endDate"
-                                                                value={bookingData.endDate}
-                                                                onChange={handleChange}
+                                                                id="checkOutDate"
+                                                                name="checkOutDate"
+                                                                value={checkOutDate}
+                                                                onChange={(e) => setCheckOutDate(e.target.value)}
                                                             />
                                                         </div>
                                                     </div>
                                                 </div>
-                                                {/* <div class="margin-bottom-5">
-                                                    <div className="text-left">
-                                                        <label htmlFor="roomType">Chọn phòng *</label>
-                                                    </div>
-                                                    <div className="form-booking">
-                                                        <select
-                                                            id="roomType"
-                                                            name="roomType"
-                                                            value={roomType}
-                                                            onChange={(e) => setRoomType(e.target.value)}
-                                                        >
-                                                            <option value="standard">Phòng đơn tiêu chuẩn</option>
-                                                            
-                                                        </select>
-                                                    </div>
-                                                </div> */}
                                             </div>
                                         </div>
                                         <div className="booking-button-col-12">
                                             <div class="div-tem-price">
-                                                <button type="submit" className="create-booking-button">Đặt Phòng</button>
+                                                <button type="submit" className="create-booking-button">Booking</button>
                                             </div>
                                         </div>
                                     </form>

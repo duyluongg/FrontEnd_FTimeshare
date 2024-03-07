@@ -73,7 +73,7 @@ export default function OwnerPage() {
     return (
         <>
             <h1>Welcome to Owner Page</h1>
-            <a href={`/create-timeshare/${user.id}`}>Post</a>
+            <a href={'/create-timeshare'}>Post</a>
             <div className='project-owner'>
                 <div className='project-owner-header'>
                     <div className='project-owner-title'>My Timeshare</div>
@@ -88,7 +88,7 @@ export default function OwnerPage() {
 
                                 <div className='card-detail'>
                                     <div className='img-detail'>
-                                        <img src={product.productPicture} alt={product.productName} />
+                                        {/* <img src={product.productPicture} alt={product.productName} /> */}
                                     </div>
                                     <div className='project-list-detail'>
                                         <div className='project-list-title'>
