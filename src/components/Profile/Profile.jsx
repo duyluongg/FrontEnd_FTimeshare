@@ -1,16 +1,40 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react';
 import Avatar from '@mui/material/Avatar';
-const user = {
-    name: 'John Doe',
-    email: 'john@example.com',
-    username: 'johndoe',
-    phone: "0399191045",
-    location: 'New York, USA',
-    bio: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-    avatar: 'https://example.com/avatar.jpg'
-};
+import axios from 'axios';
 
-export default function Profile() {
+export default function Profile({getData}) {
+    console.log(getData);
+
+    // useEffect(() => {
+    //     if (getData) {
+    //         fetchDataUser(getData);
+    //     }
+    // }, [getData]);
+
+    useEffect(() => {
+        fetchDataUser(getData);
+    }, []);
+    const[accountUser, setAccountUser] = useState();
+    const fetchDataUser = async (getData) => {
+        try {
+            const [accountResponse, imagesResponse] = await Promise.all([
+                axios.get(`http://localhost:8080/api/users/viewDetail/${getData}`),
+                // axios.get('http://localhost:8080/api/pictures/customerview'),
+               
+            ]);
+    
+            setAccountUser(accountResponse.data);
+            console.log(accountResponse.data);
+          
+          
+    
+           
+        } catch (error) {
+            console.error('Error fetching data:', error);
+ 
+        }
+    };
+
     return (
         <div>
        
@@ -22,7 +46,7 @@ export default function Profile() {
                         src="/static/images/avatar/1.jpg"
                         sx={{ width: 96, height: 96 }}
                     />
-                    <h2>{user.name}</h2>
+                    <h2>{accountUser.accName}</h2>
 
                 </div>
                 <div className='profile-right-big'>
@@ -31,15 +55,15 @@ export default function Profile() {
                         <div className='profile-right'>
                             <div>
                                 <h2 className='profile-title'>Email:</h2>
-                                <p> {user.email}</p>
+                                <p> {accountUser.accEmail}</p>
                                 <h2 className='profile-title'>Phone:</h2>
-                                <p>{user.phone}</p>
+                                <p>{accountUser.accPhone}</p>
                             </div>
                             <div>
                                 <h2 className='profile-title'>Username:</h2>
-                                <p>{user.username}</p>
+                                <p>{accountUser.accBirthday}</p>
                                 <h2 className='profile-title'>Location:</h2>
-                                <p>{user.location}</p>
+                                <p>{accountUser.accBirthday}</p>
 
                             </div>
                         </div>
@@ -50,15 +74,15 @@ export default function Profile() {
                         <div className='profile-right'>
                             <div>
                                 <h2 className='profile-title'>Email:</h2>
-                                <p> {user.email}</p>
+                                <p> {accountUser.accEmail}</p>
                                 <h2 className='profile-title'>Phone:</h2>
-                                <p>{user.phone}</p>
+                                <p>{accountUser.accPhone}</p>
                             </div>
                             <div>
                                 <h2 className='profile-title'>Username:</h2>
-                                <p>{user.username}</p>
+                                <p>{accountUser.roleID}</p>
                                 <h2 className='profile-title'>Location:</h2>
-                                <p>{user.location}</p>
+                                <p>{accountUser.accStatus}</p>
 
                             </div>
                         </div>
@@ -68,5 +92,7 @@ export default function Profile() {
 
             </div>
         </div>
+ 
+     
     )
 }

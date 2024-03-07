@@ -62,6 +62,7 @@ import Profile from './components/Profile/Profile.jsx'
 import  './components/Profile/Profile.css'
 import Payment from './components/Payment/Payment.jsx'
 import './components/Payment/Payment.css'
+import ViewBookingConfirm from './components/AdminPage/VIewConfirmBooking/ViewBookingConfirm.jsx'
 
 
 function App() {
@@ -128,12 +129,14 @@ function App() {
         {/* <Route path='/admin/total-users/*' element={<TotalUser />}></Route> */}
         {/* <Route path='/admin/*' element={<AdminPage />}></Route> */}
         <Route path='/admin/*' element={<Sidenav />}></Route>
-        <Route path='/profile' element={<Profile />}></Route>
+        <Route path='/profile' element={<Profile getData={user.id}/>}></Route>
 
 
         {/* <Route path='/admin/report-project/:productID' element={<CardReport />}></Route> */}
         <Route path='/admin/report-project/:reportID' element={<SidenavReport/>}></Route>
         <Route path='/admin/report-projectid/:productID/:accID' element={<SidenavReportV2/>}></Route>
+    
+
 
       </Routes>
       {!isAdminPage && <Footer />}

@@ -20,7 +20,7 @@ const ExpandMore = styled((props) => {
     }),
 }));
 
-export default function ViewBookingConfirm() {
+export default function ViewCustomerPayment() {
     const [loading, setLoading] = useState(true);
     const [productToConfirm, setProductToConfirm] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
@@ -54,7 +54,7 @@ export default function ViewBookingConfirm() {
     const fetchData = async () => {
         try {
             const [pendingResponse, imagesResponse, profilesResponse] = await Promise.all([
-                axios.get('http://localhost:8080/api/bookings/view-booking-by-status/Wait to confirm'),
+                axios.get('http://localhost:8080/api/bookings/staff/WaitRespondPayment(80)'),
                 axios.get('http://localhost:8080/api/pictures/customerview'),
                 axios.get('http://localhost:8080/api/users/staffview')
             ]);
@@ -72,23 +72,16 @@ export default function ViewBookingConfirm() {
 
 
 
-    const handleAcceptActive = async (bookingID) => {
+    const handleAcceptCancelRespond = async (bookingID) => {
         try {
-            await axios.put(`http://localhost:8080/api/bookings/confirm_booking/${bookingID}`);
+            await axios.put(`http://localhost:8080/api/bookings/staff/finalcancel/${bookingID}`);
             fetchData();
         } catch (error) {
             console.error('Error fetching projects:', error);
         }
     };
 
-    const handleAcceptReject = async (bookingID) => {
-        try {
-            await axios.put(`http://localhost:8080/api/bookings/staff/Rejected/${bookingID}`);
-            fetchData();
-        } catch (error) {
-            console.error('Error fetching projects:', error);
-        }
-    };
+ 
 
     if (loading) {
         return <div>Loading...</div>;
@@ -164,12 +157,10 @@ export default function ViewBookingConfirm() {
                                 </Typography>
                             </CardContent>
                             <CardActions disableSpacing>
-                                <Button variant="outlined" color="success" onClick={() => handleAcceptActive(item.bookingID)}>
+                                <Button variant="outlined" color="success" onClick={() => handleAcceptCancelRespond(item.bookingID)}>
                                     ACCEPT
                                 </Button>
-                                <Button variant="outlined" color="error" onClick={() => handleAcceptReject(item.bookingID)}>
-                                    REJECT
-                                </Button>
+                            
                                 <ExpandMore
                                     expand={expanded}
                                     onClick={handleExpandClick}

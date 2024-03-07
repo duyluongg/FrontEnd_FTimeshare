@@ -24,8 +24,7 @@ import Dashboard from '../Dashboard/Dashboard.jsx';
 import '../Dashboard/Dashboard.css'
 import { blue, pink } from '@mui/material/colors';
 import TotalUser from '../TotalUser/TotalUser.jsx';
-import TotalProjects from '../TotalProject/TotalProject.jsx';
-import TotalProjectPending from '../TotalProjectPending/TotalProjectPending.jsx'
+import TotalProductPending from '../TotalProjectPending/TotalProductPending.jsx'
 import RejectedProject from '../RejectedProject/RejectedPrj.jsx';
 import ViewReport from '../ViewReport/ViewReport.jsx';
 import CardReport from '../ViewReport/CardReport.jsx';
@@ -35,6 +34,8 @@ import TotalViewPendingBooking from '../TotalViewPendingBooking/TotalViewPending
 import TotalViewActiveBooking from '../TotalViewActiveBooking/TotalViewActiveBooking.jsx';
 import ViewBookingConfirm from '../VIewConfirmBooking/ViewBookingConfirm.jsx';
 import ViewCustomerPayment from '../ViewCustomerPayment/ViewCustomerPayment.jsx';
+import ViewBookingRC from '../ViewBookingRC/ViewBookingRC.jsx';
+import TotalProduct from '../TotalProject/TotalProduct.jsx';
 
 
 
@@ -107,7 +108,7 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
     }),
 );
 
-export default function MiniDrawer() {
+export default function Sidenav() {
     const theme = useTheme();
     const [open, setOpen] = React.useState(false);
     const location = useLocation();
@@ -208,14 +209,15 @@ export default function MiniDrawer() {
                 <DrawerHeader />
                 {currentPage === '/admin' && <Dashboard />}
                 {currentPage === '/admin/total-users' && <TotalUser />}
-                {currentPage === '/admin/total-product' && <TotalProjects />}
-                {currentPage === '/admin/pending-project' && <TotalProjectPending />}
-                {currentPage === '/admin/rejected-project' && <RejectedProject />}
+                {currentPage === '/admin/total-product' && <TotalProduct />}
+                {currentPage === '/admin/pending-product' && <TotalProductPending />}
+                {currentPage === '/admin/rejected-product' && <RejectedProject />}
                 {currentPage === '/admin/total-staff' && <TotalStaff />}
                 {currentPage === '/admin/total-report' && <TotalReport/>}
                 {currentPage === '/admin/pending-list' && <TotalViewPendingBooking/>}
                 {currentPage === '/admin/active-list' && <TotalViewActiveBooking/>}
                 {currentPage === '/admin/wait-to-confirm-list' && <ViewBookingConfirm/>}
+                {currentPage === '/admin/wait-to-confirm-rc' && <ViewBookingRC/>}
                 {currentPage === '/admin/wait-customer-to-confirm-payment-list' && <ViewCustomerPayment/>}
 
 

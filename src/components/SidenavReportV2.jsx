@@ -103,7 +103,7 @@ export default function SidenavReportV2() {
     return (
         <Box sx={{ display: 'flex' }}>
             <CssBaseline />
-            <AppBar position="fixed" open={open}>
+            <AppBar position="fixed" open={open} sx={{backgroundColor:"#CD9A2B"}}>
                 <Toolbar>
                     <IconButton
                         color="inherit"
