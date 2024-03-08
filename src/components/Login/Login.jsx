@@ -4,11 +4,12 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
     faFacebookF, faGooglePlusG
 } from '@fortawesome/free-brands-svg-icons';
-import { faEyeSlash } from '@fortawesome/free-solid-svg-icons';
+import { faEyeSlash, faEye } from '@fortawesome/free-solid-svg-icons';
 import axios from "axios";
 import { useContext } from 'react'
 import { UserContext } from '../UserContext'
 import { useNavigate } from 'react-router-dom';
+import { icon } from "@fortawesome/fontawesome-svg-core";
 
 export default function Login() {
     const { loginContext } = useContext(UserContext);
@@ -16,6 +17,7 @@ export default function Login() {
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [isShowPassword, setIsShowPassword] = useState(false);
 
     const [loginData, setLoginData] = useState({
         email: '',
@@ -33,8 +35,8 @@ export default function Login() {
     const handleLogin = async (e) => {
         e.preventDefault();
 
-     
-        if(!loginData.email || !loginData.password) {
+
+        if (!loginData.email || !loginData.password) {
             // toast.error("Email/Password is required");
             return;
         }
@@ -44,15 +46,15 @@ export default function Login() {
 
             console.log('Login successful');
 
-            if(response && response.data.token) {
+            if (response && response.data.token) {
                 loginContext(response.data.id, response.data.role, response.data.token);
-                if(response.data.role === '[ROLE_ADMIN]') {
+                if (response.data.role === '[ROLE_ADMIN]') {
                     navigate('/admin');
                 } else {
                     navigate('/owner-page');
-                }     
+                }
             }
-            
+
         } catch (error) {
             console.error('Registration failed:', error);
         }
@@ -79,14 +81,18 @@ export default function Login() {
                     </div>
                     <div className="input-container">
                         <input
-                            type="password"
+                            type={isShowPassword === true ? "text" : "password"}
                             placeholder="Password"
                             name="password"
                             value={loginData.password}
                             onChange={handleChange}
                             required
                         />
-                        <FontAwesomeIcon icon={faEyeSlash} />
+                        <FontAwesomeIcon
+                            onClick={() => setIsShowPassword(!isShowPassword)}
+                            className="eye-slash"
+                            icon={isShowPassword ? faEye : faEyeSlash}           
+                        />
                     </div>
                     <button className="login-button" type="submit">LOGIN</button>
                 </form>
