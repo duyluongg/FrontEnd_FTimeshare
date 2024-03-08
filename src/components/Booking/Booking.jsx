@@ -15,7 +15,9 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import axios from 'axios';
 import { useContext } from 'react'
 import { UserContext } from '../UserContext'
-
+import ReviewCustomer from '../Detail/ReviewCustomer.jsx'
+import FormFeedback from '../FormFeedback/FormFeedback.jsx';
+import FormReport from '../FormReport/FormReport.jsx';
 export default function Booking() {
     const [value, setValue] = useState('1');
 
@@ -87,6 +89,7 @@ export default function Booking() {
             }));
 
             setBookingInfoConfirm(combinedData);
+            console.log(combinedData);
         } catch (error) {
             console.error("Error fetching data:", error);
         }
@@ -227,7 +230,6 @@ export default function Booking() {
                                 console.log(bookingInfo);
                                 const projectImage = images.find(image => image.productID === bookingInfo.product.productID);
                                 console.log(projectImage);
-
                                 return (
                                     <Paper
                                         sx={{
@@ -246,7 +248,7 @@ export default function Booking() {
                                                 <ButtonBase sx={{ width: 128, height: 128 }}>
                                                     <Img
                                                         alt="complex"
-                                                        src={projectImage.imgName}
+                                                        src={projectImage ? projectImage.imgName : ""}
                                                     />
                                                 </ButtonBase>
                                             </Grid>
@@ -277,8 +279,11 @@ export default function Booking() {
                                                                     >
                                                                         Cancel
                                                                     </Button>
+
+                                                                    
                                                                 )}
                                                             </Grid>
+                                                            
                                                         </Grid>
                                                     </Grid>
                                                 </Grid>
@@ -310,7 +315,7 @@ export default function Booking() {
                                 >
 
                                     <Grid container spacing={2}>
-                                        {/* const projectImage = images.find(image => image.productID === projectItem.productID); */}
+                                       
                                         <Grid key={index}>
                                             <ButtonBase sx={{ width: 128, height: 128 }}>
                                                 <Img
@@ -349,6 +354,27 @@ export default function Booking() {
                                                             )}
                                                         </Grid>
                                                     </Grid>
+                                                    <FormFeedback getID={bookingInfo.productID} getBookID={bookingInfo.bookingID}/>
+                                                    <FormReport getID={bookingInfo.productID} getBookID={bookingInfo.bookingID}/>
+                                                    {/* <Grid item container direction="row" justifyContent="flex-end" alignItems="center">
+                                                        <Grid item>
+                                                        
+                                                            {bookingInfo.bookingStatus.includes('Wait to respond') ? (
+                                                                <Typography variant="body2">Wait to respond</Typography>
+                                                            ) : (
+                                                                <Button
+                                                                    onClick={() => handleCancelActive(bookingInfo.bookingID)}
+                                                                    sx={{ cursor: 'pointer', fontSize: '0.8rem' }}
+                                                                    color="success"
+                                                                    variant="contained"
+                                                                    startIcon={<DeleteIcon />}
+                                                                >
+                                                                      <FormFeedback getID={productId.id}/>
+                                                                </Button>
+                                                            )}
+                                                        </Grid>
+                                                    </Grid> */}
+                                                    
                                                 </Grid>
                                             </Grid>
                                             <Grid item>
@@ -386,7 +412,7 @@ export default function Booking() {
                                                 <ButtonBase sx={{ width: 128, height: 128 }}>
                                                     <Img
                                                         alt="complex"
-                                                        src={projectImage.imgName}
+                                                        src={projectImage ? projectImage.imgName : ""}
                                                     />
                                                 </ButtonBase>
                                             </Grid>
@@ -459,7 +485,7 @@ export default function Booking() {
                                                 <ButtonBase sx={{ width: 128, height: 128 }}>
                                                     <Img
                                                         alt="complex"
-                                                        src={projectImage.imgName}
+                                                        src={projectImage ? projectImage.imgName : ""}
                                                     />
                                                 </ButtonBase>
                                             </Grid>
