@@ -22,7 +22,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
 });
 
-export default function FormReport({ getID }) {
+export default function FormReport({ getID, getBookID }) {
     console.log(getID);
     const [open, setOpen] = React.useState(false);
     const [reportDetail, setReportDetail] = React.useState('');
@@ -50,7 +50,7 @@ export default function FormReport({ getID }) {
             const response = await axios.post('http://localhost:8080/api/reports/customer/submitreport', {
                 reportDetail: reportDetail,
                 accID: 4,
-                bookingID: 24,
+                bookingID: getBookID,
                 productID: getID
             });
 
