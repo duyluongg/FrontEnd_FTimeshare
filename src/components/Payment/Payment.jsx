@@ -14,6 +14,7 @@ import { useContext } from 'react';
 import { UserContext } from '../UserContext';
 import SnackBar from "../SnackBar.jsx";
 import { useNavigate } from "react-router-dom";
+import ModalCreateBook from "../OwnerRole/CreateBooking/ModalCreateBook.jsx";
 
 export default function Payment() {
     const [orderSummary, setOrderSummary] = useState('');
@@ -73,16 +74,16 @@ export default function Payment() {
             // console.log(response.data);
 
             navigate('/view-booking-history');
-            // setSnackbarMessage('Booking successfully !!!')
-            // setSnackbarColor("success");
-            // setSnackbarOpen(true);
+            setSnackbarMessage('Booking successfully !!!')
+            setSnackbarColor("success");
+            setSnackbarOpen(true);
 
         } catch (error) {
             console.error('Lỗi đăng ký người dùng:', error.response.data); // Xử lý lỗi
-            // setSnackbarMessage('Booking failed :(((');
-            // setSnackbarColor("error");
-            // // Thiết lập thông điệp Snackbar
-            // setSnackbarOpen(true); // Hiển thị Snackbar
+            setSnackbarMessage('Booking failed :(((');
+            setSnackbarColor("error");
+            // Thiết lập thông điệp Snackbar
+            setSnackbarOpen(true); // Hiển thị Snackbar
         }
     }
 
@@ -170,31 +171,10 @@ export default function Payment() {
                     )}
                 </div>
                 <div className="submit-section">
-                  
-                        <button onClick={handleSubmit}>Submit</button>
-                   
+                        <ModalCreateBook handleModal={handleSubmit} />
                 </div>
                 <SnackBar open={snackbarOpen} message={snackbarMessage} onClose={handleSnackbarClose} color={snackbarColor} />
-                {/* <div className="order-summary">
-                    <h2>Order Summary</h2>
-                    <p>{orderSummary}</p>
-                </div>
-                <div className="total-price">
-                    <h2>Total Price</h2>
-                    <p>{totalPrice}</p>
-                </div>
-                <div className="qr-code">
-                    <h2>Bank Account QR Code</h2>
-                    <img src={bankAccountQRCode} alt="bankAccountQRCode" />
-                </div>
-                <div className="upload-section">
-                    <h2>Upload Payment Confirmation</h2>
-                    <input type="file" onChange={handleImageUpload} />
-                </div>
-                <div className="submit-section">
-                    <button onClick={handleSubmit}>Submit</button>
-                    {successMessage && <p>{successMessage}</p>}
-                </div> */}
+
             </div>
         </div>
     );
