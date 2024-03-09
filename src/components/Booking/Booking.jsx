@@ -246,10 +246,10 @@ export default function Booking() {
                                         <Grid container spacing={2}>
                                             <Grid key={index}>
                                                 <ButtonBase sx={{ width: 128, height: 128 }}>
-                                                    <Img
+                                                    {/* <Img
                                                         alt="complex"
-                                                        src={projectImage ? projectImage.imgName : ""}
-                                                    />
+                                                        src={projectImage.imgName}
+                                                    /> */}
                                                 </ButtonBase>
                                             </Grid>
                                             <Grid item xs={12} sm container>
@@ -318,10 +318,10 @@ export default function Booking() {
                                        
                                         <Grid key={index}>
                                             <ButtonBase sx={{ width: 128, height: 128 }}>
-                                                <Img
+                                                {/* <Img
                                                     alt="complex"
                                                     src="https://images.pexels.com/photos/268533/pexels-photo-268533.jpeg?auto=compress&cs=tinysrgb&w=600"
-                                                />
+                                                /> */}
                                             </ButtonBase>
                                         </Grid>
                                         <Grid item xs={12} sm container>
@@ -410,10 +410,10 @@ export default function Booking() {
                                         <Grid container spacing={2}>
                                             <Grid key={index}>
                                                 <ButtonBase sx={{ width: 128, height: 128 }}>
-                                                    <Img
+                                                    {/* <Img
                                                         alt="complex"
-                                                        src={projectImage ? projectImage.imgName : ""}
-                                                    />
+                                                        src={projectImage.imgName}
+                                                    /> */}
                                                 </ButtonBase>
                                             </Grid>
                                             <Grid item xs={12} sm container>
@@ -455,7 +455,6 @@ export default function Booking() {
                                                 </Grid>
                                             </Grid>
                                         </Grid>
-
                                     </Paper>
                                 )
 
@@ -483,10 +482,10 @@ export default function Booking() {
                                         <Grid container spacing={2}>
                                             <Grid key={index}>
                                                 <ButtonBase sx={{ width: 128, height: 128 }}>
-                                                    <Img
+                                                    {/* <Img
                                                         alt="complex"
-                                                        src={projectImage ? projectImage.imgName : ""}
-                                                    />
+                                                        src={projectImage.imgName}
+                                                    /> */}
                                                 </ButtonBase>
                                             </Grid>
                                             <Grid item xs={12} sm container>
