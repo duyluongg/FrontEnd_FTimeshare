@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
     faFacebookF, faGooglePlusG
 } from '@fortawesome/free-brands-svg-icons';
 import { faEyeSlash, faEye } from '@fortawesome/free-solid-svg-icons';
+import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import axios from "axios";
 import { useContext } from 'react'
 import { UserContext } from '../UserContext'
@@ -18,6 +19,19 @@ export default function Login() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [isShowPassword, setIsShowPassword] = useState(false);
+    const [loadingAPI, setLoadingAPI] = useState(false);
+
+    useEffect(() => {
+        let token = localStorage.getItem('token');
+        let role = localStorage.getItem('role');
+        if(token) {
+            if(role === '[ROLE_ADMIN]') {
+                navigate('/admin');
+            } else {
+                navigate('/');
+            }          
+        }
+    }, [])
 
     const [loginData, setLoginData] = useState({
         email: '',
@@ -35,12 +49,10 @@ export default function Login() {
     const handleLogin = async (e) => {
         e.preventDefault();
 
-
         if (!loginData.email || !loginData.password) {
-            // toast.error("Email/Password is required");
             return;
         }
-
+        setLoadingAPI(true);
         try {
             const response = await axios.post('http://localhost:8080/auth/login', loginData);
 
@@ -51,14 +63,17 @@ export default function Login() {
                 if (response.data.role === '[ROLE_ADMIN]') {
                     navigate('/admin');
                 } else {
-                    navigate('/owner-page');
+                    navigate('/');
+                }
+            } else {
+                if(response && response.status === 400) {
+                    //hiển thị thông báo lỗi
                 }
             }
-
+            setLoadingAPI(false);
         } catch (error) {
             console.error('Registration failed:', error);
         }
-
     }
 
     return (
@@ -91,10 +106,13 @@ export default function Login() {
                         <FontAwesomeIcon
                             onClick={() => setIsShowPassword(!isShowPassword)}
                             className="eye-slash"
-                            icon={isShowPassword ? faEye : faEyeSlash}           
+                            icon={isShowPassword ? faEye : faEyeSlash}
                         />
                     </div>
-                    <button className="login-button" type="submit">LOGIN</button>
+                    <button className="login-button" type="submit">
+                        {loadingAPI && <FontAwesomeIcon icon={faSpinner} spin />}
+                        &nbsp;LOGIN
+                    </button>
                 </form>
                 <div className="link-login">
                     <span className="forgot-password">

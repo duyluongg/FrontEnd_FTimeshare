@@ -1,19 +1,20 @@
 import React from 'react'
 import { useState } from "react";
 import { useParams } from 'react-router-dom'
-import { ProjectsData } from '../../Shared/ListOfProject';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faStar } from '@fortawesome/free-solid-svg-icons'
 import { Link } from 'react-router-dom'
 import Slider from "react-slick";
-import { ProjectsDataSimilar } from '../../Shared/ListOfProjectSimilar';
-import { RoomData } from '../../Shared/Room';
 import { useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import Review from '../Review/Review.jsx'
 import FormFeedback from '../FormFeedback/FormFeedback.jsx'
 import FormReport from '../FormReport/FormReport.jsx'
+import { useContext } from 'react'
+import { UserContext } from '../UserContext.jsx'
+import { ProjectsDataSimilar } from '../../Shared/ListOfProjectSimilar';
+import { RoomData } from '../../Shared/Room';
 
 import ReviewCustomer from './ReviewCustomer.jsx'
 // import ViewFeedback from './ViewFeedback.jsx';
@@ -103,6 +104,7 @@ export default function Detail() {
     const [activeContentIndex, setActiveContentIndex] = useState('');
     const [images, setImages] = useState([]);
 
+    const { user } = useContext(UserContext);
 
 
     useEffect(() => {
@@ -111,7 +113,7 @@ export default function Detail() {
             try {
                 const response = await axios.get(`http://localhost:8080/api/products/viewById/${productId.id}`);
                 setProductDetail(response.data[0]);
-              
+
                 const defaultContentIndex = productDetail.productDescription;
                 // setActiveContentIndex(defaultContentIndex);
                 setActiveContentIndex(response.data[0].productDescription);
@@ -148,71 +150,54 @@ export default function Detail() {
         fetchImg();
     }, []);
 
-    const [bookingData, setBookingData] = useState({
-        startDate: '',
-        endDate: '',
-        bookingPrice: 0.0,
-        bookingRating: 0.0,
-        bookingStatus: 'Active',
-        accID: 9, // Thay thế giá trị này bằng account ID của người dùng đăng nhập
-        productID: productId.id, 
-    });
+    // const [bookingData, setBookingData] = useState({
+    //     startDate: '',
+    //     endDate: '',
+    //     bookingPrice: 0.0,
+    //     bookingRating: 0.0,
+    //     bookingStatus: 'Active',
+    //     accID: 9, // Thay thế giá trị này bằng account ID của người dùng đăng nhập
+    //     productID: productId.id, 
+    // });
 
-    const [totalDays, setTotalDays] = useState(0);
-    const [totalCost, setTotalCost] = useState(0);
+    // const [totalDays, setTotalDays] = useState(0);
+    // const [totalCost, setTotalCost] = useState(0);
 
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-        setBookingData({
-            ...bookingData,
-            [name]: value,
-        });
-    };
+    // const handleChange = (e) => {
+    //     const { name, value } = e.target;
+    //     setBookingData({
+    //         ...bookingData,
+    //         [name]: value,
+    //     });
+    // };
 
-    const calculateTotal = () => {
-        const start = new Date(bookingData.startDate);
-        const end = new Date(bookingData.endDate);
-        const diffTime = Math.abs(end - start);
-        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-        setTotalDays(diffDays);
-        // Giả sử price là 1000 đơn vị tiền tệ mỗi ngày
-        const pricePerDay = productDetail.productPrice;
-        const totalCost = diffDays * pricePerDay;
-        setTotalCost(totalCost);
-    };
+    // const calculateTotal = () => {
+    //     const start = new Date(bookingData.startDate);
+    //     const end = new Date(bookingData.endDate);
+    //     const diffTime = Math.abs(end - start);
+    //     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    //     setTotalDays(diffDays);
+    //     // Giả sử price là 1000 đơn vị tiền tệ mỗi ngày
+    //     const pricePerDay = productDetail.productPrice;
+    //     const totalCost = diffDays * pricePerDay;
+    //     setTotalCost(totalCost);
+    // };
 
     const navigate = useNavigate();
 
     const handleBooking = async (e) => {
         e.preventDefault();
-
-        // const formattedStartDate = new Date(bookingData.startDate).toISOString();
-        // const formattedEndDate = new Date(bookingData.endDate).toISOString();
-
-        // const dataToSend = {
-        //     ...bookingData,
-        //     bookingPrice: totalCost,
-        //     startDate: formattedStartDate,
-        //     endDate: formattedEndDate,
-        // };
-
-        // try {
-        //     const response = await axios.post('http://localhost:8080/api/bookings/customer/createbooking', dataToSend);
-        //     console.log('Booking created:', response.data);
-        //     console.log('Response status:', response.status);
-        //     console.log('Response status text:', response.statusText);
-        //     // Xử lý sau khi tạo booking thành công, ví dụ: chuyển hướng hoặc hiển thị thông báo thành công
-        // } catch (error) {
-        //     console.error('Error creating booking:', error);
-        //     // Xử lý lỗi, ví dụ: hiển thị thông báo lỗi
-        // }
-
-        navigate('/create-booking', {
-            state: {
-                productID: productId.id,
-                productPrice: productDetail.productPrice
-            }
-        });
+        if (user && user.auth === true) {
+            navigate('/create-booking', {
+                state: {
+                    productID: productId.id,
+                    productPrice: productDetail.productPrice
+                }
+            });
+        } else {
+            alert('You need to login to create booking!');
+            navigate('/login');
+        }
     };
 
     // if (!productDetail) {
@@ -229,7 +214,7 @@ export default function Detail() {
 
                             <Slider {...settings}>
                                 <div className='container-item-img-item'>
-                                {images.length > 0 && <img src={images[1].imgName} />}
+                                    {images.length > 0 && <img src={images[1].imgName} />}
 
                                 </div>
                                 <div className='container-item-img-item'>
@@ -237,7 +222,7 @@ export default function Detail() {
 
                                 </div>
                                 <div className='container-item-img-item'>
-                                {images.length > 0 && <img src={images[3].imgName} />}
+                                    {images.length > 0 && <img src={images[3].imgName} />}
 
                                 </div>
                             </Slider>
@@ -297,37 +282,9 @@ export default function Detail() {
 
                             <form className='form-item' onSubmit={handleBooking}>
                                 <div className='column-form column-1'>
-                                    {/* <label for="fullName">First and last name:</label>
-                                <input type="text" id="fullName" name="fullName" required /> */}
-
-                                    {/* <label for="phoneNumber">Phone number:</label>
-                                <input type="tel" id="phoneNumber" name="phoneNumber" pattern="[0-9]{10}" required /> */}
-
-                                    {/* <label for="person">Person:</label>
-                                <input type="number" id="person" name="person" min="1" required />
-                                <button type="submit">Provisional Price</button> */}
-
-                                    {/* <button type="button" onClick={calculateTotal}>Calculate Total</button>
-
-                                    <div>
-                                        Total Days: {totalDays}
-                                    </div>
-                                    <div>
-                                        Total Cost: ${totalCost}
-                                    </div> */}
-
                                 </div>
                                 <div className='column-form column-2'>
-                                    {/* <label htmlFor="startDate">Check-In Date:</label>
-                                    <input type="date" id="startDate" name="startDate" value={bookingData.startDate} onChange={handleChange} required />
-
-                                    <label htmlFor="endDate">Check-Out Date:</label>
-                                    <input type="date" id="endDate" name="endDate" value={bookingData.endDate} onChange={handleChange} required /> */}
-
-                                    {/* <label for="children">Child:</label>
-                                <input type="number" id="children" name="children" min="0" required /> */}
                                     <button type="submit">Booking</button>
-
                                 </div>
                             </form>
                         </div>
@@ -373,12 +330,12 @@ export default function Detail() {
                         </div>
 
                     </div>
-                    <FormFeedback getID={productId.id}/>
-                    <FormReport getID={productId.id}/>
+                    <FormFeedback getID={productId.id} />
+                    <FormReport getID={productId.id} />
                     {/* <ViewFeedback /> */}
 
-                    <ReviewCustomer getID={productId.id}/>
-                  
+                    <ReviewCustomer getID={productId.id} />
+
 
                     <div>
 

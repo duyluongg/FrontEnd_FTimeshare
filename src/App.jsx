@@ -53,6 +53,7 @@ import ViewReport from './components/AdminPage/ViewReport/ViewReport.jsx'
 import Sidenav from './components/AdminPage/Sidenav/Sidenav.jsx';
 
 import { useLocation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import SidenavReport from './components/SidenavReport.jsx'
 import SidenavReportV2 from './components/SidenavReportV2.jsx'
 import { UserContext } from './components/UserContext.jsx'
@@ -95,13 +96,14 @@ function App() {
   const isProfile = location.pathname.includes('/profile');
   const isPayment = location.pathname.includes('/payment');
 
+  const navigate = useNavigate();
 
   return (
     <>
       {!isAdminPage && (
         <>
           <Navigation />
-          <Navbar />
+          <Navbar navigate={navigate}/>
         </>
       )}
 

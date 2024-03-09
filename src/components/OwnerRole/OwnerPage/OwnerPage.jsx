@@ -54,8 +54,6 @@ export default function OwnerPage() {
                 }
             }
         ],
-        // nextArrow: <SampleNextArrowSt2 />,
-        // prevArrow: < SamplePrevArrowSt2 />
     };
 
         useEffect(() => {
