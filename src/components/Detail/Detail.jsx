@@ -336,7 +336,6 @@ export default function Detail() {
 
                     <ReviewCustomer getID={productId.id} />
 
-
                     <div>
 
                         <div className='project-similar'>

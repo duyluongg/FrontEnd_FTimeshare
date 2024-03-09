@@ -153,16 +153,20 @@ export default function Booking() {
     const handleCancelActive = async (bookingID) => {
         console.log(bookingID);
         try {
-            const response = await axios.post(`http://localhost:8080/api/bookings/cancel/${bookingID}`);
-            // fetchDataConfirm();
-            fetchData();
-            console.log(response.data);
+            // Gửi yêu cầu hủy đặt phòng và chờ phản hồi
+            const cancelResponse = await axios.post(`http://localhost:8080/api/bookings/cancel/${bookingID}`);
+            
+            // Gọi lại cả fetchData và fetchDataConfirm để cập nhật dữ liệu mới
+            await Promise.all([fetchData(), fetchDataConfirm()]);
+            
+            console.log(cancelResponse.data);
             // Xử lý sau khi hủy thành công
         } catch (error) {
             console.error('Lỗi khi hủy đặt phòng:', error);
             // Xử lý lỗi khi hủy không thành công
         }
     };
+    
     const [images, setImages] = useState([]);
     useEffect(() => {
         const fetchImg = async () => {
@@ -246,10 +250,10 @@ export default function Booking() {
                                         <Grid container spacing={2}>
                                             <Grid key={index}>
                                                 <ButtonBase sx={{ width: 128, height: 128 }}>
-                                                    {/* <Img
+                                                    <Img
                                                         alt="complex"
-                                                        src={projectImage.imgName}
-                                                    /> */}
+                                                        src={projectImage ? projectImage.imgName : ""}
+                                                    />
                                                 </ButtonBase>
                                             </Grid>
                                             <Grid item xs={12} sm container>
@@ -318,10 +322,10 @@ export default function Booking() {
                                        
                                         <Grid key={index}>
                                             <ButtonBase sx={{ width: 128, height: 128 }}>
-                                                {/* <Img
+                                                <Img
                                                     alt="complex"
                                                     src="https://images.pexels.com/photos/268533/pexels-photo-268533.jpeg?auto=compress&cs=tinysrgb&w=600"
-                                                /> */}
+                                                />
                                             </ButtonBase>
                                         </Grid>
                                         <Grid item xs={12} sm container>
@@ -410,10 +414,10 @@ export default function Booking() {
                                         <Grid container spacing={2}>
                                             <Grid key={index}>
                                                 <ButtonBase sx={{ width: 128, height: 128 }}>
-                                                    {/* <Img
+                                                    <Img
                                                         alt="complex"
-                                                        src={projectImage.imgName}
-                                                    /> */}
+                                                        src={projectImage ? projectImage.imgName : ""}
+                                                    />
                                                 </ButtonBase>
                                             </Grid>
                                             <Grid item xs={12} sm container>
@@ -455,6 +459,7 @@ export default function Booking() {
                                                 </Grid>
                                             </Grid>
                                         </Grid>
+
                                     </Paper>
                                 )
 
@@ -482,10 +487,10 @@ export default function Booking() {
                                         <Grid container spacing={2}>
                                             <Grid key={index}>
                                                 <ButtonBase sx={{ width: 128, height: 128 }}>
-                                                    {/* <Img
+                                                    <Img
                                                         alt="complex"
-                                                        src={projectImage.imgName}
-                                                    /> */}
+                                                        src={projectImage ? projectImage.imgName : ""}
+                                                    />
                                                 </ButtonBase>
                                             </Grid>
                                             <Grid item xs={12} sm container>
