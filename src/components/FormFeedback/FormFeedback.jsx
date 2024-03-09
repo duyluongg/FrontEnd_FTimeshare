@@ -23,7 +23,8 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 });
 
 export default function FormFeedback({ getID, getBookID }) {
-    console.log(getID);
+    
+
     const [open, setOpen] = React.useState(false);
     const [feedbackDetail, setFeedbackDetail] = React.useState('');
     const [feedbackRating, setFeedbackRating] = React.useState(0);
@@ -31,7 +32,7 @@ export default function FormFeedback({ getID, getBookID }) {
     const [snackbarMessage, setSnackbarMessage] = React.useState('');
     const [snackbarColor, setSnackbarColor] = React.useState('success');
     // const [productID, setProductID] = React.useState('');
-    console.log(getBookID);
+   
     const handleClickOpen = () => {
         setOpen(true);
     };
@@ -45,8 +46,10 @@ export default function FormFeedback({ getID, getBookID }) {
     };
 
     const handleFeedback = async (e) => {
+        
         e.preventDefault();
-
+        console.log(getID);
+        console.log(getBookID);
         try {
             const response = await axios.post('http://localhost:8080/api/feedback/customer/submitfeedback', {
                 feedbackDetail: feedbackDetail,
@@ -56,7 +59,7 @@ export default function FormFeedback({ getID, getBookID }) {
 
             });
 
-            console.log(response.data); // Xử lý phản hồi thành công
+            console.log(response.data); 
             setOpen(true);
             setSnackbarMessage('Send feedback successfully !!!')
             setSnackbarColor("success");
@@ -65,7 +68,7 @@ export default function FormFeedback({ getID, getBookID }) {
             console.error('Cannot feedback:', error);
             setSnackbarMessage('Send feedback failed :(((');
             setSnackbarColor("error");
-            setSnackbarOpen(true); // Xử lý lỗi
+            setSnackbarOpen(true); 
         }
     }
 
