@@ -36,6 +36,8 @@ import ViewBookingConfirm from '../VIewConfirmBooking/ViewBookingConfirm.jsx';
 import ViewCustomerPayment from '../ViewCustomerPayment/ViewCustomerPayment.jsx';
 import ViewBookingRC from '../ViewBookingRC/ViewBookingRC.jsx';
 import TotalProduct from '../TotalProject/TotalProduct.jsx';
+import New from '../New/New.jsx';
+
 
 
 
@@ -223,6 +225,8 @@ export default function Sidenav() {
                 {currentPage === '/admin/wait-to-confirm-list' && <ViewBookingConfirm/>}
                 {currentPage === '/admin/wait-to-confirm-rc' && <ViewBookingRC/>}
                 {currentPage === '/admin/wait-customer-to-confirm-payment-list' && <ViewCustomerPayment/>}
+                {currentPage === '/admin/new' && <New />}
+
 
 
 
