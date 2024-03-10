@@ -88,6 +88,26 @@ export default function TotalProductPending() {
         setShowCardReport(true);
     };
 
+    const handleAcceptClick = async (productId) => {
+        console.log(productId);
+        try {
+            await axios.put(`http://localhost:8080/api/products/staff/active/${productId}`);
+            fetchData();
+        } catch (error) {
+            console.error('Error accepting project:', error);
+        }
+    };
+
+    const handleRejectClick = async (productId) => {
+        console.log(productId);
+        try {
+            await axios.put(`http://localhost:8080/api/products/staff/reject/${productId}`);
+            fetchData();
+        } catch (error) {
+            console.error('Error accepting project:', error);
+        }
+    };
+
     useEffect(() => {
         console.log("Selected Project ID changed:", selectedProject);
 
@@ -130,7 +150,7 @@ export default function TotalProductPending() {
                 {currentProjects.map((item) => {
                     const projectImage = images.find(image => image.productID === item.productID);
                     // const profileAccount = profiles.find(profile => profile.accID === item.accID);
-                    console.log(projectImage);
+             
                     return (
                         <Card key={item.productID} sx={{ maxWidth: 345, mb: '20px', boxShadow: 3 }}>
                             <CardHeader
@@ -166,23 +186,21 @@ export default function TotalProductPending() {
                                 </Typography>
                             </CardContent>
                             <CardActions disableSpacing>
-                                <Button variant="outlined" color="success">
-                                    {item.productStatus}
-                                </Button>
-                                <Link to={`/admin/report-projectid/${item.productID}/${item.accID}`}>
-                                    <Button variant="outlined" color="error" onClick={() => handleGetIDProject(item.productID)}>
-                                        DETAIL
-                                    </Button>
-                                </Link>
-                                <ExpandMore
-                                    expand={expanded}
-                                    onClick={handleExpandClick}
-                                    aria-expanded={expanded}
-                                    aria-label="show more"
-                                >
-                                    <ExpandMoreIcon />
-                                </ExpandMore>
-                            </CardActions>
+                            <Button variant="outlined" sx={{ m: 1 }} onClick={() => handleAcceptClick(item.productID)} >
+                                Accept
+                            </Button>
+                            <Button variant="outlined" color="error" onClick={() => handleRejectClick(item.productID)}>
+                                REJECT
+                            </Button>
+                            <ExpandMore
+                                expand={expanded}
+                                onClick={handleExpandClick}
+                                aria-expanded={expanded}
+                                aria-label="show more"
+                            >
+                                <ExpandMoreIcon />
+                            </ExpandMore>
+                        </CardActions>
                             <Collapse in={expanded} timeout="auto" unmountOnExit>
                                 <CardContent>
                                     <Typography paragraph>
@@ -201,9 +219,6 @@ export default function TotalProductPending() {
                 sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', mt: '25px' }}
                 onChange={handlePageChange}
             />
-
-
-
         </>
     );
 }
