@@ -27,8 +27,8 @@ import OwnerPage from './components/OwnerRole/OwnerPage/OwnerPage.jsx'
 import './components/OwnerRole/OwnerPage/OwnerPage.css'
 import CreateTimeshare from './components/OwnerRole/CreateTimeshare/CreateTimeshare.jsx'
 import './components/OwnerRole/CreateTimeshare/CreateTimeshare.css'
-import ViewProject from './components/OwnerRole/ViewProject/ViewProject.jsx'
-import './components/OwnerRole/ViewProject/ViewProject.css'
+import ViewSummary from './components/OwnerRole/ViewSummary/ViewSummary.jsx'
+import './components/OwnerRole/ViewSummary/ViewSummary.css'
 import ViewDetail from './components/OwnerRole/ViewDetail/ViewDetail.jsx'
 import './components/OwnerRole/ViewDetail/ViewDetail.css'
 import AdminPage from './components/AdminPage/Admin/Admin.jsx'
@@ -45,6 +45,8 @@ import CreateBooking from './components/OwnerRole/CreateBooking/CreateBooking.js
 import './components/OwnerRole/CreateBooking/CreateBooking.css'
 import BookingStage from './components/OwnerRole/BookingStage/BookingStage.jsx'
 import './components/OwnerRole/BookingStage/BookingStage.css'
+import UpdateProduct from './components/OwnerRole/UpdateProduct/UpdateProduct.jsx'
+import './components/OwnerRole/UpdateProduct/UpdateProduct.css'
 // import Sidenav from './components/Admin/Admin.jsx'
 import TotalUser from './components/AdminPage/TotalUser/TotalUser.jsx'
 // import  './components/AdminPage/TotalUser/TotalUser.css'
@@ -82,7 +84,7 @@ function App() {
   const isRegisterPage = location.pathname.includes('/register');
   const isContactPage = location.pathname.includes('/contact-info');
   const isCreateTimeshare = location.pathname.includes('/create-timeshare');
-  const isViewProject = location.pathname.includes('/view-projects');
+  const isViewSummary = location.pathname.includes('/view-summary');
   const isViewDetail = location.pathname.includes('/view-project-detail');
   const isAdminPage = location.pathname.includes('/admin');
   const isTotalUser = location.pathname.includes('/admin/total-users');
@@ -95,6 +97,7 @@ function App() {
   const isBookingStage = location.pathname.includes('/booking-stage');
   const isProfile = location.pathname.includes('/profile');
   const isPayment = location.pathname.includes('/payment');
+  const isUpdateProduct = location.pathname.includes('/update-product');
 
   const navigate = useNavigate();
 
@@ -107,7 +110,7 @@ function App() {
         </>
       )}
 
-      {!isDetailPage && !isLoginPage && !isRegisterPage && !isContactPage && !isAdminPage && !isCreateTimeshare && !isViewProject && !isViewDetail && !isTotalUser && !isViewNews && !isCreateNews && !isAccommodation && !isBooking && !isCreateBooking && !isBookingStage && !isProfile && !isPayment && <Header />}
+      {!isDetailPage && !isLoginPage && !isRegisterPage && !isContactPage && !isAdminPage && !isCreateTimeshare && !isViewSummary && !isViewDetail && !isTotalUser && !isViewNews && !isCreateNews && !isAccommodation && !isBooking && !isCreateBooking && !isBookingStage && !isProfile && !isPayment && !isUpdateProduct && <Header />}
 
       <Routes>
         <Route path='/' element={<Project />}></Route>
@@ -117,7 +120,7 @@ function App() {
         <Route path='/contact-info' element={<Contact />}></Route>
         <Route path='/owner-page' element={<OwnerPage />}></Route>
         <Route path='/create-timeshare' element={<CreateTimeshare getData={user.id}/>}></Route>
-        <Route path='/view-projects/:id' element={<ViewProject />}></Route>
+        <Route path='/view-summary' element={<ViewSummary />}></Route>
         <Route path='/view-project-detail/:id' element={<ViewDetail />}></Route>
         <Route path='/contact-info' element={<Contact />}></Route>
         <Route path='/admin/*' element={<AdminPage />}></Route>
@@ -128,7 +131,7 @@ function App() {
         <Route path='/create-booking' element={<CreateBooking />}></Route>
         <Route path='/booking-stage' element={<BookingStage />}></Route>
         <Route path='/payment' element={<Payment />}></Route>
-
+        <Route path='/update-product' element={<UpdateProduct />}></Route>
 
         {/* <Route path='/admin/total-users/*' element={<TotalUser />}></Route> */}
         {/* <Route path='/admin/*' element={<AdminPage />}></Route> */}

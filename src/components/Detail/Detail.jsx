@@ -125,17 +125,6 @@ export default function Detail() {
         fetchProductDetail();
     }, [productId.id]);
 
-    // useEffect(() => {
-    //     if (products.length > 0) {
-    //         const foundProduct = products.find(product => product.productID === parseInt(productId.id));
-    //         if (foundProduct) {
-    //             setProductDetail(foundProduct);
-    //         }
-    //         const defaultContentIndex = products[0].productDescription;
-    //         setActiveContentIndex(defaultContentIndex);
-    //     }
-    // }, [products, productId.id]);
-
     useEffect(() => {
         const fetchImg = async () => {
             try {
@@ -149,16 +138,6 @@ export default function Detail() {
 
         fetchImg();
     }, []);
-
-    // const [bookingData, setBookingData] = useState({
-    //     startDate: '',
-    //     endDate: '',
-    //     bookingPrice: 0.0,
-    //     bookingRating: 0.0,
-    //     bookingStatus: 'Active',
-    //     accID: 9, // Thay thế giá trị này bằng account ID của người dùng đăng nhập
-    //     productID: productId.id, 
-    // });
 
     // const [totalDays, setTotalDays] = useState(0);
     // const [totalCost, setTotalCost] = useState(0);
@@ -190,8 +169,7 @@ export default function Detail() {
         if (user && user.auth === true) {
             navigate('/create-booking', {
                 state: {
-                    productID: productId.id,
-                    productPrice: productDetail.productPrice
+                    productID: productId.id     
                 }
             });
         } else {
@@ -213,18 +191,38 @@ export default function Detail() {
                         <div>
 
                             <Slider {...settings}>
-                                <div className='container-item-img-item'>
-                                    {images.length > 0 && <img src={images[1].imgName} />}
-
+                                {/* <div className='container-item-img-item'>
+                                    {images.length > 0 && <img src={images[0].imgName} />}
                                 </div>
                                 <div className='container-item-img-item'>
-                                    {images.length > 0 && <img src={images[2].imgName} />}
-
+                                    {images.length > 0 && <img src={images[1].imgName} />}
                                 </div>
                                 <div className='container-item-img-item'>
                                     {images.length > 0 && <img src={images[3].imgName} />}
+                                </div> */}
 
-                                </div>
+                                {images.length >= 3 && (
+                                    <>
+                                        <div className='container-item-img-item'>
+                                            <img src={images[0].imgName} />
+                                        </div>
+                                        <div className='container-item-img-item'>
+                                            <img src={images[1].imgName} />
+                                        </div>
+                                        <div className='container-item-img-item'>
+                                            <img src={images[2].imgName} />
+                                        </div>
+                                    </>
+                                )}
+                                {images.length < 3 && (
+                                    <>
+                                        {images.map((image, index) => (
+                                            <div className='container-item-img-item' key={index}>
+                                                <img src={images[index % images.length].imgName} />
+                                            </div>
+                                        ))}
+                                    </>
+                                )}
                             </Slider>
                         </div>
                     </div>

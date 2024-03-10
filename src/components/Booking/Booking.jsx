@@ -155,10 +155,10 @@ export default function Booking() {
         try {
             // Gửi yêu cầu hủy đặt phòng và chờ phản hồi
             const cancelResponse = await axios.post(`http://localhost:8080/api/bookings/cancel/${bookingID}`);
-            
+
             // Gọi lại cả fetchData và fetchDataConfirm để cập nhật dữ liệu mới
             await Promise.all([fetchData(), fetchDataConfirm()]);
-            
+
             console.log(cancelResponse.data);
             // Xử lý sau khi hủy thành công
         } catch (error) {
@@ -166,7 +166,7 @@ export default function Booking() {
             // Xử lý lỗi khi hủy không thành công
         }
     };
-    
+
     const [images, setImages] = useState([]);
     useEffect(() => {
         const fetchImg = async () => {
@@ -182,6 +182,9 @@ export default function Booking() {
 
         fetchImg();
     }, []);
+
+    const currentDate = new Date();
+    console.log(currentDate);
 
     return (
         <>
@@ -214,19 +217,13 @@ export default function Booking() {
                                 <Tab
                                     label="Accepted" value={"2"} style={{ color: value === "2" ? '#CD9A2B' : undefined }}
                                 />
-                                {/* xác nhận đã nhận được product chưa => hiện sao cho người dùng đánh dấu */}
                                 <Tab
                                     label="Completed" value={"3"} style={{ color: value === "3" ? '#CD9A2B' : undefined }}
                                 />
                                 <Tab
                                     label="Cancelled" value={"4"} style={{ color: value === "4" ? '#CD9A2B' : undefined }}
                                 />
-                                {/* <Tab
-                                    label="Cancelled" value={"5"} style={{ color: value === "5" ? '#CD9A2B' : undefined }}
-                                />
-                                <Tab
-                                    label="Return Refund" value={"6"} style={{ color: value === "6" ? '#CD9A2B' : undefined }}
-                                /> */}
+
                             </Tabs>
                         </Box>
                         <TabPanel className="MuiTabPanel-root" value="1">
@@ -246,7 +243,6 @@ export default function Booking() {
                                                 theme.palette.mode === "dark" ? "#1A2027" : "#fff",
                                         }}
                                     >
-
                                         <Grid container spacing={2}>
                                             <Grid key={index}>
                                                 <ButtonBase sx={{ width: 128, height: 128 }}>
@@ -284,10 +280,8 @@ export default function Booking() {
                                                                         Cancel
                                                                     </Button>
 
-                                                                    
                                                                 )}
                                                             </Grid>
-                                                            
                                                         </Grid>
                                                     </Grid>
                                                 </Grid>
@@ -319,7 +313,7 @@ export default function Booking() {
                                 >
 
                                     <Grid container spacing={2}>
-                                       
+
                                         <Grid key={index}>
                                             <ButtonBase sx={{ width: 128, height: 128 }}>
                                                 <Img
@@ -342,10 +336,10 @@ export default function Booking() {
                                                     </Typography>
                                                     <Grid item container direction="row" justifyContent="flex-end" alignItems="center">
                                                         <Grid item>
-                                                            {/* {bookingInfo.bookingStatus === 'Wait to confirm' ? ( */}
+                                                            {/* {bookingInfo.bookingStatus.includes('Wait to respond') ? ( */}
                                                             {bookingInfo.bookingStatus.includes('Wait to respond') ? (
                                                                 <Typography variant="body2">Wait to respond</Typography>
-                                                            ) : (
+                                                            ) : bookingInfo.bookingStatus === 'active' && currentDate < new Date(bookingInfo.startDate) ? (
                                                                 <Button
                                                                     onClick={() => handleCancelActive(bookingInfo.bookingID)}
                                                                     sx={{ cursor: 'pointer', fontSize: '0.8rem' }}
@@ -355,15 +349,11 @@ export default function Booking() {
                                                                 >
                                                                     Cancel
                                                                 </Button>
-                                                            )}
-                                                        </Grid>
-                                                    </Grid>
-                                                    <FormFeedback getID={bookingInfo.productID} getBookID={bookingInfo.bookingID}/>
-                                                    <FormReport getID={bookingInfo.productID} getBookID={bookingInfo.bookingID}/>
-                                                    {/* <Grid item container direction="row" justifyContent="flex-end" alignItems="center">
-                                                        <Grid item>
-                                                        
-                                                            {bookingInfo.bookingStatus.includes('Wait to respond') ? (
+                                                            ) : bookingInfo.bookingStatus === 'active' && currentDate >= new Date(bookingInfo.startDate) && currentDate <= new Date(bookingInfo.endDate) ? (
+                                                                <Typography variant="body2">In Progress</Typography>
+                                                            ) : null}
+
+                                                            {/* {bookingInfo.bookingStatus.includes('Wait to respond') ? (
                                                                 <Typography variant="body2">Wait to respond</Typography>
                                                             ) : (
                                                                 <Button
@@ -373,12 +363,13 @@ export default function Booking() {
                                                                     variant="contained"
                                                                     startIcon={<DeleteIcon />}
                                                                 >
-                                                                      <FormFeedback getID={productId.id}/>
+                                                                    <FormFeedback getID={productId.id} />
                                                                 </Button>
-                                                            )}
+                                                            )} */}
                                                         </Grid>
-                                                    </Grid> */}
-                                                    
+                                                    </Grid>
+                                                    <FormFeedback getID={bookingInfo.productID} getBookID={bookingInfo.bookingID} />
+                                                    <FormReport getID={bookingInfo.productID} getBookID={bookingInfo.bookingID} />
                                                 </Grid>
                                             </Grid>
                                             <Grid item>
@@ -434,7 +425,8 @@ export default function Booking() {
                                                         </Typography>
                                                         <Grid item container direction="row" justifyContent="flex-end" alignItems="center">
                                                             <Grid item>
-                                                                {bookingInfo.bookingStatus === 'Wait to confirm (request cancel)' ? (
+                                                                <Typography variant="body2">Completed</Typography>
+                                                                {/* {bookingInfo.bookingStatus === 'Wait to confirm (request cancel)' ? (
 
                                                                     <Typography variant="body2">Wait to confirm (request cancel)</Typography>
                                                                 ) : (
@@ -447,7 +439,7 @@ export default function Booking() {
                                                                     >
                                                                         Cancel
                                                                     </Button>
-                                                                )}
+                                                                )} */}
                                                             </Grid>
                                                         </Grid>
                                                     </Grid>
@@ -507,8 +499,8 @@ export default function Booking() {
                                                         </Typography>
                                                         <Grid item container direction="row" justifyContent="flex-end" alignItems="center">
                                                             <Grid item>
-                                                                {bookingInfo.bookingStatus === 'Wait to confirm (request cancel)' ? (
-
+                                                                <Typography variant="body2">Cancelled</Typography>
+                                                                {/* {bookingInfo.bookingStatus === 'Wait to confirm (request cancel)' ? (
                                                                     <Typography variant="body2">Wait to confirm (request cancel)</Typography>
                                                                 ) : (
                                                                     <Button
@@ -520,7 +512,7 @@ export default function Booking() {
                                                                     >
                                                                         Cancel
                                                                     </Button>
-                                                                )}
+                                                                )} */}
                                                             </Grid>
                                                         </Grid>
                                                     </Grid>
@@ -535,11 +527,9 @@ export default function Booking() {
 
                                     </Paper>
                                 )
-
                             })}
                         </TabPanel>
-                        {/* <TabPanel className="MuiTabPanel-root" value="5">Item One</TabPanel>
-                        <TabPanel className="MuiTabPanel-root" value="6">Item One</TabPanel> */}
+
                     </TabContext>
                 </Box>
             </div>

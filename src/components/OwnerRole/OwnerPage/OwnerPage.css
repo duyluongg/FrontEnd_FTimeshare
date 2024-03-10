@@ -1,4 +1,4 @@
-.project-owner {
+/* .project-owner {
     margin-top: 35px;
 }
 
@@ -16,15 +16,6 @@
     transition: box-shadow 0.3s ease-in-out;
     cursor: pointer
 }
-
-/* .img-detail {
-    width: 300px;
-    height: 225px;
-    max-width: 300px;
-    max-height: 225px;
-    display: block;
-    object-fit: cover;
-} */
 
 .img-detail img {
     height: 100%;
@@ -61,7 +52,7 @@
 }
 
 .project-view-detail a {
-    /* margin-right: 50px; */
+    /* margin-right: 50px; 
     padding: 10px 20px;
     border: 1px solid #CD9A2B;
     color: #CD9A2B;
@@ -71,4 +62,4 @@
     border: 1px solid #CD9A2B;
     color: #fff;
     background-color: #CD9A2B;
-}
+} */

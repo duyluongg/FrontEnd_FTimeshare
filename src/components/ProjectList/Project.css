@@ -1,8 +1,6 @@
-.project {
-    /* margin: 0 auto; */
-
-
-}
+/* .project {
+    /* margin: 0 auto;
+} */
 
 .project-title {
     margin: 15px 30px;
@@ -11,7 +9,6 @@
     color: #CD9A2B;
     /* position: relative; */
     /* border-bottom: 1px solid rgb(0, 0, 0) ; */
-
 }
 
 /* .project-title::after {
@@ -232,4 +229,74 @@
     position: relative;
     bottom: 8px;
     opacity: 0.9;
+}
+
+.project-owner {
+    margin-top: 35px;
+}
+
+.project-owner-detail {
+    margin: 0 144px;
+    margin-bottom: 20px;
+}
+
+.card-detail {
+    max-width: 280px;
+    margin: 10px 20px;
+    overflow: hidden;
+    box-sizing: border-box;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+    transition: box-shadow 0.3s ease-in-out;
+    cursor: pointer
+}
+
+.img-detail img {
+    height: 100%;
+    width: 100%;
+}
+
+.img-detail {
+    object-fit: cover;
+    width: 262.638px;
+    height: 175.087px;
+}
+
+.card-detail h4 {
+    font-size: 13px;
+    color: #878787;
+}
+
+.project-owner-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.project-owner-title {
+    color: #CD9A2B;
+    margin-left: 50px;
+    font-size: 40px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.project-view-detail {
+    margin-right: 50px;
+}
+
+.project-view-detail-button {
+    margin-right: 10px;
+}
+
+.project-view-detail a {
+    /* margin-right: 50px; */
+    padding: 10px 20px;
+    border: 1px solid #CD9A2B;
+    color: #CD9A2B;
+}
+
+.project-view-detail a:hover {
+    border: 1px solid #CD9A2B;
+    color: #fff;
+    background-color: #CD9A2B;
 }

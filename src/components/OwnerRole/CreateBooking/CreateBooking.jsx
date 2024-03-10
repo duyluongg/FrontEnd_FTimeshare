@@ -22,9 +22,76 @@ const Booking = () => {
     const [snackbarColor, setSnackbarColor] = useState('success');
 
     const location = useLocation();
-    const { productID, productPrice } = location.state;
-   
+    const { productID } = location.state;
+
     const navigate = useNavigate();
+
+    const [accInfo, setAccInfo] = useState([]);
+
+    // const [bookingData, setBookingData] = useState({
+    //     startDate: '',
+    //     endDate: '',
+    //     bookingPerson: numPeople,
+    //     bookingStatus: 'Pending',
+    //     imgName: null,
+    //     imgData: null,
+    //     accID: user.id,
+    //     productID: productID,
+    //     // paymentID: 2
+    // });
+
+    // const handleChange = (e) => {
+    //     const { name, value } = e.target;
+    //     setBookingData({
+    //         ...bookingData,
+    //         [name]: value,
+    //     });
+    // };
+
+    // const handleSubmit = async (e) => {
+    //     e.preventDefault();
+
+    //     const formattedStartDate = new Date(bookingData.startDate).toISOString();
+    //     const formattedEndDate = new Date(bookingData.endDate).toISOString();
+
+    //     const bookingDataToSend = {
+    //         ...bookingData,
+    //         startDate: formattedStartDate,
+    //         endDate: formattedEndDate
+    //     };
+
+    //     try {
+    //         const response = await axios.post('http://localhost:8080/api/bookings/customer/createbooking', bookingDataToSend);
+    //         console.log('Booking created:', response.data);
+    //         console.log('Response status:', response.status);
+    //         console.log('Response status text:', response.statusText);
+    //         console.log(response.data.bookingID);
+    //         // Xử lý sau khi tạo booking thành công, ví dụ: chuyển hướng hoặc hiển thị thông báo thành công
+    //         navigate('/booking-stage', {
+    //             state: {
+    //                 bookingID: response.data.bookingID,
+    //                 productID: response.data.productID
+    //             }
+    //         });
+    //     } catch (error) {
+    //         console.error('Error creating booking:', error);
+    //         // Xử lý lỗi, ví dụ: hiển thị thông báo lỗi
+    //     }
+    // };
+
+    useEffect(() => {
+        const fetchAccInfoAPI = async () => {
+            try {
+                const response = await axios.get(`http://localhost:8080/api/users/viewDetail/${user.id}`);
+                setAccInfo(response.data);
+                console.log(response.data);
+            } catch (error) {
+                console.error('Error fetching account information: ', error);
+            }
+        };
+
+        fetchAccInfoAPI();
+    }, [user.id]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -34,9 +101,10 @@ const Booking = () => {
                 state: {
                     startDate: checkInDate,
                     endDate: checkOutDate,
-                    productPrice: productPrice,
                     bookingPerson: numPeople,
-                    productID: productID
+                    productID: productID,
+                    name: accInfo.accName,
+                    phone: accInfo.accPhone
                 }
             })
             setOpenModal(true);
@@ -73,7 +141,7 @@ const Booking = () => {
                                                             type="text"
                                                             id="name"
                                                             name="name"
-                                                            value={name}
+                                                            value={accInfo.accName}
                                                             onChange={(e) => setName(e.target.value)}
                                                         />
                                                     </div>
@@ -91,6 +159,7 @@ const Booking = () => {
                                                                 name="checkInDate"
                                                                 value={checkInDate}
                                                                 onChange={(e) => setCheckInDate(e.target.value)}
+                                                                required
                                                             />
                                                         </div>
                                                     </div>
@@ -107,6 +176,7 @@ const Booking = () => {
                                                             value={numPeople}
                                                             onChange={(e) => setNumPeople(e.target.value)}
                                                             min="1"
+                                                            required
                                                         />
                                                     </div>
                                                 </div>
@@ -121,7 +191,7 @@ const Booking = () => {
                                                             type="tel"
                                                             id="phone"
                                                             name="phone"
-                                                            value={phone}
+                                                            value={accInfo.accPhone}
                                                             onChange={(e) => setPhone(e.target.value)}
                                                         />
                                                     </div>
@@ -139,6 +209,7 @@ const Booking = () => {
                                                                 name="checkOutDate"
                                                                 value={checkOutDate}
                                                                 onChange={(e) => setCheckOutDate(e.target.value)}
+                                                                required
                                                             />
                                                         </div>
                                                     </div>
