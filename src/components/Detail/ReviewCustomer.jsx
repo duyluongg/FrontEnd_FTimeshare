@@ -8,7 +8,7 @@ import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import Pagination from '@mui/material/Pagination';
 
-export default function Review({ getID }) {
+export default function ReviewCustomer({ getID }) {
 
     console.log(getID);
     const [getReview, setGetReview] = useState([])

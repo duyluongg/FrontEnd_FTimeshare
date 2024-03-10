@@ -22,16 +22,17 @@ const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
 });
 
-export default function FormFeedback({ getID }) {
-    console.log(getID);
+export default function FormFeedback({ getID, getBookID }) {
+    
+
     const [open, setOpen] = React.useState(false);
     const [feedbackDetail, setFeedbackDetail] = React.useState('');
     const [feedbackRating, setFeedbackRating] = React.useState(0);
-    const [snackbarOpen, setSnackbarOpen] =React.useState(false);
+    const [snackbarOpen, setSnackbarOpen] = React.useState(false);
     const [snackbarMessage, setSnackbarMessage] = React.useState('');
-    const [snackbarColor, setSnackbarColor] = React.useState('success'); 
+    const [snackbarColor, setSnackbarColor] = React.useState('success');
     // const [productID, setProductID] = React.useState('');
-
+   
     const handleClickOpen = () => {
         setOpen(true);
     };
@@ -41,31 +42,33 @@ export default function FormFeedback({ getID }) {
     };
 
     const handleSnackbarClose = () => {
-        setSnackbarOpen(false); 
+        setSnackbarOpen(false);
     };
 
     const handleFeedback = async (e) => {
+        
         e.preventDefault();
-
+        console.log(getID);
+        console.log(getBookID);
         try {
             const response = await axios.post('http://localhost:8080/api/feedback/customer/submitfeedback', {
                 feedbackDetail: feedbackDetail,
                 feedbackRating: feedbackRating,
-                bookingID: 34,
+                bookingID: getBookID,
                 productID: getID
-                
+
             });
 
-            console.log(response.data); // Xử lý phản hồi thành công
+            console.log(response.data); 
             setOpen(true);
             setSnackbarMessage('Send feedback successfully !!!')
-            setSnackbarColor("success"); 
+            setSnackbarColor("success");
             setSnackbarOpen(true);
         } catch (error) {
             console.error('Cannot feedback:', error);
             setSnackbarMessage('Send feedback failed :(((');
-            setSnackbarColor("error"); 
-            setSnackbarOpen(true); // Xử lý lỗi
+            setSnackbarColor("error");
+            setSnackbarOpen(true); 
         }
     }
 
@@ -116,7 +119,7 @@ export default function FormFeedback({ getID }) {
                                 id="demo-simple-select"
                                 value={feedbackRating}
                                 label="Age"
-                                onChange={(e) => setFeedbackRating(e.target.value)} 
+                                onChange={(e) => setFeedbackRating(e.target.value)}
                             >
                                 <MenuItem value={0}>0</MenuItem>
                                 <MenuItem value={1}>1</MenuItem>

@@ -328,12 +328,11 @@ export default function Detail() {
                         </div>
 
                     </div>
-                    <FormFeedback getID={productId.id} />
-                    <FormReport getID={productId.id} />
+                    {/* <FormFeedback getID={productId.id}/> */}
+                    {/* <FormReport getID={productId.id}/> */}
                     {/* <ViewFeedback /> */}
 
                     <ReviewCustomer getID={productId.id} />
-
 
                     <div>
 

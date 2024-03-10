@@ -1,11 +1,16 @@
 .profile-left{
-    background-color: red;
+    background-color: #C69C2D;
     height: 550px;
     width: 250px;
     text-align: center;
     display: flex;
     align-items: center;
     flex-direction:  column;
+   
+}
+
+.profile-left h2{
+    font-weight: bold;
 }
 
 .profile-flex{
@@ -13,6 +18,7 @@
     align-items: center;
     justify-content: center;
     margin: 95px 0;
+    
  
 }
 
@@ -32,7 +38,7 @@
 
 .profile-right-big{
     height: 550px;
-    background-color: yellow;
+    background-color: #F9E897;
     padding: 25px;
     width: 500px;
 
@@ -42,7 +48,7 @@
 .profile-title-info{
     font-size: 25px;
     font-weight: bold;
-    border-bottom: 2px solid red;
+    border-bottom: 2px solid #B7E5B4;
 }
 
 .profile-item-flex{
