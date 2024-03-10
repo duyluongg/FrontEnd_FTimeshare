@@ -204,10 +204,10 @@ export default function Project() {
             {topNews.map((item) => (
               <div className='column' key={item.newsID}>
                 <div className='project-learn-blog'>
-                  <img src={item.newsPicture} />
+                  <img src={item.imgName} />
                   <div className='project-learn-detail'>
                     <h2>{item.newsTitle}</h2>
-                    <p>{item.newsContent}</p>
+                    <p className='content-new'> <span>{item.newsContent}</span></p>
                     <div className='project-learn-author'>
                       <div>By {item.accID}</div>
                       <div>{item.newsPost}</div>

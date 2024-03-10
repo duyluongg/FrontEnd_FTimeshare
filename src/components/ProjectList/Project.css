@@ -161,6 +161,14 @@
     margin-bottom: 200px;
 }
 
+.content-new{
+    display: -webkit-box;
+    -webkit-line-clamp: 5;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    
+}
+
 .project-learn-list {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
