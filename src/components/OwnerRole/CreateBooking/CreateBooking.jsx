@@ -21,11 +21,11 @@ const Booking = () => {
     const [snackbarColor, setSnackbarColor] = useState('success');
 
     const location = useLocation();
-    const { productID, productPrice } = location.state;
+    const { productID } = location.state;
 
     const navigate = useNavigate();
 
-
+    const [accInfo, setAccInfo] = useState([]);
 
     // const [bookingData, setBookingData] = useState({
     //     startDate: '',
@@ -78,6 +78,20 @@ const Booking = () => {
     //     }
     // };
 
+    useEffect(() => {
+        const fetchAccInfoAPI = async () => {
+            try {
+                const response = await axios.get(`http://localhost:8080/api/users/viewDetail/${user.id}`);
+                setAccInfo(response.data);
+                console.log(response.data);
+            } catch (error) {
+                console.error('Error fetching account information: ', error);
+            }
+        };
+
+        fetchAccInfoAPI();
+    }, [user.id]);
+
     const handleSubmit = async (e) => {
         e.preventDefault();
 
@@ -86,9 +100,10 @@ const Booking = () => {
                 state: {
                     startDate: checkInDate,
                     endDate: checkOutDate,
-                    productPrice: productPrice,
                     bookingPerson: numPeople,
-                    productID: productID
+                    productID: productID,
+                    name: accInfo.accName,
+                    phone: accInfo.accPhone
                 }
             })
 
@@ -125,7 +140,7 @@ const Booking = () => {
                                                             type="text"
                                                             id="name"
                                                             name="name"
-                                                            value={name}
+                                                            value={accInfo.accName}
                                                             onChange={(e) => setName(e.target.value)}
                                                         />
                                                     </div>
@@ -143,6 +158,7 @@ const Booking = () => {
                                                                 name="checkInDate"
                                                                 value={checkInDate}
                                                                 onChange={(e) => setCheckInDate(e.target.value)}
+                                                                required
                                                             />
                                                         </div>
                                                     </div>
@@ -159,6 +175,7 @@ const Booking = () => {
                                                             value={numPeople}
                                                             onChange={(e) => setNumPeople(e.target.value)}
                                                             min="1"
+                                                            required
                                                         />
                                                     </div>
                                                 </div>
@@ -173,7 +190,7 @@ const Booking = () => {
                                                             type="tel"
                                                             id="phone"
                                                             name="phone"
-                                                            value={phone}
+                                                            value={accInfo.accPhone}
                                                             onChange={(e) => setPhone(e.target.value)}
                                                         />
                                                     </div>
@@ -191,6 +208,7 @@ const Booking = () => {
                                                                 name="checkOutDate"
                                                                 value={checkOutDate}
                                                                 onChange={(e) => setCheckOutDate(e.target.value)}
+                                                                required
                                                             />
                                                         </div>
                                                     </div>

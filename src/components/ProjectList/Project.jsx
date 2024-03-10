@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react'
 import Slider from "react-slick";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faFire, faStar } from '@fortawesome/free-solid-svg-icons'
+import { faPlus } from '@fortawesome/free-solid-svg-icons';
+import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom'
 import axios from 'axios';
 import { useContext } from 'react'
@@ -119,7 +121,14 @@ export default function Project() {
             <div className='project-owner-header'>
               <div className='project-owner-title'>My Timeshare</div>
               <div className='project-view-detail'>
-                <a href={`/view-projects/${user.id}`}>View Detail</a>
+                <Link to={'/create-timeshare'} className='project-view-detail-button'>
+                  <FontAwesomeIcon icon={faPlus} />
+                  &nbsp;Create
+                </Link>
+                <Link to={'/view-summary'} className='project-view-detail-button'>
+                  <FontAwesomeIcon icon={faArrowRight} />
+                  &nbsp;More
+                </Link>
               </div>
             </div>
             <div className='project-owner-detail'>
@@ -162,6 +171,7 @@ export default function Project() {
           </div>
         </>
       )}
+
       <div className='project'>
         <div className='project-header'>
           <FontAwesomeIcon icon={faFire} size='2xl' color='red' />
