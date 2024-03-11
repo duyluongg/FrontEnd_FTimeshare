@@ -9,6 +9,7 @@ import { UserContext } from '../UserContext'
 import { useLocation } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import { NavDropdown } from 'react-bootstrap'
+import axios from 'axios';
 const navigation = [
   { name: 'Home', href: '/', current: false },
   { name: 'About us', href: '/aboutus', current: false },
@@ -21,24 +22,42 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
 }
 
-export default function Navbar({ navigate }) {
-  useEffect(() => {
-    const accID = user ? user.id : null;
-    const accName = user ? user.imgName : null;
-    setCreateProductData(prevData => ({
-      ...prevData,
-      accID: accID,
-      imgName: accName
+export default function Navbar({ navigate, getData }) {
 
-    }));
-  }, [user]);
   const { user, logout } = useContext(UserContext);
+  console.log(user.id);
+  const [accountUser, setAccountUser] = useState(null);
+
+  const fetchDataUser = async (getData) => {
+    console.log(getData);
+    try {
+      const [accountResponse, imagesResponse] = await Promise.all([
+        axios.get(`http://localhost:8080/api/users/viewDetail/${user.id}`),
+
+
+      ]);
+
+      setAccountUser(accountResponse.data);
+      console.log(accountResponse.data.imgName);
+
+    } catch (error) {
+      console.error('Error fetching data:', error);
+
+    }
+  };
+
+  useEffect(() => {
+    if (getData) {
+      fetchDataUser(getData);
+    }
+  }, [getData]);
   // const navigate = useNavigate();
 
   const handleSignOut = () => {
     logout();
     navigate('/');
-    //hiển thị thông báo "Log out successfully"
+    setAccountUser(null);
+
   };
 
   const location = useLocation();
@@ -49,6 +68,8 @@ export default function Navbar({ navigate }) {
   //   setSelectedItem(index);
   // };
   return (
+
+
     <Disclosure as="nav" className="bg-white-800">
       {({ open }) => (
         <>
@@ -122,17 +143,28 @@ export default function Navbar({ navigate }) {
 
                 {/* Profile dropdown */}
                 <Menu as="div" className="relative ml-3">
-                  <div>
-                    <Menu.Button className="relative flex rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
+               
+                    {accountUser ? ( //ktra neu account co ton tai
+                      <Menu.Button className="relative flex rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
+                        <span className="absolute -inset-1.5" />
+                        <span className="sr-only">Open user menu</span>
+                        <img
+                          className="h-8 w-8 rounded-full"
+                          src={accountUser.imgName}
+                          alt=""
+                        />
+                      </Menu.Button>
+                    ) : (  
+                      <Menu.Button className="relative flex rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
                       <span className="absolute -inset-1.5" />
                       <span className="sr-only">Open user menu</span>
                       <img
                         className="h-8 w-8 rounded-full"
-                        src=""
+                        src=''
                         alt=""
                       />
                     </Menu.Button>
-                  </div>
+                    )}
                   <Transition
                     as={Fragment}
                     enter="transition ease-out duration-100"
@@ -220,5 +252,8 @@ export default function Navbar({ navigate }) {
       )
       }
     </Disclosure >
+
+
+
   )
 }

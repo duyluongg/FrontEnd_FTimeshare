@@ -106,11 +106,12 @@ function App() {
       {!isAdminPage && (
         <>
           <Navigation />
-          <Navbar navigate={navigate}/>
+          <Navbar getData={user.id} navigate={navigate}/>
         </>
       )}
 
-      {!isDetailPage && !isLoginPage && !isRegisterPage && !isContactPage && !isAdminPage && !isCreateTimeshare && !isViewSummary && !isViewDetail && !isTotalUser && !isViewNews && !isCreateNews && !isAccommodation && !isBooking && !isCreateBooking && !isBookingStage && !isProfile && !isPayment && !isUpdateProduct && <Header />}
+      {!isDetailPage && !isLoginPage && !isRegisterPage && !isContactPage && !isAdminPage && !isCreateTimeshare && !isViewSummary && !isViewDetail && !isTotalUser && 
+      !isViewNews && !isCreateNews && !isAccommodation && !isBooking && !isCreateBooking && !isBookingStage && !isProfile && !isPayment && !isUpdateProduct && <Header />}
 
       <Routes>
         <Route path='/' element={<Project />}></Route>
