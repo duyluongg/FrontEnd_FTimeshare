@@ -57,6 +57,11 @@ export default function Project() {
     ],
   };
 
+  const formatDate = (dateArray) => {
+    const [year, month, day] = dateArray;
+    return `${day}/${month}/${year}`;
+};
+
   useEffect(() => {
     const fetchProductByUserId = async () => {
       try {
@@ -116,7 +121,7 @@ export default function Project() {
     <>
       {(user && user.auth === true) && (
         <>
-          <a href={'/create-timeshare'}>Post</a>
+          {/* <a href={'/create-timeshare'}>Post</a> */}
           <div className='project-owner'>
             <div className='project-owner-header'>
               <div className='project-owner-title'>My Timeshare</div>
@@ -135,6 +140,7 @@ export default function Project() {
               <Slider {...settings}>
                 {productListByUserId.map((product) => {
                   const projectImage = images.find(image => image.productID === product.productID);
+               
                   return (
                     <div key={product.productID}>
                       <div className='card-detail'>
@@ -220,7 +226,8 @@ export default function Project() {
                     <p className='content-new'> <span>{item.newsContent}</span></p>
                     <div className='project-learn-author'>
                       <div>By {item.accID}</div>
-                      <div>{item.newsPost}</div>
+                      <div>{formatDate(item.newsPost)}</div>
+                      
                     </div>
                     <p>
                       <Link to={`/view-news/${item.newsID}`}>

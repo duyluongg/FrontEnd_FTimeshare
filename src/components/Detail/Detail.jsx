@@ -191,7 +191,7 @@ export default function Detail() {
                         <div>
 
                             <Slider {...settings}>
-                                {/* <div className='container-item-img-item'>
+                                <div className='container-item-img-item'>
                                     {images.length > 0 && <img src={images[0].imgName} />}
                                 </div>
                                 <div className='container-item-img-item'>
@@ -199,9 +199,9 @@ export default function Detail() {
                                 </div>
                                 <div className='container-item-img-item'>
                                     {images.length > 0 && <img src={images[3].imgName} />}
-                                </div> */}
+                                </div>
 
-                                {images.length >= 3 && (
+                                {/* {images.length >= 3 && (
                                     <>
                                         <div className='container-item-img-item'>
                                             <img src={images[0].imgName} />
@@ -222,7 +222,7 @@ export default function Detail() {
                                             </div>
                                         ))}
                                     </>
-                                )}
+                                )} */}
                             </Slider>
                         </div>
                     </div>

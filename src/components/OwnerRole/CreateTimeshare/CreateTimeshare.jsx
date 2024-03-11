@@ -110,7 +110,7 @@ useEffect(() => {
             // setSnackbarMessage('Create timeshare successfully!!!')
             // setSnackbarColor("success");
             // setSnackbarOpen(true);
-            navigate('/owner-page');
+            navigate('/');
 
         } catch (error) {
             console.error('Error creating product:', error);

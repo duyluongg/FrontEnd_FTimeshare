@@ -11,6 +11,7 @@ import { Link } from 'react-router-dom';
 import CardReport from '../ViewReport/CardReport';
 // import { useHistory } from 'react-router-dom';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { format } from 'date-fns';
 const ExpandMore = styled((props) => {
     const { expand, ...other } = props;
     return <IconButton {...other} />;
@@ -34,9 +35,10 @@ export default function TotalProduct() {
     const projectsPerPage = 6;
     const indexOfLastProject = currentPage * projectsPerPage;
     const indexOfFirstProject = indexOfLastProject - projectsPerPage;
-    const currentProjects = projectActive.slice(indexOfFirstProject, indexOfLastProject);
     const [images, setImages] = useState([]);
     const [profiles, setProfiles] = useState([]);
+    const [filteredProjects, setFilteredProjects] = useState([]); 
+    const currentProjects = searchQuery ? filteredProjects.slice(indexOfFirstProject, indexOfLastProject) : projectActive.slice(indexOfFirstProject, indexOfLastProject);
     const handleSearchChange = (event) => {
         setSearchQuery(event.target.value);
     };
@@ -57,7 +59,7 @@ export default function TotalProduct() {
 
     useEffect(() => {
         fetchData();
-    }, [currentPage]);
+    }, [currentPage, searchQuery]);
     const fetchData = async () => {
         try {
             const [pendingResponse, imagesResponse, profilesResponse] = await Promise.all([
@@ -70,11 +72,21 @@ export default function TotalProduct() {
             setImages(imagesResponse.data);
             setProfiles(profilesResponse.data);
 
+            const filtered = pendingResponse.data.filter(item => 
+                item.productName.toLowerCase().includes(searchQuery.toLowerCase())
+            );
+            setFilteredProjects(filtered);
+
             setLoading(false);
         } catch (error) {
             console.error('Error fetching data:', error);
             setLoading(false);
         }
+    };
+
+    const formatDate = (dateArray) => {
+        const [year, month, day] = dateArray;
+        return `${day}/${month}/${year}`;
     };
 
     const handleExpandClick = () => {
@@ -133,11 +145,11 @@ export default function TotalProduct() {
                     return (
                         <Card key={item.productID} sx={{ maxWidth: 345, mb: '20px', boxShadow: 3 }}>
                             <CardHeader
-                                avatar={
-                                    <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
-                                        {item.productName[1]}
-                                    </Avatar>
-                                }
+                                // avatar={
+                                //     <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
+                                //         {item.productName[1]}
+                                //     </Avatar>
+                                // }
                                 action={
                                     <IconButton aria-label="settings">
                                         {/* <Link to={`/admin/report-project/${item.productID}`}>
@@ -148,7 +160,9 @@ export default function TotalProduct() {
                                     </IconButton>
                                 }
                                 title={item.productName}
-                                subheader={item.availableStartDate}
+                                subheader=   {formatDate(item.availableStartDate)}
+                                sx={{ height:"75px"}}
+                                
 
                             />
 

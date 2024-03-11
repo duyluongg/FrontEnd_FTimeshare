@@ -74,7 +74,9 @@ export default function ViewBookingRC() {
 
     const handleAcceptCancel = async (bookingID) => {
         try {
+            // await axios.put(`http://localhost:8080/api/bookings/staff/cancel/${bookingID}`);
             await axios.put(`http://localhost:8080/api/bookings/staff/cancel/${bookingID}`);
+
             fetchData();
         } catch (error) {
             console.error('Error fetching projects:', error);

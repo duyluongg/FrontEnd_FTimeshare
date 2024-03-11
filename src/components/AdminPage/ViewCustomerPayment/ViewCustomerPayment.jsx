@@ -74,7 +74,7 @@ export default function ViewCustomerPayment() {
 
     const handleAcceptCancelRespond = async (bookingID) => {
         try {
-            await axios.put(`http://localhost:8080/api/bookings/staff/finalcancel/${bookingID}`);
+            await axios.put(`http://localhost:8080/api/bookings/confirm_booking_respond_payment/${bookingID}`);
             fetchData();
         } catch (error) {
             console.error('Error fetching projects:', error);

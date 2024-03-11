@@ -28,32 +28,66 @@ export default function Register() {
 
     const navigate = useNavigate();
 
+    // const handleRegister = async (e) => {
+    //     e.preventDefault();
+
+    //     try {
+    //         const response = await axios.post('http://localhost:8080/auth/register-user', {
+    //             accName: firstName,
+    //             accPhone: phoneNumber,
+    //             accEmail: email,
+    //             accPassword: password,
+    //             accImg: avatar,
+    //             "accStatus": "active",
+    //             accBirthday: birthday,
+    //         });
+
+    //         console.log(response.data);
+    //         setSnackbarMessage('Registration successfully !!!')
+    //         setSnackbarColor("success");
+    //         setSnackbarOpen(true);
+    //         navigate("/login");
+
+    //     } catch (error) {
+    //         console.error('Lỗi đăng ký người dùng:', error.response.data); // Xử lý lỗi
+    //         setSnackbarMessage('Registration failed :(((');
+    //         setSnackbarColor("error");
+    //         // Thiết lập thông điệp Snackbar
+    //         setSnackbarOpen(true); // Hiển thị Snackbar
+    //     }
+    // }
+
     const handleRegister = async (e) => {
         e.preventDefault();
 
         try {
-            const response = await axios.post('http://localhost:8080/auth/register-user', {
-                accName: firstName,
-                accPhone: phoneNumber,
-                accEmail: email,
-                accPassword: password,
-                accImg: avatar,
-                "accStatus": "active",
-                accBirthday: birthday,
+            const formattedBirthday = formatDate(birthday);
+            const formData = new FormData();
+            formData.append('Avatar', avatar);
+            formData.append('accName', firstName);
+            formData.append('accEmail', email);
+            formData.append('accPhone', phoneNumber);
+            formData.append('accPassword', password);
+            formData.append('accStatus', 'active');
+            formData.append('roleID', '2');
+            formData.append('accBirthday', formattedBirthday);
+
+            const response = await axios.post('http://localhost:8080/api/users', formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
             });
 
-            console.log(response.data);
+            console.log(response.data); 
             setSnackbarMessage('Registration successfully !!!')
-            setSnackbarColor("success");
+            setSnackbarColor("success"); 
             setSnackbarOpen(true);
-            navigate("/login");
 
         } catch (error) {
-            console.error('Lỗi đăng ký người dùng:', error.response.data); // Xử lý lỗi
+            console.error('Lỗi đăng ký người dùng:', error.response.data); 
             setSnackbarMessage('Registration failed :(((');
-            setSnackbarColor("error");
-            // Thiết lập thông điệp Snackbar
-            setSnackbarOpen(true); // Hiển thị Snackbar
+            setSnackbarColor("error"); 
+            setSnackbarOpen(true); 
         }
     }
 

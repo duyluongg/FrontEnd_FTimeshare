@@ -50,6 +50,11 @@ export default function Booking() {
     //     fetchData();
     // }, [user.id]);
 
+    const formatDate = (dateArray) => {
+        const [year, month, day] = dateArray;
+        return `${day}/${month}/${year}`;
+    };
+
     useEffect(() => {
         fetchData();
     }, [user.id]);
@@ -262,7 +267,8 @@ export default function Booking() {
                                                             {bookingInfo.product.productDescription}
                                                         </Typography>
                                                         <Typography variant="body2" color="text.secondary" gutterBottom>
-                                                            {bookingInfo.startDate} - {bookingInfo.endDate}
+                                                            {/* {bookingInfo.startDate} - {bookingInfo.endDate} */}
+                                                            {formatDate(bookingInfo.startDate)} -  {formatDate(bookingInfo.endDate)}
                                                         </Typography>
                                                         <Grid item container direction="row" justifyContent="flex-end" alignItems="center">
                                                             <Grid item>
@@ -300,6 +306,7 @@ export default function Booking() {
                         </TabPanel>
                         <TabPanel className="MuiTabPanel-root" value="2">
                             {bookingInfoAccepted.map((bookingInfo, index) => (
+
                                 <Paper
                                     sx={{
                                         p: 2,
@@ -332,14 +339,15 @@ export default function Booking() {
                                                         {bookingInfo.product.productDescription}
                                                     </Typography>
                                                     <Typography variant="body2" color="text.secondary" gutterBottom>
-                                                        {bookingInfo.startDate} - {bookingInfo.endDate}
+                                                        {formatDate(bookingInfo.startDate)} -  {formatDate(bookingInfo.endDate)}
+
                                                     </Typography>
-                                                    <Grid item container direction="row" justifyContent="flex-end" alignItems="center">
+                                                    {/* <Grid item container direction="row" justifyContent="flex-end" alignItems="center">
                                                         <Grid item>
-                                                            {/* {bookingInfo.bookingStatus.includes('Wait to respond') ? ( */}
+                                                           
                                                             {bookingInfo.bookingStatus.includes('Wait to respond') ? (
                                                                 <Typography variant="body2">Wait to respond</Typography>
-                                                            ) : bookingInfo.bookingStatus === 'active' && currentDate < new Date(bookingInfo.startDate) ? (
+                                                            ) : bookingInfo.bookingStatus === 'Active' && currentDate < new Date(bookingInfo.startDate) ? (
                                                                 <Button
                                                                     onClick={() => handleCancelActive(bookingInfo.bookingID)}
                                                                     sx={{ cursor: 'pointer', fontSize: '0.8rem' }}
@@ -349,11 +357,11 @@ export default function Booking() {
                                                                 >
                                                                     Cancel
                                                                 </Button>
-                                                            ) : bookingInfo.bookingStatus === 'active' && currentDate >= new Date(bookingInfo.startDate) && currentDate <= new Date(bookingInfo.endDate) ? (
+                                                            ) : bookingInfo.bookingStatus === 'Active' && currentDate >= new Date(bookingInfo.startDate) && currentDate <= new Date(bookingInfo.endDate) ? (
                                                                 <Typography variant="body2">In Progress</Typography>
-                                                            ) : null}
+                                                            ) : null} */}
 
-                                                            {/* {bookingInfo.bookingStatus.includes('Wait to respond') ? (
+                                                    {/* {bookingInfo.bookingStatus.includes('Wait to respond') ? (
                                                                 <Typography variant="body2">Wait to respond</Typography>
                                                             ) : (
                                                                 <Button
@@ -366,6 +374,26 @@ export default function Booking() {
                                                                     <FormFeedback getID={productId.id} />
                                                                 </Button>
                                                             )} */}
+                                                    {/* </Grid>
+                                                    </Grid> */}
+
+                                                    <Grid item container direction="row" justifyContent="flex-end" alignItems="center">
+                                                        <Grid item>
+                                                            {bookingInfo.bookingStatus.includes('Wait to respond') ? (
+                                                                <Typography variant="body2">Wait to respond</Typography>
+                                                            ) : currentDate < new Date(bookingInfo.startDate[0], bookingInfo.startDate[1] - 1, bookingInfo.startDate[2], bookingInfo.startDate[3], bookingInfo.startDate[4]) ? (
+                                                                <Button
+                                                                    onClick={() => handleCancelActive(bookingInfo.bookingID)}
+                                                                    sx={{ cursor: 'pointer', fontSize: '0.8rem' }}
+                                                                    color="error"
+                                                                    variant="contained"
+                                                                    startIcon={<DeleteIcon />}
+                                                                >
+                                                                    Cancel
+                                                                </Button>
+                                                            ) : bookingInfo.bookingStatus === 'Active' && currentDate >= new Date(bookingInfo.startDate[0], bookingInfo.startDate[1] - 1, bookingInfo.startDate[2], bookingInfo.startDate[3], bookingInfo.startDate[4]) && currentDate <= new Date(bookingInfo.endDate[0], bookingInfo.endDate[1] - 1, bookingInfo.endDate[2], bookingInfo.endDate[3], bookingInfo.endDate[4]) ? (
+                                                                <Typography variant="body2">In Progress</Typography>
+                                                            ) : null}
                                                         </Grid>
                                                     </Grid>
                                                     <FormFeedback getID={bookingInfo.productID} getBookID={bookingInfo.bookingID} />
@@ -381,7 +409,9 @@ export default function Booking() {
                                     </Grid>
 
                                 </Paper>
+
                             ))}
+
                         </TabPanel>
                         <TabPanel className="MuiTabPanel-root" value="3">
                             {bookingInfoComplete.map((bookingInfo, index) => {
@@ -421,7 +451,8 @@ export default function Booking() {
                                                             {bookingInfo.product.productDescription}
                                                         </Typography>
                                                         <Typography variant="body2" color="text.secondary" gutterBottom>
-                                                            {bookingInfo.startDate} - {bookingInfo.endDate}
+                                                            {formatDate(bookingInfo.startDate)} -  {formatDate(bookingInfo.endDate)}
+
                                                         </Typography>
                                                         <Grid item container direction="row" justifyContent="flex-end" alignItems="center">
                                                             <Grid item>
@@ -495,7 +526,8 @@ export default function Booking() {
                                                             {bookingInfo.product.productDescription}
                                                         </Typography>
                                                         <Typography variant="body2" color="text.secondary" gutterBottom>
-                                                            {bookingInfo.startDate} - {bookingInfo.endDate}
+                                                            {formatDate(bookingInfo.startDate)} -  {formatDate(bookingInfo.endDate)}
+
                                                         </Typography>
                                                         <Grid item container direction="row" justifyContent="flex-end" alignItems="center">
                                                             <Grid item>
