@@ -1,12 +1,14 @@
-
-import React, { useState } from "react";
+import React, { useState, useEffect } from 'react';
+import Avatar from '@mui/material/Avatar';
+import axios from 'axios';
+import { format } from 'date-fns';
+import { useParams } from 'react-router-dom';
+import SnackBar from "../SnackBar.jsx";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFacebookF, faGooglePlusG } from '@fortawesome/free-brands-svg-icons';
-import axios from 'axios';
-import SnackBar from "../SnackBar.jsx";
-import { useNavigate } from "react-router";
 
-export default function Register() {
+export default function UpdateProfile() {
+    const { accID } = useParams();
     const [firstName, setFirstName] = useState('');
     const [email, setEmail] = useState('');
     const [phoneNumber, setPhoneNumber] = useState('');
@@ -18,46 +20,28 @@ export default function Register() {
     const [snackbarMessage, setSnackbarMessage] = useState('');
     const [snackbarColor, setSnackbarColor] = useState('success');
 
-    const formatDate = (date) => {
-        const d = new Date(date);
-        const year = d.getFullYear();
-        const month = ('0' + (d.getMonth() + 1)).slice(-2);
-        const day = ('0' + d.getDate()).slice(-2);
-        return `${year}-${month}-${day}`;
+    useEffect(() => {
+        fetchDataUser(accID);
+    }, [accID]);
+
+    const fetchDataUser = async (accID) => {
+        try {
+            const response = await axios.get(`http://localhost:8080/api/users/viewDetail/${accID}`);
+            const { accName, accEmail, accPhone, accBirthday, imgName } = response.data;
+            setFirstName(accName);
+            setEmail(accEmail);
+            setPhoneNumber(accPhone);
+            setBirthday(format(new Date(accBirthday), 'yyyy-MM-dd'));
+           
+            if (imgName) {
+                setAvatarPreview(imgName);
+            }
+        } catch (error) {
+            console.error('Error fetching user data:', error);
+        }
     };
 
-    const navigate = useNavigate();
-
-    // const handleRegister = async (e) => {
-    //     e.preventDefault();
-
-    //     try {
-    //         const response = await axios.post('http://localhost:8080/auth/register-user', {
-    //             accName: firstName,
-    //             accPhone: phoneNumber,
-    //             accEmail: email,
-    //             accPassword: password,
-    //             accImg: avatar,
-    //             "accStatus": "active",
-    //             accBirthday: birthday,
-    //         });
-
-    //         console.log(response.data);
-    //         setSnackbarMessage('Registration successfully !!!')
-    //         setSnackbarColor("success");
-    //         setSnackbarOpen(true);
-    //         navigate("/login");
-
-    //     } catch (error) {
-    //         console.error('Lỗi đăng ký người dùng:', error.response.data); // Xử lý lỗi
-    //         setSnackbarMessage('Registration failed :(((');
-    //         setSnackbarColor("error");
-    //         // Thiết lập thông điệp Snackbar
-    //         setSnackbarOpen(true); // Hiển thị Snackbar
-    //     }
-    // }
-
-    const handleRegister = async (e) => {
+    const handleUpdateProfile = async (e) => {
         e.preventDefault();
 
         try {
@@ -72,32 +56,29 @@ export default function Register() {
             formData.append('roleID', '2');
             formData.append('accBirthday', formattedBirthday);
 
-            const response = await axios.post('http://localhost:8080/api/users', formData, {
+            const response = await axios.put(`http://localhost:8080/api/users/edit/${accID}`, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 }
             });
 
-            console.log(response.data); 
-            setSnackbarMessage('Registration successfully !!!')
+            console.log(response.data);
+            setSnackbarMessage('Update successfully !!!')
             setSnackbarColor("success"); 
             setSnackbarOpen(true);
-        
-
         } catch (error) {
-            console.error('Lỗi đăng ký người dùng:', error.response.data); 
-            setSnackbarMessage('Registration failed :(((');
+            console.error('Error updating profile:', error);
+            setSnackbarMessage('Update failed :(((');
             setSnackbarColor("error"); 
             setSnackbarOpen(true); 
         }
-    }
+    };
 
     const handleAvatarChange = (e) => {
         const file = e.target.files[0];
         if (file) {
             setAvatar(file);
             previewImage(file);
-            console.log(file);
         }
     };
 
@@ -113,18 +94,21 @@ export default function Register() {
         setSnackbarOpen(false);
     };
 
+    const formatDate = (date) => {
+        const d = new Date(date);
+        const year = d.getFullYear();
+        const month = ('0' + (d.getMonth() + 1)).slice(-2);
+        const day = ('0' + d.getDate()).slice(-2);
+        return `${year}-${month}-${day}`;
+    };
+
     return (
         <div className="register-container">
             <div className="register-form">
-                <form onSubmit={handleRegister}>
-                    <h2>REGISTER</h2>
+                <form onSubmit={handleUpdateProfile}>
+                    <h2>UPDATE</h2>
                     <div className="line-container line-header">
                         <div className="line-register"></div>
-                    </div>
-                    <div className="login-here">
-                        <span>
-                            Already have an account? <a href="/login">Login here</a>
-                        </span>
                     </div>
 
                     <div className="input-container">
@@ -186,24 +170,9 @@ export default function Register() {
                         />
                     </div>
 
-                    <button className="register-button" type="submit">REGISTER</button>
+                    <button className="register-button" type="submit">UPDATE</button>
                 </form>
                 <SnackBar open={snackbarOpen} message={snackbarMessage} onClose={handleSnackbarClose} color={snackbarColor} />
-                <div className="line-container">
-                    <div className="line"></div>
-                    <div className="or">Or login with</div>
-                    <div className="line"></div>
-                </div>
-                <div className="social-register">
-                    <button className="facebook-register">
-                        <span className="facebook-icon"><FontAwesomeIcon icon={faFacebookF} className="icon" /></span>
-                        <span>Facebook</span>
-                    </button>
-                    <button className="google-register">
-                        <span className="google-icon"><FontAwesomeIcon icon={faGooglePlusG} className="icon" /></span>
-                        <span>Google</span>
-                    </button>
-                </div>
             </div>
         </div>
     );
