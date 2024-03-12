@@ -91,40 +91,73 @@ export default function Project() {
 
   const [latestNews, setLatestNews] = useState([]);
 
+
+  
+
   useEffect(() => {
-    const fetchTopNews = async () => {
-        try {
-            const newResponse = await axios.get('http://localhost:8080/api/news/view');
-
-            
-            const sortedNews = newResponse.data.sort((a, b) => {
-                const dateA = new Date(a.newsPost[0], a.newsPost[1] - 1, a.newsPost[2]);
-                const dateB = new Date(b.newsPost[0], b.newsPost[1] - 1, b.newsPost[2]);
-                return dateB - dateA;
-            });
-
-      
-            const latestThreeNews = sortedNews.slice(0, 3);
-
-           
-            const accIDs = latestThreeNews.map(news => news.accID);
-            const accountResponse = await Promise.all(accIDs.map(accID => axios.get(`http://localhost:8080/api/users/viewDetail/${accID}`)));
-
-           
-            const newsWithAccounts = latestThreeNews.map((news, index) => ({
-                ...news,
-                account: accountResponse[index].data 
-            }));
-            setLatestNews(newsWithAccounts);
-
-            console.log(newsWithAccounts);
-        } catch (error) {
-            console.error('Error fetching top news:', error);
-        }
-    };
-
     fetchTopNews();
-}, []);
+  }, []);
+  const fetchTopNews = async () => {
+    try {
+      const newResponse = await axios.get('http://localhost:8080/api/news/view');
+      console.log(newResponse.data);
+      const sortedNews = newResponse.data.sort((a, b) => {
+        const dateA = new Date(a.newsPost[0], a.newsPost[1] - 1, a.newsPost[2], a.newsPost[3] - 1) ;
+        const dateB = new Date(b.newsPost[0], b.newsPost[1] - 1, b.newsPost[2], b.newsPost[3] - 1);
+        if (dateA.getTime() === dateB.getTime()) {
+        
+          return new Date(b.newsPost[3], b.newsPost[4], b.newsPost[5]) - new Date(a.newsPost[3], a.newsPost[4], a.newsPost[5]);
+        }
+        return dateB - dateA;
+      });
+
+
+      const latestThreeNews = sortedNews.slice(0, 3);
+      console.log(latestThreeNews);
+
+
+      const accIDs = latestThreeNews.map(news => news.accID);
+      const accountResponse = await Promise.all(accIDs.map(accID => axios.get(`http://localhost:8080/api/users/viewDetail/${accID}`)));
+
+
+      const newsWithAccounts = latestThreeNews.map((news, index) => ({
+        ...news,
+        account: accountResponse[index].data
+      }));
+      setLatestNews(newsWithAccounts);
+
+      console.log(newsWithAccounts);
+    } catch (error) {
+      console.error('Error fetching top news:', error);
+    }
+  };
+
+
+
+  // useEffect(() => {
+  //   const fetchTopNews = async () => {
+  //     try {
+  //       const newResponse = await axios.get('http://localhost:8080/api/news/view');
+
+  //       // Sắp xếp danh sách bài báo theo ngày mới nhất
+  //       const sortedNews = newResponse.data.sort((a, b) => {
+  //         const dateA = new Date(a.newsPost[0], a.newsPost[1] - 1, a.newsPost[2]);
+  //         const dateB = new Date(b.newsPost[0], b.newsPost[1] - 1, b.newsPost[2]);
+  //         return dateB - dateA;
+  //       });
+
+  //       // Lấy ra 3 bài báo mới nhất ở cuối danh sách
+  //       const latestThreeNews = sortedNews.slice(-3);
+
+  //       // Cập nhật state với 3 bài báo mới nhất
+  //       setLatestNews(latestThreeNews);
+  //     } catch (error) {
+  //       console.error('Error fetching top news:', error);
+  //     }
+  //   };
+
+  //   fetchTopNews();
+  // }, []);
 
 
   useEffect(() => {
@@ -250,9 +283,8 @@ export default function Project() {
                     <h2>{item.newsTitle}</h2>
                     <p className='content-new'> <span>{item.newsContent}</span></p>
                     <div className='project-learn-author'>
-                      <div>By {item.account.accName}</div>
+                      <div className='author'>By {item.account.accName}</div>
                       <div>{formatDate(item.newsPost)}</div>
-
                     </div>
                     <p>
                       <Link to={`/view-news/${item.newsID}`}>

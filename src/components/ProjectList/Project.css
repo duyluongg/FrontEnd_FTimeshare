@@ -183,8 +183,8 @@
 .project-learn-detail {
     position: absolute;
     top: 135px;
-    left: 32px;
-    width: 261px;
+    left: 20px;
+    width: 285px;
     height: 230px;
     background-color: white;
     box-sizing: border-box;
@@ -215,6 +215,12 @@
 .project-learn-author {
     display: flex;
     justify-content: space-around;
+    gap: 3px;
+
+}
+
+ .author{
+    hyphens: auto;
 
 }
 
