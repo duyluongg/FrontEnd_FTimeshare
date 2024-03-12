@@ -71,8 +71,8 @@ export default function Dashboard() {
         { id: 7, label: 'Booking with wait to confirm', link: 'wait-to-confirm-list' },
         { id: 8, label: 'Booking with wait to confirm request cancel', link: 'wait-to-confirm-rc' },
 
-        { id: 9, label: 'Booking with Wait to confirm respond payment (100%)', link: 'wait-customer-to-confirm-payment-list' },
-        { id: 10, label: 'Booking with Wait to confirm respond payment (80%)', link: 'wait-customer-to-confirm-payment-list' },
+        { id: 9, label: 'Booking with Wait to confirm respond payment (100%)', link: 'wait-customer-to-confirm-payment-list/100' },
+        { id: 10, label: 'Booking with Wait to confirm respond payment (80%)', link: 'wait-customer-to-confirm-payment-list/80' },
         { id: 11, label: 'New', link: 'new' },
 
 

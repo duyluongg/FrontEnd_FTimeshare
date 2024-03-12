@@ -396,8 +396,7 @@ export default function Booking() {
                                                             ) : null}
                                                         </Grid>
                                                     </Grid>
-                                                    <FormFeedback getID={bookingInfo.productID} getBookID={bookingInfo.bookingID} />
-                                                    <FormReport getID={bookingInfo.productID} getBookID={bookingInfo.bookingID} />
+
                                                 </Grid>
                                             </Grid>
                                             <Grid item>
@@ -473,6 +472,8 @@ export default function Booking() {
                                                                 )} */}
                                                             </Grid>
                                                         </Grid>
+                                                        <FormFeedback getID={bookingInfo.productID} getBookID={bookingInfo.bookingID} />
+                                                        <FormReport getID={bookingInfo.productID} getBookID={bookingInfo.bookingID} />
                                                     </Grid>
                                                 </Grid>
                                                 <Grid item>

@@ -68,8 +68,11 @@ import './components/Payment/Payment.css'
 import ViewBookingConfirm from './components/AdminPage/VIewConfirmBooking/ViewBookingConfirm.jsx'
 import StaffView from './components/StaffPage/StaffView.jsx'
 import BookingDetail from './components/AdminPage/BookingDetail/BookingDetail.jsx'
-import RespondPayment from './components/AdminPage/RespondPayment/RespondPayment.jsx'
-import SideNavPayment from './components/AdminPage/RespondPayment/SideNavPayment.jsx'
+import RespondPayment from './components/AdminPage/ViewCustomerPayment/RespondPayment.jsx'
+import SideNavPayment from './components/AdminPage/ViewCustomerPayment/SideNavPayment.jsx'
+import SideNavPayment80 from  './components/AdminPage/ViewCustomerPayment80/SideNavPayment80.jsx'
+
+import SideNavBook from './components/AdminPage/BookingDetail/SideNavBook.jsx'
 
 // import SideNavPayment from '../AdminPage/RespondPayment/SideNavPayment.jsx'
 function App() {
@@ -151,8 +154,10 @@ function App() {
         {/* <Route path='/admin/report-project/:productID' element={<CardReport />}></Route> */}
         <Route path='/admin/report-project/:reportID' element={<SidenavReport />}></Route>
         <Route path='/admin/report-projectid/:productID/:accID' element={<SidenavReportV2 />}></Route>
-        <Route path='/admin/wait-to-confirm-list/detail/:bookingID/:productID/:accID' element={<BookingDetail />}></Route>
-        <Route path='/admin/wait-customer-to-confirm-payment-list/detail/:bookingID/:productID/:accID' element={<SideNavPayment />}></Route>
+        <Route path='/admin/wait-to-confirm-list/detail/:bookingID/:productID/:accID' element={<SideNavBook />}></Route>
+        <Route path='/admin/wait-customer-to-confirm-payment-list/100/detail/:bookingID/:productID/:accID' element={<SideNavPayment />}></Route>
+        <Route path='/admin/wait-customer-to-confirm-payment-list/80/detail/:bookingID/:productID/:accID' element={<SideNavPayment80 />}></Route>
+
 
 
 

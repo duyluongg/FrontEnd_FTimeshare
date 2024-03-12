@@ -56,6 +56,7 @@ export default function TotalViewPendingBooking() {
                 axios.get('http://localhost:8080/api/bookings/staff/active'),
                 axios.get('http://localhost:8080/api/pictures/customerview'),
                 axios.get('http://localhost:8080/api/users/staffview')
+               
             ]);
 
             setProjectActive(pendingResponse.data);
@@ -134,12 +135,13 @@ export default function TotalViewPendingBooking() {
 
                             <CardMedia
                                 component="img"
-                                height="194"
-                                image={projectImage ? projectImage.imgName : ""}
+                                height="350"
+                                image={item.imgName}
                                 // image={item.imgName}
 
                                 alt="Project image"
-                                sx={{ width: "350px", height: "350px", objectFit: "cover", maxWidth: "100%" }}
+                                // sx={{ width: "350px", height: "350px", objectFit: "cover", maxWidth: "100%" }}
+                                sx={{ objectFit: "contain" , maxHeight:"350px"}}
                             />
                             <CardContent>
                                 <Typography variant="body2" color="text.secondary">

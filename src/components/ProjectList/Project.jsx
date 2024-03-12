@@ -60,7 +60,7 @@ export default function Project() {
   const formatDate = (dateArray) => {
     const [year, month, day] = dateArray;
     return `${day}/${month}/${year}`;
-};
+  };
 
   useEffect(() => {
     const fetchProductByUserId = async () => {
@@ -87,20 +87,45 @@ export default function Project() {
     fetchProjects();
   }, []);
 
+
+
+  const [latestNews, setLatestNews] = useState([]);
+
   useEffect(() => {
     const fetchTopNews = async () => {
-      try {
-        const response = await axios.get(`http://localhost:8080/api/news/view`);
-        const sortedNews = response.data.sort((a, b) => b.newsViewer - a.newsViewer);
-        const top3News = sortedNews.slice(0, 3);
-        setTopNews(top3News);
-      } catch (error) {
-        console.error('Error fetching top news:', error);
-      }
+        try {
+            const newResponse = await axios.get('http://localhost:8080/api/news/view');
+
+            
+            const sortedNews = newResponse.data.sort((a, b) => {
+                const dateA = new Date(a.newsPost[0], a.newsPost[1] - 1, a.newsPost[2]);
+                const dateB = new Date(b.newsPost[0], b.newsPost[1] - 1, b.newsPost[2]);
+                return dateB - dateA;
+            });
+
+      
+            const latestThreeNews = sortedNews.slice(0, 3);
+
+           
+            const accIDs = latestThreeNews.map(news => news.accID);
+            const accountResponse = await Promise.all(accIDs.map(accID => axios.get(`http://localhost:8080/api/users/viewDetail/${accID}`)));
+
+           
+            const newsWithAccounts = latestThreeNews.map((news, index) => ({
+                ...news,
+                account: accountResponse[index].data 
+            }));
+            setLatestNews(newsWithAccounts);
+
+            console.log(newsWithAccounts);
+        } catch (error) {
+            console.error('Error fetching top news:', error);
+        }
     };
 
     fetchTopNews();
-  }, []);
+}, []);
+
 
   useEffect(() => {
     const fetchImg = async () => {
@@ -140,7 +165,7 @@ export default function Project() {
               <Slider {...settings}>
                 {productListByUserId.map((product) => {
                   const projectImage = images.find(image => image.productID === product.productID);
-               
+
                   return (
                     <div key={product.productID}>
                       <div className='card-detail'>
@@ -217,7 +242,7 @@ export default function Project() {
         <div className='project-learn'>
           <h1>Learn about</h1>
           <div className='project-learn-list'>
-            {topNews.map((item) => (
+            {latestNews.map((item) => (
               <div className='column' key={item.newsID}>
                 <div className='project-learn-blog'>
                   <img src={item.imgName} />
@@ -225,9 +250,9 @@ export default function Project() {
                     <h2>{item.newsTitle}</h2>
                     <p className='content-new'> <span>{item.newsContent}</span></p>
                     <div className='project-learn-author'>
-                      <div>By {item.accID}</div>
+                      <div>By {item.account.accName}</div>
                       <div>{formatDate(item.newsPost)}</div>
-                      
+
                     </div>
                     <p>
                       <Link to={`/view-news/${item.newsID}`}>

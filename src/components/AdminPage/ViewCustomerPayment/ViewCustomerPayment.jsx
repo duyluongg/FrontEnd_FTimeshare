@@ -93,7 +93,7 @@ export default function ViewCustomerPayment() {
 
     return (
         <>
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' , mr:"500px"}}>
                 <TextField
                     sx={{ width: '500px', mb: '35px' }}
                     placeholder="Search..."
@@ -133,11 +133,13 @@ export default function ViewCustomerPayment() {
 
                             <CardMedia
                                 component="img"
-                                height="194"
+                                height="350"
                                 // image={projectImage ? projectImage.imgName : ""}
                                 image={item.imgName}
                                 alt="Project image"
-                                sx={{ width: "350px", height: "350px", objectFit: "cover", maxWidth: "100%" }}
+                                // sx={{ width: "350px", height: "350px", objectFit: "cover", maxWidth: "100%" }}
+                                sx={{ objectFit: "contain" , maxHeight:"350px"}}
+
                             />
                             <CardContent>
                                 <Typography variant="body2" color="text.secondary">
@@ -160,8 +162,8 @@ export default function ViewCustomerPayment() {
                                 <Button variant="outlined" color="success" onClick={() => handleAcceptCancelRespond(item.bookingID)}>
                                     ACCEPT
                                 </Button>
-                                <Link to={`/admin/wait-customer-to-confirm-payment-list/detail/${item.bookingID}/${item.productID}/${item.accID}`}>
-                                    <Button variant="outlined" color="error">
+                                <Link to={`/admin/wait-customer-to-confirm-payment-list/100/detail/${item.bookingID}/${item.productID}/${item.accID}`}>
+                                    <Button variant="outlined" >
                                         DETAIL
                                     </Button>
                             
