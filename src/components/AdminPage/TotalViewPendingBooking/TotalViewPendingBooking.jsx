@@ -418,6 +418,7 @@ export default function TotalViewPendingBooking() {
                                 <Button variant="outlined" color="success" onClick={() => handleAcceptActive(item.bookingID)}>
                                     ACCEPT
                                 </Button>
+
                                 <Button variant="outlined" color="error" onClick={() => handleAcceptCancel(item.bookingID)}>
                                     CANCEL
                                 </Button>

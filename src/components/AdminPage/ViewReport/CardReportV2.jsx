@@ -87,8 +87,10 @@ export default function CardReportV2() {
             console.log(imagesResponse.data);
 
             setProfiles(profilesResponse.data);
+
             setUserAccount(userData.data);
             console.log(userData.data);
+            
             setReportDetails(reportData.data);
             console.log(reportData.data);
             

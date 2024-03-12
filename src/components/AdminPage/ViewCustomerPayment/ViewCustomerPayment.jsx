@@ -134,7 +134,8 @@ export default function ViewCustomerPayment() {
                             <CardMedia
                                 component="img"
                                 height="194"
-                                image={projectImage ? projectImage.imgName : ""}
+                                // image={projectImage ? projectImage.imgName : ""}
+                                image={item.imgName}
                                 alt="Project image"
                                 sx={{ width: "350px", height: "350px", objectFit: "cover", maxWidth: "100%" }}
                             />
@@ -159,6 +160,12 @@ export default function ViewCustomerPayment() {
                                 <Button variant="outlined" color="success" onClick={() => handleAcceptCancelRespond(item.bookingID)}>
                                     ACCEPT
                                 </Button>
+                                <Link to={`/admin/wait-customer-to-confirm-payment-list/detail/${item.bookingID}/${item.productID}/${item.accID}`}>
+                                    <Button variant="outlined" color="error">
+                                        DETAIL
+                                    </Button>
+                            
+                                </Link>
                               
                                 <ExpandMore
                                     expand={expanded}

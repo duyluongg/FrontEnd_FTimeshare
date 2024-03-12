@@ -66,8 +66,12 @@ import './components/Profile/Profile.css'
 import Payment from './components/Payment/Payment.jsx'
 import './components/Payment/Payment.css'
 import ViewBookingConfirm from './components/AdminPage/VIewConfirmBooking/ViewBookingConfirm.jsx'
+import StaffView from './components/StaffPage/StaffView.jsx'
+import BookingDetail from './components/AdminPage/BookingDetail/BookingDetail.jsx'
+import RespondPayment from './components/AdminPage/RespondPayment/RespondPayment.jsx'
+import SideNavPayment from './components/AdminPage/RespondPayment/SideNavPayment.jsx'
 
-
+// import SideNavPayment from '../AdminPage/RespondPayment/SideNavPayment.jsx'
 function App() {
 
   const { user, loginContext } = useContext(UserContext);
@@ -87,6 +91,8 @@ function App() {
   const isViewSummary = location.pathname.includes('/view-summary');
   const isViewDetail = location.pathname.includes('/view-project-detail');
   const isAdminPage = location.pathname.includes('/admin');
+  const isStaffPage = location.pathname.includes('/staff');
+
   const isTotalUser = location.pathname.includes('/admin/total-users');
   const isViewNews = location.pathname.includes('/view-news');
   const isCreateNews = location.pathname.includes('/create-news');
@@ -103,14 +109,14 @@ function App() {
 
   return (
     <>
-      {!isAdminPage && (
+      {!isAdminPage && !isStaffPage && (
         <>
           <Navigation />
           <Navbar getData={user.id} navigate={navigate}/>
         </>
       )}
 
-      {!isDetailPage && !isLoginPage && !isRegisterPage && !isContactPage && !isAdminPage && !isCreateTimeshare && !isViewSummary && !isViewDetail && !isTotalUser && 
+      {!isDetailPage && !isLoginPage && !isRegisterPage && !isContactPage && !isAdminPage && !isStaffPage && !isCreateTimeshare && !isViewSummary && !isViewDetail && !isTotalUser && 
       !isViewNews && !isCreateNews && !isAccommodation && !isBooking && !isCreateBooking && !isBookingStage && !isProfile && !isPayment && !isUpdateProduct && <Header />}
 
       <Routes>
@@ -137,17 +143,23 @@ function App() {
         {/* <Route path='/admin/total-users/*' element={<TotalUser />}></Route> */}
         {/* <Route path='/admin/*' element={<AdminPage />}></Route> */}
         <Route path='/admin/*' element={<Sidenav />}></Route>
+        <Route path='/staff/*' element={<StaffView />}></Route>
+
         <Route path='/profile' element={<Profile getData={user.id} />}></Route>
 
 
         {/* <Route path='/admin/report-project/:productID' element={<CardReport />}></Route> */}
         <Route path='/admin/report-project/:reportID' element={<SidenavReport />}></Route>
         <Route path='/admin/report-projectid/:productID/:accID' element={<SidenavReportV2 />}></Route>
+        <Route path='/admin/wait-to-confirm-list/detail/:bookingID/:productID/:accID' element={<BookingDetail />}></Route>
+        <Route path='/admin/wait-customer-to-confirm-payment-list/detail/:bookingID/:productID/:accID' element={<SideNavPayment />}></Route>
+
+
 
 
 
       </Routes>
-      {!isAdminPage && <Footer />}
+      {!isAdminPage && !isStaffPage && <Footer />}
     </>
   );
 }

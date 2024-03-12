@@ -8,6 +8,7 @@ import { Grid, Card, CardHeader, CardMedia, CardContent, CardActions, Collapse, 
 import SearchIcon from '@mui/icons-material/Search';
 import { Link } from 'react-router-dom';
 import ModalProfile from '../ViewReport/ModalProfile';
+import BookingDetail from '../BookingDetail/BookingDetail';
 
 const ExpandMore = styled((props) => {
     const { expand, ...other } = props;
@@ -64,6 +65,7 @@ export default function ViewBookingConfirm() {
             setProfiles(profilesResponse.data);
 
             setLoading(false);
+            console.log(pendingResponse.data);
         } catch (error) {
             console.error('Error fetching data:', error);
             setLoading(false);
@@ -117,9 +119,10 @@ export default function ViewBookingConfirm() {
 
             <Grid container spacing={1} sx={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '10px', ml: '50px' }}>
                 {currentProjects.map((item) => {
-                    const projectImage = images.find(image => image.productID === item.productID);
+                    console.log(item);
+                    // const projectImage = images.find(image => image.productID === item.productID);
                     const profileAccount = profiles.find(profile => profile.accID === item.accID);
-                    console.log(projectImage);
+                    // console.log(projectImage);
 
                     return (
                         <Card key={item.bookingID} sx={{ maxWidth: 345, mb: '20px', boxShadow: 3 }}>
@@ -142,7 +145,9 @@ export default function ViewBookingConfirm() {
                             <CardMedia
                                 component="img"
                                 height="194"
-                                image={projectImage ? projectImage.imgName : ""}
+                                // image={projectImage ? projectImage.imgName : ""}
+                                image={item.imgName}
+
                                 alt="Project image"
                                 sx={{ width: "350px", height: "350px", objectFit: "cover", maxWidth: "100%" }}
                             />
@@ -170,6 +175,13 @@ export default function ViewBookingConfirm() {
                                 <Button variant="outlined" color="error" onClick={() => handleAcceptReject(item.bookingID)}>
                                     REJECT
                                 </Button>
+
+                                <Link to={`/admin/wait-to-confirm-list/detail/${item.bookingID}/${item.productID}/${item.accID}`}>
+                                    <Button variant="outlined" color="error">
+                                        DETAIL
+                                    </Button>
+                            
+                                </Link>
                                 <ExpandMore
                                     expand={expanded}
                                     onClick={handleExpandClick}
