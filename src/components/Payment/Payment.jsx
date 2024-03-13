@@ -332,7 +332,7 @@ export default function Payment() {
                                 <div className="yHG0SE-grid-3">
                                     <div className="qr-code">
                                         <h2>Bank Account QR Code</h2>
-                                        <img src={bankAccountQRCode} alt="bankAccountQRCode" />
+                                        <img src= './image/QR.png' alt="bankAccountQRCode" />
                                     </div>
                                     <div className="upload-section">
                                         <h2>Upload Payment Confirmation</h2>

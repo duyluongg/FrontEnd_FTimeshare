@@ -8,6 +8,7 @@ import { Grid, Card, CardHeader, CardMedia, CardContent, CardActions, Collapse, 
 import SearchIcon from '@mui/icons-material/Search';
 import { Link } from 'react-router-dom';
 import ModalProfile from '../ViewReport/ModalProfile';
+import BookingDetail from '../BookingDetail/BookingDetail';
 
 const ExpandMore = styled((props) => {
     const { expand, ...other } = props;
@@ -20,7 +21,7 @@ const ExpandMore = styled((props) => {
     }),
 }));
 
-export default function ViewBookingRC() {
+export default function ViewBookingConfirm() {
     const [loading, setLoading] = useState(true);
     const [productToConfirm, setProductToConfirm] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
@@ -64,6 +65,7 @@ export default function ViewBookingRC() {
             setProfiles(profilesResponse.data);
 
             setLoading(false);
+            console.log(pendingResponse.data);
         } catch (error) {
             console.error('Error fetching data:', error);
             setLoading(false);
@@ -72,25 +74,23 @@ export default function ViewBookingRC() {
 
 
 
-    const handleAcceptCancel = async (bookingID) => {
+    const handleAcceptActive = async (bookingID) => {
         try {
-            // await axios.put(`http://localhost:8080/api/bookings/staff/cancel/${bookingID}`);
-            await axios.put(`http://localhost:8080/api/bookings/staff/cancel/${bookingID}`);
-
+            await axios.put(`http://localhost:8080/api/bookings/confirm_booking/${bookingID}`);
             fetchData();
         } catch (error) {
             console.error('Error fetching projects:', error);
         }
     };
 
-    // const handleAcceptReject = async (bookingID) => {
-    //     try {
-    //         await axios.put(`http://localhost:8080/api/bookings/staff/cancel/${bookingID}`);
-    //         fetchData();
-    //     } catch (error) {
-    //         console.error('Error fetching projects:', error);
-    //     }
-    // };
+    const handleAcceptReject = async (bookingID) => {
+        try {
+            await axios.put(`http://localhost:8080/api/bookings/staff/Rejected/${bookingID}`);
+            fetchData();
+        } catch (error) {
+            console.error('Error fetching projects:', error);
+        }
+    };
 
     if (loading) {
         return <div>Loading...</div>;
@@ -119,9 +119,10 @@ export default function ViewBookingRC() {
 
             <Grid container spacing={1} sx={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '10px', ml: '50px' }}>
                 {currentProjects.map((item) => {
-                    const projectImage = images.find(image => image.productID === item.productID);
+                    console.log(item);
+                    // const projectImage = images.find(image => image.productID === item.productID);
                     const profileAccount = profiles.find(profile => profile.accID === item.accID);
-                    console.log(projectImage);
+                    // console.log(projectImage);
 
                     return (
                         <Card key={item.bookingID} sx={{ maxWidth: 345, mb: '20px', boxShadow: 3 }}>
@@ -143,10 +144,13 @@ export default function ViewBookingRC() {
 
                             <CardMedia
                                 component="img"
-                                height="194"
-                                image={projectImage ? projectImage.imgName : ""}
+                                height="350"
+                                // image={projectImage ? projectImage.imgName : ""}
+                                image={item.imgName}
+
                                 alt="Project image"
-                                sx={{ objectFit: "cover", maxWidth: "100%" }}
+                                sx={{ objectFit: "contain" , maxHeight:"350px"}}
+
                             />
                             <CardContent>
                                 <Typography variant="body2" color="text.secondary">
@@ -166,12 +170,19 @@ export default function ViewBookingRC() {
                                 </Typography>
                             </CardContent>
                             <CardActions disableSpacing>
-                                <Button variant="outlined" color="success" onClick={() => handleAcceptCancel(item.bookingID)}>
+                                {/* <Button variant="outlined" color="success" onClick={() => handleAcceptActive(item.bookingID)}>
                                     ACCEPT
                                 </Button>
-                                {/* <Button variant="outlined" color="error" onClick={() => handleAcceptReject(item.bookingID)}>
+                                <Button variant="outlined" color="error" onClick={() => handleAcceptReject(item.bookingID)}>
                                     REJECT
                                 </Button> */}
+
+                                <Link to={`/admin/wait-to-confirm-rc/detail/${item.bookingID}/${item.productID}/${item.accID}`}>
+                                    <Button variant="outlined" >
+                                        DETAIL
+                                    </Button>
+                            
+                                </Link>
                                 <ExpandMore
                                     expand={expanded}
                                     onClick={handleExpandClick}

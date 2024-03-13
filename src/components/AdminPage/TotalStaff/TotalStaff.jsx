@@ -6,23 +6,29 @@ import ModalPopUp from '../TotalUser/ModalPopUp.jsx';
 import { TextField } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
 import SearchIcon from '@mui/icons-material/Search';
+import SelectOption from '../TotalUser/SelectOption.jsx';
+
 export default function TotalStaff() {
   const [rows, setRows] = useState([]);
   const [search, setSearch] = useState('');
-  
+
+  console.log(search);
+
   useEffect(() => {
     const fetchRow = async () => {
       try {
         const response = await axios.get('http://localhost:8080/api/users/ROLE_STAFF');
-        const rowsWithId = response.data.map((row, index) => ({ ...row, id: index + 1 }));
-        setRows(rowsWithId);
-        console.log(rows);
+        const updatedRows = response.data.map((row, index) => ({
+          ...row,
+          id: index + 1,
+          status: row.accStatus === 'active' ? 'Active' : 'Block' // Cập nhật trạng thái
+        }));
+        setRows(updatedRows);
       } catch (error) {
         console.error('Error fetching staff:', error);
       }
-
     };
-
+  
     fetchRow();
   }, []);
 
@@ -35,8 +41,29 @@ export default function TotalStaff() {
     }
   };
 
+  const handleRole = async (row, newRole) => {
+    try {
+      let response;
+      if (newRole === 'active') {
+        response = await axios.put(`http://localhost:8080/api/users/staff/active/${row.accID}`);
+      } else if (newRole === 'block') {
+        response = await axios.put(`http://localhost:8080/api/users/staff/block/${row.accID}`);
+      }
+
+      console.log(response.data);
+
+
+    } catch (error) {
+      console.error('Error updating role:', error);
+    }
+  };
+
+
+
+
   return (
-    <div style={{ height: 400, width: '100%' }}>
+    <div>
+     
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
 
         <TextField sx={{ width: '500px', mb: '35px' }}
@@ -45,12 +72,15 @@ export default function TotalStaff() {
           size="small"
           defaultValue=""
           onChange={(s) => setSearch(s.target.value)}
+   
+
         />
         <IconButton type="submit" aria-label="search" sx={{ mb: '30px' }}>
           <SearchIcon />
         </IconButton>
       </div>
       <DataGrid
+        // rows={rows.filter((item) => search.toLocaleLowerCase() === '' ? item : item.accName.toLocaleLowerCase().includes(search)}
         rows={rows.filter((item) =>
           search.trim() === '' ? true : item.accName.toLowerCase().includes(search.toLowerCase())
         )}
@@ -62,9 +92,17 @@ export default function TotalStaff() {
           {
             field: 'delete',
             headerName: 'Action',
-            width: 30,
+            width: 100,
             renderCell: (params) => (
-              <button onClick={() => handleDelete(params.row)}><ModalPopUp color='error' /></button>
+              <ModalPopUp onDelete={handleDelete} row={params.row} color='error' />
+            ),
+          },
+          {
+            field: 'role',
+            headerName: 'Role',
+            width: 200,
+            renderCell: (params) => (
+              <SelectOption onRole={handleRole} row={params.row} />
             ),
           },
         ]}
@@ -76,6 +114,7 @@ export default function TotalStaff() {
         }}
         pageSizeOptions={[5, 10]}
         checkboxSelection
+        rowHeight={80}
       />
     </div>
   );

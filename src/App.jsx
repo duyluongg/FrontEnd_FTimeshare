@@ -82,8 +82,13 @@ import StaffNavbar from './components/StaffPage/StaffNavbar.jsx'
 import TotalStaff from './components/AdminPage/TotalStaff/TotalStaff.jsx'
 import TotalStaffAdmin from './components/StaffPage/TotalStaffAdmin.jsx'
 import ViewAllNew from './components/News/ViewNews/ViewAllNew.jsx'
-
+import ViewNewStaff from './components/AdminPage/New/ViewNewStaff.jsx'
+import ProfileStaff from './components/AdminPage/ProfileStaff/ProfileStaff.jsx'
+import UpdateProfileStaff from './components/AdminPage/ProfileStaff/UpdateProfileStaff.jsx'
+import SideNavUpdateStaff from './components/AdminPage/ProfileStaff/SideNavUpdateStaff.jsx'
+import SideNavBookingRC from './components/AdminPage/ViewBookingRC/SideNavBookingRC.jsx'
 // import SideNavPayment from '../AdminPage/RespondPayment/SideNavPayment.jsx'
+import RespondBookingRC from './components/AdminPage/ViewBookingRC/RespondBookingRC.jsx'
 function App() {
 
   const { user, loginContext } = useContext(UserContext);
@@ -116,6 +121,8 @@ function App() {
   const isBookingStage = location.pathname.includes('/booking-stage');
   const isProfile = location.pathname.includes('/profile');
   const isUpdateProfile = location.pathname.includes('/update-profile/:accID');
+  const isUpdateProfileStaff = location.pathname.includes('/update-profile-staff/:accID');
+
 
   const isPayment = location.pathname.includes('/payment');
   const isUpdateProduct = location.pathname.includes('/update-product');
@@ -125,14 +132,14 @@ function App() {
 
   return (
     <>
-      {!isAdminPage && !isStaffPage && (
+      {!isAdminPage && !isStaffPage && !isUpdateProfileStaff && (
         <>
           <Navigation />
           <Navbar getData={user.id} />
         </>
       )}
 
-      {!isDetailPage && !isLoginPage && !isRegisterPage && !isContactPage && !isAdminPage && !isStaffPage && !isCreateTimeshare && !isViewSummary && !isViewDetail && !isTotalUser &&
+      {!isDetailPage && !isLoginPage && !isRegisterPage && !isContactPage && !isAdminPage && !isStaffPage && !isUpdateProfileStaff && !isCreateTimeshare && !isViewSummary && !isViewDetail && !isTotalUser &&
         !isViewNews && !isViewNewAll && !isCreateNews && !isAccommodation && !isBooking && !isCreateBooking && !isBookingStage && !isProfile && !isPayment && !isUpdateProduct && !isSidebar && <Header />}
 
       {isSidebar && (
@@ -140,7 +147,6 @@ function App() {
           <Routes>
             <Route path='/profile' element={<Profile getData={user.id} />}></Route>
             <Route path='/view-booking-history' element={<Booking />}></Route>
-            <Route path='/update-profile/:accID' element={<UpdateProfile />}></Route>
           </Routes>
         </Sidebar>
       )}
@@ -166,6 +172,7 @@ function App() {
         <Route path='/payment' element={<Payment />}></Route>
         <Route path='/create-payment' element={<CreatePayment />}></Route>
         <Route path='/update-product' element={<UpdateProduct />}></Route>
+        <Route path='/update-profile/:accID' element={<UpdateProfile />}></Route>
 
         {/* <Route path='/admin/total-users/*' element={<TotalUser />}></Route> */}
         {/* <Route path='/admin/*' element={<AdminPage />}></Route> */}
@@ -176,6 +183,8 @@ function App() {
         {/* <Route path='/profile' element={<Profile getData={user.id} />}></Route>
         <Route path='/update-profile/:accID' element={<UpdateProfile/>}></Route> */}
         <Route path='/new' element={<ViewAllNew />}></Route>
+        <Route path='/admin/view-news-staff/:newsId' element={<ViewNewStaff />}></Route>
+
 
 
 
@@ -185,17 +194,25 @@ function App() {
         <Route path='/admin/wait-to-confirm-list/detail/:bookingID/:productID/:accID' element={<SideNavBook />}></Route>
         <Route path='/admin/wait-customer-to-confirm-payment-list/100/detail/:bookingID/:productID/:accID' element={<SideNavPayment />}></Route>
         <Route path='/admin/wait-customer-to-confirm-payment-list/80/detail/:bookingID/:productID/:accID' element={<SideNavPayment80 />}></Route>
+        <Route path='/admin/wait-to-confirm-rc/detail/:bookingID/:productID/:accID' element={<SideNavBookingRC />}></Route>
+
 
 
         <Route path='/staff' element={<StaffView />} />
         <Route path="/staff/register" element={<RegisterStaff />} />
         <Route path="/staff/view-account-staff" element={<TotalStaffAdmin />} />
+       
+          <Route path="/staff-profile" element={<ProfileStaff getData={user.id}/>} />
+          <Route path='/update-profile-staff/:accID' element={<SideNavUpdateStaff />} />
+
+          {/* Các routes khác */}
+      
 
 
 
 
       </Routes>
-      {!isAdminPage && !isStaffPage && <Footer />}
+      {!isAdminPage && !isStaffPage && !isUpdateProfileStaff && <Footer />}
     </>
   );
 }
