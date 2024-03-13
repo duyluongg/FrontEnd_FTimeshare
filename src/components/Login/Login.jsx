@@ -77,7 +77,10 @@ export default function Login() {
             }
             setLoadingAPI(false);
         } catch (error) {
-            console.error('Registration failed:', error);
+            console.error('Login failed:', error);
+            setSnackbarMessage('Email or Password are incorrect !!!');
+            setSnackbarColor("error");
+            setSnackbarOpen(true);
         }
     }
 

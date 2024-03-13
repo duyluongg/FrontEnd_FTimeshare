@@ -150,14 +150,14 @@ export default function Payment() {
                     'Content-Type': 'multipart/form-data'
                 }
             });
-            navigate('/view-booking-history');
-            setSnackbarMessage('Booking successfully !!!')
+            setSnackbarMessage('Login successfully !!!')
             setSnackbarColor("success");
             setSnackbarOpen(true);
+            setTimeout(() => navigate('/view-booking-history'), 1000);
 
         } catch (error) {
             console.error('Error creating booking:', error.response.data);
-            setSnackbarMessage('Booking failed :(((');
+            setSnackbarMessage('Booking failed !!!');
             setSnackbarColor("error");
             setSnackbarOpen(true);
         }

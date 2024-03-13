@@ -55,8 +55,8 @@ useEffect(() => {
         productRating: 0.0,
         productSale: 0,
         productViewer: 0,
-        projectID: 0, 
-        productTypeID: 0, 
+        projectID: 1, 
+        productTypeID: 1, 
         accID: null
     });
   
@@ -80,9 +80,7 @@ useEffect(() => {
             !createProductData.productPrice ||
             !createProductData.productPerson ||
             !createProductData.availableStartDate ||
-            !createProductData.availableEndDate ||
-            !createProductData.projectID ||
-            !createProductData.productTypeID
+            !createProductData.availableEndDate
         ) {
             setSnackbarMessage('All fields are required!!!');
             setSnackbarColor("error");
