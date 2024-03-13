@@ -1,0 +1,37 @@
+.card-item {
+    background-color: gainsboro;
+    width: 280px;
+    height: 125px;
+    border-radius: 10px;
+    cursor: pointer;
+    margin-bottom: 50px;
+}
+
+.card-item-detail {
+
+    text-align: center;
+    color: white;
+    padding: 10px;
+    font-size: 20px;
+    padding-top: 30px;
+
+
+
+
+}
+
+.card-item-year {
+
+    text-align: center;
+    color: rgb(0, 0, 0);
+    padding: 10px;
+    font-size: 20px;
+    padding-top: 30px;
+
+
+
+}
+
+/* .staff-page{
+    margin: 20px;
+} */
