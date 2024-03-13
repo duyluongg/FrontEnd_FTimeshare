@@ -18,6 +18,12 @@ import { UserContext } from '../UserContext'
 import ReviewCustomer from '../Detail/ReviewCustomer.jsx'
 import FormFeedback from '../FormFeedback/FormFeedback.jsx';
 import FormReport from '../FormReport/FormReport.jsx';
+import WaitToConfirmTab from './WaitToConfirmTab.jsx';
+import AcceptedTab from './AcceptedTab.jsx';
+import CompletedTab from './CompletedTab.jsx';
+import CancelledTab from './CancelledTab.jsx';
+import AllTab from './AllTab.jsx';
+
 export default function Booking() {
     const [value, setValue] = useState('1');
 
@@ -27,6 +33,7 @@ export default function Booking() {
     const [bookingInfoConfirm, setBookingInfoConfirm] = useState([]);
     const [bookingInfoComplete, setBookingInfoComplete] = useState([]);
     const [bookingInfoCancel, setBookingInfoCancel] = useState([]);
+    const [loading, setLoading] = useState(true);
 
     // useEffect(() => {
     //     const fetchData = async () => {
@@ -56,11 +63,11 @@ export default function Booking() {
     };
 
     useEffect(() => {
-        fetchData();
+        fetchDataAccepted();
     }, [user.id]);
-    const fetchData = async () => {
+    const fetchDataAccepted = async () => {
         try {
-            const bookingResponse = await axios.get(`http://localhost:8080/api/bookings/customer/waitToRespond-Active/${user.id}`);
+            const bookingResponse = await axios.get(`http://localhost:8080/api/bookings/customer/waitToRespond-Active-Done-In_progress/${user.id}`);
 
             // Combine booking and product information
             const combinedData = await Promise.all(bookingResponse.data.map(async (booking) => {
@@ -73,10 +80,26 @@ export default function Booking() {
             setBookingInfoAccepted(combinedData);
         } catch (error) {
             console.error("Error fetching data:", error);
+        } finally {
+            setLoading(false);
         }
     };
 
-
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                for (const bookingInfo of bookingInfoAccepted) {
+                    await axios.put(`http://localhost:8080/api/bookings/staff/change_status_to_in_progress/${bookingInfo.bookingID}`);
+                    await axios.put(`http://localhost:8080/api/bookings/staff/change_status_to_done/${bookingInfo.bookingID}`);
+                }
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            }
+        };
+        if (!loading) {
+            fetchData();
+        }
+    }, [bookingInfoAccepted, loading]);
 
     useEffect(() => {
         fetchDataConfirm();
@@ -160,10 +183,8 @@ export default function Booking() {
         try {
             // Gửi yêu cầu hủy đặt phòng và chờ phản hồi
             const cancelResponse = await axios.post(`http://localhost:8080/api/bookings/cancel/${bookingID}`);
-
             // Gọi lại cả fetchData và fetchDataConfirm để cập nhật dữ liệu mới
             await Promise.all([fetchData(), fetchDataConfirm()]);
-
             console.log(cancelResponse.data);
             // Xử lý sau khi hủy thành công
         } catch (error) {
@@ -193,7 +214,7 @@ export default function Booking() {
 
     return (
         <>
-            <div className='purchase-container'>
+            {/* <div className='purchase-container'>
                 <Box sx={{ width: '100%', typography: 'body1' }}>
                     <TabContext value={value}>
                         <Box sx={{ borderBottom: 1, borderColor: 'divider' }} className="purchase-tab-title">
@@ -206,7 +227,7 @@ export default function Booking() {
                                 aria-label="scrollable force tabs example"
                                 TabIndicatorProps={{
                                     style: {
-                                        backgroundColor: '#CD9A2B', // Màu của chỉ số trên thanh tab
+                                        backgroundColor: '#CD9A2B',
                                     },
                                 }}
                             >
@@ -265,7 +286,6 @@ export default function Booking() {
                                                             {bookingInfo.product.productDescription}
                                                         </Typography>
                                                         <Typography variant="body2" color="text.secondary" gutterBottom>
-                                                            {/* {bookingInfo.startDate} - {bookingInfo.endDate} */}
                                                             {formatDate(bookingInfo.startDate)} -  {formatDate(bookingInfo.endDate)}
                                                         </Typography>
                                                         <Grid item container direction="row" justifyContent="flex-end" alignItems="center">
@@ -482,19 +502,6 @@ export default function Booking() {
                                                         <Grid item container direction="row" justifyContent="flex-end" alignItems="center">
                                                             <Grid item>
                                                                 <Typography variant="body2">Cancelled</Typography>
-                                                                {/* {bookingInfo.bookingStatus === 'Wait to confirm (request cancel)' ? (
-                                                                    <Typography variant="body2">Wait to confirm (request cancel)</Typography>
-                                                                ) : (
-                                                                    <Button
-                                                                        onClick={() => handleCancelActive(bookingInfo.bookingID)}
-                                                                        sx={{ cursor: 'pointer', fontSize: '0.8rem' }}
-                                                                        color="error"
-                                                                        variant="contained"
-                                                                        startIcon={<DeleteIcon />}
-                                                                    >
-                                                                        Cancel
-                                                                    </Button>
-                                                                )} */}
                                                             </Grid>
                                                         </Grid>
                                                     </Grid>
@@ -599,6 +606,75 @@ export default function Booking() {
                             </div>
                         </TabPanel>
 
+                    </TabContext>
+                </Box>
+            </div> */}
+
+            <div className='purchase-container'>
+                <Box sx={{ width: '100%', typography: 'body1' }}>
+                    <TabContext value={value}>
+                        <Box sx={{ borderBottom: 1, borderColor: 'divider' }} className="purchase-tab-title">
+                            <Tabs
+                                value={value}
+                                onChange={handleChange}
+                                variant="scrollable"
+                                scrollButtons
+                                allowScrollButtonsMobile
+                                aria-label="scrollable force tabs example"
+                                TabIndicatorProps={{
+                                    style: {
+                                        backgroundColor: '#CD9A2B',
+                                    },
+                                }}
+                            >
+                                {/* Tab labels */}
+                                <Tab
+                                    label="Wait to Confirm" value={"1"} style={{ color: value === "1" ? '#CD9A2B' : undefined }}
+                                />
+                                <Tab
+                                    label="Accepted" value={"2"} style={{ color: value === "2" ? '#CD9A2B' : undefined }}
+                                />
+                                <Tab
+                                    label="Completed" value={"3"} style={{ color: value === "3" ? '#CD9A2B' : undefined }}
+                                />
+                                <Tab
+                                    label="Cancelled" value={"4"} style={{ color: value === "4" ? '#CD9A2B' : undefined }}
+                                />
+                            </Tabs>
+                        </Box>
+
+                        {/* Tab panels */}
+                        <TabPanel value="1">
+                            <WaitToConfirmTab
+                                bookingInfoConfirm={bookingInfoConfirm}
+                                images={images}
+                                formatDate={formatDate}
+                                handleCancelActive={handleCancelActive}
+                            />
+                        </TabPanel>
+                        <TabPanel value="2">
+                            <AcceptedTab
+                                bookingInfoAccepted={bookingInfoAccepted}
+                                images={images}
+                                formatDate={formatDate}
+                                handleCancelActive={handleCancelActive}
+                                loading={loading}
+                            />
+                        </TabPanel>
+                        <TabPanel value="3">
+                            <CompletedTab
+                                bookingInfoComplete={bookingInfoComplete}
+                                images={images}
+                                formatDate={formatDate}
+                            />
+                        </TabPanel>
+                        <TabPanel value="4">
+                            <CancelledTab
+                                bookingInfoCancel={bookingInfoCancel}
+                                images={images}
+                                formatDate={formatDate}
+                            />
+                        </TabPanel>
                     </TabContext>
                 </Box>
             </div>
