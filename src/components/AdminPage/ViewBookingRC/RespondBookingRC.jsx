@@ -15,11 +15,12 @@ import ShareIcon from '@mui/icons-material/Share';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { useParams } from 'react-router-dom';
-import { Button } from '@mui/material';
+import { Box, Button } from '@mui/material';
 import axios from 'axios';
 import ModalProfile from '../ViewReport/ModalProfile';
+// import CustomizedTables from './CustomizedTables';
 import { Grid } from '@mui/material';
-import './RespondPayment.css'
+// import './RespondPayment.css'
 const ExpandMore = styled((props) => {
     const { expand, ...other } = props;
     return <IconButton {...other} />;
@@ -31,7 +32,7 @@ const ExpandMore = styled((props) => {
     }),
 }));
 
-export default function RespondPayment() {
+export default function RespondPayment80() {
     const [expanded, setExpanded] = React.useState(false);
 
     const handleExpandClick = () => {
@@ -46,10 +47,12 @@ export default function RespondPayment() {
     const [userAccountProduct, setUserAccountProduct] = useState([]);
     const [customerAccountBook, setCustomerAccountBook] = useState([]);
     const [customerAccountPayment, setCustomerAccountPayment] = useState([]);
+    const [userAccountPayment, setUserAccountPayment] = useState([]);
+
     const [picture, setPicture] = useState('');
     const [picturePreview, setPicturePreview] = useState(null);
     const [showSecondDiv, setShowSecondDiv] = useState(true);
-    const [userAccountPayment, setUserAccountPayment] = useState([]);
+
 
 
     console.log(bookingID);
@@ -62,13 +65,14 @@ export default function RespondPayment() {
             const pendingResponse = await axios.get(`http://localhost:8080/api/products/viewById/${productID}`);
             const accIDProduct = pendingResponse.data[0].accID;
 
-            const [imagesResponse, profilesResponse, userProductData, userBookingData, customerBookingData, customerPayment, userPayment] = await Promise.all([
+            const [imagesResponse, profilesResponse, userProductData, userBookingData, userPayment, customerBookingData, customerPayment] = await Promise.all([
                 axios.get('http://localhost:8080/api/pictures/customerview'),
                 axios.get('http://localhost:8080/api/users/staffview'),
                 axios.get(`http://localhost:8080/api/users/viewDetail/${accIDProduct}`),
                 axios.get(`http://localhost:8080/api/users/viewDetail/${accID}`),
+                axios.get(`http://localhost:8080/api/payment/payment/${accID}`),
+
                 axios.get(`http://localhost:8080/api/bookings/view-booking-by-Id/${bookingID}`),
-                axios.get('http://localhost:8080/api/bookings/staff/WaitRespondPayment(100)'),
                 axios.get('http://localhost:8080/api/bookings/staff/waitToConfirmRC'),
 
             ]);
@@ -78,10 +82,11 @@ export default function RespondPayment() {
             setImages(imagesResponse.data);
             setProfiles(profilesResponse.data);
             setUserAccountBooking(userBookingData.data);
+            setUserAccountPayment(userPayment.data);
+            console.log(userPayment.data);
             setUserAccountProduct(userProductData.data);
             setCustomerAccountBook(customerBookingData.data);
             setCustomerAccountPayment(customerPayment.data);
-            setUserAccountPayment(userPayment.data);
             console.log(customerPayment.data);
         } catch (error) {
             console.error('Error fetching data:', error);
@@ -172,6 +177,7 @@ export default function RespondPayment() {
                                 image={projectImage ? projectImage.imgName : ""}
                                 alt="Paella dish"
                             />
+
                             <CardContent>
                                 <Typography variant="body1" color="text.secondary">
                                     {productBooking[0].productName}
@@ -217,7 +223,15 @@ export default function RespondPayment() {
                 </div>
                 {showSecondDiv && (
                     <div>
+
                         <Grid container spacing={1} sx={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '10px', ml: 'auto' }}>
+                            {/* <CardMedia
+                                component="img"
+                                height="194"
+                                image={userAccountPayment[0] ? userAccountPayment[0].imgName : ""}
+                                alt={userAccountPayment[0] ? userAccountPayment[0].imgName : ""}
+                                sx={{ objectFit: "contain", maxHeight: "350px" }}
+                            /> */}
                             <Card sx={{ maxWidth: 345 }}>
                                 <CardHeader
                                     avatar={
@@ -231,14 +245,27 @@ export default function RespondPayment() {
                                         </IconButton>
                                     }
                                     title={userAccountBooking.accName}
-                                    subheader="September 14, 2016"
+
                                 />
+
                                 <CardMedia
                                     component="img"
                                     height="194"
                                     image={customerAccountPayment[0] ? customerAccountPayment[0].imgName : ""}
                                     alt={customerAccountPayment[0] ? customerAccountPayment[0].imgName : ""}
+                                    sx={{ objectFit: "contain", maxHeight: "350px" }}
                                 />
+
+
+
+
+
+                                {/* <CardMedia
+                                    component="img"
+                                    height="194"
+                                    image={userAccountPayment[0] ? userAccountPayment[0].imgName : ""}
+                                    alt={userAccountPayment[0] ? userAccountPayment[0].imgName : ""}
+                                /> */}
                                 <CardContent>
 
                                     <Typography variant="body2" color="text.secondary">

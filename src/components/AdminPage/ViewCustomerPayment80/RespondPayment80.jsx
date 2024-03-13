@@ -50,6 +50,7 @@ export default function RespondPayment80() {
     const [picture, setPicture] = useState('');
     const [picturePreview, setPicturePreview] = useState(null);
     const [showSecondDiv, setShowSecondDiv] = useState(true);
+    const [userAccountPayment, setUserAccountPayment] = useState([]);
 
 
 
@@ -63,13 +64,14 @@ export default function RespondPayment80() {
             const pendingResponse = await axios.get(`http://localhost:8080/api/products/viewById/${productID}`);
             const accIDProduct = pendingResponse.data[0].accID;
 
-            const [imagesResponse, profilesResponse, userProductData, userBookingData, customerBookingData, customerPayment] = await Promise.all([
+            const [imagesResponse, profilesResponse, userProductData, userBookingData, customerBookingData, customerPayment, userPayment] = await Promise.all([
                 axios.get('http://localhost:8080/api/pictures/customerview'),
                 axios.get('http://localhost:8080/api/users/staffview'),
                 axios.get(`http://localhost:8080/api/users/viewDetail/${accIDProduct}`),
                 axios.get(`http://localhost:8080/api/users/viewDetail/${accID}`),
                 axios.get(`http://localhost:8080/api/bookings/view-booking-by-Id/${bookingID}`),
                 axios.get('http://localhost:8080/api/bookings/staff/WaitRespondPayment(80)'),
+                axios.get(`http://localhost:8080/api/payment/payment/${accID}`),
 
             ]);
 
@@ -81,7 +83,10 @@ export default function RespondPayment80() {
             setUserAccountProduct(userProductData.data);
             setCustomerAccountBook(customerBookingData.data);
             setCustomerAccountPayment(customerPayment.data);
+            setUserAccountPayment(userPayment.data);
             console.log(customerPayment.data);
+
+            
         } catch (error) {
             console.error('Error fetching data:', error);
         }
@@ -217,6 +222,7 @@ export default function RespondPayment80() {
                 {showSecondDiv && (
                     <div>
                         <Grid container spacing={1} sx={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '10px', ml: 'auto' }}>
+
                             <Card sx={{ maxWidth: 345 }}>
                                 <CardHeader
                                     avatar={
@@ -237,7 +243,8 @@ export default function RespondPayment80() {
                                     height="194"
                                     image={customerAccountPayment[0] ? customerAccountPayment[0].imgName : ""}
                                     alt={customerAccountPayment[0] ? customerAccountPayment[0].imgName : ""}
-                                />
+                                    sx={{ objectFit: "contain", maxHeight: "350px" }}
+                               />
                                 <CardContent>
 
                                     <Typography variant="body2" color="text.secondary">
@@ -261,7 +268,7 @@ export default function RespondPayment80() {
                                             </div>
                                         </Typography>
                                         <button className="register-button" type="submit">Submit</button>
-                                        <Button variant="outlined" color="success" onClick={() => handleAcceptCancelRespond(customerAccountPayment[0].bookingID)}>
+                                        <Button variant="outlined"  color="success" onClick={() => handleAcceptCancelRespond(customerAccountPayment[0].bookingID)}>
                                             ACCEPT
                                         </Button>
 
@@ -296,6 +303,46 @@ export default function RespondPayment80() {
                                 
                             </CardContent>
                         </Collapse> */}
+                            </Card>
+
+                            <Card sx={{ maxWidth: 550 }}>
+                                <CardHeader
+                                 
+                        
+                                    title= "INFORMATION OF CUSTOMER PAYMENT"
+
+                                />
+
+                                <CardMedia
+                                    component="img"
+                                    height="194"
+                                    image={userAccountPayment[0] ? userAccountPayment[0].imgName : ""}
+                                    alt={userAccountPayment[0] ? userAccountPayment[0].imgName : ""}
+                                    sx={{ objectFit: "contain", maxHeight: "350px" }}
+                                />
+                                <CardContent>
+
+                                    <Typography variant="body2" color="text.secondary">
+                                        Cash refund amount: {customerAccountPayment[0] ? customerAccountPayment[0].bookingPrice : ""}
+                                    </Typography>
+
+                                    <Typography variant="body2" color="text.secondary">
+                                        AccountName: {userAccountPayment[0] ? userAccountPayment[0].accountName : ""}
+                                    </Typography>
+
+                                    <Typography variant="body2" color="text.secondary">
+                                        Banking: {userAccountPayment[0] ? userAccountPayment[0].banking : ""}
+                                    </Typography>
+
+                                    <Typography variant="body2" color="text.secondary">
+                                        Account Number: {userAccountPayment[0] ? userAccountPayment[0].accountNumber : ""}
+                                    </Typography>
+                              
+
+
+
+                                </CardContent>
+                             
                             </Card>
                         </Grid>
                     </div>

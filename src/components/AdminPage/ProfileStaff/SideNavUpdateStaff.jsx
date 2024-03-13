@@ -41,7 +41,7 @@ import ViewCustomerPayment_80 from '../ViewCustomerPayment80/ViewCustomerPayment
 import AllNew from '../New/AllNew.jsx';
 import Profile from '../../Profile/Profile.jsx';
 import ProfileStaff from '../ProfileStaff/ProfileStaff.jsx';
-
+import UpdateProfileStaff from '../ProfileStaff/UpdateProfileStaff.jsx';
 
 
 
@@ -236,47 +236,7 @@ export default function Sidenav() {
             </Drawer>
             <Box component="main" sx={{ flexGrow: 2, p: 3 }}  >
                 <DrawerHeader />
-                {currentPage === '/admin' && <Dashboard />}
-                {/* <Routes>
-                    <Route path='/admin/total-users' element={<TotalUser />}></Route>
-
-                </Routes> */}
-                {currentPage === '/admin/total-users' && <TotalUser />}
-                {currentPage === '/admin/total-product' && <TotalProduct />}
-                {currentPage === '/admin/pending-product' && <TotalProductPending />}
-                {currentPage === '/admin/rejected-product' && <RejectedProject />}
-                {currentPage === '/admin/total-staff' && <TotalStaff />}
-                {currentPage === '/admin/total-report' && <TotalReport />}
-                {currentPage === '/admin/pending-list' && <TotalViewPendingBooking />}
-                {currentPage === '/admin/active-list' && <TotalViewActiveBooking />}
-                {currentPage === '/admin/wait-to-confirm-list' && <ViewBookingConfirm />}
-                {currentPage === '/admin/wait-to-confirm-rc' && <ViewBookingRC />}
-                {currentPage === '/admin/wait-customer-to-confirm-payment-list/100' && <ViewCustomerPayment />}
-                {currentPage === '/admin/wait-customer-to-confirm-payment-list/80' && <ViewCustomerPayment_80 />}
-             
-
-
-
-                {currentPage === '/admin/new' && <New />}
-                {currentPage === '/admin/all-new' && <AllNew />}
-          
-
-
-
-
-
-
-
-
-
-
-                {/* {currentPage === '/admin/report-project:productID' && < CardReport />} */}
-
-
-
-
-
-
+                {/* <UpdateProfileStaff /> */}
             </Box>
         </Box>
     );
