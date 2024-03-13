@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import payment from '../../assets/Payment.svg';
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -8,13 +8,13 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import Button from '@mui/material/Button';
-import { Link, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import axios from "axios";
-import { useContext } from 'react';
 import { UserContext } from '../UserContext';
 import SnackBar from "../SnackBar.jsx";
 import { useNavigate } from "react-router-dom";
 import ModalCreateBook from "../OwnerRole/CreateBooking/ModalCreateBook.jsx";
+import CreatePayment from "../Register/CreatePayment.jsx";
 
 export default function Payment() {
     const [orderSummary, setOrderSummary] = useState('');
@@ -29,7 +29,6 @@ export default function Payment() {
     const [snackbarOpen, setSnackbarOpen] = useState(false);
     const [snackbarMessage, setSnackbarMessage] = useState('');
     const [snackbarColor, setSnackbarColor] = useState('success');
-
     const [productData, setProductData] = useState('');
     const [userData, setUserData] = useState('');
     const [typeName, setTypeName] = useState('');
@@ -37,6 +36,9 @@ export default function Payment() {
 
 
     const location = useLocation();
+    const [hasBankAccount, setHasBankAccount] = useState(false);
+    const [showCreatePayment, setShowCreatePayment] = useState(false);
+
     const { startDate, endDate, bookingPerson, productID, name, phone } = location.state;
 
     const formatDate = (date) => {
@@ -58,21 +60,15 @@ export default function Payment() {
     useEffect(() => {
         const getProductData = async () => {
             try {
-                // Fetch dự án dựa trên productID
                 const productResponse = await axios.get(`http://localhost:8080/api/products/viewById/${productID}`);
-                // const productData = productResponse.data;
                 setProductData(productResponse.data[0]);
 
-                // Lấy thông tin người dùng từ product.accId
                 const userResponse = await axios.get(`http://localhost:8080/api/users/viewDetail/${productResponse.data[0].accID}`);
-                // const userData = userResponse.data;
                 setUserData(userResponse.data);
 
-                // Lấy thông tin loại sản phẩm từ product.productTypeId
                 const productTypeResponse = await axios.get('http://localhost:8080/api/productType/customer/viewproductType');
                 const productTypeData = productTypeResponse.data;
 
-                // Tìm kiếm thông tin loại sản phẩm dựa trên productTypeId
                 const selectedProductType = productTypeData.find(type => type.productTypeID === productData.productTypeID);
                 const typeName = selectedProductType ? selectedProductType.productTypeName : 'Unknown';
                 setTypeName(typeName);
@@ -87,7 +83,6 @@ export default function Payment() {
 
     useEffect(() => {
         const calculateTotalPrice = () => {
-            // Chuyển các ngày thành đối tượng Date
             const startDateObj = new Date(startDate);
             const endDateObj = new Date(endDate);
             const daysDiff = Math.ceil((endDateObj - startDateObj) / (1000 * 60 * 60 * 24));
@@ -115,17 +110,31 @@ export default function Payment() {
         fetchImg();
     }, []);
 
+    useEffect(() => {
+        const fetchBankAccount = async () => {
+            try {
+                const bankAccountResponse = await axios.get(`http://localhost:8080/api/payment/payment/${user.id}`);
+                const bankAccount = bankAccountResponse.data;
+
+                if (bankAccount.length === 0) {
+                    // setHasBankAccount(true);
+                    setShowCreatePayment(true);
+                }
+
+            } catch (error) {
+                console.error('Error fetching bank account:', error);
+            }
+        };
+        fetchBankAccount();
+    }, [user.id]);
+
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        // Tạo một đối tượng Date từ chuỗi ngày tháng đầu vào
         const startDateObj = new Date(startDate);
         const endDateObj = new Date(endDate);
-
-        // Chuyển đổi thành chuỗi theo định dạng mong muốn "yyyy-MM-ddTHH:mm:ss"
         const formattedStartDate = startDateObj.toISOString().split('T')[0] + 'T08:00:00';
         const formattedEndDate = endDateObj.toISOString().split('T')[0] + 'T08:00:00';
-
 
         try {
             const formData = new FormData();
@@ -147,20 +156,18 @@ export default function Payment() {
             setSnackbarOpen(true);
 
         } catch (error) {
-            console.error('Lỗi đăng ký người dùng:', error.response.data); // Xử lý lỗi
+            console.error('Error creating booking:', error.response.data);
             setSnackbarMessage('Booking failed :(((');
             setSnackbarColor("error");
-            // Thiết lập thông điệp Snackbar
-            setSnackbarOpen(true); // Hiển thị Snackbar
+            setSnackbarOpen(true);
         }
-    }
+    };
 
     const handleImageChange = (e) => {
         const file = e.target.files[0];
         if (file) {
             setImage(file);
             previewImage(file);
-            console.log(file);
         }
     };
 
@@ -257,6 +264,7 @@ export default function Payment() {
                         </div>
                     </div>
                 </div>
+
             </div>
 
             <div className="HYmUPs">
@@ -358,11 +366,16 @@ export default function Payment() {
                             </div>
                             <div class="s7CqeD">
                                 <div class="sQArKu">
-                                    <div class="xINqui">Clicking "Boooking" means you agree to abide by 
+                                    <div class="xINqui">Clicking "Boooking" means you agree to abide by
                                         <a href="https://help.shopee.vn/portal/article/77242" target="_blank" rel="noopener noreferrer" previewlistener="true" className="payment-term"> P-Timeshare's Terms</a>
                                     </div>
                                 </div>
-                                <button class="stardust-button stardust-button--CD9A2B stardust-button--large LtH6tW" onClick={handleSubmit}>Booking</button>
+                                {showCreatePayment ? (
+                                    <CreatePayment getID={user.id} hideCreatePayment={() => setShowCreatePayment(false)} />
+                                ) : (
+                                    <button class="stardust-button stardust-button--CD9A2B stardust-button--large LtH6tW" onClick={handleSubmit}>Booking</button>
+                                )}
+
                             </div>
                             <SnackBar open={snackbarOpen} message={snackbarMessage} onClose={handleSnackbarClose} color={snackbarColor} />
                         </div>

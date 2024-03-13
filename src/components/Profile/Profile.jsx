@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Avatar from '@mui/material/Avatar';
 import axios from 'axios';
 import { format } from 'date-fns';
+import { Link } from 'react-router-dom';
 
 export default function Profile({ getData }) {
     console.log(getData);
@@ -34,12 +35,12 @@ export default function Profile({ getData }) {
             // const yyyy = formattedBirthday.getFullYear();
             // const formattedDate = `${dd}/${mm}/${yyyy}`;
 
-          
+
             // const formattedData = { ...accountResponse.data, accBirthday: formattedDate };
 
             const formattedBirthday = format(new Date(accountResponse.data.accBirthday), 'dd/MM/yyyy');
 
-          
+
             const formattedData = { ...accountResponse.data, accBirthday: formattedBirthday };
             setAccountUser(formattedData);
             console.log(accountResponse.data);
@@ -63,9 +64,14 @@ export default function Profile({ getData }) {
                             <Avatar
                                 alt="Remy Sharp"
                                 src={accountUser.imgName}
-                                sx={{ width: 96, height: 96 , mt: "40px", mb: "20px"}}
+                                sx={{ width: 96, height: 96, mt: "40px", mb: "20px", objectFit: "cover" }}
                             />
                             <h2>{accountUser.accName}</h2>
+                            <Link to={`/update-profile/${getData}`}>
+                                <button>Edit</button>
+                            </Link>
+                      
+
 
                         </div>
                         <div className='profile-right-big'>
@@ -79,9 +85,9 @@ export default function Profile({ getData }) {
                                         <p>{accountUser.accPhone}</p>
                                     </div>
                                     <div>
-                                        <h2 className='profile-title'>Username:</h2>
+                                        <h2 className='profile-title'>BirthDay:</h2>
                                         <p>{accountUser.accBirthday}</p>
-                                        <h2 className='profile-title'>Location:</h2>
+                                        <h2 className='profile-title'>Role:</h2>
                                         <p>{accountUser.accBirthday}</p>
 
                                     </div>

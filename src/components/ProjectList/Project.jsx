@@ -242,7 +242,8 @@ export default function Project() {
                   <img src={item.imgName} />
                   <div className='project-learn-detail'>
                     <h2>{item.newsTitle}</h2>
-                    <p className='content-new'> <span>{item.newsContent}</span></p>
+                    {/* <p className='content-new'> <span>{item.newsContent}</span></p> */}
+                    <div className='content-new'>{item.newsContent}</div>
                     <div className='project-learn-author'>
                       <div className='author'>By {item.account.accName}</div>
                       <div>{formatDate(item.newsPost)}</div>

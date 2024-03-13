@@ -64,6 +64,7 @@ import { UserContext } from './components/UserContext.jsx'
 import { useContext } from "react"
 // import CardReport from './components/AdminPage/ViewReport/CardReport.jsx'
 import Profile from './components/Profile/Profile.jsx'
+import UpdateProfile from './components/Profile/UpdateProfile.jsx'
 import './components/Profile/Profile.css'
 import Payment from './components/Payment/Payment.jsx'
 import './components/Payment/Payment.css'
@@ -75,6 +76,7 @@ import SideNavPayment from './components/AdminPage/ViewCustomerPayment/SideNavPa
 import SideNavPayment80 from './components/AdminPage/ViewCustomerPayment80/SideNavPayment80.jsx'
 
 import SideNavBook from './components/AdminPage/BookingDetail/SideNavBook.jsx'
+import CreatePayment from './components/Register/CreatePayment.jsx'
 
 // import SideNavPayment from '../AdminPage/RespondPayment/SideNavPayment.jsx'
 function App() {
@@ -107,6 +109,8 @@ function App() {
   const isCreateBooking = location.pathname.includes('/create-booking');
   const isBookingStage = location.pathname.includes('/booking-stage');
   const isProfile = location.pathname.includes('/profile');
+  const isUpdateProfile = location.pathname.includes('/update-profile/:accID');
+
   const isPayment = location.pathname.includes('/payment');
   const isUpdateProduct = location.pathname.includes('/update-product');
   const isSidebar = location.pathname.includes('/profile') || location.pathname.includes('/view-booking-history');
@@ -130,6 +134,7 @@ function App() {
           <Routes>
             <Route path='/profile' element={<Profile getData={user.id} />}></Route>
             <Route path='/view-booking-history' element={<Booking />}></Route>
+            <Route path='/update-profile/:accID' element={<UpdateProfile/>}></Route>
           </Routes>
         </Sidebar>
       )}
@@ -153,6 +158,7 @@ function App() {
         <Route path='/create-booking' element={<CreateBooking />}></Route>
         <Route path='/booking-stage' element={<BookingStage />}></Route>
         <Route path='/payment' element={<Payment />}></Route>
+        <Route path='/create-payment' element={<CreatePayment />}></Route>
         <Route path='/update-product' element={<UpdateProduct />}></Route>
 
         {/* <Route path='/admin/total-users/*' element={<TotalUser />}></Route> */}
@@ -161,6 +167,9 @@ function App() {
         <Route path='/staff/*' element={<StaffView />}></Route>
 
         {/* <Route path='/profile' element={<Profile getData={user.id} />}></Route> */}
+        {/* <Route path='/profile' element={<Profile getData={user.id} />}></Route>
+        <Route path='/update-profile/:accID' element={<UpdateProfile/>}></Route> */}
+
 
 
         {/* <Route path='/admin/report-project/:productID' element={<CardReport />}></Route> */}
