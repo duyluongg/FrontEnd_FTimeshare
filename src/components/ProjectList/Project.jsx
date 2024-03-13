@@ -8,6 +8,7 @@ import { Link } from 'react-router-dom'
 import axios from 'axios';
 import { useContext } from 'react'
 import { UserContext } from '../UserContext.jsx'
+import { Button } from '@mui/material';
 
 export default function Project() {
   const [project, setProject] = useState([]);
@@ -261,6 +262,11 @@ export default function Project() {
             ))}
           </div>
         </div>
+        <Link to={"/new"}>
+          <Button>
+            show more
+          </Button>
+        </Link>
       </div>
     </>
   )

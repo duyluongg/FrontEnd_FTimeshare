@@ -59,7 +59,20 @@ export default function Register() {
 
     const handleRegister = async (e) => {
         e.preventDefault();
+        if (!firstName || !email || !phoneNumber || !password || !birthday || !avatar) {
+          
+            setSnackbarMessage('Please fill in all required fields');
+            setSnackbarColor("error");
+            setSnackbarOpen(true);
+            return; 
+        }
 
+        if (isNaN(phoneNumber)) {
+            setSnackbarMessage('Please enter a valid phone number');
+            setSnackbarColor("error");
+            setSnackbarOpen(true);
+            return; 
+        }
         try {
             const formattedBirthday = formatDate(birthday);
             const formData = new FormData();

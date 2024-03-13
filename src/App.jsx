@@ -77,6 +77,11 @@ import SideNavPayment80 from './components/AdminPage/ViewCustomerPayment80/SideN
 
 import SideNavBook from './components/AdminPage/BookingDetail/SideNavBook.jsx'
 import CreatePayment from './components/Register/CreatePayment.jsx'
+import RegisterStaff from './components/StaffPage/RegisterStaff.jsx'
+import StaffNavbar from './components/StaffPage/StaffNavbar.jsx'
+import TotalStaff from './components/AdminPage/TotalStaff/TotalStaff.jsx'
+import TotalStaffAdmin from './components/StaffPage/TotalStaffAdmin.jsx'
+import ViewAllNew from './components/News/ViewNews/ViewAllNew.jsx'
 
 // import SideNavPayment from '../AdminPage/RespondPayment/SideNavPayment.jsx'
 function App() {
@@ -102,6 +107,7 @@ function App() {
 
   const isTotalUser = location.pathname.includes('/admin/total-users');
   const isViewNews = location.pathname.includes('/view-news');
+  const isViewNewAll = location.pathname.includes('/new');
   const isCreateNews = location.pathname.includes('/create-news');
   const isAccommodation = location.pathname.includes('/accommodation');
   const isBooking = location.pathname.includes('/view-booking-history');
@@ -127,14 +133,14 @@ function App() {
       )}
 
       {!isDetailPage && !isLoginPage && !isRegisterPage && !isContactPage && !isAdminPage && !isStaffPage && !isCreateTimeshare && !isViewSummary && !isViewDetail && !isTotalUser &&
-        !isViewNews && !isCreateNews && !isAccommodation && !isBooking && !isCreateBooking && !isBookingStage && !isProfile && !isPayment && !isUpdateProduct && !isSidebar && <Header />}
+        !isViewNews && !isViewNewAll && !isCreateNews && !isAccommodation && !isBooking && !isCreateBooking && !isBookingStage && !isProfile && !isPayment && !isUpdateProduct && !isSidebar && <Header />}
 
       {isSidebar && (
         <Sidebar>
           <Routes>
             <Route path='/profile' element={<Profile getData={user.id} />}></Route>
             <Route path='/view-booking-history' element={<Booking />}></Route>
-            <Route path='/update-profile/:accID' element={<UpdateProfile/>}></Route>
+            <Route path='/update-profile/:accID' element={<UpdateProfile />}></Route>
           </Routes>
         </Sidebar>
       )}
@@ -169,6 +175,7 @@ function App() {
         {/* <Route path='/profile' element={<Profile getData={user.id} />}></Route> */}
         {/* <Route path='/profile' element={<Profile getData={user.id} />}></Route>
         <Route path='/update-profile/:accID' element={<UpdateProfile/>}></Route> */}
+        <Route path='/new' element={<ViewAllNew />}></Route>
 
 
 
@@ -180,6 +187,9 @@ function App() {
         <Route path='/admin/wait-customer-to-confirm-payment-list/80/detail/:bookingID/:productID/:accID' element={<SideNavPayment80 />}></Route>
 
 
+        <Route path='/staff' element={<StaffView />} />
+        <Route path="/staff/register" element={<RegisterStaff />} />
+        <Route path="/staff/view-account-staff" element={<TotalStaffAdmin />} />
 
 
 
