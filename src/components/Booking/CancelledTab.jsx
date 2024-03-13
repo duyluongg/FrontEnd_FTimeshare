@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import TabPanel from '@mui/lab/TabPanel';
 import { styled } from '@mui/material/styles';
 
@@ -10,6 +10,12 @@ const CancelledTab = ({ bookingInfoCancel, images, formatDate, handleCancelActiv
         maxWidth: '100%',
         maxHeight: '100%',
     });
+
+    const [showImage, setShowImage] = useState(false); // Thêm trạng thái cho việc hiển thị ảnh
+
+    const toggleImage = () => {
+        setShowImage(!showImage); // Chuyển đổi trạng thái hiển thị ảnh
+    };
 
     return (
         <>
@@ -76,7 +82,7 @@ const CancelledTab = ({ bookingInfoCancel, images, formatDate, handleCancelActiv
                             <div className='yyqgYp'>
                                 <div class="iwUeSD">
                                     <div>
-                                        <span class="CDsaN0" aria-label="Đánh giá sản phẩm trước 21-03-2024" tabindex="0">
+                                        <span class="CDsaN0" tabindex="0">
                                             <div class="shopee-drawer" id="pc-drawer-id-21" tabindex="0"><u class="GQOPby" aria-describedby="0.5723019374949412"></u></div>
                                         </span>
                                     </div>
@@ -84,29 +90,15 @@ const CancelledTab = ({ bookingInfoCancel, images, formatDate, handleCancelActiv
                                 </div>
                                 <section className='po9nwN'>
                                     <h3 class="a11y-hidden"></h3>
-                                    {/* <div class="aAXjeK">
+                                    <div class="aAXjeK">
                                         <div>
-                                            <button onClick={() => handleCancelActive(bookingInfo.bookingID)} class="stardust-button stardust-button--primary QY7kZh">Feedback</button>
+                                            <button class="stardust-button stardust-button--secondary QY7kZh" onClick={toggleImage}>View Refund Image</button>
                                         </div>
                                     </div>
-                                    <div class="hbQXWm">
-                                        <div>
-                                            <button onClick={() => handleCancelActive(bookingInfo.bookingID)} class="stardust-button stardust-button--secondary QY7kZh">Book Again</button>
-                                        </div>
-                                    </div> */}
-                                    {/* <div class="aAXjeK">
-                                        <div>
-                                            <button
-                                                onClick={() => handleCancelActive(bookingInfo.bookingID)}
-                                                className={`stardust-button stardust-button--primary QY7kZh ${bookingInfo.bookingStatus === 'Wait to confirm (request cancel)' ? 'disabled' : ''}`}
-                                                disabled={bookingInfo.bookingStatus === 'Wait to confirm (request cancel)'}
-                                            >
-                                                Cancel
-                                            </button>
-                                        </div>
-                                    </div> */}
-
                                 </section>
+                            </div>
+                            <div className='refund-image'>
+                                {showImage && <img src={bookingInfo.imgRespondName} alt="Booking Respond" style={{ width: '300px' }} />}
                             </div>
                         </div>
                     )

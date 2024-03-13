@@ -15,51 +15,51 @@ export default function CreateTimeshare() {
     const [snackbarOpen, setSnackbarOpen] = useState(false);
     const [snackbarMessage, setSnackbarMessage] = useState('');
     const [snackbarColor, setSnackbarColor] = useState('success');
-  
+
     const navigate = useNavigate();
 
- useEffect(() => {
-    const fetchData = async () => {
-        try {
-            const projectResponse = await axios.get('http://localhost:8080/api/project/customer/viewproject');
-            setProjects(projectResponse.data);
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const projectResponse = await axios.get('http://localhost:8080/api/project/customer/viewproject');
+                setProjects(projectResponse.data);
 
-            const productTypeResponse = await axios.get('http://localhost:8080/api/productType/customer/viewproductType');
-            setProductTypes(productTypeResponse.data);
-        } catch (error) {
-            console.error('Error fetching data:', error);
-        }
-    };
-    fetchData();
-}, []);
+                const productTypeResponse = await axios.get('http://localhost:8080/api/productType/customer/viewproductType');
+                setProductTypes(productTypeResponse.data);
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            }
+        };
+        fetchData();
+    }, []);
 
-useEffect(() => {
-    const accID = user ? user.id : null;
-    setCreateProductData(prevData => ({
-        ...prevData,
-        accID: accID
-    }));
-}, [user]);
+    useEffect(() => {
+        const accID = user ? user.id : null;
+        setCreateProductData(prevData => ({
+            ...prevData,
+            accID: accID
+        }));
+    }, [user]);
 
     const [createProductData, setCreateProductData] = useState({
         productName: '',
-        productArea: 0.0,
+        productArea: 1.0,
         productAddress: '',
         productDescription: '',
         productConvenience: '',
-        productPrice: 0.0,
+        productPrice: 1.0,
         availableStartDate: '',
         availableEndDate: '',
         productStatus: "Pending",
-        productPerson: 0,
+        productPerson: 1,
         productRating: 0.0,
         productSale: 0,
         productViewer: 0,
-        projectID: 1, 
-        productTypeID: 1, 
+        projectID: 0,
+        productTypeID: 0,
         accID: null
     });
-  
+
     const handleChange = (e) => {
         const { name, value } = e.target;
         setCreateProductData({
@@ -71,18 +71,23 @@ useEffect(() => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        if (
-            !createProductData.productName ||
-            !createProductData.productArea ||
-            !createProductData.productAddress ||
-            !createProductData.productDescription ||
-            !createProductData.productConvenience ||
-            !createProductData.productPrice ||
-            !createProductData.productPerson ||
-            !createProductData.availableStartDate ||
-            !createProductData.availableEndDate
-        ) {
-            setSnackbarMessage('All fields are required!!!');
+        const missingFields = [];
+        if (!createProductData.productName) missingFields.push('Name');
+        if (!createProductData.productArea) missingFields.push('Area');
+        if (!createProductData.productAddress) missingFields.push('Address');
+        if (!createProductData.productDescription) missingFields.push('Description');
+        if (!createProductData.productConvenience) missingFields.push('Convenience');
+        if (!createProductData.productPrice) missingFields.push('Price');
+        if (!createProductData.productPerson) missingFields.push('Available People');
+        if (!createProductData.availableStartDate) missingFields.push('Available Start Date');
+        if (!createProductData.availableEndDate) missingFields.push('Available End Date');
+        if (!createProductData.projectID) missingFields.push('Project Name');
+        if (!createProductData.productTypeID) missingFields.push('Type of Timeshare');
+
+        if (missingFields.length > 0) {
+            const requireField = missingFields.join(', ');
+            const missingFieldsMessage = `${requireField} are required`;
+            setSnackbarMessage(missingFieldsMessage);
             setSnackbarColor("error");
             setSnackbarOpen(true);
             return;
@@ -105,14 +110,14 @@ useEffect(() => {
             setSnackbarOpen(true);
             return;
         }
-    
+
         if (images.length > 10) {
             setSnackbarMessage('Maximum 10 images are allowed!!!');
             setSnackbarColor("error");
             setSnackbarOpen(true);
             return;
         }
-    
+
         const fileSizeLimit = 2 * 1024 * 1024; // 2MB
         for (let i = 0; i < images.length; i++) {
             if (images[i].size > fileSizeLimit) {
@@ -122,7 +127,7 @@ useEffect(() => {
                 return;
             }
         }
-    
+
         const imageNames = images.map(image => image.name);
         const uniqueImageNames = new Set(imageNames);
         if (uniqueImageNames.size !== images.length) {
@@ -259,7 +264,9 @@ useEffect(() => {
                                         value={createProductData.projectID}
                                         onChange={handleChange}
                                         required
+                                        defaultValue={0}
                                     >
+                                        <option value={0} disabled>Select Project</option>
                                         {projects.map(project => (
                                             <option key={project.projectID} value={project.projectID}>
                                                 {project.projectName}
@@ -274,7 +281,9 @@ useEffect(() => {
                                         value={createProductData.productTypeID}
                                         onChange={handleChange}
                                         required
+                                        defaultValue={0}
                                     >
+                                        <option value={0} disabled>Select Type of Timeshare</option>
                                         {productTypes.map(productType => (
                                             <option key={productType.productTypeID} value={productType.productTypeID}>
                                                 {productType.productTypeName}
@@ -293,6 +302,7 @@ useEffect(() => {
                                         onChange={handleChange}
                                         placeholder='Square metre'
                                         required
+                                        min={1}
                                     />
                                 </label>
                                 <label>
@@ -303,16 +313,18 @@ useEffect(() => {
                                         value={createProductData.productPrice}
                                         onChange={handleChange}
                                         required
+                                        min={1}
                                     />
                                 </label>
                                 <label>
-                                    Person
+                                    Available People
                                     <input
                                         name="productPerson"
                                         type="number"
                                         value={createProductData.productPerson}
                                         onChange={handleChange}
                                         required
+                                        min={1}
                                     />
                                 </label>
                             </div>
@@ -360,8 +372,8 @@ useEffect(() => {
                                     <button type="button" onClick={() => handleDeselect(index)}>Remove</button>
                                 </div>
                             ))}
-                            
-                            
+
+
                         </div>
                         <button className="create-button" type="submit">Create Post</button>
                     </div>

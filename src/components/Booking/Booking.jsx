@@ -184,7 +184,7 @@ export default function Booking() {
             // Gửi yêu cầu hủy đặt phòng và chờ phản hồi
             const cancelResponse = await axios.post(`http://localhost:8080/api/bookings/cancel/${bookingID}`);
             // Gọi lại cả fetchData và fetchDataConfirm để cập nhật dữ liệu mới
-            await Promise.all([fetchData(), fetchDataConfirm()]);
+            await Promise.all([fetchDataAccepted(), fetchDataConfirm()]);
             console.log(cancelResponse.data);
             // Xử lý sau khi hủy thành công
         } catch (error) {
@@ -208,9 +208,6 @@ export default function Booking() {
 
         fetchImg();
     }, []);
-
-    const currentDate = new Date();
-    console.log(currentDate);
 
     return (
         <>

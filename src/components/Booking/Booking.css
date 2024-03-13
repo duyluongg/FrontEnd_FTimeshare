@@ -240,3 +240,9 @@ h3.a11y-hidden {
     pointer-events: none;
     opacity: 0.5; /* Có thể thêm độ mờ tùy ý */
 }
+
+.refund-image {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
