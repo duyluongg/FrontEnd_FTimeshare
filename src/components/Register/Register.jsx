@@ -69,7 +69,7 @@ export default function Register() {
             formData.append('accPhone', phoneNumber);
             formData.append('accPassword', password);
             formData.append('accStatus', 'active');
-            formData.append('roleID', '2');
+            formData.append('roleID', '3');
             formData.append('accBirthday', formattedBirthday);
 
             const response = await axios.post('http://localhost:8080/api/users', formData, {

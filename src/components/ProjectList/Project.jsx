@@ -83,16 +83,10 @@ export default function Project() {
         console.error('Error fetching projects:', error);
       }
     };
-
     fetchProjects();
   }, []);
 
-
-
   const [latestNews, setLatestNews] = useState([]);
-
-
-  
 
   useEffect(() => {
     fetchTopNews();
@@ -100,7 +94,7 @@ export default function Project() {
   const fetchTopNews = async () => {
     try {
       const newResponse = await axios.get('http://localhost:8080/api/news/view');
-      console.log(newResponse.data);
+      // console.log(newResponse.data);
       const sortedNews = newResponse.data.sort((a, b) => {
         const dateA = new Date(a.newsPost[0], a.newsPost[1] - 1, a.newsPost[2], a.newsPost[3] - 1) ;
         const dateB = new Date(b.newsPost[0], b.newsPost[1] - 1, b.newsPost[2], b.newsPost[3] - 1);
@@ -111,9 +105,8 @@ export default function Project() {
         return dateB - dateA;
       });
 
-
       const latestThreeNews = sortedNews.slice(0, 3);
-      console.log(latestThreeNews);
+      // console.log(latestThreeNews);
 
 
       const accIDs = latestThreeNews.map(news => news.accID);
@@ -126,52 +119,22 @@ export default function Project() {
       }));
       setLatestNews(newsWithAccounts);
 
-      console.log(newsWithAccounts);
+      // console.log(newsWithAccounts);
     } catch (error) {
       console.error('Error fetching top news:', error);
     }
   };
 
-
-
-  // useEffect(() => {
-  //   const fetchTopNews = async () => {
-  //     try {
-  //       const newResponse = await axios.get('http://localhost:8080/api/news/view');
-
-  //       // Sắp xếp danh sách bài báo theo ngày mới nhất
-  //       const sortedNews = newResponse.data.sort((a, b) => {
-  //         const dateA = new Date(a.newsPost[0], a.newsPost[1] - 1, a.newsPost[2]);
-  //         const dateB = new Date(b.newsPost[0], b.newsPost[1] - 1, b.newsPost[2]);
-  //         return dateB - dateA;
-  //       });
-
-  //       // Lấy ra 3 bài báo mới nhất ở cuối danh sách
-  //       const latestThreeNews = sortedNews.slice(-3);
-
-  //       // Cập nhật state với 3 bài báo mới nhất
-  //       setLatestNews(latestThreeNews);
-  //     } catch (error) {
-  //       console.error('Error fetching top news:', error);
-  //     }
-  //   };
-
-  //   fetchTopNews();
-  // }, []);
-
-
   useEffect(() => {
     const fetchImg = async () => {
       try {
         const response = await axios.get(`http://localhost:8080/api/pictures/customerview`);
-
         setImages(response.data);
-        console.log(response.data);
+        // console.log(response.data);
       } catch (error) {
         console.error('Error fetching view img:', error);
       }
     };
-
     fetchImg();
   }, []);
 
@@ -179,7 +142,6 @@ export default function Project() {
     <>
       {(user && user.auth === true) && (
         <>
-          {/* <a href={'/create-timeshare'}>Post</a> */}
           <div className='project-owner'>
             <div className='project-owner-header'>
               <div className='project-owner-title'>My Timeshare</div>
@@ -203,7 +165,6 @@ export default function Project() {
                     <div key={product.productID}>
                       <div className='card-detail'>
                         <div className='img-detail'>
-                          {/* <img src={product.productPicture} alt={product.productName} /> */}
                           {projectImage && <img src={projectImage.imgName} />}
                         </div>
                         <div className='project-list-detail'>

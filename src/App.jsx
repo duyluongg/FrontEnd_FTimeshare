@@ -47,6 +47,8 @@ import BookingStage from './components/OwnerRole/BookingStage/BookingStage.jsx'
 import './components/OwnerRole/BookingStage/BookingStage.css'
 import UpdateProduct from './components/OwnerRole/UpdateProduct/UpdateProduct.jsx'
 import './components/OwnerRole/UpdateProduct/UpdateProduct.css'
+import Sidebar from './components/Sidebar/Sidebar.jsx'
+import './components/Sidebar/Sidebar.css'
 // import Sidenav from './components/Admin/Admin.jsx'
 import TotalUser from './components/AdminPage/TotalUser/TotalUser.jsx'
 // import  './components/AdminPage/TotalUser/TotalUser.css'
@@ -70,7 +72,7 @@ import StaffView from './components/StaffPage/StaffView.jsx'
 import BookingDetail from './components/AdminPage/BookingDetail/BookingDetail.jsx'
 import RespondPayment from './components/AdminPage/ViewCustomerPayment/RespondPayment.jsx'
 import SideNavPayment from './components/AdminPage/ViewCustomerPayment/SideNavPayment.jsx'
-import SideNavPayment80 from  './components/AdminPage/ViewCustomerPayment80/SideNavPayment80.jsx'
+import SideNavPayment80 from './components/AdminPage/ViewCustomerPayment80/SideNavPayment80.jsx'
 
 import SideNavBook from './components/AdminPage/BookingDetail/SideNavBook.jsx'
 
@@ -78,7 +80,7 @@ import SideNavBook from './components/AdminPage/BookingDetail/SideNavBook.jsx'
 function App() {
 
   const { user, loginContext } = useContext(UserContext);
-  console.log(user.id);
+  // console.log(user.id);
   useEffect(() => {
     if (localStorage.getItem("token")) {
       loginContext(localStorage.getItem("id"), localStorage.getItem("role"), localStorage.getItem("token"));
@@ -107,6 +109,7 @@ function App() {
   const isProfile = location.pathname.includes('/profile');
   const isPayment = location.pathname.includes('/payment');
   const isUpdateProduct = location.pathname.includes('/update-product');
+  const isSidebar = location.pathname.includes('/profile') || location.pathname.includes('/view-booking-history');
 
   const navigate = useNavigate();
 
@@ -115,12 +118,21 @@ function App() {
       {!isAdminPage && !isStaffPage && (
         <>
           <Navigation />
-          <Navbar getData={user.id} navigate={navigate}/>
+          <Navbar getData={user.id} />
         </>
       )}
 
-      {!isDetailPage && !isLoginPage && !isRegisterPage && !isContactPage && !isAdminPage && !isStaffPage && !isCreateTimeshare && !isViewSummary && !isViewDetail && !isTotalUser && 
-      !isViewNews && !isCreateNews && !isAccommodation && !isBooking && !isCreateBooking && !isBookingStage && !isProfile && !isPayment && !isUpdateProduct && <Header />}
+      {!isDetailPage && !isLoginPage && !isRegisterPage && !isContactPage && !isAdminPage && !isStaffPage && !isCreateTimeshare && !isViewSummary && !isViewDetail && !isTotalUser &&
+        !isViewNews && !isCreateNews && !isAccommodation && !isBooking && !isCreateBooking && !isBookingStage && !isProfile && !isPayment && !isUpdateProduct && !isSidebar && <Header />}
+
+      {isSidebar && (
+        <Sidebar>
+          <Routes>
+            <Route path='/profile' element={<Profile getData={user.id} />}></Route>
+            <Route path='/view-booking-history' element={<Booking />}></Route>
+          </Routes>
+        </Sidebar>
+      )}
 
       <Routes>
         <Route path='/' element={<Project />}></Route>
@@ -129,7 +141,7 @@ function App() {
         <Route path='/register' element={<Register />}></Route>
         <Route path='/contact-info' element={<Contact />}></Route>
         <Route path='/owner-page' element={<OwnerPage />}></Route>
-        <Route path='/create-timeshare' element={<CreateTimeshare getData={user.id}/>}></Route>
+        <Route path='/create-timeshare' element={<CreateTimeshare getData={user.id} />}></Route>
         <Route path='/view-summary' element={<ViewSummary />}></Route>
         <Route path='/view-project-detail/:id' element={<ViewDetail />}></Route>
         <Route path='/contact-info' element={<Contact />}></Route>
@@ -137,7 +149,7 @@ function App() {
         <Route path='/view-news/:id' element={<ViewNews />}></Route>
         <Route path='/create-news' element={<CreateNews />}></Route>
         <Route path='/accommodation' element={<Accommodation />}></Route>
-        <Route path='/view-booking-history' element={<Booking />}></Route>
+        {/* <Route path='/view-booking-history' element={<Booking />}></Route> */}
         <Route path='/create-booking' element={<CreateBooking />}></Route>
         <Route path='/booking-stage' element={<BookingStage />}></Route>
         <Route path='/payment' element={<Payment />}></Route>
@@ -148,7 +160,7 @@ function App() {
         <Route path='/admin/*' element={<Sidenav />}></Route>
         <Route path='/staff/*' element={<StaffView />}></Route>
 
-        <Route path='/profile' element={<Profile getData={user.id} />}></Route>
+        {/* <Route path='/profile' element={<Profile getData={user.id} />}></Route> */}
 
 
         {/* <Route path='/admin/report-project/:productID' element={<CardReport />}></Route> */}

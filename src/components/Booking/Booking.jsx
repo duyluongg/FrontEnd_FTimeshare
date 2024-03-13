@@ -198,12 +198,6 @@ export default function Booking() {
                     <TabContext value={value}>
                         <Box sx={{ borderBottom: 1, borderColor: 'divider' }} className="purchase-tab-title">
                             <Tabs
-                                // sx={{
-                                //     borderBottom: '1px solid', // border của Tabs
-                                //     borderColor: 'divider',    // màu border
-                                //     display: 'inline-flex',
-                                //     marginBottom: '10px',      // margin dưới (để tạo khoảng cách giữa Tabs và nội dung phía dưới)
-                                // }}
                                 value={value}
                                 onChange={handleChange}
                                 variant="scrollable"
@@ -227,6 +221,10 @@ export default function Booking() {
                                 />
                                 <Tab
                                     label="Cancelled" value={"4"} style={{ color: value === "4" ? '#CD9A2B' : undefined }}
+                                />
+
+                                <Tab
+                                    label="All" value={"5"} style={{ color: value === "5" ? '#CD9A2B' : undefined }}
                                 />
 
                             </Tabs>
@@ -340,43 +338,7 @@ export default function Booking() {
                                                     </Typography>
                                                     <Typography variant="body2" color="text.secondary" gutterBottom>
                                                         {formatDate(bookingInfo.startDate)} -  {formatDate(bookingInfo.endDate)}
-
-                                                    </Typography>
-                                                    {/* <Grid item container direction="row" justifyContent="flex-end" alignItems="center">
-                                                        <Grid item>
-                                                           
-                                                            {bookingInfo.bookingStatus.includes('Wait to respond') ? (
-                                                                <Typography variant="body2">Wait to respond</Typography>
-                                                            ) : bookingInfo.bookingStatus === 'Active' && currentDate < new Date(bookingInfo.startDate) ? (
-                                                                <Button
-                                                                    onClick={() => handleCancelActive(bookingInfo.bookingID)}
-                                                                    sx={{ cursor: 'pointer', fontSize: '0.8rem' }}
-                                                                    color="error"
-                                                                    variant="contained"
-                                                                    startIcon={<DeleteIcon />}
-                                                                >
-                                                                    Cancel
-                                                                </Button>
-                                                            ) : bookingInfo.bookingStatus === 'Active' && currentDate >= new Date(bookingInfo.startDate) && currentDate <= new Date(bookingInfo.endDate) ? (
-                                                                <Typography variant="body2">In Progress</Typography>
-                                                            ) : null} */}
-
-                                                    {/* {bookingInfo.bookingStatus.includes('Wait to respond') ? (
-                                                                <Typography variant="body2">Wait to respond</Typography>
-                                                            ) : (
-                                                                <Button
-                                                                    onClick={() => handleCancelActive(bookingInfo.bookingID)}
-                                                                    sx={{ cursor: 'pointer', fontSize: '0.8rem' }}
-                                                                    color="success"
-                                                                    variant="contained"
-                                                                    startIcon={<DeleteIcon />}
-                                                                >
-                                                                    <FormFeedback getID={productId.id} />
-                                                                </Button>
-                                                            )} */}
-                                                    {/* </Grid>
-                                                    </Grid> */}
-
+                                                    </Typography>         
                                                     <Grid item container direction="row" justifyContent="flex-end" alignItems="center">
                                                         <Grid item>
                                                             {bookingInfo.bookingStatus.includes('Wait to respond') ? (
@@ -456,20 +418,7 @@ export default function Booking() {
                                                         <Grid item container direction="row" justifyContent="flex-end" alignItems="center">
                                                             <Grid item>
                                                                 <Typography variant="body2">Completed</Typography>
-                                                                {/* {bookingInfo.bookingStatus === 'Wait to confirm (request cancel)' ? (
-
-                                                                    <Typography variant="body2">Wait to confirm (request cancel)</Typography>
-                                                                ) : (
-                                                                    <Button
-                                                                        onClick={() => handleCancelActive(bookingInfo.bookingID)}
-                                                                        sx={{ cursor: 'pointer', fontSize: '0.8rem' }}
-                                                                        color="error"
-                                                                        variant="contained"
-                                                                        startIcon={<DeleteIcon />}
-                                                                    >
-                                                                        Cancel
-                                                                    </Button>
-                                                                )} */}
+                                                                
                                                             </Grid>
                                                         </Grid>
                                                         <FormFeedback getID={bookingInfo.productID} getBookID={bookingInfo.bookingID} />
@@ -561,6 +510,93 @@ export default function Booking() {
                                     </Paper>
                                 )
                             })}
+                        </TabPanel>
+
+
+                        <TabPanel className="MuiTabPanel-root" value="5">
+                            <div className="YL_VlX">
+                                <div>
+                                    <div className='J632se'>
+                                        <section>
+                                            <h3 className="a11y-hidden"></h3>
+                                            <div className='P2JMvg'>
+                                                <div classNae="RBPP9y">
+                                                    <div class="UDaMW3" tabindex="0">Owner Name</div>
+                                                </div>
+                                                <div className='jgIyoX'>
+                                                    <div class="bv3eJE" tabindex="0">Status booking</div>
+                                                </div>
+                                            </div>
+                                        </section>
+                                        <div class="kG_yF0"></div>
+                                        <section>
+                                            <h3 class="a11y-hidden"></h3>
+                                            <a href="">
+                                                <div>
+                                                    <div className='bdAfgU'>
+                                                        <section>
+                                                            <div className='mZ1OWk'>
+                                                                <div className='dJaa92'>
+                                                                    <img src="#" className='gQuHsZ'></img>
+                                                                    <div className='nmdHRf'>
+                                                                        <div>
+                                                                            <div className='zWrp4w'>
+                                                                                <span class="DWVWOJ" tabindex="0">Product name</span>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div>
+                                                                            <div className='zWrp4w'>
+                                                                                <span class="DWVWOJ" tabindex="0">StartDate - EndDate</span>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div>
+                                                                            <div class="j3I_Nh" tabindex="0">Booking Person</div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="ylYzwa" tabindex="0">
+                                                                    <div class="YRp1mm">
+                                                                        <span class="nW_6Oi PNlXhK">₫159.000</span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </section>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </section>
+                                    </div>
+                                </div>
+                                <div class="kG_yF0"></div>
+                                <div className='yyqgYp'>
+                                    <div class="iwUeSD">
+                                        <div>
+                                            <span class="CDsaN0" aria-label="Đánh giá sản phẩm trước 21-03-2024" tabindex="0">
+                                                <div class="shopee-drawer" id="pc-drawer-id-21" tabindex="0"><u class="GQOPby" aria-describedby="0.5723019374949412"></u></div>
+                                            </span>
+                                        </div>
+                                        <span class="f423Cb"></span>
+                                    </div>
+                                    <section className='po9nwN'>
+                                        <h3 class="a11y-hidden"></h3>
+                                        <div class="aAXjeK">
+                                            <div>
+                                                <button class="stardust-button stardust-button--primary QY7kZh">Report</button>
+                                            </div>
+                                        </div>
+                                        <div class="aAXjeK">
+                                            <div>
+                                                <button class="stardust-button stardust-button--primary QY7kZh">Feedback</button>
+                                            </div>
+                                        </div>
+                                        <div class="hbQXWm">
+                                            <div>
+                                                <button class="stardust-button stardust-button--secondary QY7kZh">Book Again</button>
+                                            </div>
+                                        </div>
+                                    </section>
+                                </div>
+                            </div>
                         </TabPanel>
 
                     </TabContext>

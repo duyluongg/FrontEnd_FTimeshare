@@ -10,28 +10,19 @@ import axios from "axios";
 import { useContext } from 'react'
 import { UserContext } from '../UserContext'
 import { useNavigate } from 'react-router-dom';
-import { icon } from "@fortawesome/fontawesome-svg-core";
+import SnackBar from "../SnackBar.jsx";
 
 export default function Login() {
     const { loginContext } = useContext(UserContext);
     const navigate = useNavigate();
 
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
+    // const [email, setEmail] = useState('');
+    // const [password, setPassword] = useState('');
     const [isShowPassword, setIsShowPassword] = useState(false);
     const [loadingAPI, setLoadingAPI] = useState(false);
-
-    useEffect(() => {
-        let token = localStorage.getItem('token');
-        let role = localStorage.getItem('role');
-        if(token) {
-            if(role === '[ROLE_ADMIN]') {
-                navigate('/admin');
-            } else {
-                navigate('/');
-            }          
-        }
-    }, [])
+    const [snackbarOpen, setSnackbarOpen] = useState(false);
+    const [snackbarMessage, setSnackbarMessage] = useState('');
+    const [snackbarColor, setSnackbarColor] = useState('success');
 
     const [loginData, setLoginData] = useState({
         email: '',
@@ -50,24 +41,38 @@ export default function Login() {
         e.preventDefault();
 
         if (!loginData.email || !loginData.password) {
+            setSnackbarMessage('Email or Password are incorrect !!!');
+            setSnackbarColor("error");
+            setSnackbarOpen(true);
             return;
         }
         setLoadingAPI(true);
         try {
             const response = await axios.post('http://localhost:8080/auth/login', loginData);
 
-            console.log('Login successful');
-
             if (response && response.data.token) {
                 loginContext(response.data.id, response.data.role, response.data.token);
                 if (response.data.role === '[ROLE_ADMIN]') {
-                    navigate('/admin');
+                    setSnackbarMessage('Login successfully !!!')
+                    setSnackbarColor("success");
+                    setSnackbarOpen(true);
+                    setTimeout(() => navigate('/admin'), 1000);
+                } else if (response.data.role === '[ROLE_STAFF]') {
+                    setSnackbarMessage('Login successfully !!!')
+                    setSnackbarColor("success");
+                    setSnackbarOpen(true);
+                    setTimeout(() => navigate('/admin'), 1000);
                 } else {
-                    navigate('/');
+                    setSnackbarMessage('Login successfully !!!')
+                    setSnackbarColor("success");
+                    setSnackbarOpen(true);
+                    setTimeout(() => navigate('/'), 1000);
                 }
             } else {
-                if(response && response.status === 400) {
-                    //hiển thị thông báo lỗi
+                if (response && response.status === 400) {
+                    setSnackbarMessage('Login failed !!!');
+                    setSnackbarColor("error");
+                    setSnackbarOpen(true);
                 }
             }
             setLoadingAPI(false);
@@ -75,6 +80,10 @@ export default function Login() {
             console.error('Registration failed:', error);
         }
     }
+
+    const handleSnackbarClose = () => {
+        setSnackbarOpen(false);
+    };
 
     return (
         <div className="login-container">
@@ -114,6 +123,7 @@ export default function Login() {
                         &nbsp;LOGIN
                     </button>
                 </form>
+                <SnackBar open={snackbarOpen} message={snackbarMessage} onClose={handleSnackbarClose} color={snackbarColor} />
                 <div className="link-login">
                     <span className="forgot-password">
                         <a href="#">Forgot your password?</a>

@@ -11,6 +11,8 @@ import { useNavigate } from 'react-router-dom';
 import { NavDropdown } from 'react-bootstrap'
 import axios from 'axios';
 import Avatar from 'react-avatar'
+import SnackBar from "../SnackBar.jsx";
+
 const navigation = [
   { name: 'Home', href: '/', current: false },
   { name: 'About us', href: '/aboutus', current: false },
@@ -23,27 +25,21 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
 }
 
-export default function Navbar({ navigate, getData }) {
+export default function Navbar({ getData }) {
 
   const { user, logout } = useContext(UserContext);
-  console.log(user.id);
   const [accountUser, setAccountUser] = useState(null);
 
   const fetchDataUser = async (getData) => {
-    console.log(getData);
+    // console.log(getData);
     try {
       const [accountResponse, imagesResponse] = await Promise.all([
         axios.get(`http://localhost:8080/api/users/viewDetail/${user.id}`),
-
-
       ]);
-
       setAccountUser(accountResponse.data);
-      console.log(accountResponse.data.imgName);
-
+      // console.log(accountResponse.data.imgName);
     } catch (error) {
       console.error('Error fetching data:', error);
-
     }
   };
 
@@ -52,13 +48,22 @@ export default function Navbar({ navigate, getData }) {
       fetchDataUser(getData);
     }
   }, [getData]);
-  // const navigate = useNavigate();
+
+  const navigate = useNavigate();
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState('');
+  const [snackbarColor, setSnackbarColor] = useState('success');
+
+  const handleSnackbarClose = () => {
+    setSnackbarOpen(false);
+  };
 
   const handleSignOut = () => {
     logout();
-    navigate('/');
+    setSnackbarMessage('Logout successfully !!!');
+    setSnackbarColor("success");
+    setSnackbarOpen(true);
     setAccountUser(null);
-
   };
 
   const location = useLocation();
@@ -238,6 +243,7 @@ export default function Navbar({ navigate, getData }) {
               </div>
             </div>
           </div>
+          <SnackBar open={snackbarOpen} message={snackbarMessage} onClose={handleSnackbarClose} color={snackbarColor} />
 
           <Disclosure.Panel className="sm:hidden">
             <div className="space-y-1 px-2 pb-3 pt-2">
