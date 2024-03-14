@@ -17,6 +17,7 @@ const Booking = () => {
     const [checkOutDate, setCheckOutDate] = useState("");
     const [image, setImage] = useState('');
     const [imagePreview, setImagePreview] = useState(null);
+
     const [snackbarOpen, setSnackbarOpen] = useState(false);
     const [snackbarMessage, setSnackbarMessage] = useState('');
     const [snackbarColor, setSnackbarColor] = useState('success');
@@ -27,57 +28,6 @@ const Booking = () => {
     const navigate = useNavigate();
 
     const [accInfo, setAccInfo] = useState([]);
-
-    // const [bookingData, setBookingData] = useState({
-    //     startDate: '',
-    //     endDate: '',
-    //     bookingPerson: numPeople,
-    //     bookingStatus: 'Pending',
-    //     imgName: null,
-    //     imgData: null,
-    //     accID: user.id,
-    //     productID: productID,
-    //     // paymentID: 2
-    // });
-
-    // const handleChange = (e) => {
-    //     const { name, value } = e.target;
-    //     setBookingData({
-    //         ...bookingData,
-    //         [name]: value,
-    //     });
-    // };
-
-    // const handleSubmit = async (e) => {
-    //     e.preventDefault();
-
-    //     const formattedStartDate = new Date(bookingData.startDate).toISOString();
-    //     const formattedEndDate = new Date(bookingData.endDate).toISOString();
-
-    //     const bookingDataToSend = {
-    //         ...bookingData,
-    //         startDate: formattedStartDate,
-    //         endDate: formattedEndDate
-    //     };
-
-    //     try {
-    //         const response = await axios.post('http://localhost:8080/api/bookings/customer/createbooking', bookingDataToSend);
-    //         console.log('Booking created:', response.data);
-    //         console.log('Response status:', response.status);
-    //         console.log('Response status text:', response.statusText);
-    //         console.log(response.data.bookingID);
-    //         // Xử lý sau khi tạo booking thành công, ví dụ: chuyển hướng hoặc hiển thị thông báo thành công
-    //         navigate('/booking-stage', {
-    //             state: {
-    //                 bookingID: response.data.bookingID,
-    //                 productID: response.data.productID
-    //             }
-    //         });
-    //     } catch (error) {
-    //         console.error('Error creating booking:', error);
-    //         // Xử lý lỗi, ví dụ: hiển thị thông báo lỗi
-    //     }
-    // };
 
     useEffect(() => {
         const fetchAccInfoAPI = async () => {
@@ -96,22 +46,66 @@ const Booking = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
+        // try {
+        //     navigate('/payment', {
+        //         state: {
+        //             startDate: checkInDate,
+        //             endDate: checkOutDate,
+        //             bookingPerson: numPeople,
+        //             productID: productID,
+        //             name: accInfo.accName,
+        //             phone: accInfo.accPhone
+        //         }
+        //     })
+        //     setOpenModal(true);
+        // } catch (error) {
+        //     console.error('Error booking:', error);
+        // }
+
         try {
-            navigate('/payment', {
-                state: {
-                    startDate: checkInDate,
-                    endDate: checkOutDate,
-                    bookingPerson: numPeople,
-                    productID: productID,
-                    name: accInfo.accName,
-                    phone: accInfo.accPhone
+            const startDateObj = new Date(checkInDate);
+            const endDateObj = new Date(checkOutDate);
+            const formattedStartDate = startDateObj.toISOString().split('T')[0] + 'T08:00:00';
+            const formattedEndDate = endDateObj.toISOString().split('T')[0] + 'T08:00:00';
+
+            const formData = new FormData();
+            formData.append('startDate', formattedStartDate);
+            formData.append('endDate', formattedEndDate);
+            formData.append('productID', productID);
+
+            console.log(formData)
+
+            const response = await axios.post('http://localhost:8080/api/bookings/customer/checkbooking', formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
                 }
-            })
-            setOpenModal(true);
+            });
+
+            if (response.status === 202) {
+                navigate('/payment', {
+                    state: {
+                        startDate: checkInDate,
+                        endDate: checkOutDate,
+                        bookingPerson: numPeople,
+                        productID: productID,
+                        name: accInfo.accName,
+                        phone: accInfo.accPhone
+                    }
+                });
+            }
         } catch (error) {
             console.error('Error booking:', error);
+            if (error.response && error.response.data) {
+                setSnackbarMessage(error.response.data);
+                setSnackbarColor("error");
+                setSnackbarOpen(true);
+            }
         }
     }
+
+    const handleSnackbarClose = () => {
+        setSnackbarOpen(false);
+    };
 
     return (
         <>
@@ -221,16 +215,16 @@ const Booking = () => {
                                                 <button type="submit" className="create-booking-button">Booking</button>
                                             </div>
                                         </div>
-                                    
-                                    </form>
 
+                                    </form>
+                                    <SnackBar open={snackbarOpen} message={snackbarMessage} onClose={handleSnackbarClose} color={snackbarColor} />
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-           
+
         </>
     );
 };

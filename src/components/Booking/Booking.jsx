@@ -209,9 +209,6 @@ export default function Booking() {
         fetchImg();
     }, []);
 
-    const currentDate = new Date();
-    console.log(currentDate);
-
     return (
         <>
             {/* <div className='purchase-container'>

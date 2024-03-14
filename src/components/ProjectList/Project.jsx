@@ -63,11 +63,32 @@ export default function Project() {
     return `${day}/${month}/${year}`;
   };
 
+  // useEffect(() => {
+  //   const fetchProductByUserId = async () => {
+  //     try {
+  //       const response = await axios.get(`http://localhost:8080/api/products/${user.id}`);
+  //       setProductListByUserId(response.data);
+  //     } catch (error) {
+  //       console.error('Error fetching products by user-id:', error);
+  //     }
+  //   };
+  //   fetchProductByUserId();
+  // }, [user.id]);
+
   useEffect(() => {
     const fetchProductByUserId = async () => {
       try {
         const response = await axios.get(`http://localhost:8080/api/products/${user.id}`);
-        setProductListByUserId(response.data);
+        const products = response.data;
+
+        const updatedProducts = await Promise.all(products.map(async (product) => {
+          const feedbackResponse = await axios.get(`http://localhost:8080/api/feedback/average-feedback-rating/${product.productID}`);
+          const rating = feedbackResponse.data;
+
+          return { ...product, rating };
+        }));
+
+        setProductListByUserId(updatedProducts);
       } catch (error) {
         console.error('Error fetching products by user-id:', error);
       }
@@ -75,11 +96,32 @@ export default function Project() {
     fetchProductByUserId();
   }, [user.id]);
 
+  // useEffect(() => {
+  //   const fetchProjects = async () => {
+  //     try {
+  //       const response = await axios.get('http://localhost:8080/api/products/staff/active');
+  //       setProject(response.data);
+  //     } catch (error) {
+  //       console.error('Error fetching projects:', error);
+  //     }
+  //   };
+  //   fetchProjects();
+  // }, []);
+
   useEffect(() => {
     const fetchProjects = async () => {
       try {
         const response = await axios.get('http://localhost:8080/api/products/staff/active');
-        setProject(response.data);
+        const projects = response.data;
+
+        const updatedProjects = await Promise.all(projects.map(async (project) => {
+          const feedbackResponse = await axios.get(`http://localhost:8080/api/feedback/average-feedback-rating/${project.productID}`);
+          const rating = feedbackResponse.data;
+
+          return { ...project, rating };
+        }));
+
+        setProject(updatedProjects);
       } catch (error) {
         console.error('Error fetching projects:', error);
       }
@@ -171,7 +213,7 @@ export default function Project() {
                         <div className='project-list-detail'>
                           <div className='project-list-title'>
                             <h3 className='project-list-name'>{product.productName}</h3>
-                            <h3 className='project-list-feedback'><FontAwesomeIcon icon={faStar} color='#FFD43B' />{product.productRating}</h3>
+                            <h3 className='project-list-feedback'><FontAwesomeIcon icon={faStar} color='#FFD43B' />{product.rating}</h3>
                           </div>
                           <h4>Area: {product.productArea}</h4>
                           <div className='project-list-cost'>
@@ -216,14 +258,13 @@ export default function Project() {
                   <div className='project-list-detail'>
                     <div className='project-list-title'>
                       <h3 className='project-list-name'>{projectItem.productName}</h3>
-                      <h3 className='project-list-feedback'><FontAwesomeIcon icon={faStar} color='#FFD43B' />{projectItem.productViewer}</h3>
+                      <h3 className='project-list-feedback'><FontAwesomeIcon icon={faStar} color='#FFD43B' />{projectItem.rating}</h3>
                     </div>
                     <h4>{projectItem.productDescription}</h4>
                     <div className='project-list-cost'>${projectItem.productPrice}  <a>/ night</a></div>
                   </div>
                   <p>
                     <Link to={`detail/${projectItem.productID}`}>
-                      {/* <Link to={`${props.basePath}/${projectItem.productID}`}> */}
                       <button className='project-list-button-view'>
                         <a className='project-list-view'>View</a>
                       </button>

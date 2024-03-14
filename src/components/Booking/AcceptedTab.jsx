@@ -11,23 +11,6 @@ const AcceptedTab = ({ bookingInfoAccepted, images, formatDate, handleCancelActi
         maxHeight: '100%',
     });
 
-    // useEffect(() => {
-    //     const fetchData = async () => {
-    //         try {
-    //             for (const bookingInfo of bookingInfoAccepted) {
-    //                 await axios.post(`http://localhost:8080/api/bookings/staff/change_status_to_in_progress/${bookingInfo.id}`);
-    //                 await axios.post(`http://localhost:8080/api/bookings/staff/change_status_to_done/${bookingInfo.id}`);
-    //             }
-    //         } catch (error) {
-    //             console.error('Error fetching data:', error);
-    //         }
-    //     };
-
-    //     fetchData();
-    // }, [bookingInfoAccepted]);
-
-    const currentDate = new Date();
-
     if (loading) {
         return <div>Loading...</div>;
     }
