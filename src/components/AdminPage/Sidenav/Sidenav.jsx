@@ -202,7 +202,7 @@ export default function Sidenav() {
                             >
                                 <InboxIcon />
                             </ListItemIcon>
-                            <ListItemText primary="Inbox" sx={{ opacity: open ? 1 : 0 }} />
+                            <ListItemText primary="Profile" sx={{ opacity: open ? 1 : 0 }} />
                         </ListItemButton>
                     </ListItem>
                     {/* Các mục danh sách khác */}

@@ -11,7 +11,9 @@ import Pagination from '@mui/material/Pagination';
 export default function ReviewCustomer({ getID }) {
 
     console.log(getID);
-    const [getReview, setGetReview] = useState([])
+    const [getReview, setGetReview] = useState([]);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
         const fetchViewReview = async () => {
@@ -22,48 +24,73 @@ export default function ReviewCustomer({ getID }) {
                     feedbackCreateDate: new Date(...item.feedbackCreateDate).toLocaleDateString('en-GB')
                 }));
                 setGetReview(formattedData);
+                setIsLoading(false);
                 console.log(formattedData);
 
             } catch (error) {
                 console.error('Error fetching view review:', error);
+                setIsLoading(false);
             }
         };
 
         fetchViewReview();
     }, []);
 
+    // Logic to paginate reviews
+    const indexOfLastReview = currentPage * 3;
+    const indexOfFirstReview = indexOfLastReview - 3;
+    const currentReviews = getReview.slice(indexOfFirstReview, indexOfLastReview);
+
+    const handlePageChange = (event, value) => {
+        setCurrentPage(value);
+    };
+
     return (
         <div>
-            <div className='review-field'>
-                {getReview.map((item) => (
-                    <div key={item.feedbackID} className='review-field-child'>
-                        <div className="information-customer">
-                            <div className='review-avatar'>
-                                <Avatar alt='' sx={{ width: 63, height: 63 }} src="/static/images/avatar/1.jpg" />
-                                <h2 className='name-avatar'>Luong ngoc phuong duy </h2>
+            {isLoading ? (
+                <div className='review-field-child'>Loading...</div>
+            ) : getReview.length === 0 ? (
+                <p className='no-feedback'>Sản phẩm này hiện chưa có feedback</p>
+            ) : (
+                <div>
+                    <div className='review-field'>
+                        {currentReviews.map((item) => (
+                            <div key={item.feedbackID} className='review-field-child'>
+                                <div className="information-customer">
+                                    <div className='review-avatar'>
+                                        <Avatar alt='' sx={{ width: 63, height: 63 }} src="/static/images/avatar/1.jpg" />
+                                        <h2 className='name-avatar'>Luong ngoc phuong duy </h2>
+                                    </div>
+                                    <div className='detail-review'>
+                                        {/* <CalendarMonthIcon /> */}
+                                        {/* <div> 1 đêm - tháng 9/2023</div> */}
+                                    </div>
+                                </div>
+                                <div className="information-customer-review">
+                                    <div className='information-customer-review-flex'>
+                                        <div className='review-mark'>{item.feedbackRating}<a>/10</a></div>
+                                        <div className='review-mark-date'>{item.feedbackCreateDate}</div>
+                                    </div>
+                                    <div className='review-content'>
+                                        {item.feedbackDetail}
+                                    </div>
+                                    <div className='review-img'>
+                                        <img src='../image/prj/prj01.jpg' alt='' />
+                                    </div>
+                                    {/* <div className='review-like'><button><ThumbUpIcon /> </button> 1 lượt thích đánh giá này</div> */}
+                                </div>
                             </div>
-                            <div className='detail-review'>
-                                {/* <CalendarMonthIcon /> */}
-                                {/* <div> 1 đêm - tháng 9/2023</div> */}
-                            </div>
-                        </div>
-                        <div className="information-customer-review">
-                            <div className='information-customer-review-flex'>
-                                <div className='review-mark'>{item.feedbackRating}<a>/10</a></div>
-                                <div className='review-mark-date'>{item.feedbackCreateDate}</div>
-                            </div>
-                            <div className='review-content'>
-                                {item.feedbackDetail}
-                            </div>
-                            <div className='review-img'>
-                                <img src='../image/prj/prj01.jpg' alt='' />
-                            </div>
-                            {/* <div className='review-like'><button><ThumbUpIcon /> </button> 1 lượt thích đánh giá này</div> */}
-                        </div>
+                        ))}
                     </div>
-                ))}
-            </div>
-            <Pagination count={10} color="primary" sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', mt: '25px' }} />
+                    <Pagination
+                        count={Math.ceil(getReview.length / 3)}
+                        page={currentPage}
+                        onChange={handlePageChange}
+                        color="primary"
+                        sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', mt: '25px' }}
+                    />
+                </div>
+            )}
         </div>
     )
 }

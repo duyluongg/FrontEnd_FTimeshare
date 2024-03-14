@@ -263,7 +263,7 @@ export default function Project() {
           </div>
         </div>
         <Link to={"/new"}>
-          <Button>
+          <Button sx={{ml:"790px", color:"#CD9A2B"}}>
             show more
           </Button>
         </Link>

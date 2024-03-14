@@ -53,6 +53,14 @@
 
 }
 
+.no-feedback{
+    margin-top: 20px;
+    background-color: #BDBDBD;
+    text-align: center;
+    border-radius: 20px;
+    padding: 20px;
+}
+
 .review-mark-date {
     margin-left: 684px;
     color: #BDBDBD;
