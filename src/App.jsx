@@ -49,6 +49,7 @@ import UpdateProduct from './components/OwnerRole/UpdateProduct/UpdateProduct.js
 import './components/OwnerRole/UpdateProduct/UpdateProduct.css'
 import Sidebar from './components/Sidebar/Sidebar.jsx'
 import './components/Sidebar/Sidebar.css'
+import AccommodationDetail from './components/Accommodation/AccommodationDetail.jsx'
 // import Sidenav from './components/Admin/Admin.jsx'
 import TotalUser from './components/AdminPage/TotalUser/TotalUser.jsx'
 // import  './components/AdminPage/TotalUser/TotalUser.css'
@@ -122,6 +123,7 @@ function App() {
   const isProfile = location.pathname.includes('/profile');
   const isUpdateProfile = location.pathname.includes('/update-profile/:accID');
   const isUpdateProfileStaff = location.pathname.includes('/update-profile-staff/:accID');
+  const isAccommodationDetail = location.pathname.includes('accommodation-detail');
 
 
   const isPayment = location.pathname.includes('/payment');
@@ -140,7 +142,7 @@ function App() {
       )}
 
       {!isDetailPage && !isLoginPage && !isRegisterPage && !isContactPage && !isAdminPage && !isStaffPage && !isUpdateProfileStaff && !isCreateTimeshare && !isViewSummary && !isViewDetail && !isTotalUser &&
-        !isViewNews && !isViewNewAll && !isCreateNews && !isAccommodation && !isBooking && !isCreateBooking && !isBookingStage && !isProfile && !isPayment && !isUpdateProduct && !isSidebar && <Header />}
+        !isViewNews && !isViewNewAll && !isCreateNews && !isAccommodation && !isBooking && !isCreateBooking && !isBookingStage && !isProfile && !isPayment && !isUpdateProduct && !isSidebar && !isAccommodationDetail && <Header />}
 
       {isSidebar && (
         <Sidebar>
@@ -173,6 +175,7 @@ function App() {
         <Route path='/create-payment' element={<CreatePayment />}></Route>
         <Route path='/update-product' element={<UpdateProduct />}></Route>
         <Route path='/update-profile/:accID' element={<UpdateProfile />}></Route>
+        <Route path='/accommodation-detail/:projectID' element={<AccommodationDetail />}></Route>
 
         {/* <Route path='/admin/total-users/*' element={<TotalUser />}></Route> */}
         {/* <Route path='/admin/*' element={<AdminPage />}></Route> */}

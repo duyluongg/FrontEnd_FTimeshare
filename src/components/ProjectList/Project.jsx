@@ -10,6 +10,8 @@ import { useContext } from 'react'
 import { UserContext } from '../UserContext.jsx'
 import { Button } from '@mui/material';
 
+import { GoogleLogin } from "@react-oauth/google";
+
 export default function Project() {
   const [project, setProject] = useState([]);
   const [topNews, setTopNews] = useState([]);
@@ -139,10 +141,10 @@ export default function Project() {
       const newResponse = await axios.get('http://localhost:8080/api/news/view');
       // console.log(newResponse.data);
       const sortedNews = newResponse.data.sort((a, b) => {
-        const dateA = new Date(a.newsPost[0], a.newsPost[1] - 1, a.newsPost[2], a.newsPost[3] - 1) ;
+        const dateA = new Date(a.newsPost[0], a.newsPost[1] - 1, a.newsPost[2], a.newsPost[3] - 1);
         const dateB = new Date(b.newsPost[0], b.newsPost[1] - 1, b.newsPost[2], b.newsPost[3] - 1);
         if (dateA.getTime() === dateB.getTime()) {
-        
+
           return new Date(b.newsPost[3], b.newsPost[4], b.newsPost[5]) - new Date(a.newsPost[3], a.newsPost[4], a.newsPost[5]);
         }
         return dateB - dateA;
@@ -183,6 +185,14 @@ export default function Project() {
 
   return (
     <>
+      <GoogleLogin
+        onSuccess={credetialResponse => {
+          console.log(credetialResponse);
+        }}
+        onError={() => {
+          console.log("Login failed");
+        }}
+      />
       {(user && user.auth === true) && (
         <>
           <div className='project-owner'>
@@ -304,7 +314,7 @@ export default function Project() {
           </div>
         </div>
         <Link to={"/new"}>
-          <Button sx={{ml:"790px", color:"#CD9A2B"}}>
+          <Button sx={{ ml: "790px", color: "#CD9A2B" }}>
             show more
           </Button>
         </Link>

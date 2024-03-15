@@ -11,6 +11,9 @@ import { useContext } from 'react'
 import { UserContext } from '../UserContext'
 import { useNavigate } from 'react-router-dom';
 import SnackBar from "../SnackBar.jsx";
+import { GoogleLogin } from "@react-oauth/google";
+import { jwtDecode } from "jwt-decode";
+import { useGoogleLogin } from "@react-oauth/google";
 
 export default function Login() {
     const { loginContext } = useContext(UserContext);
@@ -88,6 +91,24 @@ export default function Login() {
         setSnackbarOpen(false);
     };
 
+    const loginGoogle = useGoogleLogin({
+        onSuccess: async (response) => {
+            try {
+                const res = await axios.get(
+                    "https://googleapis.com/oauth2/v3/userinfo",
+                    {
+                        headers: {
+                            Authorization: `Bearer ${response.access_token}`,
+                        },
+                    }
+                );
+                console.log(res);
+            } catch (err) {
+                console.log(err);
+            }
+        },
+    });
+
     return (
         <div className="login-container">
             <div className="login-form">
@@ -145,10 +166,19 @@ export default function Login() {
                         <span className="facebook-icon"><FontAwesomeIcon icon={faFacebookF} className="icon" /></span>
                         <span>Facebook</span>
                     </button>
-                    <button className="google-login">
+                    <button className="google-login" onClick={() => loginGoogle()}>
                         <span className="google-icon"><FontAwesomeIcon icon={faGooglePlusG} className="icon" /></span>
                         <span>Google</span>
                     </button>
+                    {/* <GoogleLogin
+                        onSuccess={credetialResponse => {
+                            const credetialResponseDecoded = jwtDecode(credetialResponse.credential);
+                            console.log(credetialResponseDecoded);
+                        }}
+                        onError={() => {
+                            console.log("Login failed");
+                        }}
+                    /> */}
                 </div>
             </div>
         </div>

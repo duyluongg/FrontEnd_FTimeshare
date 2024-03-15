@@ -142,9 +142,9 @@ export default function Accommodation() {
                                     {item.projectDescription}
                                 </Typography>
                             </CardContent>
-                            <Link to={`/admin/view-news-staff/${item.projectID}`}>
+                            <Link to={`/accommodation-detail/${item.projectID}`}>
                                 <CardActions>
-                                    <Button size="small">Learn More</Button>
+                                    <Button size="small">View Homestay</Button>
                                 </CardActions>
                             </Link>
 

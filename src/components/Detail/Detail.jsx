@@ -164,12 +164,16 @@ export default function Detail() {
 
     const navigate = useNavigate();
 
+    console.log(productDetail.availableStartDate);
+
     const handleBooking = async (e) => {
         e.preventDefault();
         if (user && user.auth === true) {
             navigate('/create-booking', {
                 state: {
-                    productID: productId.id     
+                    productID: productId.id,
+                    availableStartDate: productDetail.availableStartDate,
+                    availableEndDate: productDetail.availableEndDate     
                 }
             });
         } else {

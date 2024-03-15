@@ -23,7 +23,8 @@ const Booking = () => {
     const [snackbarColor, setSnackbarColor] = useState('success');
 
     const location = useLocation();
-    const { productID } = location.state;
+    const { productID, availableStartDate, availableEndDate } = location.state;
+
 
     const navigate = useNavigate();
 
@@ -45,22 +46,6 @@ const Booking = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-
-        // try {
-        //     navigate('/payment', {
-        //         state: {
-        //             startDate: checkInDate,
-        //             endDate: checkOutDate,
-        //             bookingPerson: numPeople,
-        //             productID: productID,
-        //             name: accInfo.accName,
-        //             phone: accInfo.accPhone
-        //         }
-        //     })
-        //     setOpenModal(true);
-        // } catch (error) {
-        //     console.error('Error booking:', error);
-        // }
 
         try {
             const startDateObj = new Date(checkInDate);
