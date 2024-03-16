@@ -122,9 +122,9 @@ export default function Navbar({ getData }) {
                 <div className="hidden sm:ml-12 sm:block ">
                   <div className="flex space-x-4">
                     {navigation.map((item) => (
-                      <a
+                      <Link to={item.href}
                         key={item.name}
-                        href={item.href}
+                        // href={item.href}
                         className={classNames(
                           (location.pathname === item.href || (location.pathname === "/" && item.href === "#")) ? 'bg-gray-900 text-white' : 'text-black-300 hover:bg-gray-700 hover:text-white',
                           'rounded-md px-3 py-2 text-sm font-medium', 'mt-4'
@@ -133,7 +133,7 @@ export default function Navbar({ getData }) {
                       // onClick={() => handleItemClick(index)} 
                       >
                         {item.name}
-                      </a>
+                      </Link>
                     ))}
                   </div>
                 </div>
