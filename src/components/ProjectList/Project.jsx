@@ -10,8 +10,6 @@ import { useContext } from 'react'
 import { UserContext } from '../UserContext.jsx'
 import { Button } from '@mui/material';
 
-import { GoogleLogin } from "@react-oauth/google";
-
 export default function Project() {
   const [project, setProject] = useState([]);
   const [topNews, setTopNews] = useState([]);
@@ -185,14 +183,6 @@ export default function Project() {
 
   return (
     <>
-      <GoogleLogin
-        onSuccess={credetialResponse => {
-          console.log(credetialResponse);
-        }}
-        onError={() => {
-          console.log("Login failed");
-        }}
-      />
       {(user && user.auth === true) && (
         <>
           <div className='project-owner'>

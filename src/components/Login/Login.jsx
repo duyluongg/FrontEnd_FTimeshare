@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
     faFacebookF, faGooglePlusG
@@ -153,7 +154,7 @@ export default function Login() {
                         <a href="#">Forgot your password?</a>
                     </span>
                     <span className="register-here">
-                        <a href="/register">Register here</a>
+                        <Link to="/register">Register here</Link>
                     </span>
                 </div>
                 <div className="line-container">

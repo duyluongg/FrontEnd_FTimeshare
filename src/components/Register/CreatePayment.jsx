@@ -18,7 +18,7 @@ export default function CreatePayment({ getID, hideCreatePayment }) {
     const [snackbarMessage, setSnackbarMessage] = useState('');
     const [snackbarColor, setSnackbarColor] = useState('success');
 
-    console.log(hideCreatePayment);
+    // console.log(hideCreatePayment);
     const formatDate = (date) => {
         const d = new Date(date);
         const year = d.getFullYear();
@@ -47,13 +47,13 @@ export default function CreatePayment({ getID, hideCreatePayment }) {
                     'Content-Type': 'multipart/form-data'
                 }
             });
-            hideCreatePayment();
-            console.log(hideCreatePayment());
+            // hideCreatePayment();
+            // console.log(hideCreatePayment());
             console.log(response.data);
             setSnackbarMessage('Create payment successfully !!!')
             setSnackbarColor("success");
             setSnackbarOpen(true);
-
+            window.location.reload();
 
         } catch (error) {
             console.error('Lỗi tạo tk:', error.response.data);
@@ -85,10 +85,11 @@ export default function CreatePayment({ getID, hideCreatePayment }) {
     };
 
     return (
-        <div className="register-container">
+        <div className="payment-container">
 
-            <div className="register-form">
+            <div className="register-form payment-form">
                 <h1>Please provide a payment account to be able to book</h1>
+                <h3>If you already have a payment account, skip this step</h3>
                 <form onSubmit={handleCreatePayment}>
                     <h2>CREATE PAYMENT</h2>
                     <div className="line-container line-header">

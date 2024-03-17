@@ -1,37 +1,15 @@
 .view-project-container {
     display: flex;
     margin: 50px 100px;
+    min-height: 100vh;
 }
+
 .project-summary {
     width: 30%;
     margin-right: 20px;
 }
-/* .project-summary .card {
-    margin-left: -4px;
-    padding: 20px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-}
-
-.project-summary .summary-row {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 10px;
-}
-
-.project-summary .label {
-    flex: 1;
-    margin-right: 10px;
-    font-weight: bold;
-}
-
-.project-summary .value {
-    flex: 1;
-    text-align: right;
-} */
 
 .project-summary .card {
-    /* max-width: 300px; */
     margin-left: -4px;
     margin-right: 0;
     display: flex;
@@ -58,13 +36,11 @@
 }
 
 .project-summary .value {
-    /* margin-left: auto;  */
     flex: 1;
     text-align: right;
 }
 
-
-.view-project-title{
+.view-project-title {
     color: #CD9A2B;
     font-size: 25px;
     font-weight: bold;
@@ -76,7 +52,6 @@
 }
 
 .project-card {
-    /* max-width: 900px; */
     border: 1px solid #ccc;
     border-radius: 5px;
     padding: 10px;
@@ -96,20 +71,20 @@
 }
 
 .imgage img {
-    width: 100px; 
-    height: 100px; 
-    object-fit: cover; 
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
 }
 
 .project-list-details {
     display: flex;
-    flex-direction: column; 
+    flex-direction: column;
 }
 
 .project-list-title {
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-between; 
+    justify-content: space-between;
 }
 
 .button-group {
@@ -120,9 +95,9 @@
 
 .button-group button {
     background-color: transparent;
-    border: 1px solid #CD9A2B; 
+    border: 1px solid #CD9A2B;
     border-radius: 4px;
-    color: #CD9A2B; 
+    color: #CD9A2B;
     padding: 10px 20px;
     margin-top: 10px;
     text-align: center;
@@ -130,11 +105,10 @@
     display: inline-block;
     font-size: 16px;
     cursor: pointer;
-    transition: all 0.3s ease; 
-
+    transition: all 0.3s ease;
 }
 
 .button-group button:hover {
-    background-color: #CD9A2B; 
+    background-color: #CD9A2B;
     color: white;
 }
