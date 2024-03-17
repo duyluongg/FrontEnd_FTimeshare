@@ -12,7 +12,7 @@ export default function CreatePayment({ getID, hideCreatePayment }) {
     const [phoneNumber, setPhoneNumber] = useState('');
     const [accountBank, setAccountBank] = useState('');
     const [birthday, setBirthday] = useState('');
-    const [imgBank, setImgBank] = useState('');
+    // const [imgBank, setImgBank] = useState('');
     const [imgBankPreview, setImgBankPreview] = useState(null);
     const [snackbarOpen, setSnackbarOpen] = useState(false);
     const [snackbarMessage, setSnackbarMessage] = useState('');
@@ -35,7 +35,9 @@ export default function CreatePayment({ getID, hideCreatePayment }) {
         try {
 
             const formData = new FormData();
-            formData.append('ImgBanking', imgBank);
+            // formData.append('ImgBanking', new File([''], { type: 'text/plain' }));
+            formData.append('ImgBanking', new File([''], ''));
+
             formData.append('accountName', accountName);
             formData.append('banking', bank);
             formData.append('accountNumber', accountBank);
@@ -63,22 +65,22 @@ export default function CreatePayment({ getID, hideCreatePayment }) {
         }
     }
 
-    const handleImgBankChange = (e) => {
-        const file = e.target.files[0];
-        if (file) {
-            setImgBank(file);
-            previewImage(file);
-            console.log(file);
-        }
-    };
+    // const handleImgBankChange = (e) => {
+    //     const file = e.target.files[0];
+    //     if (file) {
+    //         setImgBank(file);
+    //         previewImage(file);
+    //         console.log(file);
+    //     }
+    // };
 
-    const previewImage = (file) => {
-        const reader = new FileReader();
-        reader.readAsDataURL(file);
-        reader.onloadend = () => {
-            setImgBankPreview(reader.result);
-        };
-    };
+    // const previewImage = (file) => {
+    //     const reader = new FileReader();
+    //     reader.readAsDataURL(file);
+    //     reader.onloadend = () => {
+    //         setImgBankPreview(reader.result);
+    //     };
+    // };
 
     const handleSnackbarClose = () => {
         setSnackbarOpen(false);
@@ -96,7 +98,7 @@ export default function CreatePayment({ getID, hideCreatePayment }) {
                         <div className="line-register"></div>
                     </div>
 
-                    <div className="input-container">
+                    {/* <div className="input-container">
                         <label htmlFor="avatar">Image Banking</label>
                         <input
                             type="file"
@@ -109,7 +111,7 @@ export default function CreatePayment({ getID, hideCreatePayment }) {
                                 <img src={imgBankPreview} alt="Avatar Preview" style={{ maxWidth: "100px", maxHeight: "100px" }} />
                             </div>
                         )}
-                    </div>
+                    </div> */}
 
                     <div className="input-container">
                         <input
