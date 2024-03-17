@@ -69,7 +69,8 @@ export default function RespondPayment() {
                 axios.get(`http://localhost:8080/api/users/viewDetail/${accID}`),
                 axios.get(`http://localhost:8080/api/bookings/view-booking-by-Id/${bookingID}`),
                 axios.get('http://localhost:8080/api/bookings/staff/WaitRespondPayment(100)'),
-                axios.get('http://localhost:8080/api/bookings/staff/waitToConfirmRC'),
+                // axios.get('http://localhost:8080/api/bookings/staff/waitToConfirmRC'),
+                axios.get(`http://localhost:8080/api/payment/payment/${accID}`),
 
             ]);
 
