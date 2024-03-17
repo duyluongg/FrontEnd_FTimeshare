@@ -6,7 +6,7 @@ import axios from 'axios';
 import SnackBar from "../SnackBar.jsx";
 import { useNavigate } from "react-router";
 
-export default function CreatePayment({ getID, hideCreatePayment }) {
+export default function CreatePayment({ getID }) {
     const [accountName, setAccountName] = useState('');
     const [bank, setBank] = useState('');
     const [phoneNumber, setPhoneNumber] = useState('');
