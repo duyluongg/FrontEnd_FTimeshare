@@ -5,6 +5,8 @@ import axios from "axios";
 import SnackBar from "../../SnackBar.jsx";
 import { useContext } from 'react';
 import { UserContext } from '../../UserContext';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faCalendarDay } from '@fortawesome/free-solid-svg-icons';
 
 
 const Booking = () => {
@@ -100,6 +102,7 @@ const Booking = () => {
                         <div className="booking-col-12">
                             <div className="create-booking-page-title">
                                 <h1 className="title-head"><p>Booking</p></h1>
+                                <h1 className="booking-date"><p><FontAwesomeIcon icon={faCalendarDay} />&nbsp;{availableStartDate} - {availableEndDate}</p></h1>
                             </div>
                             <div className="create-booking-page-content">
                                 <div className="content-column">

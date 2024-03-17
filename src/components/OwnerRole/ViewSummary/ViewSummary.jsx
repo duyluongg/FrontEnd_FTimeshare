@@ -18,7 +18,7 @@ export default function ViewSummary() {
             try {
                 const response = await axios.get(`http://localhost:8080/api/products/${user.id}`);
                 setProducts(response.data);
-                console.log(response.data);
+                // console.log(response.data);
             } catch (error) {
                 console.error('Error fetching products by user id:', error);
             }
@@ -32,7 +32,7 @@ export default function ViewSummary() {
             try {
                 const response = await axios.get(`http://localhost:8080/api/products/sum/${user.id}`);
                 setTotalRevenue(response.data);
-                console.log(response.data);
+                // console.log(response.data);
             } catch (error) {
                 console.error('Error fetching total revenue: ', error);
             }
@@ -71,20 +71,8 @@ export default function ViewSummary() {
         <>
             <div className="view-project-container">
                 <div className='project-summary'>
-
                     <h2 className="view-project-title">Summary</h2>
                     <div className="card">
-
-                        {/* <div className="summary-row">
-                            <p className="label">Number of projects posted:</p>
-                            <p className="value">{totalProjects}</p>
-                            <p className="value">5</p>
-                        </div>
-                        <div className="summary-row">
-                            <p className="label">Number of projects sold:</p>
-                            <p className="value">{projectsSold}</p>
-                            <p className="value">3</p>
-                        </div> */}
                         <div className="summary-row">
                             <p className="label">Total Revenue:</p>
                             <p className="value">${totalRevenue}</p>
@@ -137,10 +125,7 @@ export default function ViewSummary() {
                         );
                     })}
                 </div>
-
-
                 <div className="pagination">
-
                 </div>
             </div>
         </>

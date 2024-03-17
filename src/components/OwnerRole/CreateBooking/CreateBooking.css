@@ -63,19 +63,34 @@
 }
 
 .create-booking-page-title .title-head {
-    margin-bottom: 30px;
+    /* margin-bottom: 30px; */
     text-align: center;
 }
 
 .create-booking-page-title .title-head p {
-    margin-bottom: 10px;
-    padding-bottom: 10px;
+    /* margin-bottom: 10px;
+    padding-bottom: 10px; */
     position: relative;
     font-size: 30px;
     text-transform: uppercase;
     font-weight: 600;
     padding-top: 20px;
     color: #CD9A2B;
+}
+
+.create-booking-page-title .booking-date {
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+.create-booking-page-title .booking-date p {
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+    position: relative;
+    font-size: 20px;
+    font-weight: bold;
+    padding-top: 10px;
+    color: #000;
 }
 
 .create-booking-page-content {

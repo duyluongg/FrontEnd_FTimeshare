@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useParams } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faStar } from '@fortawesome/free-solid-svg-icons'
+import { faCalendarDay } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom'
 import Slider from "react-slick";
 import { useEffect } from 'react';
@@ -15,6 +16,7 @@ import { useContext } from 'react'
 import { UserContext } from '../UserContext.jsx'
 import { ProjectsDataSimilar } from '../../Shared/ListOfProjectSimilar';
 import { RoomData } from '../../Shared/Room';
+import { format } from 'date-fns';
 
 import ReviewCustomer from './ReviewCustomer.jsx'
 // import ViewFeedback from './ViewFeedback.jsx';
@@ -97,13 +99,12 @@ export default function Detail() {
     useEffect(() => {
         window.scrollTo(0, 0);
     }, []);
-    // const [products, setProducts] = useState([]);
+
     const [productDetail, setProductDetail] = useState([]);
     const productId = useParams();
-    console.log(productId.id);
+    // console.log(productId.id);
     const [activeContentIndex, setActiveContentIndex] = useState('');
     const [images, setImages] = useState([]);
-
     const { user } = useContext(UserContext);
 
 
@@ -111,26 +112,35 @@ export default function Detail() {
 
         const fetchProductDetail = async () => {
             try {
+                // const response = await axios.get(`http://localhost:8080/api/products/viewById/${productId.id}`);
+                // setProductDetail(response.data[0]);
+                // console.log(response.data[0]);
+                // setActiveContentIndex(response.data[0].productDescription);
                 const response = await axios.get(`http://localhost:8080/api/products/viewById/${productId.id}`);
-                setProductDetail(response.data[0]);
-
-                const defaultContentIndex = productDetail.productDescription;
-                // setActiveContentIndex(defaultContentIndex);
-                setActiveContentIndex(response.data[0].productDescription);
+                const productData = response.data[0];
+                const startDate = new Date(productData.availableStartDate[0], productData.availableStartDate[1] - 1, productData.availableStartDate[2], productData.availableStartDate[3], productData.availableStartDate[4]);
+                const endDate = new Date(productData.availableEndDate[0], productData.availableEndDate[1] - 1, productData.availableEndDate[2], productData.availableEndDate[3], productData.availableEndDate[4]);
+                const formattedStartDate = format(startDate, 'dd/MM/yyyy');
+                const formattedEndDate = format(endDate, 'dd/MM/yyyy');
+                productData.availableStartDate = formattedStartDate;
+                productData.availableEndDate = formattedEndDate;
+                setProductDetail(productData);
+                console.log(productData);
+                setActiveContentIndex(productData.productDescription);
             } catch (error) {
                 console.error('Error fetching products:', error);
             }
         };
 
         fetchProductDetail();
-    }, [productId.id]);
+    }, [productId.id, setActiveContentIndex]);
 
     useEffect(() => {
         const fetchImg = async () => {
             try {
                 const response = await axios.get(`http://localhost:8080/api/pictures/viewPicture/${productId.id}`);
                 setImages(response.data);
-                console.log(images);
+                // console.log(images);
             } catch (error) {
                 console.error('Error fetching view img:', error);
             }
@@ -139,32 +149,7 @@ export default function Detail() {
         fetchImg();
     }, []);
 
-    // const [totalDays, setTotalDays] = useState(0);
-    // const [totalCost, setTotalCost] = useState(0);
-
-    // const handleChange = (e) => {
-    //     const { name, value } = e.target;
-    //     setBookingData({
-    //         ...bookingData,
-    //         [name]: value,
-    //     });
-    // };
-
-    // const calculateTotal = () => {
-    //     const start = new Date(bookingData.startDate);
-    //     const end = new Date(bookingData.endDate);
-    //     const diffTime = Math.abs(end - start);
-    //     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-    //     setTotalDays(diffDays);
-    //     // Giả sử price là 1000 đơn vị tiền tệ mỗi ngày
-    //     const pricePerDay = productDetail.productPrice;
-    //     const totalCost = diffDays * pricePerDay;
-    //     setTotalCost(totalCost);
-    // };
-
     const navigate = useNavigate();
-
-    console.log(productDetail.availableStartDate);
 
     const handleBooking = async (e) => {
         e.preventDefault();
@@ -173,7 +158,7 @@ export default function Detail() {
                 state: {
                     productID: productId.id,
                     availableStartDate: productDetail.availableStartDate,
-                    availableEndDate: productDetail.availableEndDate     
+                    availableEndDate: productDetail.availableEndDate
                 }
             });
         } else {
@@ -181,10 +166,6 @@ export default function Detail() {
             navigate('/login');
         }
     };
-
-    // if (!productDetail) {
-    //     return <div>Loading...</div>;
-    // }
 
     return (
 
@@ -204,29 +185,6 @@ export default function Detail() {
                                 <div className='container-item-img-item'>
                                     {images.length > 0 && <img src={images[3].imgName} />}
                                 </div>
-
-                                {/* {images.length >= 3 && (
-                                    <>
-                                        <div className='container-item-img-item'>
-                                            <img src={images[0].imgName} />
-                                        </div>
-                                        <div className='container-item-img-item'>
-                                            <img src={images[1].imgName} />
-                                        </div>
-                                        <div className='container-item-img-item'>
-                                            <img src={images[2].imgName} />
-                                        </div>
-                                    </>
-                                )}
-                                {images.length < 3 && (
-                                    <>
-                                        {images.map((image, index) => (
-                                            <div className='container-item-img-item' key={index}>
-                                                <img src={images[index % images.length].imgName} />
-                                            </div>
-                                        ))}
-                                    </>
-                                )} */}
                             </Slider>
                         </div>
                     </div>
@@ -280,11 +238,12 @@ export default function Detail() {
                         </div>
 
                         <div className='form'>
+                            <h1 className='form-border-bottom'>Booking Information</h1>
                             <h1 className='form-cost'>${productDetail.productPrice}/Day</h1>
-
+                            <p className="form-time"><FontAwesomeIcon className="icon-calendar" icon={faCalendarDay} size={'2xl'} /> {productDetail.availableStartDate} - {productDetail.availableEndDate}</p>
                             <form className='form-item' onSubmit={handleBooking}>
-                                <div className='column-form column-1'>
-                                </div>
+                                {/* <div className='column-form column-1'>
+                                </div> */}
                                 <div className='column-form column-2'>
                                     <button type="submit">Booking</button>
                                 </div>
