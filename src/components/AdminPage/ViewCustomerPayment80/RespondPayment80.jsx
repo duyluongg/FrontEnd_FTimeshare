@@ -313,13 +313,13 @@ export default function RespondPayment80() {
 
                                 />
 
-                                <CardMedia
+                                {/* <CardMedia
                                     component="img"
                                     height="194"
                                     image={userAccountPayment[0] ? userAccountPayment[0].imgName : ""}
                                     alt={userAccountPayment[0] ? userAccountPayment[0].imgName : ""}
                                     sx={{ objectFit: "contain", maxHeight: "350px" }}
-                                />
+                                /> */}
                                 <CardContent>
 
                                     <Typography variant="body2" color="text.secondary">

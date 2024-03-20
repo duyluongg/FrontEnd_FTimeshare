@@ -146,7 +146,7 @@ export default function CardReportV2() {
                             {projectDetail.length > 0 && (
 
 
-                                <Card sx={{ maxWidth: 500 }}>
+                                <Card sx={{ maxWidth: 350, ml:"80px" }}>
                                     <CardHeader
                                         avatar={
                                             <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe" >

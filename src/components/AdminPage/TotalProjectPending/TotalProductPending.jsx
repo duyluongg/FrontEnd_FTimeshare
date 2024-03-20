@@ -152,7 +152,7 @@ export default function TotalProductPending() {
                     // const profileAccount = profiles.find(profile => profile.accID === item.accID);
              
                     return (
-                        <Card key={item.productID} sx={{ maxWidth: 345, mb: '20px', boxShadow: 3 }}>
+                        <Card key={item.productID} sx={{ maxWidth: 345, mb: '20px', boxShadow: 3, ml:"80px"}}>
                             <CardHeader
                                 avatar={
                                     <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">

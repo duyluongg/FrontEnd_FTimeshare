@@ -117,7 +117,7 @@ export default function TotalViewPendingBooking() {
                     console.log(projectImage);
 
                     return (
-                        <Card key={item.bookingID} sx={{ maxWidth: 345, mb: '20px', boxShadow: 3 }}>
+                        <Card key={item.bookingID} sx={{ maxWidth: 345, mb: '20px', boxShadow: 3, ml:"80px" }}>
                             <CardHeader
                                 avatar={
                                     <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">

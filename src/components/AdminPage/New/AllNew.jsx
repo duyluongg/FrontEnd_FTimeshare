@@ -71,7 +71,7 @@ export default function AllNew() {
             <Grid container spacing={1} sx={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '10px', ml: '95px' }}>
                 {currentNews.map((item) => {
                     return (
-                        <Card sx={{ maxWidth: 345 }} key={item.newsID}>
+                        <Card sx={{ maxWidth: 345, ml:"30px" }} key={item.newsID}>
                             <CardMedia
                                 component="img"
                                 alt="green iguana"
@@ -87,7 +87,7 @@ export default function AllNew() {
                                     {item.newsContent}
                                 </Typography>
                             </CardContent>
-                            <Link to={`/admin/view-news-staff/${item.newsID}`}>
+                            <Link to={`/staff/view-news-staff/${item.newsID}`}>
                                 <CardActions>
                                     <Button size="small">Learn More</Button>
                                 </CardActions>

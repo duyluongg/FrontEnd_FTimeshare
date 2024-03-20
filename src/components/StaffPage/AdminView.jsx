@@ -60,10 +60,11 @@
 import React, { useState, useEffect } from 'react';
 import StaffNavbar from './StaffNavbar.jsx';
 import axios from 'axios';
-import './StaffView.css';
+import './AdminView.css';
 import Year from './SelectYear/Year.jsx';
 import RegisterStaff from './RegisterStaff.jsx';
 import { Link, Outlet, Route, Routes } from 'react-router-dom';
+import TotalUser from '../AdminPage/TotalUser/TotalUser.jsx';
 
 export default function StaffView() {
     const [totalPrice, setTotalPrice] = useState(null);
@@ -83,43 +84,64 @@ export default function StaffView() {
 
     return (
         <>
-            <StaffNavbar />
+
             <div className='staff-page'>
-                <div className='card-item'>
-                    <div className='card-item-detail'>
-                        Total Price For Done Booking: {totalPrice}
-                    </div>
-                </div>
 
-                <div className='card-item'>
-                    <div className='card-item-year'>
-                        <Year />
-                    </div>
-                </div>
 
-                <Link to="/staff/register">
-                    <div className='card-item'>
+                <div className='user-admin'>
+
+                    <div className='user-admin-item'>
+                     <h1>User Account</h1>
+                        <TotalUser />
+                    </div>
+
+                </div>
+                <div>
+                    <div className='card-item-total'>
                         <div className='card-item-detail'>
-                            Create Account Staff
+                            Total Price For Done Booking: {totalPrice}
                         </div>
                     </div>
-                </Link>
+                    <div className='admin-option'>
 
-                <Link to="/staff/view-account-staff">
-                    <div className='card-item'>
-                        <div className='card-item-detail'>
-                            View Account Staff
+                        <div>
+                            <Link to="/admin/view-account-staff">
+                                <div className='card-item'>
+                                    <div className='card-item-detail'>
+                                        View Account Staff
+                                    </div>
+                                </div>
+                            </Link>
+
+
+                        </div>
+
+                        <div>
+                            <Link to="/admin/register">
+                                <div className='card-item'>
+                                    <div className='card-item-detail'>
+                                        Create Account Staff
+                                    </div>
+                                </div>
+                            </Link>
+
+
                         </div>
                     </div>
-                </Link>
+                    <div className='card-item-total-year'>
+                        <div className='card-item-year'>
+                            <Year />
+                        </div>
+                    </div>
 
-                {/* <div className="register-staff-container">
-                    <Outlet />
-                </div> */}
+
+                </div>
+
+
+
+
             </div >
-            {/* <Routes>
-                <Route path="/staff/register" element={<RegisterStaff />} />
-            </Routes> */}
+
         </>
     );
 }

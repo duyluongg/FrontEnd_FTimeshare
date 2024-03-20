@@ -13,7 +13,7 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
 
-const pages = ['Products', 'Pricing', 'Blog'];
+const pages = ['Home'];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
 function StaffNavbar() {
@@ -36,10 +36,10 @@ function StaffNavbar() {
   };
 
   return (
-    <AppBar position="static">
+    <AppBar position="static"  sx={{backgroundColor: "#C69C2D"}} >
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
+          {/* <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} /> */}
           <Typography
             variant="h6"
             noWrap
@@ -53,9 +53,10 @@ function StaffNavbar() {
               letterSpacing: '.3rem',
               color: 'inherit',
               textDecoration: 'none',
+            
             }}
           >
-            LOGO
+            MANEGEMENT
           </Typography>
 
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>

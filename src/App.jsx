@@ -1,7 +1,4 @@
 import { useEffect, useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-
 import './App.css'
 import './components/Navigation/Navigation.css'
 import Navigation from './components/Navigation/Navigation.jsx'
@@ -60,7 +57,7 @@ import Sidenav from './components/AdminPage/Sidenav/Sidenav.jsx';
 import { useLocation } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import SidenavReport from './components/SidenavReport.jsx'
-import SidenavReportV2 from './components/SidenavReportV2.jsx'
+
 import { UserContext } from './components/UserContext.jsx'
 import { useContext } from "react"
 // import CardReport from './components/AdminPage/ViewReport/CardReport.jsx'
@@ -70,13 +67,9 @@ import './components/Profile/Profile.css'
 import Payment from './components/Payment/Payment.jsx'
 import './components/Payment/Payment.css'
 import ViewBookingConfirm from './components/AdminPage/VIewConfirmBooking/ViewBookingConfirm.jsx'
-import StaffView from './components/StaffPage/StaffView.jsx'
+import AdminView from './components/StaffPage/AdminView.jsx'
 import BookingDetail from './components/AdminPage/BookingDetail/BookingDetail.jsx'
 import RespondPayment from './components/AdminPage/ViewCustomerPayment/RespondPayment.jsx'
-import SideNavPayment from './components/AdminPage/ViewCustomerPayment/SideNavPayment.jsx'
-import SideNavPayment80 from './components/AdminPage/ViewCustomerPayment80/SideNavPayment80.jsx'
-
-import SideNavBook from './components/AdminPage/BookingDetail/SideNavBook.jsx'
 import CreatePayment from './components/Register/CreatePayment.jsx'
 import RegisterStaff from './components/StaffPage/RegisterStaff.jsx'
 import StaffNavbar from './components/StaffPage/StaffNavbar.jsx'
@@ -87,9 +80,19 @@ import ViewNewStaff from './components/AdminPage/New/ViewNewStaff.jsx'
 import ProfileStaff from './components/AdminPage/ProfileStaff/ProfileStaff.jsx'
 import UpdateProfileStaff from './components/AdminPage/ProfileStaff/UpdateProfileStaff.jsx'
 import SideNavUpdateStaff from './components/AdminPage/ProfileStaff/SideNavUpdateStaff.jsx'
-import SideNavBookingRC from './components/AdminPage/ViewBookingRC/SideNavBookingRC.jsx'
-// import SideNavPayment from '../AdminPage/RespondPayment/SideNavPayment.jsx'
 import RespondBookingRC from './components/AdminPage/ViewBookingRC/RespondBookingRC.jsx'
+import Dashboard from './components/AdminPage/Dashboard/Dashboard.jsx'
+import TotalProduct from './components/AdminPage/TotalProject/TotalProduct.jsx'
+import CardReportV2 from './components/AdminPage/ViewReport/CardReportV2.jsx'
+import TotalProductPending from './components/AdminPage/TotalProjectPending/TotalProductPending.jsx'
+import RejectedProduct from './components/AdminPage/RejectedProject/RejectedPrj.jsx'
+import TotalViewActiveBooking from './components/AdminPage/TotalViewActiveBooking/TotalViewActiveBooking.jsx';
+import ViewBookingRC from './components/AdminPage/ViewBookingRC/ViewBookingRC.jsx'
+import ViewCustomerPayment from './components/AdminPage/ViewCustomerPayment/ViewCustomerPayment.jsx'
+import ViewCustomerPayment_80 from './components/AdminPage/ViewCustomerPayment80/ViewCustomerPayment80.jsx'
+import RespondPayment80 from './components/AdminPage/ViewCustomerPayment80/RespondPayment80.jsx'
+import New from './components/AdminPage/New/New.jsx'
+import AllNew from './components/AdminPage/New/AllNew.jsx'
 function App() {
 
   const { user, loginContext } = useContext(UserContext);
@@ -108,10 +111,12 @@ function App() {
   const isCreateTimeshare = location.pathname.includes('/create-timeshare');
   const isViewSummary = location.pathname.includes('/view-summary');
   const isViewDetail = location.pathname.includes('/view-project-detail');
-  const isAdminPage = location.pathname.includes('/admin');
   const isStaffPage = location.pathname.includes('/staff');
+  const isAdminPage = location.pathname.includes('/admin');
 
-  const isTotalUser = location.pathname.includes('/admin/total-users');
+  // const isStaffPage = location.pathname.includes('/staff');
+
+  // const isTotalUser = location.pathname.includes('/admin/total-users');
   const isViewNews = location.pathname.includes('/view-news');
   const isViewNewAll = location.pathname.includes('/new');
   const isCreateNews = location.pathname.includes('/create-news');
@@ -134,14 +139,14 @@ function App() {
 
   return (
     <>
-      {!isAdminPage && !isStaffPage && !isUpdateProfileStaff && (
+      {!isStaffPage && !isAdminPage && !isUpdateProfileStaff && (
         <>
           <Navigation />
           <Navbar getData={user.id} />
         </>
       )}
 
-      {!isDetailPage && !isLoginPage && !isRegisterPage && !isContactPage && !isAdminPage && !isStaffPage && !isUpdateProfileStaff && !isCreateTimeshare && !isViewSummary && !isViewDetail && !isTotalUser &&
+      {!isDetailPage && !isLoginPage && !isRegisterPage && !isContactPage && !isStaffPage && !isAdminPage && !isUpdateProfileStaff && !isCreateTimeshare && !isViewSummary && !isViewDetail &&
         !isViewNews && !isViewNewAll && !isCreateNews && !isAccommodation && !isBooking && !isCreateBooking && !isBookingStage && !isProfile && !isPayment && !isUpdateProduct && !isSidebar && !isAccommodationDetail && <Header />}
 
       {isSidebar && (
@@ -164,7 +169,7 @@ function App() {
         <Route path='/view-summary' element={<ViewSummary />}></Route>
         <Route path='/view-project-detail/:id' element={<ViewDetail />}></Route>
         <Route path='/contact-info' element={<Contact />}></Route>
-        <Route path='/admin/*' element={<AdminPage />}></Route>
+        {/* <Route path='/admin/*' element={<AdminPage />}></Route> */}
         <Route path='/view-news/:id' element={<ViewNews />}></Route>
         <Route path='/create-news' element={<CreateNews />}></Route>
         <Route path='/accommodation' element={<Accommodation />}></Route>
@@ -179,43 +184,68 @@ function App() {
 
         {/* <Route path='/admin/total-users/*' element={<TotalUser />}></Route> */}
         {/* <Route path='/admin/*' element={<AdminPage />}></Route> */}
-        <Route path='/admin/*' element={<Sidenav />}></Route>
-        <Route path='/staff/*' element={<StaffView />}></Route>
+        {/* <Route path='/admin/*' element={<Sidenav />}></Route> */}
+        {/* <Route path='/staff/*' element={<StaffView />}></Route> */}
 
         {/* <Route path='/profile' element={<Profile getData={user.id} />}></Route> */}
         {/* <Route path='/profile' element={<Profile getData={user.id} />}></Route>
         <Route path='/update-profile/:accID' element={<UpdateProfile/>}></Route> */}
         <Route path='/new' element={<ViewAllNew />}></Route>
-        <Route path='/admin/view-news-staff/:newsId' element={<ViewNewStaff />}></Route>
 
+        {/* <Route path='/admin/view-news-staff/:newsId' element={<ViewNewStaff />}></Route> */}
 
-
-
-        {/* <Route path='/admin/report-project/:productID' element={<CardReport />}></Route> */}
-        <Route path='/admin/report-project/:reportID' element={<SidenavReport />}></Route>
-        <Route path='/admin/report-projectid/:productID/:accID' element={<SidenavReportV2 />}></Route>
-        <Route path='/admin/wait-to-confirm-list/detail/:bookingID/:productID/:accID' element={<SideNavBook />}></Route>
-        <Route path='/admin/wait-customer-to-confirm-payment-list/100/detail/:bookingID/:productID/:accID' element={<SideNavPayment />}></Route>
-        <Route path='/admin/wait-customer-to-confirm-payment-list/80/detail/:bookingID/:productID/:accID' element={<SideNavPayment80 />}></Route>
-        <Route path='/admin/wait-to-confirm-rc/detail/:bookingID/:productID/:accID' element={<SideNavBookingRC />}></Route>
-
-
-
+        {/* 
         <Route path='/staff' element={<StaffView />} />
         <Route path="/staff/register" element={<RegisterStaff />} />
         <Route path="/staff/view-account-staff" element={<TotalStaffAdmin />} />
-       
-          <Route path="/staff-profile" element={<ProfileStaff getData={user.id}/>} />
-          <Route path='/update-profile-staff/:accID' element={<SideNavUpdateStaff />} />
 
-          {/* Các routes khác */}
-      
+        <Route path="/staff-profile" element={<ProfileStaff getData={user.id} />} />
+        <Route path='/update-profile-staff/:accID' element={<SideNavUpdateStaff />} /> */}
+
+        {/* Các routes khác */}
+
 
 
 
 
       </Routes>
-      {!isAdminPage && !isStaffPage && !isUpdateProfileStaff && <Footer />}
+      {!isStaffPage && !isAdminPage && !isUpdateProfileStaff && <Footer />}
+      {/* ================================================================================================================================================================= */}
+      {/* STAFF */}
+      {isStaffPage && (
+        <Sidenav />
+      )}
+      <Routes>
+        <Route path='/staff/*' element={<Dashboard />}></Route>
+        <Route path='/staff/total-product' element={<TotalProduct />}></Route>
+        <Route path='/staff/total-users' element={<TotalUser />}></Route>
+        <Route path='/staff/pending-product' element={<TotalProductPending />}></Route>
+        <Route path='/staff/rejected-product' element={<RejectedProduct />}></Route>
+        <Route path='/staff/total-staff' element={<TotalStaff />}></Route>
+        <Route path='/staff/active-list' element={<TotalViewActiveBooking />}></Route>
+        <Route path='/staff/wait-to-confirm-list' element={<ViewBookingConfirm />}></Route>
+        <Route path='/staff/wait-to-confirm-list/detail/:bookingID/:productID/:accID' element={<BookingDetail />}></Route>
+        <Route path='/staff/wait-to-confirm-rc' element={<ViewBookingRC />}></Route>
+        <Route path='/staff/wait-to-confirm-rc/detail/:bookingID/:productID/:accID' element={<RespondBookingRC />}></Route>
+        <Route path='/staff/wait-customer-to-confirm-payment-list/100' element={<ViewCustomerPayment />}></Route>
+        <Route path='/staff/wait-customer-to-confirm-payment-list/100/detail/:bookingID/:productID/:accID' element={<RespondPayment />}></Route>
+        <Route path='/staff/wait-customer-to-confirm-payment-list/80' element={<ViewCustomerPayment_80 />}></Route>
+        <Route path='/staff/wait-customer-to-confirm-payment-list/80/detail/:bookingID/:productID/:accID' element={<RespondPayment80 />}></Route>
+        <Route path='/staff/report-projectid/:productID/:accID' element={<CardReportV2 />}></Route>
+        <Route path='/staff/new' element={<New />}></Route>
+        <Route path='/staff/all-new' element={<AllNew />}></Route>
+        <Route path='/staff/view-news-staff/:newsId' element={<ViewNewStaff />}></Route>
+      </Routes>
+      {/* ================================================================================================================================================================= */}
+      {/* ADMIN */}
+      {isAdminPage && (
+        <StaffNavbar />
+      )}
+      <Routes>
+        <Route path='/admin/*' element={<AdminView />}></Route>
+        <Route path="/admin/register" element={<RegisterStaff />}></Route>
+        <Route path="/admin/view-account-staff" element={<TotalStaffAdmin />}></Route>
+      </Routes>
     </>
   );
 }

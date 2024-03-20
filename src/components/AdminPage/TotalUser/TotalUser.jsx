@@ -85,20 +85,20 @@ export default function TotalUser() {
         )}
         columns={[
           { field: 'id', headerName: 'ID', width: 70 },
-          { field: 'accName', headerName: 'Name', width: 130 },
-          { field: 'accPhone', headerName: 'Phone', width: 130 },
-          { field: 'accEmail', headerName: 'Email', width: 200 },
+          { field: 'accName', headerName: 'Name', width: 200 },
+          { field: 'accPhone', headerName: 'Phone', width: 200 },
+          { field: 'accEmail', headerName: 'Email', width: 300 },
+          // {
+          //   field: 'delete',
+          //   headerName: 'Action',
+          //   width: 100,
+          //   renderCell: (params) => (
+          //     <ModalPopUp onDelete={handleDelete} row={params.row} color='error' />
+          //   ),
+          // },
           {
-            field: 'delete',
+            field: 'action',
             headerName: 'Action',
-            width: 100,
-            renderCell: (params) => (
-              <ModalPopUp onDelete={handleDelete} row={params.row} color='error' />
-            ),
-          },
-          {
-            field: 'role',
-            headerName: 'Role',
             width: 200,
             renderCell: (params) => (
               <SelectOption onRole={handleRole} row={params.row} />
@@ -114,6 +114,7 @@ export default function TotalUser() {
         pageSizeOptions={[5, 10]}
         checkboxSelection
         rowHeight={80}
+        sx={{ml:"100px", width:"1550px"}}
       />
     </div>
   );

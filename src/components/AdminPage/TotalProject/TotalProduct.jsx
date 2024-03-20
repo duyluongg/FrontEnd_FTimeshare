@@ -143,7 +143,7 @@ export default function TotalProduct() {
                     // const profileAccount = profiles.find(profile => profile.accID === item.accID);
                     console.log(projectImage);
                     return (
-                        <Card key={item.productID} sx={{ maxWidth: 345, mb: '20px', boxShadow: 3 }}>
+                        <Card key={item.productID} sx={{ maxWidth: 345, mb: '20px', boxShadow: 3, ml:"80px" }}>
                             <CardHeader
                                 // avatar={
                                 //     <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
@@ -182,7 +182,7 @@ export default function TotalProduct() {
                                 <Button variant="outlined" color="success">
                                     {item.productStatus}
                                 </Button>
-                                <Link to={`/admin/report-projectid/${item.productID}/${item.accID}`}>
+                                <Link to={`/staff/report-projectid/${item.productID}/${item.accID}`}>
                                     <Button variant="outlined" color="error" onClick={() => handleGetIDProject(item.productID)}>
                                         DETAIL
                                     </Button>
