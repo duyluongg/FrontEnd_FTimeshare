@@ -93,6 +93,7 @@ import ViewCustomerPayment_80 from './components/AdminPage/ViewCustomerPayment80
 import RespondPayment80 from './components/AdminPage/ViewCustomerPayment80/RespondPayment80.jsx'
 import New from './components/AdminPage/New/New.jsx'
 import AllNew from './components/AdminPage/New/AllNew.jsx'
+import UserAccount from './components/UserAccount.jsx'
 function App() {
 
   const { user, loginContext } = useContext(UserContext);
@@ -146,8 +147,9 @@ function App() {
         </>
       )}
 
-      {!isDetailPage && !isLoginPage && !isRegisterPage && !isContactPage && !isStaffPage && !isAdminPage && !isUpdateProfileStaff && !isCreateTimeshare && !isViewSummary && !isViewDetail &&
-        !isViewNews && !isViewNewAll && !isCreateNews && !isAccommodation && !isBooking && !isCreateBooking && !isBookingStage && !isProfile && !isPayment && !isUpdateProduct && !isSidebar && !isAccommodationDetail && <Header />}
+      {!isDetailPage && !isLoginPage && !isRegisterPage && !isContactPage && !isStaffPage && !isAdminPage && !isUpdateProfileStaff
+        && !isCreateTimeshare && !isViewSummary && !isViewDetail && !isViewNews && !isViewNewAll && !isCreateNews && !isAccommodation
+        && !isBooking && !isCreateBooking && !isBookingStage && !isProfile && !isPayment && !isUpdateProduct && !isSidebar && !isAccommodationDetail && <Header />}
 
       {isSidebar && (
         <Sidebar>
@@ -235,6 +237,8 @@ function App() {
         <Route path='/staff/new' element={<New />}></Route>
         <Route path='/staff/all-new' element={<AllNew />}></Route>
         <Route path='/staff/view-news-staff/:newsId' element={<ViewNewStaff />}></Route>
+        <Route path='/staff/user-account' element={<UserAccount />}></Route>
+
       </Routes>
       {/* ================================================================================================================================================================= */}
       {/* ADMIN */}

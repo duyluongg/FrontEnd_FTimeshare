@@ -64,7 +64,7 @@ import './AdminView.css';
 import Year from './SelectYear/Year.jsx';
 import RegisterStaff from './RegisterStaff.jsx';
 import { Link, Outlet, Route, Routes } from 'react-router-dom';
-import TotalUser from '../AdminPage/TotalUser/TotalUser.jsx';
+import TotalUserAd from './TotalUserAd.jsx';
 
 export default function StaffView() {
     const [totalPrice, setTotalPrice] = useState(null);
@@ -92,7 +92,7 @@ export default function StaffView() {
 
                     <div className='user-admin-item'>
                      <h1>User Account</h1>
-                        <TotalUser />
+                        <TotalUserAd />
                     </div>
 
                 </div>

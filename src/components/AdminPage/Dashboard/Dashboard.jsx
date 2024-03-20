@@ -75,7 +75,7 @@ export default function Dashboard() {
         { id: 10, label: 'Booking with Wait to confirm respond payment (80%)', link: 'wait-customer-to-confirm-payment-list/80' },
         { id: 11, label: 'New', link: 'new' },
         { id: 12, label: 'All New', link: 'all-new' },
-        // { id: 13, label: 'USER', link: 'user-account' },
+        { id: 13, label: 'USER', link: 'user-account' },
     ];
 
     return (

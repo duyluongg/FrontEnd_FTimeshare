@@ -14,7 +14,7 @@
     border-radius: 10px;
     cursor: pointer;
     margin-bottom: 50px;
-    margin-top: 75px;
+    margin-top: 25px;
 }
 
 .card-item-total-year{
@@ -57,13 +57,14 @@
 .user-admin{
     /* width: 1000px; */
     margin-left: -80px;
+    width: 1700px;
 
 }
 
 .user-admin-item{
     background-color: #fff;
-    margin-top: 80px;
-    height: 820px;
+    margin-top: 30px;
+    height: 680px;
     border-radius: 20px;
     box-shadow: 0 2px 9px rgba(0, 0, 0, 0.1);
     /* padding-top: 200px; */
