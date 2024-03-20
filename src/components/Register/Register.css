@@ -7,11 +7,16 @@
 
 .payment-container {
     display: flex;
-    justify-content: center;
-    align-items: center;
+    /* justify-content: center;
+    align-items: center; */
     position: absolute;
-    bottom: -245px;
-    right: 5px;
+    /* bottom: -306px;
+    right: 5px; */
+    top: -38px;
+    left: -107px;
+    /* grid-column: span 4;
+    max-width: 100%;
+    position: relative; */
 }
 
 .register-form {
@@ -30,6 +35,9 @@
     border-radius: 4px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     margin: 50px auto;
+        /* position: absolute;
+    bottom: -306px;
+    right: 5px; */
 }
 
 .payment-form h1 {

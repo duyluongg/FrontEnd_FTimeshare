@@ -162,7 +162,7 @@ export default function Payment() {
             setSnackbarMessage('Booking successfully !!!')
             setSnackbarColor("success");
             setSnackbarOpen(true);
-            setTimeout(() => navigate('/view-booking-history'), 500);
+            setTimeout(() => navigate('/view-booking-history'), 300);
 
         } catch (error) {
             console.error('Error creating booking:', error.response.data);
