@@ -104,37 +104,38 @@ form .create-button:hover {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.input-container {
+.input-create-product {
     margin-bottom: 20px;
 }
 
-.input-container input {
+/* .input-create-product input {
     width: 100%;
     border: 1px solid #ccc;
     border-radius: 4px;
     padding: 10px;
-}
+} */
 
-.input-container select {
+/* .input-create-product select {
     width: 100%;
     border: 1px solid #ccc;
     border-radius: 4px;
     padding: 10px;
-}
+} */
 
-.input-container textarea {
+/* .input-create-product textarea {
     width: 100%;
     border: 1px solid #ccc;
     border-radius: 4px;
     padding: 10px;
-}
+} */
 
 .create-submit {
     flex-grow: 2;
     display: flex;
     flex-direction: column;
     margin: 0 10px;
-    max-width: calc(33.33% - 10px);
+    width: 400px;
+    /* max-width: calc(33.33% - 10px); */
     background-color: #fff;
     padding: 40px;
     border-radius: 4px;

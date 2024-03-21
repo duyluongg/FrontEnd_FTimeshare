@@ -4,6 +4,18 @@ import SnackBar from '../../SnackBar';
 import { useNavigate } from 'react-router-dom';
 import { useContext } from 'react';
 import { UserContext } from '../../UserContext';
+import OutlinedInput from '@mui/material/OutlinedInput';
+import InputLabel from '@mui/material/InputLabel';
+import InputAdornment from '@mui/material/InputAdornment';
+import FormControl from '@mui/material/FormControl';
+import TextField from '@mui/material/TextField';
+import MenuItem from '@mui/material/MenuItem';
+import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import Button from '@mui/material/Button';
+import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 
 export default function CreateTimeshare() {
 
@@ -15,6 +27,7 @@ export default function CreateTimeshare() {
     const [snackbarOpen, setSnackbarOpen] = useState(false);
     const [snackbarMessage, setSnackbarMessage] = useState('');
     const [snackbarColor, setSnackbarColor] = useState('success');
+    const [errors, setErrors] = useState({});
 
     const navigate = useNavigate();
 
@@ -43,20 +56,20 @@ export default function CreateTimeshare() {
 
     const [createProductData, setCreateProductData] = useState({
         productName: '',
-        productArea: 1.0,
+        productArea: 0.0,
         productAddress: '',
         productDescription: '',
         productConvenience: '',
-        productPrice: 1.0,
-        availableStartDate: '',
-        availableEndDate: '',
+        productPrice: 0.0,
+        availableStartDate: null,
+        availableEndDate: null,
         productStatus: "Pending",
-        productPerson: 1,
+        productPerson: 0,
         productRating: 0.0,
         productSale: 0,
         productViewer: 0,
-        projectID: 0,
-        productTypeID: 0,
+        projectID: 2,
+        productTypeID: 1,
         accID: null
     });
 
@@ -68,115 +81,146 @@ export default function CreateTimeshare() {
         });
     };
 
+    const handleDate = (date, fieldName) => {
+        setCreateProductData({
+            ...createProductData,
+            [fieldName]: date,
+        });
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        const missingFields = [];
-        if (!createProductData.productName) missingFields.push('Name');
-        if (!createProductData.productArea) missingFields.push('Area');
-        if (!createProductData.productAddress) missingFields.push('Address');
-        if (!createProductData.productDescription) missingFields.push('Description');
-        if (!createProductData.productConvenience) missingFields.push('Convenience');
-        if (!createProductData.productPrice) missingFields.push('Price');
-        if (!createProductData.productPerson) missingFields.push('Available People');
-        if (!createProductData.availableStartDate) missingFields.push('Available Start Date');
-        if (!createProductData.availableEndDate) missingFields.push('Available End Date');
-        if (!createProductData.projectID) missingFields.push('Project Name');
-        if (!createProductData.productTypeID) missingFields.push('Type of Timeshare');
-
-        if (missingFields.length > 0) {
-            const requireField = missingFields.join(', ');
-            const missingFieldsMessage = `${requireField} are required`;
-            setSnackbarMessage(missingFieldsMessage);
-            setSnackbarColor("error");
-            setSnackbarOpen(true);
-            return;
+        const validationErrors = {}
+        if (!createProductData.productName.trim()) {
+            validationErrors.productName = "Name of Homestay is required"
         }
 
-        if (
-            createProductData.productArea < 1 ||
-            createProductData.productPrice < 1 ||
-            createProductData.productPerson < 1
-        ) {
-            setSnackbarMessage('Area, price, and person fields must be greater than or equal to 1!!!');
-            setSnackbarColor("error");
-            setSnackbarOpen(true);
-            return;
+        if (!createProductData.productDescription.trim()) {
+            validationErrors.productDescription = "Description is required"
+        } else if (createProductData.productDescription.trim().length > 1000) {
+            validationErrors.productDescription = "Description must be less than or equal to 1000 characters";
         }
 
-        if (images.length === 0) {
-            setSnackbarMessage('At least one image is required!!!');
-            setSnackbarColor("error");
-            setSnackbarOpen(true);
-            return;
+        if (!createProductData.productAddress.trim()) {
+            validationErrors.productAddress = "Address is required"
         }
 
-        if (images.length > 10) {
-            setSnackbarMessage('Maximum 10 images are allowed!!!');
-            setSnackbarColor("error");
-            setSnackbarOpen(true);
-            return;
+        if (!createProductData.productConvenience.trim()) {
+            validationErrors.productConvenience = "Amenities of Homestay is required"
+        } else if (createProductData.productConvenience.trim().length > 1000) {
+            validationErrors.productConvenience = "Amenities must be less than or equal to 1000 characters";
         }
 
-        const fileSizeLimit = 2 * 1024 * 1024; // 2MB
-        for (let i = 0; i < images.length; i++) {
-            if (images[i].size > fileSizeLimit) {
-                setSnackbarMessage('Each image must be less than 2MB!!!');
+        if (!createProductData.productArea) {
+            validationErrors.productArea = "Area is required";
+        } else if (!/^\d+(\.\d+)?$/.test(createProductData.productArea)) {
+            validationErrors.productArea = "Area must be a number";
+        }
+
+        if (!createProductData.productPrice) {
+            validationErrors.productPrice = "Price is required";
+        } else if (!/^\d+(\.\d+)?$/.test(createProductData.productPrice)) {
+            validationErrors.productPrice = "Price must be a number";
+        }
+
+        if (!createProductData.productPerson || createProductData.productPerson < 1) {
+            validationErrors.productPerson = "At least 1 person required";
+        }
+
+        if (!createProductData.availableStartDate) {
+            validationErrors.availableStartDate = "Start date is required";
+        }
+
+        if (!createProductData.availableEndDate) {
+            validationErrors.availableEndDate = "End date is required";
+        }
+
+        setErrors(validationErrors);
+
+        if (Object.keys(validationErrors).length === 0) {
+
+            if (images.length === 0) {
+                setSnackbarMessage('Images are required to create post!!!');
                 setSnackbarColor("error");
                 setSnackbarOpen(true);
                 return;
             }
-        }
 
-        const imageNames = images.map(image => image.name);
-        const uniqueImageNames = new Set(imageNames);
-        if (uniqueImageNames.size !== images.length) {
-            setSnackbarMessage('Image names must be unique!!!');
-            setSnackbarColor("error");
-            setSnackbarOpen(true);
-            return;
-        }
+            if (images.length < 4) {
+                setSnackbarMessage('You must upload at least 4 images to create post!!!');
+                setSnackbarColor("error");
+                setSnackbarOpen(true);
+                return;
+            }
 
-        const startDateObj = new Date(createProductData.availableStartDate);
-        const endDateObj = new Date(createProductData.availableEndDate);
-        const formattedStartDate = startDateObj.toISOString().split('T')[0] + 'T08:00:00';
-        const formattedEndDate = endDateObj.toISOString().split('T')[0] + 'T08:00:00';
+            if (images.length > 10) {
+                setSnackbarMessage('Maximum 10 images are allowed!!!');
+                setSnackbarColor("error");
+                setSnackbarOpen(true);
+                return;
+            }
 
-        const productDataToSend = {
-            ...createProductData,
-            availableStartDate: formattedStartDate,
-            availableEndDate: formattedEndDate,
-        };
-        console.log(productDataToSend);
-
-        try {
-            const productResponse = await axios.post('http://localhost:8080/api/products/add', productDataToSend);
-            console.log('Product created:', productResponse.data);
-
-            const productID = productResponse.data.productID;
-
-            const formData = new FormData();
-            images.forEach((image) => {
-                formData.append('pictures', image);
-            });
-            console.log(images);
-
-            const imageResponse = await axios.post(`http://localhost:8080/api/pictures/${productID}`, formData, {
-                headers: {
-                    'Content-Type': 'multipart/form-data'
+            const fileSizeLimit = 2 * 1024 * 1024; // 2MB
+            for (let i = 0; i < images.length; i++) {
+                if (images[i].size > fileSizeLimit) {
+                    setSnackbarMessage('Each image must be less than 2MB!!!');
+                    setSnackbarColor("error");
+                    setSnackbarOpen(true);
+                    return;
                 }
-            });
-            console.log('Image uploaded successfully');
-            setSnackbarMessage('Create timeshare successfully!!!')
-            setSnackbarColor("success");
-            setSnackbarOpen(true);
-            setTimeout(() => navigate('/'), 1000);
+            }
 
-        } catch (error) {
-            console.error('Error creating product:', error);
-            setSnackbarMessage('Create timeshare failed!!!');
-            setSnackbarColor("error");
-            setSnackbarOpen(true);
+            const imageNames = images.map(image => image.name);
+            const uniqueImageNames = new Set(imageNames);
+            if (uniqueImageNames.size !== images.length) {
+                setSnackbarMessage('Image names must be unique!!!');
+                setSnackbarColor("error");
+                setSnackbarOpen(true);
+                return;
+            }
+
+            const startDateObj = new Date(createProductData.availableStartDate);
+            const endDateObj = new Date(createProductData.availableEndDate);
+            const formattedStartDate = startDateObj.toISOString().split('T')[0] + 'T08:00:00';
+            const formattedEndDate = endDateObj.toISOString().split('T')[0] + 'T08:00:00';
+
+            const productDataToSend = {
+                ...createProductData,
+                availableStartDate: formattedStartDate,
+                availableEndDate: formattedEndDate,
+            };
+            // console.log(productDataToSend);
+
+            try {
+                const productResponse = await axios.post('http://localhost:8080/api/products/add', productDataToSend);
+                console.log('Product created:', productResponse.data);
+
+                const productID = productResponse.data.productID;
+
+                const formData = new FormData();
+                images.forEach((image) => {
+                    formData.append('pictures', image);
+                });
+                console.log(images);
+
+                const imageResponse = await axios.post(`http://localhost:8080/api/pictures/${productID}`, formData, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data'
+                    }
+                });
+                console.log('Image uploaded successfully');
+                setSnackbarMessage('Create timeshare successfully!!!')
+                setSnackbarColor("success");
+                setSnackbarOpen(true);
+                setTimeout(() => navigate('/'), 1000);
+
+            } catch (error) {
+                console.error('Error creating product:', error);
+                setSnackbarMessage('Create timeshare failed!!!');
+                setSnackbarColor("error");
+                setSnackbarOpen(true);
+            }
         }
     };
 
@@ -206,165 +250,338 @@ export default function CreateTimeshare() {
     return (
         <>
             <div className="create-container">
-                <h1 className="create-title">Create Your Timeshare</h1>
+                <h1 className="create-title">Create Your Homestay</h1>
                 <form onSubmit={handleSubmit}>
                     <div className="form-container">
                         <div className="create-form">
-                            <div className="input-container">
-                                <label>
-                                    Name
-                                    <input
-                                        type="text"
+                            <div className="input-create-product">
+                                <FormControl fullWidth sx={{ m: 1 }}>
+                                    <InputLabel
+                                        htmlFor="outlined-required"
+                                        sx={{
+                                            '&.Mui-focused': {
+                                                color: '#CD9A2B',
+                                            },
+                                        }}
+                                    >
+                                        Name of Homestay *
+                                    </InputLabel>
+                                    <OutlinedInput
+                                        id="outlined-required"
                                         name="productName"
+                                        label="Name of Homestay"
                                         value={createProductData.productName}
                                         onChange={handleChange}
-                                        required
+                                        sx={{
+                                            '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                                                borderColor: '#CD9A2B',
+                                            },
+                                        }}
+                                        error={errors.productName}
                                     />
-                                </label>
+                                    {errors.productName && <span style={{ color: 'red' }}>{errors.productName}</span>}
+                                </FormControl>
                             </div>
-                            <div className="input-container">
-                                <label>
-                                    Description
-                                    <textarea
+                            <div className="input-create-product">
+                                <FormControl fullWidth sx={{ m: 1 }}>
+                                    <InputLabel
+                                        htmlFor="outlined-required"
+                                        sx={{
+                                            '&.Mui-focused': {
+                                                color: '#CD9A2B',
+                                            },
+                                        }}
+                                    >
+                                        Description *
+                                    </InputLabel>
+                                    <OutlinedInput
+                                        id="outlined-required"
                                         name="productDescription"
+                                        label="Description"
+                                        multiline
+                                        rows={4}
                                         value={createProductData.productDescription}
                                         onChange={handleChange}
-                                        required
+                                        sx={{
+                                            '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                                                borderColor: '#CD9A2B',
+                                            },
+                                        }}
+                                        error={errors.productDescription}
                                     />
-                                </label>
+                                </FormControl>
+                                {errors.productDescription && <span style={{ color: 'red' }}>{errors.productDescription}</span>}
                             </div>
-                            <div className="input-container">
-                                <label>
-                                    Address
-                                    <input
+                            <div className="input-create-product">
+                                <FormControl fullWidth sx={{ m: 1 }}>
+                                    <InputLabel
+                                        htmlFor="outlined-required"
+                                        sx={{
+                                            '&.Mui-focused': {
+                                                color: '#CD9A2B',
+                                            },
+                                        }}
+                                    >
+                                        Address *
+                                    </InputLabel>
+                                    <OutlinedInput
+                                        id="outlined-required"
                                         name="productAddress"
-                                        type="text"
+                                        label="Address"
                                         value={createProductData.productAddress}
                                         onChange={handleChange}
-                                        required
+                                        sx={{
+                                            '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                                                borderColor: '#CD9A2B',
+                                            },
+                                        }}
+                                        error={errors.productAddress}
                                     />
-                                </label>
+                                </FormControl>
+                                {errors.productAddress && <span style={{ color: 'red' }}>{errors.productAddress}</span>}
                             </div>
-                            <div className="input-container">
-                                <label>
-                                    Convenience
-                                    <textarea
+                            <div className="input-create-product">
+                                <FormControl fullWidth sx={{ m: 1 }}>
+                                    <InputLabel
+                                        htmlFor="outlined-required"
+                                        sx={{
+                                            '&.Mui-focused': {
+                                                color: '#CD9A2B',
+                                            },
+                                        }}
+                                    >
+                                        Amenities *
+                                    </InputLabel>
+                                    <OutlinedInput
+                                        id="outlined-required"
                                         name="productConvenience"
+                                        label="Amenities"
+                                        multiline
+                                        rows={4}
                                         value={createProductData.productConvenience}
                                         onChange={handleChange}
-                                        required
+                                        sx={{
+                                            '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                                                borderColor: '#CD9A2B',
+                                            },
+                                        }}
+                                        error={errors.productConvenience}
                                     />
-                                </label>
+                                </FormControl>
+                                {errors.productConvenience && <span style={{ color: 'red' }}>{errors.productConvenience}</span>}
                             </div>
-                            <div className="input-container flex-2">
-                                <label>
-                                    Project Name
-                                    <select
-                                        name="projectID"
-                                        value={createProductData.projectID}
-                                        onChange={handleChange}
-                                        required
-                                        defaultValue={0}
-                                    >
-                                        <option value={0} disabled>Select Project</option>
-                                        {projects.map(project => (
-                                            <option key={project.projectID} value={project.projectID}>
-                                                {project.projectName}
-                                            </option>
-                                        ))}
-                                    </select>
-                                </label>
-                                <label>
-                                    Type of timeshare
-                                    <select
-                                        name="productTypeID"
-                                        value={createProductData.productTypeID}
-                                        onChange={handleChange}
-                                        required
-                                        defaultValue={0}
-                                    >
-                                        <option value={0} disabled>Select Type of Timeshare</option>
-                                        {productTypes.map(productType => (
-                                            <option key={productType.productTypeID} value={productType.productTypeID}>
-                                                {productType.productTypeName}
-                                            </option>
-                                        ))}
-                                    </select>
-                                </label>
+                            <div className="input-create-product flex-2">
+                                <TextField
+                                    id="outlined-select-currency"
+                                    select
+                                    label="Constructor *"
+                                    name="projectID"
+                                    value={createProductData.projectID}
+                                    onChange={handleChange}
+                                    fullWidth sx={{
+                                        m: 1,
+                                        '& .MuiFormLabel-root.Mui-focused': {
+                                            color: '#CD9A2B',
+                                        },
+                                        '& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                                            borderColor: '#CD9A2B',
+                                        },
+                                        '& .MuiMenuItem-root': {
+                                            color: '#CD9A2B',
+                                        },
+                                    }}
+                                >
+                                    {projects.map(project => (
+                                        <MenuItem key={project.projectID} value={project.projectID}>
+                                            {project.projectName}
+                                        </MenuItem>
+                                    ))}
+                                </TextField>
+                                <TextField
+                                    id="outlined-select-currency"
+                                    select
+                                    label="Type of Homestay *"
+                                    name="productTypeID"
+                                    value={createProductData.productTypeID}
+                                    onChange={handleChange}
+                                    fullWidth sx={{
+                                        m: 1,
+                                        '& .MuiFormLabel-root.Mui-focused': {
+                                            color: '#CD9A2B',
+                                        },
+                                        '& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                                            borderColor: '#CD9A2B',
+                                        },
+                                        '& .MuiMenuItem-root': {
+                                            color: '#CD9A2B',
+                                        },
+                                    }}
+                                >
+                                    {productTypes.map(productType => (
+                                        <MenuItem key={productType.productTypeID} value={productType.productTypeID}>
+                                            {productType.productTypeName}
+                                        </MenuItem>
+                                    ))}
+                                </TextField>
                             </div>
-                            <div className="input-container flex-3">
-                                <label>
-                                    Area
-                                    <input
+                            <div className="input-create-product flex-3">
+                                <FormControl sx={{ m: 1 }}>
+                                    <InputLabel
+                                        htmlFor="outlined-adornment-amount"
+                                        sx={{
+                                            '&.Mui-focused': {
+                                                color: '#CD9A2B',
+                                            },
+                                        }}
+                                    >
+                                        Area *
+                                    </InputLabel>
+                                    <OutlinedInput
+                                        id="outlined-adornment-amount"
                                         name="productArea"
-                                        type="number"
+                                        startAdornment={<InputAdornment position="start">m²</InputAdornment>}
+                                        label="Area"
                                         value={createProductData.productArea}
                                         onChange={handleChange}
-                                        placeholder='Square metre'
-                                        required
-                                        min={1}
+                                        sx={{
+                                            '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                                                borderColor: '#CD9A2B',
+                                            },
+                                        }}
+                                        error={errors.productArea}
                                     />
-                                </label>
-                                <label>
-                                    Price
-                                    <input
+                                    {errors.productArea && <span style={{ color: 'red' }}>{errors.productArea}</span>}
+                                </FormControl>
+                                <FormControl sx={{ m: 1 }}>
+                                    <InputLabel
+                                        htmlFor="outlined-adornment-amount"
+                                        sx={{
+                                            '&.Mui-focused': {
+                                                color: '#CD9A2B',
+                                            },
+                                        }}
+                                    >
+                                        Price *
+                                    </InputLabel>
+                                    <OutlinedInput
+                                        id="outlined-adornment-amount"
                                         name="productPrice"
-                                        type="number"
+                                        startAdornment={<InputAdornment position="start">$/day</InputAdornment>}
+                                        label="Price"
                                         value={createProductData.productPrice}
                                         onChange={handleChange}
-                                        required
-                                        min={1}
+                                        sx={{
+                                            '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                                                borderColor: '#CD9A2B',
+                                            },
+                                        }}
+                                        error={errors.productPrice}
                                     />
-                                </label>
-                                <label>
-                                    Available People
-                                    <input
+                                    {errors.productPrice && <span style={{ color: 'red' }}>{errors.productPrice}</span>}
+                                </FormControl>
+                                <FormControl sx={{ m: 1 }}>
+                                    <InputLabel
+                                        htmlFor="outlined-adornment-amount"
+                                        sx={{
+                                            '&.Mui-focused': {
+                                                color: '#CD9A2B',
+                                            },
+                                        }}
+                                    >
+                                        Available People *
+                                    </InputLabel>
+                                    <OutlinedInput
+                                        id="outlined-adornment-amount"
+                                        label="Available People"
                                         name="productPerson"
+                                        startAdornment={<InputAdornment position="start"></InputAdornment>}
                                         type="number"
                                         value={createProductData.productPerson}
                                         onChange={handleChange}
-                                        required
-                                        min={1}
+                                        sx={{
+                                            '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                                                borderColor: '#CD9A2B',
+                                            },
+                                        }}
+                                        error={errors.productPerson}
                                     />
-                                </label>
+                                    {errors.productPerson && <span style={{ color: 'red' }}>{errors.productPerson}</span>}
+                                </FormControl>
                             </div>
-                            <div className="input-container flex-2">
-                                <label>
-                                    Available start-date
-                                    <input
-                                        name="availableStartDate"
-                                        type="date"
-                                        value={createProductData.availableStartDate}
-                                        onChange={handleChange}
-                                        required
-                                    />
-                                </label>
-                                <label>
-                                    Available end-date
-                                    <input
-                                        name="availableEndDate"
-                                        type="date"
-                                        value={createProductData.availableEndDate}
-                                        onChange={handleChange}
-                                        required
-                                    />
-                                </label>
+                            <div className="input-create-product flex-2">
+                                <div>
+                                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                        <DemoContainer components={['DatePicker']}>
+                                            <DatePicker
+                                                name="availableStartDate"
+                                                label="Available start-date *"
+                                                value={createProductData.availableStartDate}
+                                                onChange={(date) => handleDate(date, 'availableStartDate')}
+                                                sx={{
+                                                    '& .MuiInputLabel-root.Mui-focused': {
+                                                        color: '#CD9A2B',
+                                                    },
+                                                    '& .MuiInputBase-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                                                        borderColor: '#CD9A2B',
+                                                    },
+                                                }}
+                                                error={errors.availableStartDate}
+                                            />
+                                        </DemoContainer>
+                                    </LocalizationProvider>
+                                    {errors.availableStartDate && <span style={{ color: 'red' }}>{errors.availableStartDate}</span>}
+                                </div>
+                                <div>
+                                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                        <DemoContainer components={['DatePicker']}>
+                                            <DatePicker
+                                                name="availableEndDate"
+                                                label="Available end-date *"
+                                                value={createProductData.availableEndDate}
+                                                onChange={(date) => handleDate(date, 'availableEndDate')}
+                                                sx={{
+                                                    '& .MuiInputLabel-root.Mui-focused': {
+                                                        color: '#CD9A2B', // Màu của label khi được focus
+                                                    },
+                                                    '& .MuiInputBase-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                                                        borderColor: '#CD9A2B', // Màu của đường viền khi input được focus
+                                                    },
+                                                }}
+                                                error={errors.availableEndDate}
+                                            />
+                                        </DemoContainer>
+                                    </LocalizationProvider>
+                                    {errors.availableEndDate && <span style={{ color: 'red' }}>{errors.availableEndDate}</span>}
+                                </div>
                             </div>
-
                         </div>
                         <div className="create-submit">
-                            <div className="input-container">
-                                <label>
-                                    Image
+                            <div className="input-create-product">
+                                Images
+                                <form>
                                     <input
                                         type="file"
                                         id="image"
                                         onChange={handleUpload}
                                         multiple
                                         value={imagePreviews.length === 0 ? '' : undefined}
-                                        required
+                                        style={{ display: 'none' }}
                                     />
-                                </label>
+                                    <label htmlFor="image">
+                                        <Button
+                                            variant="outlined"
+                                            component="span"
+                                            startIcon={<CloudUploadIcon style={{ color: '#CD9A2B' }} />}
+                                            style={{
+                                                color: '#CD9A2B',
+                                                borderColor: '#CD9A2B',
+                                            }}
+                                        >
+                                            Upload
+                                        </Button>
+                                    </label>
+                                </form>
+
                             </div>
                             {imagePreviews.map((preview, index) => (
                                 <div className="input-container" key={index}>
@@ -372,14 +589,12 @@ export default function CreateTimeshare() {
                                     <button type="button" onClick={() => handleDeselect(index)}>Remove</button>
                                 </div>
                             ))}
-
-
                         </div>
                         <button className="create-button" type="submit">Create Post</button>
                     </div>
-                </form>
+                </form >
                 <SnackBar open={snackbarOpen} message={snackbarMessage} onClose={handleSnackbarClose} color={snackbarColor} />
-            </div>
+            </div >
         </>
     );
 };

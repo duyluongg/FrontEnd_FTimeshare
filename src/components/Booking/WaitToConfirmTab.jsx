@@ -99,8 +99,8 @@ const WaitToConfirmTab = ({ bookingInfoConfirm, images, formatDate, handleCancel
                                         <div>
                                             <button
                                                 onClick={() => handleCancelActive(bookingInfo.bookingID)}
-                                                className={`stardust-button stardust-button--primary QY7kZh ${bookingInfo.bookingStatus === 'Wait to confirm (request cancel)' ? 'disabled' : ''}`}
-                                                disabled={bookingInfo.bookingStatus === 'Wait to confirm (request cancel)'}
+                                                className={`stardust-button stardust-button--primary QY7kZh ${bookingInfo.bookingStatus === 'Wait to confirm (request cancel)' || bookingInfo.bookingStatus === 'Rejected' ? 'disabled' : ''}`}
+                                                disabled={bookingInfo.bookingStatus === 'Wait to confirm (request cancel)' || bookingInfo.bookingStatus === 'Rejected'}
                                             >
                                                 Cancel
                                             </button>

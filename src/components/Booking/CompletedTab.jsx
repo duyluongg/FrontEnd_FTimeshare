@@ -105,7 +105,6 @@ const CompletedTab = ({ bookingInfoComplete, images, formatDate, handleCancelAct
                                             <button class="stardust-button stardust-button--secondary QY7kZh">Book Again</button>
                                         </div>
                                     </div>
-
                                 </section>
                             </div>
                         </div>

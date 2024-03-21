@@ -187,7 +187,7 @@ export default function Project() {
         <>
           <div className='project-owner'>
             <div className='project-owner-header'>
-              <div className='project-owner-title'>My Timeshare</div>
+              <div className='project-owner-title'>My Post</div>
               <div className='project-view-detail'>
                 <Link to={'/create-timeshare'} className='project-view-detail-button'>
                   <FontAwesomeIcon icon={faPlus} />
@@ -243,7 +243,7 @@ export default function Project() {
       <div className='project'>
         <div className='project-header'>
           <FontAwesomeIcon icon={faFire} size='2xl' color='red' />
-          <div className='project-title'>Our Most Popular Timeshare</div>
+          <div className='project-title'>The Most Popular Homestay</div>
           <FontAwesomeIcon icon={faFire} size='2xl' color='red' />
         </div>
         <div className='project-list'>

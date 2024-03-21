@@ -112,7 +112,7 @@ export default function Navbar({ getData }) {
                   />
                   <div className='navbar-title'>
                     <Link to="/">
-                      <h1 className='navbar-brand'>F-Timeshare</h1>
+                      <h1 className='navbar-brand'>Booking Homestay</h1>
                       <p className='navbar-slogan'>Good for your choice</p>
                     </Link>
                   </div>
