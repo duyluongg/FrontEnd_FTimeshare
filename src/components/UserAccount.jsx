@@ -114,6 +114,7 @@ export default function UserAccount() {
                     onChange={(e) => setName(e.target.value)}
 
                     placeholder="Enter name"
+                    sx={{ml:"80px"}}
                 />
 
                 <TextField
@@ -128,7 +129,7 @@ export default function UserAccount() {
                 <Button variant="contained" onClick={addUser} sx={{ mt: "10px" }}>Add User</Button>
             </div>
             {user.map((item) => (
-                <Card sx={{ maxWidth: 345, mb: "20px", mt: "20px", boxShadow: 3 }} key={item.id}>
+                <Card sx={{ maxWidth: 345, mb: "20px", mt: "20px", boxShadow: 3, ml:"80px" }} key={item.id}>
                     <CardContent>
                         <Typography gutterBottom variant="h5" component="div">
                             {item.name}

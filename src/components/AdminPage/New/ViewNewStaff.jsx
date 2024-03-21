@@ -59,7 +59,7 @@ function ViewNewStaff() {
             setSnackbarColor("success");
             setSnackbarOpen(true);
             setTimeout(() => {
-                navigate('/admin/all-new'); 
+                navigate('/admin/all-new');
             }, 1000);
         } catch (error) {
             console.error('Error deleting new:', error);
@@ -67,7 +67,6 @@ function ViewNewStaff() {
     };
     return (
         <div>
-            <Sidenav />
             <div className="view-news">
                 <h1 className="news-title">{newsDetail.newsTitle}</h1>
                 <img src={`http://localhost:8080/api/news/imgView/${newsDetail.imgName}`} alt={newsDetail.imgName} className="news-image" />
@@ -77,11 +76,7 @@ function ViewNewStaff() {
                 <FormUpdateNew />
             </div>
             <SnackBar open={snackbarOpen} message={snackbarMessage} onClose={handleSnackbarClose} color={snackbarColor} />
-
-
         </div>
-
-
     );
 }
 

@@ -5,7 +5,7 @@ import { faFacebookF, faGooglePlusG } from '@fortawesome/free-brands-svg-icons';
 import axios from 'axios';
 import SnackBar from "../SnackBar.jsx";
 import { useNavigate } from "react-router";
-
+import * as Yup from 'yup';
 export default function Register() {
     const [firstName, setFirstName] = useState('');
     const [email, setEmail] = useState('');
@@ -17,7 +17,7 @@ export default function Register() {
     const [snackbarOpen, setSnackbarOpen] = useState(false);
     const [snackbarMessage, setSnackbarMessage] = useState('');
     const [snackbarColor, setSnackbarColor] = useState('success');
-
+    const [errors, setErrors] = useState({});
     const formatDate = (date) => {
         const d = new Date(date);
         const year = d.getFullYear();
@@ -28,52 +28,42 @@ export default function Register() {
 
     const navigate = useNavigate();
 
-    // const handleRegister = async (e) => {
-    //     e.preventDefault();
-
-    //     try {
-    //         const response = await axios.post('http://localhost:8080/auth/register-user', {
-    //             accName: firstName,
-    //             accPhone: phoneNumber,
-    //             accEmail: email,
-    //             accPassword: password,
-    //             accImg: avatar,
-    //             "accStatus": "active",
-    //             accBirthday: birthday,
-    //         });
-
-    //         console.log(response.data);
-    //         setSnackbarMessage('Registration successfully !!!')
-    //         setSnackbarColor("success");
-    //         setSnackbarOpen(true);
-    //         navigate("/login");
-
-    //     } catch (error) {
-    //         console.error('Lỗi đăng ký người dùng:', error.response.data); // Xử lý lỗi
-    //         setSnackbarMessage('Registration failed :(((');
-    //         setSnackbarColor("error");
-    //         // Thiết lập thông điệp Snackbar
-    //         setSnackbarOpen(true); // Hiển thị Snackbar
-    //     }
-    // }
+   
+    const schema = Yup.object().shape({
+        firstName: Yup.string().required('First Name is required'),
+        email: Yup.string().email('Invalid email').required('Email is required'),
+        phoneNumber: Yup.string().matches(/^[0-9]{10}$/, 'Phone Number must be 10 digits').required('Phone Number is required'),
+        password: Yup.string().min(5, 'Password must be at least 6 characters').required('Password is required'),
+        birthday: Yup.date().required('Birthday is required'),
+        avatar: Yup.mixed().required('Avatar is required')
+    });
 
     const handleRegister = async (e) => {
         e.preventDefault();
-        if (!firstName || !email || !phoneNumber || !password || !birthday || !avatar) {
-          
-            setSnackbarMessage('Please fill in all required fields');
-            setSnackbarColor("error");
-            setSnackbarOpen(true);
-            return; 
-        }
+        // if (!firstName || !email || !phoneNumber || !password || !birthday || !avatar) {
 
-        if (isNaN(phoneNumber)) {
-            setSnackbarMessage('Please enter a valid phone number');
-            setSnackbarColor("error");
-            setSnackbarOpen(true);
-            return; 
-        }
+        //     setSnackbarMessage('Please fill in all required fields');
+        //     setSnackbarColor("error");
+        //     setSnackbarOpen(true);
+        //     return;
+        // }
+
+        // if (isNaN(phoneNumber)) {
+        //     setSnackbarMessage('Please enter a valid phone number');
+        //     setSnackbarColor("error");
+        //     setSnackbarOpen(true);
+        //     return;
+        // }
         try {
+
+            await schema.validate({
+                firstName,
+                email,
+                phoneNumber,
+                password,
+                birthday,
+                avatar
+            }, { abortEarly: false });
             const formattedBirthday = formatDate(birthday);
             const formData = new FormData();
             formData.append('Avatar', avatar);
@@ -91,17 +81,25 @@ export default function Register() {
                 }
             });
 
-            console.log(response.data); 
+            console.log(response.data);
             setSnackbarMessage('Registration successfully !!!')
-            setSnackbarColor("success"); 
+            setSnackbarColor("success");
             setSnackbarOpen(true);
-        
+
 
         } catch (error) {
-            console.error('Lỗi đăng ký người dùng:', error.response.data); 
-            setSnackbarMessage('Registration failed :(((');
-            setSnackbarColor("error"); 
-            setSnackbarOpen(true); 
+           if (error instanceof Yup.ValidationError) {
+                const yupErrors = {};
+                error.inner.forEach((e) => {
+                    yupErrors[e.path] = e.message;
+                });
+                setErrors(yupErrors);
+            } else {
+                console.error('Registration failed :(((', error.response.data); 
+                setSnackbarMessage('Registration failed :(((');
+                setSnackbarColor("error");   
+                setSnackbarOpen(true); 
+            }
         }
     }
 
@@ -162,6 +160,7 @@ export default function Register() {
                             value={firstName}
                             onChange={(e) => setFirstName(e.target.value)}
                         />
+                          {errors.firstName && <p>{errors.firstName}</p>}
                     </div>
 
                     <div className="input-container">
@@ -171,6 +170,8 @@ export default function Register() {
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
                         />
+                          {errors.email && <p>{errors.email}</p>}
+                        
                     </div>
                     <div className="input-container">
                         <input
@@ -179,6 +180,7 @@ export default function Register() {
                             value={phoneNumber}
                             onChange={(e) => setPhoneNumber(e.target.value)}
                         />
+                          {errors.phoneNumber && <p>{errors.phoneNumber}</p>}
                     </div>
                     <div className="input-container">
                         <input
@@ -187,6 +189,8 @@ export default function Register() {
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
                         />
+                          {errors.password && <p>{errors.password}</p>}
+                        
                     </div>
 
                     <div className="input-container">
@@ -197,6 +201,8 @@ export default function Register() {
                             value={birthday}
                             onChange={(e) => setBirthday(e.target.value)}
                         />
+                          {errors.birthday && <p>{errors.birthday}</p>}
+
                     </div>
 
                     <button className="register-button" type="submit">REGISTER</button>
