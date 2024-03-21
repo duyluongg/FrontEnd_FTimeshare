@@ -10,7 +10,7 @@ export default function Navigation() {
   return (
     <nav className='header'>
       <div className='nav-welcome'>
-        Welcome to F-Timeshare !
+        Welcome to Booking Homestay !
       </div>
       <ul className='nav-list'>
         {/* {!(user && user.auth === true) && (
