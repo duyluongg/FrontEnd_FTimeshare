@@ -1,0 +1,84 @@
+.card-item {
+    background-color: gainsboro;
+    width: 250px;
+    height: 125px;
+    border-radius: 10px;
+    cursor: pointer;
+    margin-bottom: 50px;
+}
+
+.card-item-total{
+    background-color: gainsboro;
+    width: 520px;
+    height: 125px;
+    border-radius: 10px;
+    cursor: pointer;
+    margin-bottom: 50px;
+    margin-top: 25px;
+}
+
+.card-item-total-year{
+    background-color: gainsboro;
+    width: 520px;
+    height: 480px;
+    border-radius: 10px;
+    cursor: pointer;
+    margin-bottom: 50px;
+
+}
+
+.card-item-detail {
+
+    text-align: center;
+    color: white;
+    padding: 10px;
+    font-size: 20px;
+    padding-top: 30px;
+}
+
+.card-item-year {
+
+    text-align: center;
+    color: rgb(0, 0, 0);
+    padding: 10px;
+    font-size: 20px;
+    padding-top: 30px;
+
+
+
+}
+
+.staff-page{
+    display: flex;
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.user-admin{
+    /* width: 1000px; */
+    margin-left: -80px;
+    width: 1700px;
+
+}
+
+.user-admin-item{
+    background-color: #fff;
+    margin-top: 30px;
+    height: 680px;
+    border-radius: 20px;
+    box-shadow: 0 2px 9px rgba(0, 0, 0, 0.1);
+    /* padding-top: 200px; */
+}
+
+.user-admin-item h1{
+    font-size: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.admin-option{
+    display: flex;
+    gap: 20px;
+   
+}

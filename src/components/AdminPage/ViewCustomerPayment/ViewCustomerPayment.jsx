@@ -162,7 +162,7 @@ export default function ViewCustomerPayment() {
                                 <Button variant="outlined" color="success" onClick={() => handleAcceptCancelRespond(item.bookingID)}>
                                     ACCEPT
                                 </Button>
-                                <Link to={`/admin/wait-customer-to-confirm-payment-list/100/detail/${item.bookingID}/${item.productID}/${item.accID}`}>
+                                <Link to={`/staff/wait-customer-to-confirm-payment-list/100/detail/${item.bookingID}/${item.productID}/${item.accID}`}>
                                     <Button variant="outlined" >
                                         DETAIL
                                     </Button>

@@ -111,7 +111,7 @@ export default function BookingDetail() {
 
 
                 {productBooking.length > 0 && (
-                    <Card sx={{ maxWidth: 345 }}>
+                    <Card sx={{ maxWidth: 345, ml:"100px"}}>
                         <CardHeader
                             avatar={
                                 <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">

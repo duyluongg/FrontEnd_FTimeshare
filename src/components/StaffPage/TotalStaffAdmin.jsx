@@ -64,10 +64,10 @@ export default function TotalStaffAdmin() {
 
   return (
     <div>
-      <StaffNavbar/>
+    
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
 
-        <TextField sx={{ width: '500px', mb: '35px' }}
+        <TextField sx={{ width: '500px', mb: '35px', mt:"20px" }}
           placeholder="Search..."
           variant="outlined"
           size="small"

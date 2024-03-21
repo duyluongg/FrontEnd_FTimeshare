@@ -24,7 +24,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
 });
 
-export default function FormFeedback() {
+export default function FormUpdateNew() {
     const [open, setOpen] = React.useState(false);
     const [news, setNews] = useState('');
     const [newsTitle, setNewsTitle] = useState('');

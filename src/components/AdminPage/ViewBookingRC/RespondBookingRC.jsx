@@ -154,7 +154,7 @@ export default function RespondPayment80() {
             <div className='respond-flex'>
                 <div>
                     {productBooking.length > 0 && (
-                        <Card sx={{ maxWidth: 345 }}>
+                        <Card sx={{ maxWidth: 345, ml:"100px"}}>
                             <CardHeader
                                 avatar={
                                     <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
@@ -334,13 +334,13 @@ export default function RespondPayment80() {
 
                                 />
 
-                                <CardMedia
+                                {/* <CardMedia
                                     component="img"
                                     height="194"
                                     image={userAccountPayment[0] ? userAccountPayment[0].imgName : ""}
                                     alt={userAccountPayment[0] ? userAccountPayment[0].imgName : ""}
                                     sx={{ objectFit: "contain", maxHeight: "350px" }}
-                                />
+                                /> */}
                                 <CardContent>
 
                                     <Typography variant="body2" color="text.secondary">

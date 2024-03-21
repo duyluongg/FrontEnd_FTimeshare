@@ -21,7 +21,7 @@ const ExpandMore = styled((props) => {
     }),
 }));
 
-export default function RecipeReviewCard() {
+export default function RejectedPrj() {
     const [expanded, setExpanded] = React.useState(false);
     const [projectActive, setProjectActive] = React.useState([])
     const [searchQuery, setSearchQuery] = useState('');
@@ -67,7 +67,7 @@ export default function RecipeReviewCard() {
 
             <Grid container spacing={1} sx={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '10px', ml: '50px' }}>
                 {projectActive.map((item) => (
-                    <Card key={item.newsID} sx={{ maxWidth: 345, mb: '20px', boxShadow: 3 }}>
+                    <Card key={item.newsID} sx={{ maxWidth: 345, mb: '20px', boxShadow: 3, ml:"80px" }}>
                         <CardHeader
                             avatar={
                                 <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">

@@ -125,7 +125,7 @@ export default function ViewBookingConfirm() {
                     // console.log(projectImage);
 
                     return (
-                        <Card key={item.bookingID} sx={{ maxWidth: 345, mb: '20px', boxShadow: 3 }}>
+                        <Card key={item.bookingID} sx={{ maxWidth: 345, mb: '20px', boxShadow: 3, ml:"80px"}}>
                             <CardHeader
                                 avatar={
                                     <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
@@ -177,7 +177,7 @@ export default function ViewBookingConfirm() {
                                     REJECT
                                 </Button> */}
 
-                                <Link to={`/admin/wait-to-confirm-list/detail/${item.bookingID}/${item.productID}/${item.accID}`}>
+                                <Link to={`/staff/wait-to-confirm-list/detail/${item.bookingID}/${item.productID}/${item.accID}`}>
                                     <Button variant="outlined" >
                                         DETAIL
                                     </Button>

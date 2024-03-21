@@ -1,14 +1,15 @@
+
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { DataGrid } from '@mui/x-data-grid';
 import DeleteIcon from '@mui/icons-material/Delete';
-import ModalPopUp from '../TotalUser/ModalPopUp.jsx';
+
 import { TextField } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
 import SearchIcon from '@mui/icons-material/Search';
-import SelectOption from '../TotalUser/SelectOption.jsx';
-
-export default function TotalStaff() {
+// import SelectOption from '../SelectOption.jsx';
+import SelectOption from '../AdminPage/TotalUser/SelectOption';
+export default function TotalUser() {
   const [rows, setRows] = useState([]);
   const [search, setSearch] = useState('');
 
@@ -17,7 +18,7 @@ export default function TotalStaff() {
   useEffect(() => {
     const fetchRow = async () => {
       try {
-        const response = await axios.get('http://localhost:8080/api/users/ROLE_STAFF');
+        const response = await axios.get('http://localhost:8080/api/users/ROLE_CUSTOMER');
         const updatedRows = response.data.map((row, index) => ({
           ...row,
           id: index + 1,
@@ -63,7 +64,6 @@ export default function TotalStaff() {
 
   return (
     <div>
-     
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
 
         <TextField sx={{ width: '500px', mb: '35px' }}
@@ -115,8 +115,9 @@ export default function TotalStaff() {
         pageSizeOptions={[5, 10]}
         checkboxSelection
         rowHeight={80}
-        sx={{ml:"100px", width:"1550px"}}
+        sx={{ml:"100px", width:"1100px"}}
       />
     </div>
   );
 }
+

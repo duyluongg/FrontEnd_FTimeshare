@@ -41,7 +41,7 @@ import ViewCustomerPayment_80 from '../ViewCustomerPayment80/ViewCustomerPayment
 import AllNew from '../New/AllNew.jsx';
 import Profile from '../../Profile/Profile.jsx';
 import ProfileStaff from '../ProfileStaff/ProfileStaff.jsx';
-
+import UserAccount from '../../UserAccount.jsx';
 
 
 
@@ -234,13 +234,15 @@ export default function Sidenav() {
                     ))}
                 </List>
             </Drawer>
-            <Box component="main" sx={{ flexGrow: 2, p: 3 }}  >
-                <DrawerHeader />
-                {currentPage === '/admin' && <Dashboard />}
+            <Box  sx={{ mt:"100px" }}  >
+                {/* <DrawerHeader /> */}
+              
                 {/* <Routes>
                     <Route path='/admin/total-users' element={<TotalUser />}></Route>
 
                 </Routes> */}
+                {/* <Dashboard/> */}
+                  {/* {currentPage === '/admin' && <Dashboard />}
                 {currentPage === '/admin/total-users' && <TotalUser />}
                 {currentPage === '/admin/total-product' && <TotalProduct />}
                 {currentPage === '/admin/pending-product' && <TotalProductPending />}
@@ -259,6 +261,8 @@ export default function Sidenav() {
 
                 {currentPage === '/admin/new' && <New />}
                 {currentPage === '/admin/all-new' && <AllNew />}
+                {currentPage === '/admin/user-account' && <UserAccount />} */}
+
           
 
 
