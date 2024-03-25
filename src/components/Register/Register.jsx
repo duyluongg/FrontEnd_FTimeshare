@@ -5,7 +5,9 @@ import { faFacebookF, faGooglePlusG } from '@fortawesome/free-brands-svg-icons';
 import axios from 'axios';
 import SnackBar from "../SnackBar.jsx";
 import { useNavigate } from "react-router";
+import { Link } from "react-router-dom";
 import * as Yup from 'yup';
+
 export default function Register() {
     const [firstName, setFirstName] = useState('');
     const [email, setEmail] = useState('');
@@ -28,7 +30,7 @@ export default function Register() {
 
     const navigate = useNavigate();
 
-   
+
     const schema = Yup.object().shape({
         firstName: Yup.string().required('First Name is required'),
         email: Yup.string().email('Invalid email').required('Email is required'),
@@ -40,22 +42,10 @@ export default function Register() {
 
     const handleRegister = async (e) => {
         e.preventDefault();
-        // if (!firstName || !email || !phoneNumber || !password || !birthday || !avatar) {
 
-        //     setSnackbarMessage('Please fill in all required fields');
-        //     setSnackbarColor("error");
-        //     setSnackbarOpen(true);
-        //     return;
-        // }
+        let hasError = false;
 
-        // if (isNaN(phoneNumber)) {
-        //     setSnackbarMessage('Please enter a valid phone number');
-        //     setSnackbarColor("error");
-        //     setSnackbarOpen(true);
-        //     return;
-        // }
         try {
-
             await schema.validate({
                 firstName,
                 email,
@@ -64,41 +54,59 @@ export default function Register() {
                 birthday,
                 avatar
             }, { abortEarly: false });
-            const formattedBirthday = formatDate(birthday);
-            const formData = new FormData();
-            formData.append('Avatar', avatar);
-            formData.append('accName', firstName);
-            formData.append('accEmail', email);
-            formData.append('accPhone', phoneNumber);
-            formData.append('accPassword', password);
-            formData.append('accStatus', 'active');
-            formData.append('roleID', '3');
-            formData.append('accBirthday', formattedBirthday);
 
-            const response = await axios.post('http://localhost:8080/api/users', formData, {
-                headers: {
-                    'Content-Type': 'multipart/form-data'
-                }
-            });
-
-            console.log(response.data);
-            setSnackbarMessage('Registration successfully !!!')
-            setSnackbarColor("success");
-            setSnackbarOpen(true);
-
+            setErrors({});
+            hasError = false;
 
         } catch (error) {
-           if (error instanceof Yup.ValidationError) {
+            if (error instanceof Yup.ValidationError) {
                 const yupErrors = {};
                 error.inner.forEach((e) => {
                     yupErrors[e.path] = e.message;
                 });
                 setErrors(yupErrors);
-            } else {
-                console.error('Registration failed :(((', error.response.data); 
-                setSnackbarMessage('Registration failed :(((');
-                setSnackbarColor("error");   
-                setSnackbarOpen(true); 
+                hasError = true;
+            }
+        }
+
+        if (!hasError) {
+            try {
+                const formattedBirthday = formatDate(birthday);
+                const formData = new FormData();
+                formData.append('Avatar', avatar);
+                formData.append('accName', firstName);
+                formData.append('accEmail', email);
+                formData.append('accPhone', phoneNumber);
+                formData.append('accPassword', password);
+                formData.append('accStatus', 'active');
+                formData.append('roleID', '3');
+                formData.append('accBirthday', formattedBirthday);
+
+                const response = await axios.post('http://localhost:8080/api/users', formData, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data'
+                    }
+                });
+
+                console.log(response.data);
+                setSnackbarMessage('Registration successfully !!!')
+                setSnackbarColor("success");
+                setSnackbarOpen(true);
+                setTimeout(() => navigate('/login'), 1000);
+
+            } catch (error) {
+                if (error instanceof Yup.ValidationError) {
+                    const yupErrors = {};
+                    error.inner.forEach((e) => {
+                        yupErrors[e.path] = e.message;
+                    });
+                    setErrors(yupErrors);
+                } else {
+                    console.error('Registration failed :(((', error.response.data);
+                    setSnackbarMessage('Registration failed :(((');
+                    setSnackbarColor("error");
+                    setSnackbarOpen(true);
+                }
             }
         }
     }
@@ -134,7 +142,8 @@ export default function Register() {
                     </div>
                     <div className="login-here">
                         <span>
-                            Already have an account? <a href="/login">Login here</a>
+                            Already have an account?
+                            <Link to="/login">&nbsp;Login here</Link>
                         </span>
                     </div>
 
@@ -159,8 +168,9 @@ export default function Register() {
                             placeholder="First Name"
                             value={firstName}
                             onChange={(e) => setFirstName(e.target.value)}
+                            style={{ borderColor: errors.firstName ? 'red' : null }}
                         />
-                          {errors.firstName && <p>{errors.firstName}</p>}
+                        {errors.firstName && <p style={{ color: 'red' }}>{errors.firstName}</p>}
                     </div>
 
                     <div className="input-container">
@@ -169,9 +179,10 @@ export default function Register() {
                             placeholder="Email"
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
+                            style={{ borderColor: errors.email ? 'red' : null }}
                         />
-                          {errors.email && <p>{errors.email}</p>}
-                        
+                        {errors.email && <p style={{ color: 'red' }}>{errors.email}</p>}
+
                     </div>
                     <div className="input-container">
                         <input
@@ -179,8 +190,9 @@ export default function Register() {
                             placeholder="Phone Number"
                             value={phoneNumber}
                             onChange={(e) => setPhoneNumber(e.target.value)}
+                            style={{ borderColor: errors.phoneNumber ? 'red' : null }}
                         />
-                          {errors.phoneNumber && <p>{errors.phoneNumber}</p>}
+                        {errors.phoneNumber && <p style={{ color: 'red' }}>{errors.phoneNumber}</p>}
                     </div>
                     <div className="input-container">
                         <input
@@ -188,9 +200,10 @@ export default function Register() {
                             placeholder="Password"
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
+                            style={{ borderColor: errors.password ? 'red' : null }}
                         />
-                          {errors.password && <p>{errors.password}</p>}
-                        
+                        {errors.password && <p style={{ color: 'red' }}>{errors.password}</p>}
+
                     </div>
 
                     <div className="input-container">
@@ -200,15 +213,16 @@ export default function Register() {
                             id="birthday"
                             value={birthday}
                             onChange={(e) => setBirthday(e.target.value)}
+                            style={{ borderColor: errors.birthday ? 'red' : null }}
                         />
-                          {errors.birthday && <p>{errors.birthday}</p>}
+                        {errors.birthday && <p style={{ color: 'red' }}>{errors.birthday}</p>}
 
                     </div>
 
                     <button className="register-button" type="submit">REGISTER</button>
                 </form>
                 <SnackBar open={snackbarOpen} message={snackbarMessage} onClose={handleSnackbarClose} color={snackbarColor} />
-                <div className="line-container">
+                {/* <div className="line-container">
                     <div className="line"></div>
                     <div className="or">Or login with</div>
                     <div className="line"></div>
@@ -222,7 +236,7 @@ export default function Register() {
                         <span className="google-icon"><FontAwesomeIcon icon={faGooglePlusG} className="icon" /></span>
                         <span>Google</span>
                     </button>
-                </div>
+                </div> */}
             </div>
         </div>
     );

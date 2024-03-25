@@ -1,14 +1,15 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import Avatar from '@mui/material/Avatar';
 import axios from 'axios';
 import { format } from 'date-fns';
 import { useParams } from 'react-router-dom';
 import SnackBar from "../SnackBar.jsx";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faFacebookF, faGooglePlusG } from '@fortawesome/free-brands-svg-icons';
+import { UserContext } from '../UserContext.jsx';
 
-export default function UpdateProfile() {
-    const { accID } = useParams();
+export default function UpdateProfile({ getData }) {
+    // const { user } = useContext(UserContext);
+    // const { accID } = useParams();
     const [firstName, setFirstName] = useState('');
     const [email, setEmail] = useState('');
     const [phoneNumber, setPhoneNumber] = useState('');
@@ -21,18 +22,21 @@ export default function UpdateProfile() {
     const [snackbarColor, setSnackbarColor] = useState('success');
 
     useEffect(() => {
-        fetchDataUser(accID);
-    }, [accID]);
+        if (getData) {
+            fetchDataUser(getData);
+        }
+    }, [getData]);
 
-    const fetchDataUser = async (accID) => {
+    const fetchDataUser = async (getData) => {
         try {
-            const response = await axios.get(`http://localhost:8080/api/users/viewDetail/${accID}`);
+            const response = await axios.get(`http://localhost:8080/api/users/viewDetail/${getData}`);
+            console.log(response.data);
             const { accName, accEmail, accPhone, accBirthday, imgName } = response.data;
             setFirstName(accName);
             setEmail(accEmail);
             setPhoneNumber(accPhone);
             setBirthday(format(new Date(accBirthday), 'yyyy-MM-dd'));
-           
+
             if (imgName) {
                 setAvatarPreview(imgName);
             }
@@ -53,10 +57,10 @@ export default function UpdateProfile() {
             formData.append('accPhone', phoneNumber);
             formData.append('accPassword', password);
             formData.append('accStatus', 'active');
-            formData.append('roleID', '2');
+            formData.append('roleID', '3');
             formData.append('accBirthday', formattedBirthday);
 
-            const response = await axios.put(`http://localhost:8080/api/users/edit/${accID}`, formData, {
+            const response = await axios.put(`http://localhost:8080/api/users/edit/${getData}`, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 }
@@ -64,13 +68,13 @@ export default function UpdateProfile() {
 
             console.log(response.data);
             setSnackbarMessage('Update successfully !!!')
-            setSnackbarColor("success"); 
+            setSnackbarColor("success");
             setSnackbarOpen(true);
         } catch (error) {
             console.error('Error updating profile:', error);
             setSnackbarMessage('Update failed :(((');
-            setSnackbarColor("error"); 
-            setSnackbarOpen(true); 
+            setSnackbarColor("error");
+            setSnackbarOpen(true);
         }
     };
 
@@ -103,8 +107,8 @@ export default function UpdateProfile() {
     };
 
     return (
-        <div className="register-container">
-            <div className="register-form">
+        <div className="update-profile-container">
+            <div className="update-profile-form">
                 <form onSubmit={handleUpdateProfile}>
                     <h2>UPDATE</h2>
                     <div className="line-container line-header">

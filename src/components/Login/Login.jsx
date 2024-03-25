@@ -12,103 +12,92 @@ import { useContext } from 'react'
 import { UserContext } from '../UserContext'
 import { useNavigate } from 'react-router-dom';
 import SnackBar from "../SnackBar.jsx";
-import { GoogleLogin } from "@react-oauth/google";
-import { jwtDecode } from "jwt-decode";
-import { useGoogleLogin } from "@react-oauth/google";
+import * as Yup from 'yup';
 
 export default function Login() {
     const { loginContext } = useContext(UserContext);
     const navigate = useNavigate();
 
-    // const [email, setEmail] = useState('');
-    // const [password, setPassword] = useState('');
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
     const [isShowPassword, setIsShowPassword] = useState(false);
     const [loadingAPI, setLoadingAPI] = useState(false);
     const [snackbarOpen, setSnackbarOpen] = useState(false);
     const [snackbarMessage, setSnackbarMessage] = useState('');
     const [snackbarColor, setSnackbarColor] = useState('success');
+    const [errors, setErrors] = useState({});
 
-    const [loginData, setLoginData] = useState({
-        email: '',
-        password: ''
+    const schema = Yup.object().shape({
+        email: Yup.string().email('Invalid email').required('Email is required'),
+        password: Yup.string().required('Password is required'),
     });
-
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-        setLoginData({
-            ...loginData,
-            [name]: value,
-        });
-    };
 
     const handleLogin = async (e) => {
         e.preventDefault();
-
-        if (!loginData.email || !loginData.password) {
-            setSnackbarMessage('Email or Password are incorrect !!!');
-            setSnackbarColor("error");
-            setSnackbarOpen(true);
-            return;
-        }
-        setLoadingAPI(true);
+    
+        let hasError = false; // Biến cờ để kiểm tra có lỗi từ Yup không
+    
         try {
-            const response = await axios.post('http://localhost:8080/auth/login', loginData);
-
-            if (response && response.data.token) {
-                loginContext(response.data.id, response.data.role, response.data.token);
-                if (response.data.role === '[ROLE_ADMIN]') {
-                    setSnackbarMessage('Login successfully !!!')
-                    setSnackbarColor("success");
-                    setSnackbarOpen(true);
-                    setTimeout(() => navigate('/admin'), 1000);
-                } else if (response.data.role === '[ROLE_STAFF]') {
-                    setSnackbarMessage('Login successfully !!!')
-                    setSnackbarColor("success");
-                    setSnackbarOpen(true);
-                    setTimeout(() => navigate('/admin'), 1000);
-                } else {
-                    setSnackbarMessage('Login successfully !!!')
-                    setSnackbarColor("success");
-                    setSnackbarOpen(true);
-                    setTimeout(() => navigate('/'), 1000);
-                }
-            } else {
-                if (response && response.status === 400) {
-                    setSnackbarMessage('Login failed !!!');
-                    setSnackbarColor("error");
-                    setSnackbarOpen(true);
-                }
-            }
-            setLoadingAPI(false);
+            await schema.validate({
+                email,
+                password
+            }, { abortEarly: false });
+    
+            // Nếu không có lỗi từ Yup, đặt hasError thành false
+            setErrors({});
+            hasError = false;
+    
         } catch (error) {
-            console.error('Login failed:', error);
-            setSnackbarMessage('Email or Password are incorrect !!!');
-            setSnackbarColor("error");
-            setSnackbarOpen(true);
+            if (error instanceof Yup.ValidationError) {
+                const yupErrors = {};
+                error.inner.forEach((e) => {
+                    yupErrors[e.path] = e.message;
+                });
+                setErrors(yupErrors);
+                hasError = true; // Nếu có lỗi từ Yup, đặt hasError thành true
+            }
+        }
+    
+        // Kiểm tra biến cờ để gọi API chỉ khi không có lỗi từ Yup
+        if (!hasError) {
+            try {
+                setLoadingAPI(true);
+    
+                const response = await axios.post('http://localhost:8080/auth/login', {
+                    email,
+                    password
+                });
+    
+                if (response && response.data.token) {
+                    loginContext(response.data.id, response.data.role, response.data.token);
+                    if (response.data.role === '[ROLE_ADMIN]' || response.data.role === '[ROLE_STAFF]') {
+                        setSnackbarMessage('Login successfully !!!')
+                        setSnackbarColor("success");
+                        setSnackbarOpen(true);
+                        setTimeout(() => navigate('/admin'), 1000);
+                    } else {
+                        setSnackbarMessage('Login successfully !!!')
+                        setSnackbarColor("success");
+                        setSnackbarOpen(true);
+                        setTimeout(() => navigate('/'), 1000);
+                    }
+                } 
+                
+            } catch (error) {
+                console.error('Login failed:', error);
+                setSnackbarMessage('Email or Password are incorrect !!!');
+                setSnackbarColor("error");
+                setSnackbarOpen(true);
+            } finally {
+                setLoadingAPI(false);
+            }
         }
     }
+    
 
     const handleSnackbarClose = () => {
         setSnackbarOpen(false);
     };
-
-    const loginGoogle = useGoogleLogin({
-        onSuccess: async (response) => {
-            try {
-                const res = await axios.get(
-                    "https://googleapis.com/oauth2/v3/userinfo",
-                    {
-                        headers: {
-                            Authorization: `Bearer ${response.access_token}`,
-                        },
-                    }
-                );
-                console.log(res);
-            } catch (err) {
-                console.log(err);
-            }
-        },
-    });
 
     return (
         <div className="login-container">
@@ -118,30 +107,46 @@ export default function Login() {
                     <div className="line-container line-header">
                         <div className="line-login"></div>
                     </div>
+                    <div className="login-here">
+                        <span>
+                            Don't have an account yet?
+                            <Link to="/register">&nbsp;Register here</Link>
+                        </span>
+                    </div>
                     <div className="input-container">
                         <input
                             type="email"
                             placeholder="Email"
                             name="email"
-                            value={loginData.email}
-                            onChange={handleChange}
-                            required
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                            style={{ borderColor: errors.email ? 'red' : null }}
                         />
+                        {errors.email && <p style={{ color: 'red' }}>{errors.email}</p>}
                     </div>
                     <div className="input-container">
                         <input
                             type={isShowPassword === true ? "text" : "password"}
                             placeholder="Password"
                             name="password"
-                            value={loginData.password}
-                            onChange={handleChange}
-                            required
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                            style={{ borderColor: errors.password ? 'red' : null }}
                         />
+                        {errors.password && <p style={{ color: 'red' }}>{errors.password}</p>}
                         <FontAwesomeIcon
                             onClick={() => setIsShowPassword(!isShowPassword)}
                             className="eye-slash"
                             icon={isShowPassword ? faEye : faEyeSlash}
                         />
+                    </div>
+                    <div className="link-login">
+                        <span className="forgot-password">
+                            <a href="#">Forgot your password?</a>
+                        </span>
+                        {/* <span className="register-here">
+                            <Link to="/register">Register here</Link>
+                        </span> */}
                     </div>
                     <button className="login-button" type="submit">
                         {loadingAPI && <FontAwesomeIcon icon={faSpinner} spin />}
@@ -149,15 +154,15 @@ export default function Login() {
                     </button>
                 </form>
                 <SnackBar open={snackbarOpen} message={snackbarMessage} onClose={handleSnackbarClose} color={snackbarColor} />
-                <div className="link-login">
+                {/* <div className="link-login">
                     <span className="forgot-password">
                         <a href="#">Forgot your password?</a>
                     </span>
                     <span className="register-here">
                         <Link to="/register">Register here</Link>
                     </span>
-                </div>
-                <div className="line-container">
+                </div> */}
+                {/* <div className="line-container">
                     <div className="line"></div>
                     <div className="or">Or login with</div>
                     <div className="line"></div>
@@ -171,16 +176,7 @@ export default function Login() {
                         <span className="google-icon"><FontAwesomeIcon icon={faGooglePlusG} className="icon" /></span>
                         <span>Google</span>
                     </button>
-                    {/* <GoogleLogin
-                        onSuccess={credetialResponse => {
-                            const credetialResponseDecoded = jwtDecode(credetialResponse.credential);
-                            console.log(credetialResponseDecoded);
-                        }}
-                        onError={() => {
-                            console.log("Login failed");
-                        }}
-                    /> */}
-                </div>
+                </div> */}
             </div>
         </div>
     );

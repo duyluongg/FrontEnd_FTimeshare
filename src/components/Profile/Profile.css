@@ -1,42 +1,64 @@
-.profile-left{
+.update-profile-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.update-profile-form {
+    width: 500px;
+    background-color: #fff;
+    padding: 40px;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3); /* Đã chỉnh sửa độ trong suốt từ 0.1 thành 0.3 */
+    margin: 50px auto;
+}
+
+.update-profile-form h2 {
+    color: #CD9A2B;
+    font-size: 24px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.profile-left {
     background-color: #C69C2D;
     height: 550px;
     width: 250px;
     text-align: center;
     display: flex;
     align-items: center;
-    flex-direction:  column;
-   
+    flex-direction: column;
+
 }
 
-.profile-left h2{
+.profile-left h2 {
     font-weight: bold;
 }
 
-.profile-flex{
+.profile-flex {
     display: flex;
     align-items: center;
     justify-content: center;
     margin: 95px 0;
-    
- 
+
+
 }
 
-.profile-right{
+.profile-right {
     display: flex;
     gap: 100px;
     margin-top: 20px;
 }
 
-.profile-right h2{
+.profile-right h2 {
     margin-bottom: 10px;
 }
 
-.profile-right p{
+.profile-right p {
     margin-bottom: 20px;
 }
 
-.profile-right-big{
+.profile-right-big {
     height: 550px;
     background-color: #F9E897;
     padding: 25px;
@@ -45,20 +67,19 @@
 
 }
 
-.profile-title-info{
+.profile-title-info {
     font-size: 25px;
     font-weight: bold;
     border-bottom: 2px solid #B7E5B4;
 }
 
-.profile-item-flex{
+.profile-item-flex {
     display: flex;
     justify-content: space-between;
-    
+
 }
 
-.profile-title{
+.profile-title {
     font-weight: bold;
     font-size: 20px;
 }
-

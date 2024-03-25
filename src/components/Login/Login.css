@@ -3,6 +3,7 @@
     justify-content: center;
     align-items: center;
     background-color: #f2f2f2;
+    /* min-height: 100vh; */
 }
 
 .login-form {
@@ -11,7 +12,7 @@
     padding: 40px;
     border-radius: 4px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    margin: 50px auto;
+    margin: 100px auto;
 }
 
 form {
@@ -82,13 +83,13 @@ form .login-button:hover {
     color: #CD9A2B;
 }
 
-.register-here {
+/* .register-here {
     margin-left: auto;
 }
 
 .register-here:hover {
     color: #CD9A2B;
-}
+} */
 
 .line-container {
     display: flex;
