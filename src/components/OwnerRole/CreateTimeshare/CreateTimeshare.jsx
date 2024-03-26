@@ -28,6 +28,7 @@ export default function CreateTimeshare() {
     const [snackbarMessage, setSnackbarMessage] = useState('');
     const [snackbarColor, setSnackbarColor] = useState('success');
     const [errors, setErrors] = useState({});
+    const [isLoading, setIsLoading] = useState(false);
 
     const navigate = useNavigate();
 
@@ -138,7 +139,7 @@ export default function CreateTimeshare() {
 
         setErrors(validationErrors);
 
-        if (Object.keys(validationErrors).length === 0) {
+        if (Object.keys(validationErrors).length === 0 && !isLoading) {
 
             if (images.length === 0) {
                 setSnackbarMessage('Images are required to create post!!!');
@@ -191,6 +192,7 @@ export default function CreateTimeshare() {
                 availableEndDate: formattedEndDate,
             };
             // console.log(productDataToSend);
+            setIsLoading(true);
 
             try {
                 const productResponse = await axios.post('http://localhost:8080/api/products/add', productDataToSend);
@@ -214,12 +216,12 @@ export default function CreateTimeshare() {
                 setSnackbarColor("success");
                 setSnackbarOpen(true);
                 setTimeout(() => navigate('/'), 1000);
-
             } catch (error) {
                 console.error('Error creating product:', error);
                 setSnackbarMessage('Create timeshare failed!!!');
                 setSnackbarColor("error");
                 setSnackbarOpen(true);
+                setIsLoading(false);
             }
         }
     };
@@ -590,7 +592,16 @@ export default function CreateTimeshare() {
                                 </div>
                             ))}
                         </div>
-                        <button className="create-button" type="submit">Create Post</button>
+                        {/* <button className="create-button" type="submit">Create Post</button> */}
+                        <button
+                            className={`create-button ${isLoading ? 'disabled' : ''}`}
+                            // className="create-button"
+                            type="submit"
+                            disabled={isLoading}
+                        >
+                            {isLoading ? 'Creating...' : 'Create Post'}
+                        </button>
+
                     </div>
                 </form >
                 <SnackBar open={snackbarOpen} message={snackbarMessage} onClose={handleSnackbarClose} color={snackbarColor} />
