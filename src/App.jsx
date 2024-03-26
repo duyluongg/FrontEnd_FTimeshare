@@ -188,7 +188,7 @@ function App() {
         <Route path='/register' element={<Register />}></Route>
         <Route path='/contact-info' element={<Contact />}></Route>
         <Route path='/owner-page' element={<OwnerPage />}></Route>
-        {/* <Route path='/create-timeshare' element={<CreateTimeshare getData={user.id} />}></Route> */}
+        <Route path='/create-timeshare' element={<CreateTimeshare getData={user.id} />}></Route>
         <Route path='/view-summary' element={<ViewSummary />}></Route>
         <Route path='/view-project-detail/:id' element={<ViewDetail />}></Route>
         <Route path='/contact-info' element={<Contact />}></Route>
