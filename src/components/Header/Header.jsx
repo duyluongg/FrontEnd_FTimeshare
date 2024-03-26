@@ -20,7 +20,7 @@ export default function Header() {
                 </div>
 
                 <div className='header-gray-title'>
-                    <h1>We Are The Best And Trusted Timeshare Project</h1>
+                    <h1>We Are The Best And Trusted Homestay Booking Website</h1>
                     <p>We are delighted to share with you a special journey where the vacation experience is more than just accommodation; it's a sophisticated blend of luxury and flexibility. Awakened by the idea of creating unforgettable moments, the F-Timeshare is where you can take control of your itinerary, relish in private spaces, and explore fantastic destinations worldwide.</p>
                     <button>
                         <a href='#'>More <FontAwesomeIcon icon={faArrowRight} /> </a>

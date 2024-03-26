@@ -74,6 +74,7 @@ function SamplePrevArrowSt2({ onClick }) {
 
     );
 }
+
 export default function Detail() {
 
     const settings = {
@@ -101,21 +102,21 @@ export default function Detail() {
     }, []);
 
     const [productDetail, setProductDetail] = useState([]);
+    const [showBookingButton, setShowBookingButton] = useState(false);
     const productId = useParams();
     // console.log(productId.id);
     const [activeContentIndex, setActiveContentIndex] = useState('');
     const [images, setImages] = useState([]);
+    const [imagesSimilar, setImagesSimilar] = useState([]);
     const { user } = useContext(UserContext);
+    const [filteredProducts, setFilteredProducts] = useState([]);
+    const [bestProducts, setBestProducts] = useState([]);
 
 
     useEffect(() => {
 
         const fetchProductDetail = async () => {
             try {
-                // const response = await axios.get(`http://localhost:8080/api/products/viewById/${productId.id}`);
-                // setProductDetail(response.data[0]);
-                // console.log(response.data[0]);
-                // setActiveContentIndex(response.data[0].productDescription);
                 const response = await axios.get(`http://localhost:8080/api/products/viewById/${productId.id}`);
                 const productData = response.data[0];
                 const startDate = new Date(productData.availableStartDate[0], productData.availableStartDate[1] - 1, productData.availableStartDate[2], productData.availableStartDate[3], productData.availableStartDate[4]);
@@ -125,8 +126,32 @@ export default function Detail() {
                 productData.availableStartDate = formattedStartDate;
                 productData.availableEndDate = formattedEndDate;
                 setProductDetail(productData);
-                console.log(productData);
                 setActiveContentIndex(productData.productDescription);
+
+                const activeProductsResponse = await axios.get('http://localhost:8080/api/products/staff/active');
+                const activeProducts = activeProductsResponse.data;
+
+                // Lọc ra các sản phẩm có productTypeID giống với productDetail.productTypeID
+                const filteredProducts = activeProducts.filter(product => product.productTypeID === productData.productTypeID);
+                const updatedProjects = await Promise.all(filteredProducts.map(async (filteredProduct) => {
+                    const feedbackResponse = await axios.get(`http://localhost:8080/api/feedback/average-feedback-rating/${filteredProduct.productID}`);
+                    const rating = feedbackResponse.data;
+
+                    return { ...filteredProduct, rating };
+                }));
+                setFilteredProducts(updatedProjects);
+
+                const bestProjects = await Promise.all(activeProducts.map(async (activeProduct) => {
+                    const feedbackResponse = await axios.get(`http://localhost:8080/api/feedback/average-feedback-rating/${activeProduct.productID}`);
+                    const rating = feedbackResponse.data;
+
+                    return { ...activeProduct, rating };
+                }));
+
+                bestProjects.sort((a, b) => b.rating - a.rating);
+
+                const top4Projects = bestProjects.slice(0, 4);
+                setBestProducts(top4Projects);
             } catch (error) {
                 console.error('Error fetching products:', error);
             }
@@ -134,6 +159,16 @@ export default function Detail() {
 
         fetchProductDetail();
     }, [productId.id, setActiveContentIndex]);
+
+    useEffect(() => {
+        console.log("productDetail:", productDetail.accID);
+        console.log("user:", user.id);
+        if (productDetail.accID == user.id) {
+            setShowBookingButton(false); // Nếu là chủ sở hữu, không hiển thị nút booking
+        } else {
+            setShowBookingButton(true);
+        }
+    }, [productDetail, user]);
 
     useEffect(() => {
         const fetchImg = async () => {
@@ -147,6 +182,19 @@ export default function Detail() {
         };
 
         fetchImg();
+    }, []);
+
+    useEffect(() => {
+        const fetchImageSimilar = async () => {
+            try {
+                const response = await axios.get(`http://localhost:8080/api/pictures/customerview`);
+                setImagesSimilar(response.data);
+                // console.log(response.data);
+            } catch (error) {
+                console.error('Error fetching view img:', error);
+            }
+        };
+        fetchImageSimilar();
     }, []);
 
     const navigate = useNavigate();
@@ -168,13 +216,11 @@ export default function Detail() {
     };
 
     return (
-
         <>
             <div className='container-detail'>
                 <div className='container-item'>
                     <div className='container-item-img'>
                         <div>
-
                             <Slider {...settings}>
                                 <div className='container-item-img-item'>
                                     {images.length > 0 && <img src={images[0].imgName} />}
@@ -241,13 +287,13 @@ export default function Detail() {
                             <h1 className='form-border-bottom'>Booking Information</h1>
                             <h1 className='form-cost'>${productDetail.productPrice}/Day</h1>
                             <p className="form-time"><FontAwesomeIcon className="icon-calendar" icon={faCalendarDay} size={'2xl'} /> {productDetail.availableStartDate} - {productDetail.availableEndDate}</p>
-                            <form className='form-item' onSubmit={handleBooking}>
-                                {/* <div className='column-form column-1'>
-                                </div> */}
-                                <div className='column-form column-2'>
-                                    <button type="submit">Booking</button>
-                                </div>
-                            </form>
+                            {showBookingButton && (
+                                <form className='form-item' onSubmit={handleBooking}>
+                                    <div className='column-form column-2'>
+                                        <button type="submit">Booking</button>
+                                    </div>
+                                </form>
+                            )}
                         </div>
                     </div>
                 </div>
@@ -305,75 +351,74 @@ export default function Detail() {
 
                                 <div className='project-detail'>
                                     <Slider {...settings2}>
-                                        {ProjectsDataSimilar.map((prjsimi) => (
-                                            <div key={prjsimi.id}>
-                                                <div className='column'>
+                                        {filteredProducts.map((prjsimi) => {
+                                            const productSimilarImage = imagesSimilar.find(imageSimilar => imageSimilar.productID === prjsimi.productID);
+
+                                            return (
+                                                <div key={prjsimi.productID}>
                                                     <div className='card-detail'>
                                                         <div className='img-detail'>
-                                                            <img src={prjsimi.img} alt={prjsimi.name} />
+                                                            {productSimilarImage && <img src={productSimilarImage.imgName} />}
                                                         </div>
                                                         <div className='project-list-detail'>
                                                             <div className='project-list-title'>
-                                                                <h3 className='project-list-name'>{prjsimi.name}</h3>
-                                                                <h3 className='project-list-feedback'><FontAwesomeIcon icon={faStar} color='#FFD43B' />{prjsimi.feedback}</h3>
-
+                                                                <h3 className='project-list-name'>{prjsimi.productName}</h3>
+                                                                <h3 className='project-list-feedback'><FontAwesomeIcon icon={faStar} color='#FFD43B' />{prjsimi.rating}</h3>
                                                             </div>
-                                                            <h4>{prjsimi.adr}</h4>
+                                                            <h4 className='project-list-description'>{prjsimi.productDescription}</h4>
                                                             <div className='project-list-cost'>
-                                                                ${prjsimi.cost} <a>/ night</a>
+                                                                ${prjsimi.productPrice} <a>/ night</a>
                                                             </div>
                                                         </div>
                                                         <p>
-                                                            <Link to={`detail/${prjsimi.id}`}>
+                                                            <a href={`/detail/${prjsimi.productID}`}>
                                                                 <button
-                                                                    onClick={() => handleProjectClick(prjsimi)}
+                                                                    // onClick={() => handleProjectClick(prjsimi)}
                                                                     className='project-list-button-view'
                                                                 >
-                                                                    <a className='project-list-view'>View</a>
+                                                                    <span className='project-list-view'>View</span>
                                                                 </button>
-                                                            </Link>
+                                                            </a>
                                                         </p>
                                                     </div>
                                                 </div>
-                                            </div>
-                                        ))}
+                                            );
+                                        })}
                                     </Slider>
-
                                 </div>
+
                             </div>
 
                             <div>
                                 <div className='room-title'>Best Room</div>
                                 <div className='room-item'>
-
-                                    {RoomData.map((room) => (
-
+                                    {bestProducts.map((room) => (
                                         <div key={room.id}>
                                             <div className='room-card'>
                                                 <div className='img-room'>
-                                                    <img src={room.imgRoom} alt={room.titleRoom} />
-
+                                                    {imagesSimilar.map((imageSimilar) => {
+                                                        if (imageSimilar.productID === room.productID) {
+                                                            return <img src={imageSimilar.imgName} />;
+                                                        }
+                                                        return null;
+                                                    })}
                                                 </div>
-                                                <div className='room-detail'>
-                                                    <h2>{room.titleRoom}</h2>
-                                                    <p>${room.costRoom}</p>
-                                                </div>
+                                                <a href={`/detail/${room.productID}`}>
+                                                    <div className='room-detail'>
+                                                        <h2>{room.productName}</h2>
+                                                        <p>${room.productPrice}</p>
+                                                    </div>
+                                                </a>
                                             </div>
-
                                         </div>
                                     ))}
-
                                 </div>
+
                             </div>
-
                         </div>
-
                     </div>
-
                 </div>
-
-
-            </div>
+            </div >
         </>
     )
 

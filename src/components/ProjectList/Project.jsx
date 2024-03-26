@@ -93,7 +93,11 @@ export default function Project() {
           return { ...project, rating };
         }));
 
-        setProject(updatedProjects);
+        updatedProjects.sort((a, b) => b.rating - a.rating);
+
+        const top8Projects = updatedProjects.slice(0, 8);
+
+        setProject(top8Projects);
       } catch (error) {
         console.error('Error fetching projects:', error);
       }
@@ -232,7 +236,7 @@ export default function Project() {
                       <h3 className='project-list-name'>{projectItem.productName}</h3>
                       <h3 className='project-list-feedback'><FontAwesomeIcon icon={faStar} color='#FFD43B' />{projectItem.rating}</h3>
                     </div>
-                    <h4>{projectItem.productDescription}</h4>
+                    <h4 className='project-list-description'>{projectItem.productDescription}</h4>
                     <div className='project-list-cost'>${projectItem.productPrice}  <a>/ night</a></div>
                   </div>
                   <p>
