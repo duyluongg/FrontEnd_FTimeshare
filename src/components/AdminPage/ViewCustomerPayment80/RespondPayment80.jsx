@@ -18,6 +18,8 @@ import { useParams } from 'react-router-dom';
 import { Button } from '@mui/material';
 import axios from 'axios';
 import ModalProfile from '../ViewReport/ModalProfile';
+import ModalConfirmRC from '../../ModalConfirmRC';
+import ModalNotifyRC from '../../ModalNotifyRC';
 // import CustomizedTables from './CustomizedTables';
 import { Grid } from '@mui/material';
 // import './RespondPayment.css'
@@ -53,7 +55,11 @@ export default function RespondPayment80() {
     const [userAccountPayment, setUserAccountPayment] = useState([]);
     const [showAcceptButton, setShowAcceptButton] = useState(false);
     const [showSubmitButton, setShowSubmitButton] = useState(true);
-
+    const [showModalNotify, setShowModalNotify] = useState(false);
+    const navigate = useNavigate()
+    const toggleModal = () => {
+        setShowModalNotify(!showModalNotify);
+    };
 
     console.log(bookingID);
     useEffect(() => {
@@ -136,7 +142,8 @@ export default function RespondPayment80() {
     const handleAcceptCancelRespond = async (bookingID) => {
         try {
             await axios.put(`http://localhost:8080/api/bookings/confirm_booking_respond_payment/${bookingID}`);
-            setShowSecondDiv(false);
+            setTimeout(() => navigate("/staff/wait-customer-to-confirm-payment-list/100"), 2000)
+
         } catch (error) {
             console.error('Error fetching projects:', error);
         }
@@ -204,102 +211,100 @@ export default function RespondPayment80() {
                         </Card>
                     )}
                 </div>
-                {showSecondDiv && (
-                    <div >
-                        {/* <Grid container spacing={1} sx={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '10px', ml: 'auto' }}> */}
-                        <div style={{ display: "flex" }}>
-                            <Card sx={{ maxWidth: 345 }}>
-                                <CardHeader
-                                    avatar={
-                                        <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
-                                            <ModalProfile accID={userAccountBooking} />
-                                        </Avatar>
-                                    }
 
-                                    title={userAccountBooking.accName}
-                                    subheader="September 14, 2016"
-                                />
-                                <CardMedia
-                                    component="img"
-                                    height="194"
-                                    image={customerAccountPayment[0] ? customerAccountPayment[0].imgName : ""}
-                                    alt={customerAccountPayment[0] ? customerAccountPayment[0].imgName : ""}
-                                    sx={{ objectFit: "contain", maxHeight: "350px" }}
-                                />
-                                <CardContent>
+                <div >
+                    {/* <Grid container spacing={1} sx={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '10px', ml: 'auto' }}> */}
+                    <div style={{ display: "flex" }}>
+                        <Card sx={{ maxWidth: 345 }}>
+                            <CardHeader
+                                avatar={
+                                    <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
+                                        <ModalProfile accID={userAccountBooking} />
+                                    </Avatar>
+                                }
 
+                                title={userAccountBooking.accName}
+                                subheader="September 14, 2016"
+                            />
+                            <CardMedia
+                                component="img"
+                                height="194"
+                                image={customerAccountPayment[0] ? customerAccountPayment[0].imgName : ""}
+                                alt={customerAccountPayment[0] ? customerAccountPayment[0].imgName : ""}
+                                sx={{ objectFit: "contain", maxHeight: "350px" }}
+                            />
+                            <CardContent>
+
+                                <Typography variant="body2" color="text.secondary">
+                                    Cash refund amount: {customerAccountPayment[0] ? customerAccountPayment[0].bookingPrice : ""}
+                                </Typography>
+                                <form onSubmit={handleUploadRespond}>
                                     <Typography variant="body2" color="text.secondary">
-                                        Cash refund amount: {customerAccountPayment[0] ? customerAccountPayment[0].bookingPrice : ""}
+                                        <div className="">
+                                            <label htmlFor="avatar">Image Respond:</label>
+                                            <input
+                                                type="file"
+                                                id="picture"
+                                                onChange={handleImageChange}
+                                            />
+                                            {picturePreview && (
+                                                <div className="input-container">
+                                                    <label>Respond Image Preview:</label>
+                                                    <img src={picturePreview} alt="Avatar Preview" style={{ maxWidth: "100px", maxHeight: "100px" }} />
+                                                </div>
+                                            )}
+                                        </div>
                                     </Typography>
-                                    <form onSubmit={handleUploadRespond}>
-                                        <Typography variant="body2" color="text.secondary">
-                                            <div className="">
-                                                <label htmlFor="avatar">Image Respond:</label>
-                                                <input
-                                                    type="file"
-                                                    id="picture"
-                                                    onChange={handleImageChange}
-                                                />
-                                                {picturePreview && (
-                                                    <div className="input-container">
-                                                        <label>Respond Image Preview:</label>
-                                                        <img src={picturePreview} alt="Avatar Preview" style={{ maxWidth: "100px", maxHeight: "100px" }} />
-                                                    </div>
-                                                )}
-                                            </div>
-                                        </Typography>
-                                        {showSubmitButton && (
-                                            <button className="register-button" type="submit">
-                                                Submit
-                                            </button>
+                                    {showSubmitButton && (
+                                        <button className="register-button" type="submit">
+                                            Submit
+                                        </button>
 
-                                        )}
-                                        {showAcceptButton && (
-                                            <Button variant="outlined" color="success" sx={{width: 310}} onClick={() => handleAcceptCancelRespond(customerAccountPayment[0].bookingID)}>
-                                                ACCEPT
-                                            </Button>
-                                        )}
+                                    )}
+                                    {showAcceptButton && (
+                                        <ModalConfirmRC openModalConfirm={() => handleAcceptCancelRespond(customerAccountPayment[0].bookingID)} />
+                                    )}
 
-                                    </form>
-                                </CardContent>
-                               
-                            </Card>
+                                </form>
+                            </CardContent>
 
-                            <Card sx={{ maxWidth: 550, height: 200 }}>
-                                <CardHeader
+                        </Card>
+
+                        <Card sx={{ maxWidth: 550, height: 200 }}>
+                            <CardHeader
 
 
-                                    title="INFORMATION OF CUSTOMER PAYMENT"
+                                title="INFORMATION OF CUSTOMER PAYMENT"
 
-                                />
+                            />
 
-                                <CardContent>
+                            <CardContent>
 
-                                    <Typography variant="body2" color="text.secondary">
-                                        Cash refund amount: {customerAccountPayment[0] ? customerAccountPayment[0].bookingPrice : ""}
-                                    </Typography>
+                                <Typography variant="body2" color="text.secondary">
+                                    Cash refund amount: {customerAccountPayment[0] ? customerAccountPayment[0].bookingPrice : ""}
+                                </Typography>
 
-                                    <Typography variant="body2" color="text.secondary">
-                                        AccountName: {userAccountPayment[0] ? userAccountPayment[0].accountName : ""}
-                                    </Typography>
+                                <Typography variant="body2" color="text.secondary">
+                                    AccountName: {userAccountPayment[0] ? userAccountPayment[0].accountName : ""}
+                                </Typography>
 
-                                    <Typography variant="body2" color="text.secondary">
-                                        Banking: {userAccountPayment[0] ? userAccountPayment[0].banking : ""}
-                                    </Typography>
+                                <Typography variant="body2" color="text.secondary">
+                                    Banking: {userAccountPayment[0] ? userAccountPayment[0].banking : ""}
+                                </Typography>
 
-                                    <Typography variant="body2" color="text.secondary">
-                                        Account Number: {userAccountPayment[0] ? userAccountPayment[0].accountNumber : ""}
-                                    </Typography>
+                                <Typography variant="body2" color="text.secondary">
+                                    Account Number: {userAccountPayment[0] ? userAccountPayment[0].accountNumber : ""}
+                                </Typography>
 
-                                </CardContent>
+                            </CardContent>
 
-                            </Card>
-                        </div>
-                        {/* </Grid> */}
+                        </Card>
                     </div>
-                )}
+                    {/* </Grid> */}
+                </div>
             </div>
             {/* <CustomizedTables/> */}
+            <ModalNotifyRC openModal={showModalNotify} onClose={toggleModal} />
 
         </>
 

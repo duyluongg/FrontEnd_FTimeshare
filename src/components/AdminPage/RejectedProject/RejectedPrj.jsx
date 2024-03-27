@@ -5,11 +5,11 @@ import { red } from '@mui/material/colors';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import axios from 'axios';
-import { Grid, Card, CardHeader, CardMedia, CardContent, CardActions, Collapse, Avatar, IconButton, Typography,Button, TextField, Pagination} from '@mui/material';
-// import Button from '@mui/material/Button';
-// import TextField from '@mui/material/TextField';
+import { Grid, Card, CardHeader, CardMedia, CardContent, CardActions, Collapse, Avatar, IconButton, Typography, Button, TextField, Pagination } from '@mui/material';
+
 import SearchIcon from '@mui/icons-material/Search';
-// import Pagination from '@mui/material/Pagination';
+import ModalProfile from '../ViewReport/ModalProfile';
+
 const ExpandMore = styled((props) => {
     const { expand, ...other } = props;
     return <IconButton {...other} />;
@@ -25,7 +25,12 @@ export default function RejectedPrj() {
     const [expanded, setExpanded] = React.useState(false);
     const [projectActive, setProjectActive] = React.useState([])
     const [searchQuery, setSearchQuery] = useState('');
-
+    const [profiles, setProfiles] = useState([]);
+    const [currentPage, setCurrentPage] = useState(1);
+    const projectsPerPage = 6;
+    const indexOfLastProject = currentPage * projectsPerPage;
+    const indexOfFirstProject = indexOfLastProject - projectsPerPage;
+    const currentProjects = projectActive.slice(indexOfFirstProject, indexOfLastProject);
     const handleSearchChange = (event) => {
         setSearchQuery(event.target.value);
     };
@@ -34,18 +39,46 @@ export default function RejectedPrj() {
         fetchProjectPending();
     }, []);
 
+    // const fetchProjectPending = async () => {
+    //     try {
+    //         const response = await axios.get('http://localhost:8080/api/products/staff/rejected');
+    //         setProjectActive(response.data);
+    //         console.log(response);
+    //     } catch (error) {
+    //         console.error('Error fetching projects:', error);
+    //     }
+    // };
+
     const fetchProjectPending = async () => {
         try {
-            const response = await axios.get('http://localhost:8080/api/products/staff/rejected');
-            setProjectActive(response.data);
-            console.log(response);
+            const [rejectResponse,  profilesResponse] = await Promise.all([
+                axios.get('http://localhost:8080/api/products/staff/rejected'),
+                axios.get('http://localhost:8080/api/users/staffview')
+              
+
+            ]);
+
+            setProjectActive(rejectResponse.data);
+        
+            setProfiles(profilesResponse.data);
+
         } catch (error) {
-            console.error('Error fetching projects:', error);
+            console.error('Error fetching data:', error);
+            // setLoading(false);
         }
     };
 
     const handleExpandClick = () => {
         setExpanded(!expanded);
+    };
+
+    const formatDate = (dateArray) => {
+        const [year, month, day] = dateArray;
+        return `${day}/${month}/${year}`;
+    };
+
+    const handlePageChange = (event, value) => {
+        setCurrentPage(value);
     };
 
     return (
@@ -63,64 +96,89 @@ export default function RejectedPrj() {
                 <IconButton type="submit" aria-label="search" sx={{ mb: '30px' }}>
                     <SearchIcon />
                 </IconButton>
-            </div> 
+            </div>
 
-            <Grid container spacing={1} sx={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '10px', ml: '50px' }}>
-                {projectActive.map((item) => (
-                    <Card key={item.newsID} sx={{ maxWidth: 345, mb: '20px', boxShadow: 3, ml:"80px" }}>
-                        <CardHeader
-                            avatar={
-                                <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
-                                    {item.productName[1]}
-                                </Avatar>
-                            }
-                            action={
-                                <IconButton aria-label="settings">
-                                    <MoreVertIcon />
-                                </IconButton>
-                            }
-                            title={item.productName}
-                            subheader={item.availableStartDate}
-                        />
-                        <CardMedia
-                            component="img"
-                            height="194"
-                            image={item.productPicture}
-                            alt="Project image"
-                        />
-                        <CardContent>
-                            <Typography variant="body2" color="text.secondary" sx={{ overflow: 'hidden', textOverflow: 'ellipsis', display: '-webkit-box', WebkitLineClamp: '2', WebkitBoxOrient: "vertical" }}>
-                                {item.productDescription}
-                            </Typography>
-                        </CardContent>
-                        <CardActions disableSpacing>
-                            <Button variant="outlined" color="error">
-                                {item.productStatus}
-                            </Button>
-                            <ExpandMore
-                                expand={expanded}
-                                onClick={handleExpandClick}
-                                aria-expanded={expanded}
-                                aria-label="show more"
-                            >
-                                <ExpandMoreIcon />
-                            </ExpandMore>
-                        </CardActions>
-                        <Collapse in={expanded} timeout="auto" unmountOnExit>
+            <Grid container spacing={1} sx={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '10px'}}>
+                {currentProjects.map((item) => {
+                    const userAccount = profiles.find(acc => acc.accID === item.accID);
+                    return (
+                        <Card key={item.newsID} sx={{ maxWidth: 345, mb: '20px', boxShadow: 3, ml: "120px" }}>
+                            <CardHeader
+                                avatar={
+                                    <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
+                                        <ModalProfile accID={userAccount} />
+                                    </Avatar>
+                                }
+                            
+                                title={userAccount.accName}
+                             
+                            />
+                            <CardMedia
+                                component="img"
+                                height="194"
+                                image={item.productPicture}
+                                alt="Project image"
+                            />
                             <CardContent>
-                        
-                                <Typography paragraph>
-                                    {item.productConvenience}
+                                {/* <Typography sx={{ fontSize: "20px", fontWeight: "bold" }}> */}
+                                <Typography variant="body1" sx={{ fontSize: "20px", fontWeight: "bold", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
+                                    {item.productName}
                                 </Typography>
+                                <Typography variant="body1" color="text.secondary">
+                                    Available Start Date: {formatDate(item.availableStartDate)}<br />
+                                    Available End Date: {formatDate(item.availableEndDate)}<br />
+                                </Typography>
+                                <Typography variant="body1" color="text.secondary" sx={{ overflow: 'hidden', textOverflow: 'ellipsis', display: '-webkit-box', WebkitLineClamp: '2', WebkitBoxOrient: "vertical" }}>
+                                    Description: {item.productDescription}<br />
 
+                                </Typography>
+                                <Typography variant="body1" color="text.secondary">
+                                    Address: {item.productAddress}
+                                </Typography>
+                                <Typography variant="body1" color="text.secondary" sx={{ overflow: 'hidden', textOverflow: 'ellipsis', display: '-webkit-box', WebkitLineClamp: '2', WebkitBoxOrient: "vertical" }}>
+                                    Convenience: {item.productConvenience}
+                                </Typography>
+                                <Typography variant="body1" color="text.secondary">
+                                    Price: {item.productPrice}
+                                </Typography>
+                                <Typography variant="body1" color="text.secondary">
+                                    Person: {item.productPerson}
+                                </Typography>
                             </CardContent>
-                        </Collapse>
-                    </Card>
-                ))}
+                            <CardActions disableSpacing>
+                                <Button variant="outlined" color="error" sx={{ cursor: "default" }}>
+                                    {item.productStatus}
+                                </Button>
+
+                            </CardActions>
+
+                        </Card>
+                    )
+                })}
 
 
             </Grid >
-            <Pagination count={10} color="primary" sx={{display: 'flex', alignItems:'center', justifyContent: 'center', mt:'25px'}} />
+            <Pagination
+                    count={10}
+                    color="primary"
+                    sx={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        mt: '25px',
+                        '& .MuiPaginationItem-root': {
+                            color: '#CD9A2B', 
+                        },
+                        position: "sticky",
+                        top:"100%",
+                        bottom: "5px", 
+                        left: "0px",
+                        right: "0px",
+                        // marginBottom: "0px"
+
+                    }}
+                    onChange={handlePageChange}
+                />
         </>
 
     );

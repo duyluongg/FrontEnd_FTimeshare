@@ -20,7 +20,9 @@ import axios from 'axios';
 import ModalProfile from '../ViewReport/ModalProfile';
 // import CustomizedTables from './CustomizedTables';
 import { Grid } from '@mui/material';
-// import './RespondPayment.css'
+import ModalConfirmRC from '../../ModalConfirmRC';
+import ModalNotifyRC from '../../ModalNotifyRC';
+import { useNavigate } from 'react-router-dom';
 const ExpandMore = styled((props) => {
     const { expand, ...other } = props;
     return <IconButton {...other} />;
@@ -32,7 +34,7 @@ const ExpandMore = styled((props) => {
     }),
 }));
 
-export default function RespondPayment80() {
+export default function RespondBookingRC() {
     const [expanded, setExpanded] = React.useState(false);
 
     const handleExpandClick = () => {
@@ -52,8 +54,13 @@ export default function RespondPayment80() {
     const [picture, setPicture] = useState('');
     const [picturePreview, setPicturePreview] = useState(null);
     const [showSecondDiv, setShowSecondDiv] = useState(true);
-
-
+    const [showAcceptButton, setShowAcceptButton] = useState(false);
+    const [showSubmitButton, setShowSubmitButton] = useState(true);
+    const [showModalNotify, setShowModalNotify] = useState(false);
+    const navigate = useNavigate()
+    const toggleModal = () => {
+        setShowModalNotify(!showModalNotify);
+    };
 
     console.log(bookingID);
     useEffect(() => {
@@ -125,7 +132,8 @@ export default function RespondPayment80() {
             });
 
             console.log(response.data);
-
+            setShowAcceptButton(true);
+            setShowSubmitButton(false);
         } catch (error) {
             console.error('Lỗi up ảnh:', error.response.data);
 
@@ -135,7 +143,11 @@ export default function RespondPayment80() {
     const handleAcceptCancelRespond = async (bookingID) => {
         try {
             await axios.put(`http://localhost:8080/api/bookings/confirm_booking_respond_payment/${bookingID}`);
-            setShowSecondDiv(false);
+            // setShowSecondDiv(false);
+
+            setShowModalNotify(true);
+            setTimeout(() => navigate("/staff/wait-to-confirm-rc"), 2000)
+
         } catch (error) {
             console.error('Error fetching projects:', error);
         }
@@ -154,7 +166,7 @@ export default function RespondPayment80() {
             <div className='respond-flex'>
                 <div>
                     {productBooking.length > 0 && (
-                        <Card sx={{ maxWidth: 345, ml:"100px"}}>
+                        <Card sx={{ maxWidth: 345, ml: "100px" }}>
                             <CardHeader
                                 avatar={
                                     <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
@@ -163,11 +175,7 @@ export default function RespondPayment80() {
                                         <ModalProfile accID={userAccountProduct} />
                                     </Avatar>
                                 }
-                                action={
-                                    <IconButton aria-label="settings">
-                                        <MoreVertIcon />
-                                    </IconButton>
-                                }
+
                                 title={userAccountProduct.accName}
                             // subheader="September 14, 2016"
                             />
@@ -179,9 +187,10 @@ export default function RespondPayment80() {
                             />
 
                             <CardContent>
-                                <Typography variant="body1" color="text.secondary">
+                                <Typography variant="body1" sx={{ fontSize: "20px", fontWeight: "bold", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
                                     {productBooking[0].productName}
                                 </Typography>
+
                                 <Typography variant="body2" color="text.secondary">
                                     Description: {productBooking[0].productDescription}
                                 </Typography>
@@ -196,109 +205,102 @@ export default function RespondPayment80() {
                                 <Typography variant="body2" color="text.secondary">
                                     End Date: {formatDate(productBooking[0].availableEndDate)}
                                 </Typography>
+                                <Typography variant="body2" color="text.secondary">
+                                    Person: {productBooking[0].productPerson}
+                                </Typography>
+                                <Typography variant="body2" color="text.secondary">
+                                    Rating: {productBooking[0].productRating}
+                                </Typography>
                             </CardContent>
-                            <CardActions disableSpacing>
 
-                                <ExpandMore
-                                    expand={expanded}
-                                    onClick={handleExpandClick}
-                                    aria-expanded={expanded}
-                                    aria-label="show more"
-                                >
-                                    <ExpandMoreIcon />
-                                </ExpandMore>
-                            </CardActions>
-                            <Collapse in={expanded} timeout="auto" unmountOnExit>
-                                <CardContent>
-                                    <Typography variant="body2" color="text.secondary">
-                                        Person: {productBooking[0].productPerson}
-                                    </Typography>
-                                    <Typography variant="body2" color="text.secondary">
-                                        Rating: {productBooking[0].productRating}
-                                    </Typography>
-                                </CardContent>
-                            </Collapse>
+
                         </Card>
                     )}
                 </div>
-                {showSecondDiv && (
-                    <div>
+                {/* {showSecondDiv && ( */}
+                <div>
 
-                        <Grid container spacing={1} sx={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '10px', ml: 'auto' }}>
-                            {/* <CardMedia
+                    <div style={{ display: "flex", gap: "10px" }}>
+
+                        {/* <CardMedia
                                 component="img"
                                 height="194"
                                 image={userAccountPayment[0] ? userAccountPayment[0].imgName : ""}
                                 alt={userAccountPayment[0] ? userAccountPayment[0].imgName : ""}
                                 sx={{ objectFit: "contain", maxHeight: "350px" }}
                             /> */}
-                            <Card sx={{ maxWidth: 345 }}>
-                                <CardHeader
-                                    avatar={
-                                        <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
-                                            <ModalProfile accID={userAccountBooking} />
-                                        </Avatar>
-                                    }
-                                    action={
-                                        <IconButton aria-label="settings">
-                                            <MoreVertIcon />
-                                        </IconButton>
-                                    }
-                                    title={userAccountBooking.accName}
+                        <Card sx={{ maxWidth: 345 }}>
+                            <CardHeader
+                                avatar={
+                                    <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
+                                        <ModalProfile accID={userAccountBooking} />
+                                    </Avatar>
+                                }
 
-                                />
+                                title={userAccountBooking.accName}
 
-                                <CardMedia
-                                    component="img"
-                                    height="194"
-                                    image={customerAccountPayment[0] ? customerAccountPayment[0].imgName : ""}
-                                    alt={customerAccountPayment[0] ? customerAccountPayment[0].imgName : ""}
-                                    sx={{ objectFit: "contain", maxHeight: "350px" }}
-                                />
+                            />
+
+                            <CardMedia
+                                component="img"
+                                height="194"
+                                image={customerAccountPayment[0] ? customerAccountPayment[0].imgName : ""}
+                                alt={customerAccountPayment[0] ? customerAccountPayment[0].imgName : ""}
+                                sx={{ objectFit: "contain", maxHeight: "350px" }}
+                            />
 
 
 
 
 
-                                {/* <CardMedia
+                            {/* <CardMedia
                                     component="img"
                                     height="194"
                                     image={userAccountPayment[0] ? userAccountPayment[0].imgName : ""}
                                     alt={userAccountPayment[0] ? userAccountPayment[0].imgName : ""}
                                 /> */}
-                                <CardContent>
+                            <CardContent>
 
+                                <Typography variant="body2" color="text.secondary">
+                                    Cash refund amount: {customerAccountPayment[0] ? customerAccountPayment[0].bookingPrice : ""}
+                                </Typography>
+                                <form onSubmit={handleUploadRespond}>
                                     <Typography variant="body2" color="text.secondary">
-                                        Cash refund amount: {customerAccountPayment[0] ? customerAccountPayment[0].bookingPrice : ""}
+                                        <div className="">
+                                            <label htmlFor="avatar">Image Respond</label>
+                                            <input
+                                                type="file"
+                                                id="picture"
+                                                onChange={handleImageChange}
+                                            />
+                                            {picturePreview && (
+                                                <div className="input-container">
+                                                    <label>Respond Image Preview:</label>
+                                                    <img src={picturePreview} alt="Avatar Preview" style={{ maxWidth: "100px", maxHeight: "100px" }} />
+                                                </div>
+                                            )}
+                                        </div>
                                     </Typography>
-                                    <form onSubmit={handleUploadRespond}>
-                                        <Typography variant="body2" color="text.secondary">
-                                            <div className="">
-                                                <label htmlFor="avatar">Avatar</label>
-                                                <input
-                                                    type="file"
-                                                    id="picture"
-                                                    onChange={handleImageChange}
-                                                />
-                                                {picturePreview && (
-                                                    <div className="input-container">
-                                                        <label>Respond Image Preview:</label>
-                                                        <img src={picturePreview} alt="Avatar Preview" style={{ maxWidth: "100px", maxHeight: "100px" }} />
-                                                    </div>
-                                                )}
-                                            </div>
-                                        </Typography>
-                                        <button className="register-button" type="submit">Submit</button>
-                                        <Button variant="outlined" color="success" onClick={() => handleAcceptCancelRespond(customerAccountPayment[0].bookingID)}>
-                                            ACCEPT
-                                        </Button>
 
-                                    </form>
+                                    {showSubmitButton && (
+                                        <button className="register-button" type="submit">
+                                            Submit
+                                        </button>
+
+                                    )}
+                                    {showAcceptButton && (
+                                        // <Button variant="outlined" color="success" sx={{ width: 310 }} onClick={() => handleAcceptCancelRespond(customerAccountPayment[0].bookingID)}>
+                                        //     ACCEPT
+                                        // </Button>
+                                        <ModalConfirmRC openModalConfirm={() => handleAcceptCancelRespond(customerAccountPayment[0].bookingID)} />
+                                    )}
+
+                                </form>
 
 
 
-                                </CardContent>
-                                {/* <CardActions disableSpacing>
+                            </CardContent>
+                            {/* <CardActions disableSpacing>
                             <IconButton aria-label="add to favorites">
                                 <FavoriteIcon />
                             </IconButton>
@@ -324,52 +326,52 @@ export default function RespondPayment80() {
                                 
                             </CardContent>
                         </Collapse> */}
-                            </Card>
+                        </Card>
 
-                            <Card sx={{ maxWidth: 550 }}>
-                                <CardHeader
-                                 
-                        
-                                    title= "INFORMATION OF CUSTOMER PAYMENT"
+                        <Card sx={{ maxWidth: 550 }}>
+                            <CardHeader
 
-                                />
+                                title="INFORMATION OF CUSTOMER PAYMENT"
 
-                                {/* <CardMedia
+                            />
+
+                            {/* <CardMedia
                                     component="img"
                                     height="194"
                                     image={userAccountPayment[0] ? userAccountPayment[0].imgName : ""}
                                     alt={userAccountPayment[0] ? userAccountPayment[0].imgName : ""}
                                     sx={{ objectFit: "contain", maxHeight: "350px" }}
                                 /> */}
-                                <CardContent>
+                            <CardContent>
 
-                                    <Typography variant="body2" color="text.secondary">
-                                        Cash refund amount: {customerAccountPayment[0] ? customerAccountPayment[0].bookingPrice : ""}
-                                    </Typography>
+                                <Typography variant="body2" color="text.secondary">
+                                    Cash refund amount: {customerAccountPayment[0] ? customerAccountPayment[0].bookingPrice : ""}
+                                </Typography>
 
-                                    <Typography variant="body2" color="text.secondary">
-                                        AccountName: {userAccountPayment[0] ? userAccountPayment[0].accountName : ""}
-                                    </Typography>
+                                <Typography variant="body2" color="text.secondary">
+                                    AccountName: {userAccountPayment[0] ? userAccountPayment[0].accountName : ""}
+                                </Typography>
 
-                                    <Typography variant="body2" color="text.secondary">
-                                        Banking: {userAccountPayment[0] ? userAccountPayment[0].banking : ""}
-                                    </Typography>
+                                <Typography variant="body2" color="text.secondary">
+                                    Banking: {userAccountPayment[0] ? userAccountPayment[0].banking : ""}
+                                </Typography>
 
-                                    <Typography variant="body2" color="text.secondary">
-                                        Account Number: {userAccountPayment[0] ? userAccountPayment[0].accountNumber : ""}
-                                    </Typography>
-                              
-
+                                <Typography variant="body2" color="text.secondary">
+                                    Account Number: {userAccountPayment[0] ? userAccountPayment[0].accountNumber : ""}
+                                </Typography>
 
 
-                                </CardContent>
-                             
-                            </Card>
-                        </Grid>
+
+
+                            </CardContent>
+
+                        </Card>
                     </div>
-                )}
+                </div>
+                {/* )} */}
             </div>
             {/* <CustomizedTables/> */}
+            <ModalNotifyRC openModal={showModalNotify} onClose={toggleModal} />
 
 
 

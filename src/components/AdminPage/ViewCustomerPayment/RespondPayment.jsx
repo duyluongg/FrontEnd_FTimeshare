@@ -19,6 +19,10 @@ import { Button } from '@mui/material';
 import axios from 'axios';
 import ModalProfile from '../ViewReport/ModalProfile';
 import { Grid } from '@mui/material';
+import ModalConfirmRC from '../../ModalConfirmRC';
+import ModalNotifyRC from '../../ModalNotifyRC';
+import { useNavigate } from 'react-router-dom';
+
 import './RespondPayment.css'
 const ExpandMore = styled((props) => {
     const { expand, ...other } = props;
@@ -52,7 +56,11 @@ export default function RespondPayment() {
     const [userAccountPayment, setUserAccountPayment] = useState([]);
     const [showAcceptButton, setShowAcceptButton] = useState(false);
     const [showSubmitButton, setShowSubmitButton] = useState(true);
-
+    const [showModalNotify, setShowModalNotify] = useState(false);
+    const navigate = useNavigate()
+    const toggleModal = () => {
+        setShowModalNotify(!showModalNotify);
+    };
     console.log(bookingID);
     useEffect(() => {
         fetchData();
@@ -133,7 +141,8 @@ export default function RespondPayment() {
     const handleAcceptCancelRespond = async (bookingID) => {
         try {
             await axios.put(`http://localhost:8080/api/bookings/confirm_booking_respond_payment/${bookingID}`);
-            setShowSecondDiv(false);
+            setTimeout(() => navigate("/staff/wait-customer-to-confirm-payment-list/100"), 2000)
+
         } catch (error) {
             console.error('Error fetching projects:', error);
         }
@@ -161,11 +170,7 @@ export default function RespondPayment() {
                                         <ModalProfile accID={userAccountProduct} />
                                     </Avatar>
                                 }
-                                action={
-                                    <IconButton aria-label="settings">
-                                        <MoreVertIcon />
-                                    </IconButton>
-                                }
+                            
                                 title={userAccountProduct.accName}
                             // subheader="September 14, 2016"
                             />
@@ -201,13 +206,13 @@ export default function RespondPayment() {
                                     Rating: {productBooking[0].productRating}
                                 </Typography>
                             </CardContent>
-                            
+
                         </Card>
                     )}
                 </div>
-                {showSecondDiv && (
+               
                     <div>
-                        <div style={{ display: "flex", gap:"10px" }}>
+                        <div style={{ display: "flex", gap: "10px" }}>
                             <Card sx={{ maxWidth: 345 }}>
                                 <CardHeader
                                     avatar={
@@ -215,13 +220,9 @@ export default function RespondPayment() {
                                             <ModalProfile accID={userAccountBooking} />
                                         </Avatar>
                                     }
-                                    action={
-                                        <IconButton aria-label="settings">
-                                            <MoreVertIcon />
-                                        </IconButton>
-                                    }
+                                 
                                     title={userAccountBooking.accName}
-                                    subheader="September 14, 2016"
+                           
                                 />
                                 <CardMedia
                                     component="img"
@@ -260,14 +261,12 @@ export default function RespondPayment() {
 
                                         )}
                                         {showAcceptButton && (
-                                            <Button variant="outlined" color="success" sx={{ width: 310 }} onClick={() => handleAcceptCancelRespond(customerAccountPayment[0].bookingID)}>
-                                                ACCEPT
-                                            </Button>
+                                            <ModalConfirmRC openModalConfirm={() => handleAcceptCancelRespond(customerAccountPayment[0].bookingID)} />
                                         )}
 
                                     </form>
                                 </CardContent>
-                              
+
                             </Card>
 
                             <Card sx={{ maxWidth: 550, height: 200, boxShadow: 3 }}>
@@ -296,9 +295,10 @@ export default function RespondPayment() {
                             </Card>
                         </div>
                     </div>
-                )}
+         
             </div>
-            {/* <CustomizedTables/> */}
+            <ModalNotifyRC openModal={showModalNotify} onClose={toggleModal} />
+            {/* <CustomizedTables/> */}\
         </>
 
     );

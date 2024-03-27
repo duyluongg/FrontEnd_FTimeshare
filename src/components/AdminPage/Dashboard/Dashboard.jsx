@@ -35,6 +35,7 @@ export default function Dashboard() {
                     axios.get('http://localhost:8080/api/users/staff/count/ROLE_CUSTOMER'),
                     axios.get('http://localhost:8080/api/products/staff/totalPending'),
                     axios.get('http://localhost:8080/api/products/staff/totalRejected'),
+                    axios.get('http://localhost:8080/api/products/staff/totalClosed'),
                     axios.get('http://localhost:8080/api/users/staff/count/ROLE_STAFF'),
                     // axios.get('http://localhost:8080/api/reports/viewAll'),
                     // axios.get('http://localhost:8080/api/bookings/staff/totalCancel'),
@@ -59,22 +60,25 @@ export default function Dashboard() {
     const cards = [
         { id: 1, label: 'Total Product', link: 'total-product' },
         { id: 2, label: 'Total Users', link: 'total-users' },
+
         { id: 3, label: 'Pending Product', link: 'pending-product' },
         // { id: 4, number: 300, label: 'Closed Project', link: 'closed-project' },
         { id: 4, label: 'Rejected Product', link: 'rejected-product' },
+        { id: 5, label: 'Closed Product', link: 'closed-product' },
+
         // { id: 5,  label: 'Report Project', link: 'report-project' },
-        { id: 5, label: 'Total Staff', link: 'total-staff' },
+        { id: 6, label: 'Total Staff', link: 'total-staff' },
         // { id: 6, label: 'Total Report', link: 'total-report' },
         // { id: 6, label: 'Cancel List', link: 'cancel-list' },
         // { id: 6, label: 'View Pending Booking List', link: 'pending-list' },
-        { id: 6, label: 'View Active Booking List', link: 'active-list' },
-        { id: 7, label: 'Booking with wait to confirm', link: 'wait-to-confirm-list' },
-        { id: 8, label: 'Booking with wait to confirm request cancel', link: 'wait-to-confirm-rc' },
+        { id: 7, label: 'View Active Booking List', link: 'active-list' },
+        { id: 8, label: 'Booking with wait to confirm', link: 'wait-to-confirm-list' },
+        { id: 9, label: 'Booking with wait to confirm request cancel', link: 'wait-to-confirm-rc' },
 
-        { id: 9, label: 'Booking with Wait to confirm respond payment (100%)', link: 'wait-customer-to-confirm-payment-list/100' },
-        { id: 10, label: 'Booking with Wait to confirm respond payment (80%)', link: 'wait-customer-to-confirm-payment-list/80' },
-        { id: 11, label: 'New', link: 'new' },
-        { id: 12, label: 'All New', link: 'all-new' },
+        { id: 10, label: 'Booking with Wait to confirm respond payment (100%)', link: 'wait-customer-to-confirm-payment-list/100' },
+        { id: 11, label: 'Booking with Wait to confirm respond payment (80%)', link: 'wait-customer-to-confirm-payment-list/80' },
+        { id: 12, label: 'New', link: 'new' },
+        { id: 13, label: 'All New', link: 'all-new' },
  
     ];
 

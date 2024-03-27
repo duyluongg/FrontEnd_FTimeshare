@@ -200,7 +200,7 @@ export default function TotalProductPending() {
                                 <CardActions disableSpacing>
                                     <Button variant="outlined" sx={{ m: 1 }} onClick={() => handleAcceptClick(item.productID)} >
                                         Accept
-                                    </Button>
+                                    </Button>                                  
                                     <Button variant="outlined" color="error" onClick={() => handleRejectClick(item.productID)}>
                                         REJECT
                                     </Button>
@@ -219,7 +219,7 @@ export default function TotalProductPending() {
                         justifyContent: 'center',
                         mt: '25px',
                         '& .MuiPaginationItem-root': {
-                            color: '#CD9A2B', // Đặt màu của nút trang khi không được chọn
+                            color: '#CD9A2B', 
                         },
                         position: "sticky",
                         top:"100%",

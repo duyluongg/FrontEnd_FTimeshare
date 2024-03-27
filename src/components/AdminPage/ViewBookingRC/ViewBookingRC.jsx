@@ -117,7 +117,7 @@ export default function ViewBookingConfirm() {
                 </IconButton>
             </div>
 
-            <Grid container spacing={1} sx={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '10px', ml: '50px' }}>
+            <Grid container spacing={1} sx={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '10px' }}>
                 {currentProjects.map((item) => {
                     console.log(item);
                     // const projectImage = images.find(image => image.productID === item.productID);
@@ -125,7 +125,7 @@ export default function ViewBookingConfirm() {
                     // console.log(projectImage);
 
                     return (
-                        <Card key={item.bookingID} sx={{ maxWidth: 345, mb: '20px', boxShadow: 3, ml:"80px" }}>
+                        <Card key={item.bookingID} sx={{ maxWidth: 345, mb: '20px', boxShadow: 3, ml:"120px" }}>
                             <CardHeader
                                 avatar={
                                     <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
@@ -133,11 +133,7 @@ export default function ViewBookingConfirm() {
                                         <ModalProfile accID={profileAccount} />
                                     </Avatar>
                                 }
-                                action={
-                                    <IconButton aria-label="settings">
-                                        <MoreVertIcon />
-                                    </IconButton>
-                                }
+                              
                                 title={profileAccount ? profileAccount.accName : ""}
                               
                             />
@@ -183,22 +179,9 @@ export default function ViewBookingConfirm() {
                                     </Button>
                             
                                 </Link>
-                                <ExpandMore
-                                    expand={expanded}
-                                    onClick={handleExpandClick}
-                                    aria-expanded={expanded}
-                                    aria-label="show more"
-                                >
-                                    <ExpandMoreIcon />
-                                </ExpandMore>
+                              
                             </CardActions>
-                            <Collapse in={expanded} timeout="auto" unmountOnExit>
-                                <CardContent>
-                                    <Typography paragraph>
-                                        {/* {item.productConvenience} */}
-                                    </Typography>
-                                </CardContent>
-                            </Collapse>
+                          
                         </Card>
                     );
                 })}

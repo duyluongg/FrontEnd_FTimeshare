@@ -92,6 +92,7 @@ import ViewCustomerPayment_80 from './components/AdminPage/ViewCustomerPayment80
 import RespondPayment80 from './components/AdminPage/ViewCustomerPayment80/RespondPayment80.jsx'
 import New from './components/AdminPage/New/New.jsx'
 import AllNew from './components/AdminPage/New/AllNew.jsx'
+import ClosedProduct from './components/AdminPage/TotalProductClose/ClosedProduct.jsx'
 
 function App() {
 
@@ -244,6 +245,7 @@ function App() {
           <Route path='/staff/total-users' element={<TotalUser />}></Route>
           <Route path='/staff/pending-product' element={<TotalProductPending />}></Route>
           <Route path='/staff/rejected-product' element={<RejectedProduct />}></Route>
+          <Route path='/staff/closed-product' element={<ClosedProduct />}></Route>
           <Route path='/staff/total-staff' element={<TotalStaff />}></Route>
           <Route path='/staff/active-list' element={<TotalViewActiveBooking />}></Route>
           <Route path='/staff/wait-to-confirm-list' element={<ViewBookingConfirm />}></Route>
