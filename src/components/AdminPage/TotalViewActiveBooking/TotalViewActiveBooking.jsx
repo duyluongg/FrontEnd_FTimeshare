@@ -7,6 +7,7 @@ import axios from 'axios';
 import { Grid, Card, CardHeader, CardMedia, CardContent, CardActions, Collapse, Avatar, IconButton, Typography, Button, TextField, Pagination } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import { Link } from 'react-router-dom';
+import ModalProfile from '../ViewReport/ModalProfile';
 
 const ExpandMore = styled((props) => {
     const { expand, ...other } = props;
@@ -94,6 +95,11 @@ export default function TotalViewPendingBooking() {
         return <div>Loading...</div>;
     }
 
+    const formatDate = (dateArray) => {
+        const [year, month, day] = dateArray;
+        return `${day}/${month}/${year}`;
+    };
+
     return (
         <>
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
@@ -117,20 +123,16 @@ export default function TotalViewPendingBooking() {
                     console.log(projectImage);
 
                     return (
-                        <Card key={item.bookingID} sx={{ maxWidth: 345, mb: '20px', boxShadow: 3, ml:"80px" }}>
+                        <Card key={item.bookingID} sx={{ maxWidth: 345, mb: '20px', boxShadow: 3, ml:"50px" }}>
                             <CardHeader
                                 avatar={
                                     <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
-                                        {/* {item.productName[1]} */}
+                                       <ModalProfile accID={profileAccount} />
                                     </Avatar>
                                 }
-                                action={
-                                    <IconButton aria-label="settings">
-                                        <MoreVertIcon />
-                                    </IconButton>
-                                }
+                             
                                 title={profileAccount ? profileAccount.accName : ""}
-                                subheader="Ngày tháng năm"
+                                subheader={formatDate(item.createDate)}
                             />
 
                             <CardMedia
@@ -161,22 +163,9 @@ export default function TotalViewPendingBooking() {
                                 <Button variant="outlined" color="error" onClick={() => handleAcceptCancel(item.bookingID)}>
                                     CANCEL
                                 </Button> */}
-                                <ExpandMore
-                                    expand={expanded}
-                                    onClick={handleExpandClick}
-                                    aria-expanded={expanded}
-                                    aria-label="show more"
-                                >
-                                    <ExpandMoreIcon />
-                                </ExpandMore>
+                       
                             </CardActions>
-                            <Collapse in={expanded} timeout="auto" unmountOnExit>
-                                <CardContent>
-                                    <Typography paragraph>
-                                        {/* {item.productConvenience} */}
-                                    </Typography>
-                                </CardContent>
-                            </Collapse>
+                         
                         </Card>
                     );
                 })}

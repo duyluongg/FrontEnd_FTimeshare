@@ -142,7 +142,6 @@ export default function RespondPayment80() {
         }
     };
 
-
     const formatDate = (dateArray) => {
         const [year, month, day] = dateArray;
         return `${day}/${month}/${year}`;
@@ -262,36 +261,8 @@ export default function RespondPayment80() {
                                         )}
 
                                     </form>
-
-
-
                                 </CardContent>
-                                {/* <CardActions disableSpacing>
-                            <IconButton aria-label="add to favorites">
-                                <FavoriteIcon />
-                            </IconButton>
-                            <IconButton aria-label="share">
-                                <ShareIcon />
-                            </IconButton>
-                            <ExpandMore
-                                expand={expanded}
-                                onClick={handleExpandClick}
-                                aria-expanded={expanded}
-                                aria-label="show more"
-                            >
-                                <ExpandMoreIcon />
-                            </ExpandMore>
-                        </CardActions>
-                        <Collapse in={expanded} timeout="auto" unmountOnExit>
-                            <CardContent>
-                                <Typography paragraph>Method:</Typography>
-                                <Typography paragraph>
-                                    Heat 1/2 cup of the broth in a pot until simmering, add saffron and set
-                                    aside for 10 minutes.
-                                </Typography>
-                                
-                            </CardContent>
-                        </Collapse> */}
+                               
                             </Card>
 
                             <Card sx={{ maxWidth: 550, height: 200 }}>
@@ -302,13 +273,6 @@ export default function RespondPayment80() {
 
                                 />
 
-                                {/* <CardMedia
-                                    component="img"
-                                    height="194"
-                                    image={userAccountPayment[0] ? userAccountPayment[0].imgName : ""}
-                                    alt={userAccountPayment[0] ? userAccountPayment[0].imgName : ""}
-                                    sx={{ objectFit: "contain", maxHeight: "350px" }}
-                                /> */}
                                 <CardContent>
 
                                     <Typography variant="body2" color="text.secondary">
@@ -327,9 +291,6 @@ export default function RespondPayment80() {
                                         Account Number: {userAccountPayment[0] ? userAccountPayment[0].accountNumber : ""}
                                     </Typography>
 
-
-
-
                                 </CardContent>
 
                             </Card>
@@ -339,9 +300,6 @@ export default function RespondPayment80() {
                 )}
             </div>
             {/* <CustomizedTables/> */}
-
-
-
 
         </>
 

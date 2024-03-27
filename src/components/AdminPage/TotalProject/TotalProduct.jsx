@@ -137,13 +137,14 @@ export default function TotalProduct() {
                 </IconButton>
             </div>
 
-            <Grid container spacing={1} sx={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '10px', ml: '50px' }}>
+            <Grid container spacing={1} sx={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '10px' }}>
                 {currentProjects.map((item) => {
                     const projectImage = images.find(image => image.productID === item.productID);
                     // const profileAccount = profiles.find(profile => profile.accID === item.accID);
                     console.log(projectImage);
                     return (
-                        <Card key={item.productID} sx={{ maxWidth: 345, mb: '20px', boxShadow: 3, ml: "80px" }}>
+                        <Card key={item.productID} sx={{ maxWidth: 345, mb: '20px', boxShadow: 3, ml: "120px" }}>
+                            
                             <CardHeader
 
                                 title={item.productName}

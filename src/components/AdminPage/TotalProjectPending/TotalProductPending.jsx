@@ -148,13 +148,13 @@ export default function TotalProductPending() {
                     </IconButton>
                 </div>
 
-                <Grid container spacing={1} sx={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '10px', ml: '50px' }}>
+                <Grid container spacing={1} sx={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '10px'}}>
                     {currentProjects.map((item) => {
                         const projectImage = images.find(image => image.productID === item.productID);
                         const userAccount = profiles.find(acc => acc.accID === item.accID);
 
                         return (
-                            <Card key={item.productID} sx={{ maxWidth: 345, mb: '20px', boxShadow: 3, ml: "55px" }}>
+                            <Card key={item.productID} sx={{ maxWidth: 345, mb: '20px', boxShadow: 3, ml: "120px" }}>
                                 <CardHeader
                                     avatar={
                                         <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">

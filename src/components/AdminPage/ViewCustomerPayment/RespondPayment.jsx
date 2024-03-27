@@ -176,9 +176,10 @@ export default function RespondPayment() {
                                 alt="Paella dish"
                             />
                             <CardContent>
-                                <Typography variant="body1" color="text.secondary">
+                                <Typography variant="body1" sx={{ fontSize: "20px", fontWeight: "bold", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
                                     {productBooking[0].productName}
                                 </Typography>
+
                                 <Typography variant="body2" color="text.secondary">
                                     Description: {productBooking[0].productDescription}
                                 </Typography>
@@ -193,34 +194,20 @@ export default function RespondPayment() {
                                 <Typography variant="body2" color="text.secondary">
                                     End Date: {formatDate(productBooking[0].availableEndDate)}
                                 </Typography>
+                                <Typography variant="body2" color="text.secondary">
+                                    Person: {productBooking[0].productPerson}
+                                </Typography>
+                                <Typography variant="body2" color="text.secondary">
+                                    Rating: {productBooking[0].productRating}
+                                </Typography>
                             </CardContent>
-                            <CardActions disableSpacing>
-
-                                <ExpandMore
-                                    expand={expanded}
-                                    onClick={handleExpandClick}
-                                    aria-expanded={expanded}
-                                    aria-label="show more"
-                                >
-                                    <ExpandMoreIcon />
-                                </ExpandMore>
-                            </CardActions>
-                            <Collapse in={expanded} timeout="auto" unmountOnExit>
-                                <CardContent>
-                                    <Typography variant="body2" color="text.secondary">
-                                        Person: {productBooking[0].productPerson}
-                                    </Typography>
-                                    <Typography variant="body2" color="text.secondary">
-                                        Rating: {productBooking[0].productRating}
-                                    </Typography>
-                                </CardContent>
-                            </Collapse>
+                            
                         </Card>
                     )}
                 </div>
                 {showSecondDiv && (
                     <div>
-                        <div style={{ display: "flex" }}>
+                        <div style={{ display: "flex", gap:"10px" }}>
                             <Card sx={{ maxWidth: 345 }}>
                                 <CardHeader
                                     avatar={
@@ -241,6 +228,7 @@ export default function RespondPayment() {
                                     height="194"
                                     image={customerAccountPayment[0] ? customerAccountPayment[0].imgName : ""}
                                     alt={customerAccountPayment[0] ? customerAccountPayment[0].imgName : ""}
+                                    sx={{ objectFit: "contain", maxHeight: "350px" }}
                                 />
                                 <CardContent>
 
@@ -250,7 +238,7 @@ export default function RespondPayment() {
                                     <form onSubmit={handleUploadRespond}>
                                         <Typography variant="body2" color="text.secondary">
                                             <div className="">
-                                                <label htmlFor="avatar">Avatar</label>
+                                                <label htmlFor="avatar">Image Respond:</label>
                                                 <input
                                                     type="file"
                                                     id="picture"
@@ -263,7 +251,7 @@ export default function RespondPayment() {
                                                     </div>
                                                 )}
                                             </div>
-                                        </Typography>                                   
+                                        </Typography>
 
                                         {showSubmitButton && (
                                             <button className="register-button" type="submit">
@@ -272,61 +260,22 @@ export default function RespondPayment() {
 
                                         )}
                                         {showAcceptButton && (
-                                            <Button variant="outlined" color="success" sx={{width: 310}} onClick={() => handleAcceptCancelRespond(customerAccountPayment[0].bookingID)}>
+                                            <Button variant="outlined" color="success" sx={{ width: 310 }} onClick={() => handleAcceptCancelRespond(customerAccountPayment[0].bookingID)}>
                                                 ACCEPT
                                             </Button>
                                         )}
 
                                     </form>
-
-
-
                                 </CardContent>
-                                {/* <CardActions disableSpacing>
-                            <IconButton aria-label="add to favorites">
-                                <FavoriteIcon />
-                            </IconButton>
-                            <IconButton aria-label="share">
-                                <ShareIcon />
-                            </IconButton>
-                            <ExpandMore
-                                expand={expanded}
-                                onClick={handleExpandClick}
-                                aria-expanded={expanded}
-                                aria-label="show more"
-                            >
-                                <ExpandMoreIcon />
-                            </ExpandMore>
-                        </CardActions>
-                        <Collapse in={expanded} timeout="auto" unmountOnExit>
-                            <CardContent>
-                                <Typography paragraph>Method:</Typography>
-                                <Typography paragraph>
-                                    Heat 1/2 cup of the broth in a pot until simmering, add saffron and set
-                                    aside for 10 minutes.
-                                </Typography>
-                                
-                            </CardContent>
-                        </Collapse> */}
+                              
                             </Card>
 
-                            <Card sx={{ maxWidth: 550 }}>
+                            <Card sx={{ maxWidth: 550, height: 200, boxShadow: 3 }}>
                                 <CardHeader
-
-
                                     title="INFORMATION OF CUSTOMER PAYMENT"
-
                                 />
 
-                                {/* <CardMedia
-                                    component="img"
-                                    height="194"
-                                    image={userAccountPayment[0] ? userAccountPayment[0].imgName : ""}
-                                    alt={userAccountPayment[0] ? userAccountPayment[0].imgName : ""}
-                                    sx={{ objectFit: "contain", maxHeight: "350px" }}
-                                /> */}
                                 <CardContent>
-
                                     <Typography variant="body2" color="text.secondary">
                                         Cash refund amount: {customerAccountPayment[0] ? customerAccountPayment[0].bookingPrice : ""}
                                     </Typography>
@@ -342,10 +291,6 @@ export default function RespondPayment() {
                                     <Typography variant="body2" color="text.secondary">
                                         Account Number: {userAccountPayment[0] ? userAccountPayment[0].accountNumber : ""}
                                     </Typography>
-
-
-
-
                                 </CardContent>
 
                             </Card>
@@ -354,10 +299,6 @@ export default function RespondPayment() {
                 )}
             </div>
             {/* <CustomizedTables/> */}
-
-
-
-
         </>
 
     );
