@@ -59,6 +59,7 @@ const Booking = () => {
             formData.append('startDate', formattedStartDate);
             formData.append('endDate', formattedEndDate);
             formData.append('productID', productID);
+            formData.append('booking_person', numPeople);
 
             console.log(formData)
 
