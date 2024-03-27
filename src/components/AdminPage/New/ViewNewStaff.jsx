@@ -73,7 +73,7 @@ function ViewNewStaff() {
                 <p className="news-content">{newsDetail.newsContent}</p>
                 <div className="news-author">By {authorData.accName}</div>
                 <ModalPopUpDelete onDelete={handleDelete} color='error' />
-                <FormUpdateNew />
+                <FormUpdateNew newsDetail={newsDetail} oldImageUrl={`http://localhost:8080/api/news/imgView/${newsDetail.imgName}`} />
             </div>
             <SnackBar open={snackbarOpen} message={snackbarMessage} onClose={handleSnackbarClose} color={snackbarColor} />
         </div>

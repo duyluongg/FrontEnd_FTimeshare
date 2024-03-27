@@ -27,8 +27,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import ModalProfile from './ModalProfile';
 import TextField from '@mui/material/TextField';
 import SearchIcon from '@mui/icons-material/Search';
-// import IconButton from '@mui/material';
-// import { format } from 'date-fns';
+import ModalNotify from './ModalNotify';
+import ModalConfirm from '../../ModalConfirm';
+import { Pagination } from '@mui/material';
 const ExpandMore = styled((props) => {
     const { expand, ...other } = props;
     return <IconButton {...other} />;
@@ -43,22 +44,28 @@ const ExpandMore = styled((props) => {
 export default function CardReportV2() {
     const [projectDetail, setprojectDetail] = useState([]);
     const [reportDetails, setReportDetails] = useState([]);
-
     const { productID, accID } = useParams();
     // const [deleted, setDeleted] = useState(false);
     const [expanded, setExpanded] = React.useState(false);
-
     const [images, setImages] = useState([]);
     const [profiles, setProfiles] = useState([]);
     const [userAccount, setUserAccount] = useState([]);
     const [searchQuery, setSearchQuery] = useState('');
     const [isProjectClosed, setIsProjectClosed] = useState(false);
+    const [showModalNotify, setShowModalNotify] = useState(false);
+    // const [showModalConfirm, setShowModalConfirm] = useState(false);
+    const [currentPage, setCurrentPage] = useState(1);
+    const reportPerPage = 4;
+    const indexOfLastProject = currentPage * reportPerPage;
+    const indexOfFirstProject = indexOfLastProject - reportPerPage;
+    const currentProjects = reportDetails.slice(indexOfFirstProject, indexOfLastProject);
+    const toggleModal = () => {
+        setShowModalNotify(!showModalNotify);
+    };
+
     const handleSearchChange = (event) => {
         setSearchQuery(event.target.value);
     };
-
-
-
 
     const handleExpandClick = () => {
         setExpanded(!expanded);
@@ -90,19 +97,15 @@ export default function CardReportV2() {
 
             setUserAccount(userData.data);
             console.log(userData.data);
-            
+
             setReportDetails(reportData.data);
             console.log(reportData.data);
-            
-
-
 
         } catch (error) {
             console.error('Error fetching data:', error);
 
         }
     };
-
 
     const handleDelete = async (reportID) => {
         try {
@@ -122,7 +125,8 @@ export default function CardReportV2() {
         try {
             await axios.put(`http://localhost:8080/api/products/staff/close/${productID}`);
             setIsProjectClosed(true);
-
+            setShowModalConfirm(true);
+            setShowModalNotify(true);
         } catch (error) {
             console.error('Error deleting report:', error);
         }
@@ -134,8 +138,14 @@ export default function CardReportV2() {
         return `${day}/${month}/${year}`;
     };
 
+    const handlePageChange = (event, value) => {
+        setCurrentPage(value);
+    };
+
 
     const projectImage = images.find(image => image.productID === projectDetail[0].productID);
+
+
     console.log(projectImage);
     return (
         <>
@@ -146,53 +156,46 @@ export default function CardReportV2() {
                             {projectDetail.length > 0 && (
 
 
-                                <Card sx={{ maxWidth: 350, ml:"80px" }}>
+                                <Card sx={{ maxWidth: 350, ml: "80px" }}>
                                     <CardHeader
                                         avatar={
                                             <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe" >
                                                 <ModalProfile accID={userAccount} />
                                             </Avatar>
                                         }
-                                        action={
-                                            <IconButton aria-label="settings">
-                                                <MoreVertIcon />
-                                            </IconButton>
-                                        }
-
                                         title={userAccount.accName}
-
                                     />
                                     <CardMedia
                                         component="img"
                                         height="194"
                                         image={projectImage ? projectImage.imgName : ""}
                                         alt='project image'
+                                        sx={{ width: "350px", height: "230px", objectFit: "cover", maxWidth: "100%" }}
+
                                     />
                                     <CardContent>
+                                        <Typography variant="body1" sx={{ fontSize: "20px", fontWeight: "bold", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
+                                            {projectDetail[0].productName}
+                                        </Typography>
                                         <Typography color={"green"}>
                                             {projectDetail[0].productRating}<FontAwesomeIcon icon={faStar} color='#FFD43B' />
                                         </Typography>
                                         <Typography variant="body1" color="text.secondary">
+                                            Available Start Date: {formatDate(projectDetail[0].availableStartDate)}<br />
+                                            Available End Date: {formatDate(projectDetail[0].availableEndDate)}<br />
                                             Description: {projectDetail[0].productDescription}<br />
                                             Convenience: {projectDetail[0].productConvenience} <br />
                                             Area: {projectDetail[0].productConvenience} <br />
                                             Price: {projectDetail[0].productPrice}<br />
-                                            Viewer: {projectDetail[0].productViewer}<br />
+
                                         </Typography>
                                     </CardContent>
                                     <CardActions disableSpacing>
-                                        <Button variant="outlined" color="error" onClick={() => handleCloseProduct(projectDetail[0].productID)}>
-                                            CLOSE
-                                        </Button>
+                                        {/* <Button variant="outlined" color="error" onClick={() => handleCloseProduct(projectDetail[0].productID)}> */}
+                                        <ModalConfirm openModalConfirm={() => handleCloseProduct(projectDetail[0].productID)} />
+                                        {/* </Button> */}
 
-                                        <ExpandMore
-                                            expand={expanded}
-                                            onClick={handleExpandClick}
-                                            aria-expanded={expanded}
-                                            aria-label="show more"
-                                        >
-                                            <ExpandMoreIcon />
-                                        </ExpandMore>
+
                                     </CardActions>
                                     {/* <Collapse in={expanded} timeout="auto" unmountOnExit>
                                     <CardContent>
@@ -234,10 +237,10 @@ export default function CardReportV2() {
                         </div>
                         <Grid container spacing={1} sx={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '10px', ml: 'auto' }}>
 
-                            {reportDetails.map((item) => {
+                            {currentProjects.map((item) => {
                                 const reportAcc = profiles.find(profile => profile.accID === item.accID);
                                 return (
-                                    <Card key={item.reportID} sx={{ maxWidth: 345, margin: "20px" }}>
+                                    <Card key={item.reportID} sx={{ maxWidth: 345, margin: "20px", boxShadow: 3}}>
                                         <CardHeader
                                             avatar={
                                                 <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
@@ -245,15 +248,11 @@ export default function CardReportV2() {
                                                     <ModalProfile accID={reportAcc} />
                                                 </Avatar>
                                             }
-                                            action={
-                                                <IconButton aria-label="settings">
-                                                    <MoreVertIcon />
-                                                </IconButton>
-                                            }
+
                                             title={reportAcc ? reportAcc.accName : "Unknown"}
                                             subheader={formatDate(item.reportCreateDate)}
                                         />
-                                        <Typography variant="body2" color="text.secondary">
+                                        <Typography variant="body2" color="text.secondary" sx={{ ml: "10px" }}>
                                             {item.reportDetail}
                                         </Typography>
                                         {/* <CardMedia
@@ -268,7 +267,7 @@ export default function CardReportV2() {
                                         </CardContent>
                                         <CardActions>
                                             <ModalPopUpReport onDelete={() => handleDelete(item.reportID)} color='error' />
-                                            <Button variant="outlined" color='error'>PENDING</Button>
+                                            {/* <Button variant="outlined" color='error'>PENDING</Button> */}
                                         </CardActions>
                                     </Card>
                                 );
@@ -276,9 +275,33 @@ export default function CardReportV2() {
                             }
 
                         </Grid>
+                        <Pagination
+                    count={10}
+                    color="primary"
+                    sx={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        mt: '25px',
+                        '& .MuiPaginationItem-root': {
+                            color: '#CD9A2B', // Đặt màu của nút trang khi không được chọn
+                        },
+                        position: "sticky",
+                        top:"100%",
+                        bottom: "5px", 
+                        left: "0px",
+                        right: "0px",
+                        // marginBottom: "0px"
+
+                    }}
+                    onChange={handlePageChange}
+                />
+
                     </div>
                 </div>
             )}
+            <ModalNotify openModal={showModalNotify} onClose={toggleModal} />
+
         </>
     )
 }

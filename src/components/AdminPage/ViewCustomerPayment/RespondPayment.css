@@ -1,4 +1,15 @@
-.respond-flex{
+.respond-flex {
     display: flex;
-    gap: 50px;
+    /* gap: 80px; */
+    justify-content: space-around;
+    margin-right: 65px;
 }
+
+.respond-flex-payment{
+    display: flex;
+    /* gap: 80px; */
+    justify-content: space-around;
+    /* margin-right: 55px; */
+    margin-left: 50px;
+}
+

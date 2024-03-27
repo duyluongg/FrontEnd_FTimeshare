@@ -75,14 +75,14 @@ export default function Dashboard() {
         { id: 10, label: 'Booking with Wait to confirm respond payment (80%)', link: 'wait-customer-to-confirm-payment-list/80' },
         { id: 11, label: 'New', link: 'new' },
         { id: 12, label: 'All New', link: 'all-new' },
-        { id: 13, label: 'USER', link: 'user-account' },
+ 
     ];
 
     return (
         <div>
 
             <div className='card-db-flex'>
-                <Grid container spacing={1} sx={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: '50px', ml: '85px' }}>
+                <Grid container spacing={1} sx={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: '30px', ml: '80px' }}>
                     {cards.map((cardDB, index) => (
                         <Link key={cardDB.id} to={`/staff/${cardDB.link}`} className='card-link'>
                             <div className='card-db'>

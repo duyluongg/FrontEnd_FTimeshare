@@ -236,7 +236,7 @@ export default function Project() {
                       <h3 className='project-list-name'>{projectItem.productName}</h3>
                       <h3 className='project-list-feedback'><FontAwesomeIcon icon={faStar} color='#FFD43B' />{projectItem.rating}</h3>
                     </div>
-                    <h4 className='project-list-description'>{projectItem.productDescription}</h4>
+                    <h4>{projectItem.productAddress}</h4>
                     <div className='project-list-cost'>${projectItem.productPrice}  <a>/ night</a></div>
                   </div>
                   <p>
@@ -279,11 +279,14 @@ export default function Project() {
             ))}
           </div>
         </div>
-        <Link to={"/new"}>
-          <Button sx={{ ml: "790px", color: "#CD9A2B" }}>
-            show more
-          </Button>
-        </Link>
+        <div style={{ display: "flex", justifyContent: "center" }}>
+          <Link to={"/new"}>
+            <Button sx={{ color: "#CD9A2B" }}>
+              show more
+            </Button>
+          </Link>
+        </div>
+
       </div>
     </>
   )

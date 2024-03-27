@@ -55,7 +55,7 @@ export default function ViewBookingConfirm() {
     const fetchData = async () => {
         try {
             const [pendingResponse, imagesResponse, profilesResponse] = await Promise.all([
-                axios.get('http://localhost:8080/api/bookings/view-booking-by-status/Wait to confirm'),
+                axios.get('http://localhost:8080/api/bookings/staff/waitToConfirm'),
                 axios.get('http://localhost:8080/api/pictures/customerview'),
                 axios.get('http://localhost:8080/api/users/staffview')
             ]);
@@ -154,10 +154,10 @@ export default function ViewBookingConfirm() {
                             />
                             <CardContent>
                                 <Typography variant="body2" color="text.secondary">
-                                    Start Date: {formatDate(item.startDate)}
+                                    Check-in Date: {formatDate(item.startDate)}
                                 </Typography>
                                 <Typography variant="body2" color="text.secondary">
-                                    End Date: {formatDate(item.endDate)}
+                                    Check-out Date: {formatDate(item.endDate)}
                                 </Typography>
                                 <Typography variant="body2" color="text.secondary">
                                     Price: {item.bookingPrice}
@@ -180,35 +180,35 @@ export default function ViewBookingConfirm() {
                                 <Link to={`/staff/wait-to-confirm-list/detail/${item.bookingID}/${item.productID}/${item.accID}`}>
                                     <Button variant="outlined" >
                                         DETAIL
-                                    </Button>
-                            
+                                    </Button>                         
                                 </Link>
-                                <ExpandMore
-                                    expand={expanded}
-                                    onClick={handleExpandClick}
-                                    aria-expanded={expanded}
-                                    aria-label="show more"
-                                >
-                                    <ExpandMoreIcon />
-                                </ExpandMore>
+                             
                             </CardActions>
-                            <Collapse in={expanded} timeout="auto" unmountOnExit>
-                                <CardContent>
-                                    <Typography paragraph>
-                                        {/* {item.productConvenience} */}
-                                    </Typography>
-                                </CardContent>
-                            </Collapse>
                         </Card>
                     );
                 })}
             </Grid>
             <Pagination
-                count={10}
-                color="primary"
-                sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', mt: '25px' }}
-                onChange={handlePageChange}
-            />
+                    count={10}
+                    color="primary"
+                    sx={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        mt: '25px',
+                        '& .MuiPaginationItem-root': {
+                            color: '#CD9A2B', // Đặt màu của nút trang khi không được chọn
+                        },
+                        position: "sticky",
+                        top:"100%",
+                        bottom: "5px", 
+                        left: "0px",
+                        right: "0px",
+                        // marginBottom: "0px"
+
+                    }}
+                    onChange={handlePageChange}
+                />
         </>
     );
 }

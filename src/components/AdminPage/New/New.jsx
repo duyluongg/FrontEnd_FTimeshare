@@ -1,26 +1,42 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import SnackBar from "../../SnackBar.jsx";
-function CreateNews() {
+import * as Yup from 'yup';
+
+function CreateNews({getData}) {
     const [title, setTitle] = useState('');
     const [content, setContent] = useState('');
     const [news, setNews] = useState('');
     const [newPicture, setNewPicture] = useState(null);
     const [snackbarOpen, setSnackbarOpen] = useState(false);
     const [snackbarMessage, setSnackbarMessage] = useState('');
-    const [snackbarColor, setSnackbarColor] = useState('success'); 
+    const [snackbarColor, setSnackbarColor] = useState('success');
+    const [errors, setErrors] = useState({});
+    const [submitAttempted, setSubmitAttempted] = useState(false);
+    const validationSchema = Yup.object({
+        title: Yup.string().required('Title is required'),
+        content: Yup.string()
+            .required('Content is required')
+            .min(130, 'Content must be at least 130 characters long'),
+        news: Yup.mixed().required('Image is required')
+    });
+
     const handleSubmit = async (e) => {
         e.preventDefault();
-
+        setSubmitAttempted(true); 
         try {
-            // const formattedBirthday = formatDate(birthday);
+            await validationSchema.validate({
+                title,
+                content,
+                news
+            }, { abortEarly: false });
             const formData = new FormData();
             formData.append('news', news);
             formData.append('newsTitle', title);
             formData.append('newsContent', content);
             formData.append('newsViewer', 100);
             formData.append('newsStatus', "Active");
-            formData.append('accID', 2);
+            formData.append('accID', getData);
 
 
             const response = await axios.post('http://localhost:8080/api/news', formData, {
@@ -31,14 +47,22 @@ function CreateNews() {
 
             console.log(response.data);
             setSnackbarMessage('Create a new successfully !!!')
-            setSnackbarColor("success"); 
+            setSnackbarColor("success");
             setSnackbarOpen(true);
 
         } catch (error) {
-            console.error('Lỗi tạo new :', error.response.data); 
-            setSnackbarMessage("Create a new failed :(((");
-            setSnackbarColor("error"); 
-            setSnackbarOpen(true); 
+            if (error instanceof Yup.ValidationError) {
+                const yupErrors = {};
+                error.inner.forEach((e) => {
+                    yupErrors[e.path] = e.message;
+                });
+                setErrors(yupErrors);
+            } else {
+                console.error('Create new failed :(((', error.response.data);
+                setSnackbarMessage('Create new failed :(((');
+                setSnackbarColor("error");
+                setSnackbarOpen(true);
+            }
         }
     }
 
@@ -60,7 +84,7 @@ function CreateNews() {
     };
 
     const handleSnackbarClose = () => {
-        setSnackbarOpen(false); 
+        setSnackbarOpen(false);
     };
 
 
@@ -71,22 +95,28 @@ function CreateNews() {
                 <div className="form-group">
                     <label>Title:</label>
                     <input
-                            type="text"
-                            placeholder="TITLE"
-                            value={title}
-                            onChange={(e) => setTitle(e.target.value)}
-                        />
+                        type="text"
+                        placeholder="TITLE"
+                        value={title}
+                        onChange={(e) => setTitle(e.target.value)}
+                    />
+
+                    {errors.title && <p className="error-message">{errors.title}</p>}
+
                 </div>
 
                 <div className="form-group">
                     <label>Content:</label>
                     {/* <textarea name="newsContent" value={formData.newsContent} onChange={handleChange} required /> */}
                     <textarea
-                            type="text"
-                            placeholder="CONTENT"
-                            value={content}
-                            onChange={(e) => setContent(e.target.value)}
-                        />
+                        type="text"
+                        placeholder="CONTENT"
+                        value={content}
+                        onChange={(e) => setContent(e.target.value)}
+                    />
+
+                    {errors.content && <p className="error-message">{errors.content}</p>}
+
                 </div>
 
                 <div className="form-group">
@@ -102,6 +132,9 @@ function CreateNews() {
                             <img src={newPicture} alt="Avatar Preview" style={{ maxWidth: "100px", maxHeight: "100px" }} />
                         </div>
                     )}
+
+                      {submitAttempted && !newPicture && <p className="error-message">Image is required</p>}
+
                 </div>
 
                 <button type="submit" className="submit-button">Submit</button>

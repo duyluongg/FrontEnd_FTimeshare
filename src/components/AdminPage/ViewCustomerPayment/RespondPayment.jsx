@@ -50,7 +50,8 @@ export default function RespondPayment() {
     const [picturePreview, setPicturePreview] = useState(null);
     const [showSecondDiv, setShowSecondDiv] = useState(true);
     const [userAccountPayment, setUserAccountPayment] = useState([]);
-
+    const [showAcceptButton, setShowAcceptButton] = useState(false);
+    const [showSubmitButton, setShowSubmitButton] = useState(true);
 
     console.log(bookingID);
     useEffect(() => {
@@ -121,7 +122,8 @@ export default function RespondPayment() {
             });
 
             console.log(response.data);
-
+            setShowAcceptButton(true);
+            setShowSubmitButton(false);
         } catch (error) {
             console.error('Lỗi up ảnh:', error.response.data);
 
@@ -147,10 +149,10 @@ export default function RespondPayment() {
     console.log(projectImage);
     return (
         <>
-            <div className='respond-flex'>
+            <div className='respond-flex-payment'>
                 <div>
                     {productBooking.length > 0 && (
-                        <Card sx={{ maxWidth: 345, ml:"100px" }}>
+                        <Card sx={{ maxWidth: 345, ml: "100px" }}>
                             <CardHeader
                                 avatar={
                                     <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
@@ -218,7 +220,7 @@ export default function RespondPayment() {
                 </div>
                 {showSecondDiv && (
                     <div>
-                        <Grid container spacing={1} sx={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '10px', ml: 'auto' }}>
+                        <div style={{ display: "flex" }}>
                             <Card sx={{ maxWidth: 345 }}>
                                 <CardHeader
                                     avatar={
@@ -261,11 +263,19 @@ export default function RespondPayment() {
                                                     </div>
                                                 )}
                                             </div>
-                                        </Typography>
-                                        <button className="register-button" type="submit">Submit</button>
-                                        <Button variant="outlined" color="success" onClick={() => handleAcceptCancelRespond(customerAccountPayment[0].bookingID)}>
-                                            ACCEPT
-                                        </Button>
+                                        </Typography>                                   
+
+                                        {showSubmitButton && (
+                                            <button className="register-button" type="submit">
+                                                Submit
+                                            </button>
+
+                                        )}
+                                        {showAcceptButton && (
+                                            <Button variant="outlined" color="success" sx={{width: 310}} onClick={() => handleAcceptCancelRespond(customerAccountPayment[0].bookingID)}>
+                                                ACCEPT
+                                            </Button>
+                                        )}
 
                                     </form>
 
@@ -302,9 +312,9 @@ export default function RespondPayment() {
 
                             <Card sx={{ maxWidth: 550 }}>
                                 <CardHeader
-                                 
-                        
-                                    title= "INFORMATION OF CUSTOMER PAYMENT"
+
+
+                                    title="INFORMATION OF CUSTOMER PAYMENT"
 
                                 />
 
@@ -332,14 +342,14 @@ export default function RespondPayment() {
                                     <Typography variant="body2" color="text.secondary">
                                         Account Number: {userAccountPayment[0] ? userAccountPayment[0].accountNumber : ""}
                                     </Typography>
-                              
+
 
 
 
                                 </CardContent>
-                             
+
                             </Card>
-                        </Grid>
+                        </div>
                     </div>
                 )}
             </div>

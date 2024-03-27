@@ -51,7 +51,8 @@ export default function RespondPayment80() {
     const [picturePreview, setPicturePreview] = useState(null);
     const [showSecondDiv, setShowSecondDiv] = useState(true);
     const [userAccountPayment, setUserAccountPayment] = useState([]);
-
+    const [showAcceptButton, setShowAcceptButton] = useState(false);
+    const [showSubmitButton, setShowSubmitButton] = useState(true);
 
 
     console.log(bookingID);
@@ -86,7 +87,7 @@ export default function RespondPayment80() {
             setUserAccountPayment(userPayment.data);
             console.log(customerPayment.data);
 
-            
+
         } catch (error) {
             console.error('Error fetching data:', error);
         }
@@ -124,7 +125,8 @@ export default function RespondPayment80() {
             });
 
             console.log(response.data);
-
+            setShowAcceptButton(true);
+            setShowSubmitButton(false);
         } catch (error) {
             console.error('Lỗi up ảnh:', error.response.data);
 
@@ -150,7 +152,7 @@ export default function RespondPayment80() {
     console.log(projectImage);
     return (
         <>
-            <div className='respond-flex'>
+            <div className='respond-flex-payment'>
                 <div>
                     {productBooking.length > 0 && (
                         <Card sx={{ maxWidth: 345 }}>
@@ -162,11 +164,8 @@ export default function RespondPayment80() {
                                         <ModalProfile accID={userAccountProduct} />
                                     </Avatar>
                                 }
-                                action={
-                                    <IconButton aria-label="settings">
-                                        <MoreVertIcon />
-                                    </IconButton>
-                                }
+
+
                                 title={userAccountProduct.accName}
                             // subheader="September 14, 2016"
                             />
@@ -177,9 +176,10 @@ export default function RespondPayment80() {
                                 alt="Paella dish"
                             />
                             <CardContent>
-                                <Typography variant="body1" color="text.secondary">
+                                <Typography variant="body1" sx={{ fontSize: "20px", fontWeight: "bold", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
                                     {productBooking[0].productName}
                                 </Typography>
+
                                 <Typography variant="body2" color="text.secondary">
                                     Description: {productBooking[0].productDescription}
                                 </Typography>
@@ -194,35 +194,21 @@ export default function RespondPayment80() {
                                 <Typography variant="body2" color="text.secondary">
                                     End Date: {formatDate(productBooking[0].availableEndDate)}
                                 </Typography>
+                                <Typography variant="body2" color="text.secondary">
+                                    Person: {productBooking[0].productPerson}
+                                </Typography>
+                                <Typography variant="body2" color="text.secondary">
+                                    Rating: {productBooking[0].productRating}
+                                </Typography>
                             </CardContent>
-                            <CardActions disableSpacing>
 
-                                <ExpandMore
-                                    expand={expanded}
-                                    onClick={handleExpandClick}
-                                    aria-expanded={expanded}
-                                    aria-label="show more"
-                                >
-                                    <ExpandMoreIcon />
-                                </ExpandMore>
-                            </CardActions>
-                            <Collapse in={expanded} timeout="auto" unmountOnExit>
-                                <CardContent>
-                                    <Typography variant="body2" color="text.secondary">
-                                        Person: {productBooking[0].productPerson}
-                                    </Typography>
-                                    <Typography variant="body2" color="text.secondary">
-                                        Rating: {productBooking[0].productRating}
-                                    </Typography>
-                                </CardContent>
-                            </Collapse>
                         </Card>
                     )}
                 </div>
                 {showSecondDiv && (
-                    <div>
-                        <Grid container spacing={1} sx={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '10px', ml: 'auto' }}>
-
+                    <div >
+                        {/* <Grid container spacing={1} sx={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '10px', ml: 'auto' }}> */}
+                        <div style={{ display: "flex" }}>
                             <Card sx={{ maxWidth: 345 }}>
                                 <CardHeader
                                     avatar={
@@ -230,11 +216,7 @@ export default function RespondPayment80() {
                                             <ModalProfile accID={userAccountBooking} />
                                         </Avatar>
                                     }
-                                    action={
-                                        <IconButton aria-label="settings">
-                                            <MoreVertIcon />
-                                        </IconButton>
-                                    }
+
                                     title={userAccountBooking.accName}
                                     subheader="September 14, 2016"
                                 />
@@ -244,7 +226,7 @@ export default function RespondPayment80() {
                                     image={customerAccountPayment[0] ? customerAccountPayment[0].imgName : ""}
                                     alt={customerAccountPayment[0] ? customerAccountPayment[0].imgName : ""}
                                     sx={{ objectFit: "contain", maxHeight: "350px" }}
-                               />
+                                />
                                 <CardContent>
 
                                     <Typography variant="body2" color="text.secondary">
@@ -253,7 +235,7 @@ export default function RespondPayment80() {
                                     <form onSubmit={handleUploadRespond}>
                                         <Typography variant="body2" color="text.secondary">
                                             <div className="">
-                                                <label htmlFor="avatar">Avatar</label>
+                                                <label htmlFor="avatar">Image Respond:</label>
                                                 <input
                                                     type="file"
                                                     id="picture"
@@ -267,10 +249,17 @@ export default function RespondPayment80() {
                                                 )}
                                             </div>
                                         </Typography>
-                                        <button className="register-button" type="submit">Submit</button>
-                                        <Button variant="outlined"  color="success" onClick={() => handleAcceptCancelRespond(customerAccountPayment[0].bookingID)}>
-                                            ACCEPT
-                                        </Button>
+                                        {showSubmitButton && (
+                                            <button className="register-button" type="submit">
+                                                Submit
+                                            </button>
+
+                                        )}
+                                        {showAcceptButton && (
+                                            <Button variant="outlined" color="success" sx={{width: 310}} onClick={() => handleAcceptCancelRespond(customerAccountPayment[0].bookingID)}>
+                                                ACCEPT
+                                            </Button>
+                                        )}
 
                                     </form>
 
@@ -305,11 +294,11 @@ export default function RespondPayment80() {
                         </Collapse> */}
                             </Card>
 
-                            <Card sx={{ maxWidth: 550 }}>
+                            <Card sx={{ maxWidth: 550, height: 200 }}>
                                 <CardHeader
-                                 
-                        
-                                    title= "INFORMATION OF CUSTOMER PAYMENT"
+
+
+                                    title="INFORMATION OF CUSTOMER PAYMENT"
 
                                 />
 
@@ -337,14 +326,15 @@ export default function RespondPayment80() {
                                     <Typography variant="body2" color="text.secondary">
                                         Account Number: {userAccountPayment[0] ? userAccountPayment[0].accountNumber : ""}
                                     </Typography>
-                              
+
 
 
 
                                 </CardContent>
-                             
+
                             </Card>
-                        </Grid>
+                        </div>
+                        {/* </Grid> */}
                     </div>
                 )}
             </div>

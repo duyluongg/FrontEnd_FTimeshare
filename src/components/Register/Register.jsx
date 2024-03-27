@@ -20,6 +20,7 @@ export default function Register() {
     const [snackbarMessage, setSnackbarMessage] = useState('');
     const [snackbarColor, setSnackbarColor] = useState('success');
     const [errors, setErrors] = useState({});
+    const [submitAttempted, setSubmitAttempted] = useState(false);
     const formatDate = (date) => {
         const d = new Date(date);
         const year = d.getFullYear();
@@ -27,9 +28,6 @@ export default function Register() {
         const day = ('0' + d.getDate()).slice(-2);
         return `${year}-${month}-${day}`;
     };
-
-    const navigate = useNavigate();
-
 
     const schema = Yup.object().shape({
         firstName: Yup.string().required('First Name is required'),
@@ -42,9 +40,7 @@ export default function Register() {
 
     const handleRegister = async (e) => {
         e.preventDefault();
-
-        let hasError = false;
-
+        setSubmitAttempted(true); 
         try {
             await schema.validate({
                 firstName,
@@ -65,48 +61,11 @@ export default function Register() {
                     yupErrors[e.path] = e.message;
                 });
                 setErrors(yupErrors);
-                hasError = true;
-            }
-        }
-
-        if (!hasError) {
-            try {
-                const formattedBirthday = formatDate(birthday);
-                const formData = new FormData();
-                formData.append('Avatar', avatar);
-                formData.append('accName', firstName);
-                formData.append('accEmail', email);
-                formData.append('accPhone', phoneNumber);
-                formData.append('accPassword', password);
-                formData.append('accStatus', 'active');
-                formData.append('roleID', '3');
-                formData.append('accBirthday', formattedBirthday);
-
-                const response = await axios.post('http://localhost:8080/api/users', formData, {
-                    headers: {
-                        'Content-Type': 'multipart/form-data'
-                    }
-                });
-
-                console.log(response.data);
-                setSnackbarMessage('Registration successfully !!!')
-                setSnackbarColor("success");
+            } else {
+                console.error('Registration failed :(((', error.response.data);
+                setSnackbarMessage('Registration failed :(((');
+                setSnackbarColor("error");
                 setSnackbarOpen(true);
-                setTimeout(() => navigate('/login'), 1000);
-
-            } catch (error) {
-                if (error instanceof Yup.ValidationError) {
-                    const yupErrors = {};
-                    error.inner.forEach((e) => {
-                        yupErrors[e.path] = e.message;
-                    });
-                    setErrors(yupErrors);
-                } else {
-                    console.error('Registration failed :(((', error.response.data);
-                    setSnackbarMessage('Registration failed :(((');
-                    setSnackbarColor("error");
-                    setSnackbarOpen(true);
-                }
             }
         }
     }
@@ -170,7 +129,7 @@ export default function Register() {
                             onChange={(e) => setFirstName(e.target.value)}
                             style={{ borderColor: errors.firstName ? 'red' : null }}
                         />
-                        {errors.firstName && <p style={{ color: 'red' }}>{errors.firstName}</p>}
+                        {errors.firstName && <p className="error-message">{errors.firstName}</p>}
                     </div>
 
                     <div className="input-container">
@@ -181,7 +140,7 @@ export default function Register() {
                             onChange={(e) => setEmail(e.target.value)}
                             style={{ borderColor: errors.email ? 'red' : null }}
                         />
-                        {errors.email && <p style={{ color: 'red' }}>{errors.email}</p>}
+                      {errors.email && <p className="error-message">{errors.email}</p>}
 
                     </div>
                     <div className="input-container">
@@ -192,7 +151,7 @@ export default function Register() {
                             onChange={(e) => setPhoneNumber(e.target.value)}
                             style={{ borderColor: errors.phoneNumber ? 'red' : null }}
                         />
-                        {errors.phoneNumber && <p style={{ color: 'red' }}>{errors.phoneNumber}</p>}
+                          {errors.phoneNumber && <p className="error-message">{errors.phoneNumber}</p>}
                     </div>
                     <div className="input-container">
                         <input
@@ -202,7 +161,7 @@ export default function Register() {
                             onChange={(e) => setPassword(e.target.value)}
                             style={{ borderColor: errors.password ? 'red' : null }}
                         />
-                        {errors.password && <p style={{ color: 'red' }}>{errors.password}</p>}
+                           {errors.password && <p className="error-message">{errors.password}</p>}
 
                     </div>
 
@@ -215,8 +174,7 @@ export default function Register() {
                             onChange={(e) => setBirthday(e.target.value)}
                             style={{ borderColor: errors.birthday ? 'red' : null }}
                         />
-                        {errors.birthday && <p style={{ color: 'red' }}>{errors.birthday}</p>}
-
+                       {submitAttempted && !birthday && <p className="error-message">Birthday is required</p>}
                     </div>
 
                     <button className="register-button" type="submit">REGISTER</button>

@@ -41,10 +41,7 @@ import ViewCustomerPayment_80 from '../ViewCustomerPayment80/ViewCustomerPayment
 import AllNew from '../New/AllNew.jsx';
 import Profile from '../../Profile/Profile.jsx';
 import ProfileStaff from '../ProfileStaff/ProfileStaff.jsx';
-import UserAccount from '../../UserAccount.jsx';
-
-
-
+import AccountBoxIcon from '@mui/icons-material/AccountBox';
 const drawerWidth = 240;
 
 const openedMixin = (theme) => ({
@@ -94,6 +91,7 @@ const AppBar = styled(MuiAppBar, {
             duration: theme.transitions.duration.enteringScreen,
         }),
     }),
+    // height: 50,
 }));
 
 const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' })(
@@ -144,6 +142,7 @@ export default function Sidenav() {
                         sx={{
                             marginRight: 5,
                             ...(open && { display: 'none' }),
+                            
                         }}
                     >
                         <MenuIcon />
@@ -200,12 +199,12 @@ export default function Sidenav() {
                                     justifyContent: 'center',
                                 }}
                             >
-                                <InboxIcon />
+                                <AccountBoxIcon />
                             </ListItemIcon>
                             <ListItemText primary="Profile" sx={{ opacity: open ? 1 : 0 }} />
                         </ListItemButton>
                     </ListItem>
-                    {/* Các mục danh sách khác */}
+
                 </List>
 
                 <Divider />
@@ -234,15 +233,15 @@ export default function Sidenav() {
                     ))}
                 </List>
             </Drawer>
-            <Box  sx={{ mt:"100px" }}  >
+            <Box sx={{ mt: "100px" }}  >
                 {/* <DrawerHeader /> */}
-              
+
                 {/* <Routes>
                     <Route path='/admin/total-users' element={<TotalUser />}></Route>
 
                 </Routes> */}
                 {/* <Dashboard/> */}
-                  {/* {currentPage === '/admin' && <Dashboard />}
+                {/* {currentPage === '/admin' && <Dashboard />}
                 {currentPage === '/admin/total-users' && <TotalUser />}
                 {currentPage === '/admin/total-product' && <TotalProduct />}
                 {currentPage === '/admin/pending-product' && <TotalProductPending />}
@@ -255,32 +254,10 @@ export default function Sidenav() {
                 {currentPage === '/admin/wait-to-confirm-rc' && <ViewBookingRC />}
                 {currentPage === '/admin/wait-customer-to-confirm-payment-list/100' && <ViewCustomerPayment />}
                 {currentPage === '/admin/wait-customer-to-confirm-payment-list/80' && <ViewCustomerPayment_80 />}
-             
-
-
-
                 {currentPage === '/admin/new' && <New />}
                 {currentPage === '/admin/all-new' && <AllNew />}
                 {currentPage === '/admin/user-account' && <UserAccount />} */}
-
-          
-
-
-
-
-
-
-
-
-
-
                 {/* {currentPage === '/admin/report-project:productID' && < CardReport />} */}
-
-
-
-
-
-
             </Box>
         </Box>
     );

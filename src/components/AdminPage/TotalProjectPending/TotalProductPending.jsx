@@ -7,10 +7,7 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 import axios from 'axios';
 import { Grid, Card, CardHeader, CardMedia, CardContent, CardActions, Collapse, Avatar, IconButton, Typography, Button, TextField, Pagination } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
-import { Link } from 'react-router-dom';
-import CardReport from '../ViewReport/CardReport';
-// import { useHistory } from 'react-router-dom';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
+import ModalProfile from '../ViewReport/ModalProfile';
 const ExpandMore = styled((props) => {
     const { expand, ...other } = props;
     return <IconButton {...other} />;
@@ -25,7 +22,7 @@ const ExpandMore = styled((props) => {
 export default function TotalProductPending() {
     const [expanded, setExpanded] = useState(false);
     const [projectPending, setProjectPending] = useState([]);
-    const [selectedProject, setSelectedProject] = useState(null); 
+    const [selectedProject, setSelectedProject] = useState(null);
     const [showCardReport, setShowCardReport] = useState(false);
     const [currentPage, setCurrentPage] = useState(1);
     // const [projectsPerPage] = useState(6);
@@ -126,99 +123,116 @@ export default function TotalProductPending() {
         setGetProjectID(getID);
         console.log("Selected project ID:", getProjectID);
 
-
     }
 
 
+    const formatDate = (dateArray) => {
+        const [year, month, day] = dateArray;
+        return `${day}/${month}/${year}`;
+    };
+
     return (
         <>
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                <TextField
-                    sx={{ width: '500px', mb: '35px' }}
-                    placeholder="Search..."
-                    variant="outlined"
-                    size="small"
-                    value={searchQuery}
-                    onChange={handleSearchChange}
-                />
-                <IconButton type="submit" aria-label="search" sx={{ mb: '30px' }}>
-                    <SearchIcon />
-                </IconButton>
-            </div>
+            
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', marginTop: "-20px" }}>
+                    <TextField
+                        sx={{ width: '500px', mb: '25px' }}
+                        placeholder="Search..."
+                        variant="outlined"
+                        size="small"
+                        value={searchQuery}
+                        onChange={handleSearchChange}
+                    />
+                    <IconButton type="submit" aria-label="search" sx={{ mb: '30px' }}>
+                        <SearchIcon />
+                    </IconButton>
+                </div>
 
-            <Grid container spacing={1} sx={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '10px', ml: '50px' }}>
-                {currentProjects.map((item) => {
-                    const projectImage = images.find(image => image.productID === item.productID);
-                    // const profileAccount = profiles.find(profile => profile.accID === item.accID);
-             
-                    return (
-                        <Card key={item.productID} sx={{ maxWidth: 345, mb: '20px', boxShadow: 3, ml:"80px"}}>
-                            <CardHeader
-                                avatar={
-                                    <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
-                                        {item.productName[1]}
-                                    </Avatar>
-                                }
-                                action={
-                                    <IconButton aria-label="settings">
-                                        {/* <Link to={`/admin/report-project/${item.productID}`}>
-                                        <Button variant="contained" onClick={() => handleReportUserClick(item.productID)}>REPORT'S USER</Button>
-                                    </Link> */}
-                                        <MoreVertIcon />
+                <Grid container spacing={1} sx={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '10px', ml: '50px' }}>
+                    {currentProjects.map((item) => {
+                        const projectImage = images.find(image => image.productID === item.productID);
+                        const userAccount = profiles.find(acc => acc.accID === item.accID);
 
-                                    </IconButton>
-                                }
-                                title={item.productName}
-                                subheader={item.availableStartDate}
+                        return (
+                            <Card key={item.productID} sx={{ maxWidth: 345, mb: '20px', boxShadow: 3, ml: "55px" }}>
+                                <CardHeader
+                                    avatar={
+                                        <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
+                                            <ModalProfile accID={userAccount} />
+                                        </Avatar>
+                                    }
+                                    title={userAccount.accName}
+                                />
 
-                            />
-
-                            <CardMedia
-                                component="img"
-                                height="194"
-                                image={projectImage ? projectImage.imgName : ""}
-                                alt="Project image"
-                                sx={{ width: "350px", height: "350px", objectFit: "cover", maxWidth: "100%" }}
-                            />
-                            <CardContent>
-                                <Typography variant="body2" color="text.secondary" sx={{ overflow: 'hidden', textOverflow: 'ellipsis', display: '-webkit-box', WebkitLineClamp: '2', WebkitBoxOrient: "vertical" }}>
-                                    {item.productDescription}
-                                </Typography>
-                            </CardContent>
-                            <CardActions disableSpacing>
-                            <Button variant="outlined" sx={{ m: 1 }} onClick={() => handleAcceptClick(item.productID)} >
-                                Accept
-                            </Button>
-                            <Button variant="outlined" color="error" onClick={() => handleRejectClick(item.productID)}>
-                                REJECT
-                            </Button>
-                            <ExpandMore
-                                expand={expanded}
-                                onClick={handleExpandClick}
-                                aria-expanded={expanded}
-                                aria-label="show more"
-                            >
-                                <ExpandMoreIcon />
-                            </ExpandMore>
-                        </CardActions>
-                            <Collapse in={expanded} timeout="auto" unmountOnExit>
+                                <CardMedia
+                                    component="img"
+                                    height="194"
+                                    image={projectImage ? projectImage.imgName : ""}
+                                    alt="Project image"
+                                    sx={{ width: "350px", height: "230px", objectFit: "cover", maxWidth: "100%" }}
+                                />
                                 <CardContent>
-                                    <Typography paragraph>
-                                        {item.productConvenience}
+                                    {/* <Typography sx={{ fontSize: "20px", fontWeight: "bold" }}> */}
+                                    <Typography variant="body1" sx={{ fontSize: "20px", fontWeight: "bold", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
+                                        {item.productName}
+                                    </Typography>
+                                    <Typography variant="body1" color="text.secondary">
+                                        Available Start Date: {formatDate(item.availableStartDate)}<br />
+                                        Available End Date: {formatDate(item.availableEndDate)}<br />
+                                    </Typography>
+                                    <Typography variant="body1" color="text.secondary" sx={{ overflow: 'hidden', textOverflow: 'ellipsis', display: '-webkit-box', WebkitLineClamp: '2', WebkitBoxOrient: "vertical" }}>
+                                        Description: {item.productDescription}<br />
+
+                                    </Typography>
+                                    <Typography variant="body1" color="text.secondary">
+                                        Address: {item.productAddress}
+                                    </Typography>
+                                    <Typography variant="body1" color="text.secondary" sx={{ overflow: 'hidden', textOverflow: 'ellipsis', display: '-webkit-box', WebkitLineClamp: '2', WebkitBoxOrient: "vertical" }}>
+                                        Convenience: {item.productConvenience}
+                                    </Typography>
+                                    <Typography variant="body1" color="text.secondary">
+                                        Price: {item.productPrice}
+                                    </Typography>
+                                    <Typography variant="body1" color="text.secondary">
+                                        Person: {item.productPerson}
                                     </Typography>
                                 </CardContent>
-                            </Collapse>
-                        </Card>
-                    );
-                })}
-            </Grid >
-            {/* <Pagination count={10} color="primary" sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', mt: '25px' }} /> */}
-            <Pagination
-                count={10}
-                color="primary"
-                sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', mt: '25px' }}
-                onChange={handlePageChange}
-            />
+                                <CardActions disableSpacing>
+                                    <Button variant="outlined" sx={{ m: 1 }} onClick={() => handleAcceptClick(item.productID)} >
+                                        Accept
+                                    </Button>
+                                    <Button variant="outlined" color="error" onClick={() => handleRejectClick(item.productID)}>
+                                        REJECT
+                                    </Button>
+                                </CardActions>
+                            </Card>
+                        );
+                    })}
+                </Grid >
+                {/* <Pagination count={10} color="primary" sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', mt: '25px' }} /> */}
+                <Pagination
+                    count={10}
+                    color="primary"
+                    sx={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        mt: '25px',
+                        '& .MuiPaginationItem-root': {
+                            color: '#CD9A2B', // Đặt màu của nút trang khi không được chọn
+                        },
+                        position: "sticky",
+                        top:"100%",
+                        bottom: "5px", 
+                        left: "0px",
+                        right: "0px",
+                        // marginBottom: "0px"
+
+                    }}
+                    onChange={handlePageChange}
+                />
+
+      
         </>
     );
 }

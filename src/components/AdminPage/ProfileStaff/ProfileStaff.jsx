@@ -4,7 +4,7 @@ import axios from 'axios';
 import { format } from 'date-fns';
 import { Link } from 'react-router-dom';
 import Sidenav from '../Sidenav/Sidenav';
-
+import './ProfileStaff.css'
 export default function ProfileStaff({ getData }) {
     console.log(getData);
 
@@ -41,8 +41,8 @@ export default function ProfileStaff({ getData }) {
     return (
 
 
-        <div>
-            <Sidenav/>
+        <div className='profile-staff'>
+     
             {accountUser && (
 
                 <div>
@@ -55,7 +55,7 @@ export default function ProfileStaff({ getData }) {
                                 sx={{ width: 96, height: 96, mt: "40px", mb: "20px", objectFit: "cover" }}
                             />
                             <h2>{accountUser.accName}</h2>
-                            <Link to={`/update-profile-staff/${getData}`}>
+                            <Link to={`/staff/update-profile/${getData}`}>
                                 <button>Edit</button>
                             </Link>
                       
@@ -106,6 +106,7 @@ export default function ProfileStaff({ getData }) {
                     </div>
                 </div>
             )}
+      
         </div>
     )
 }

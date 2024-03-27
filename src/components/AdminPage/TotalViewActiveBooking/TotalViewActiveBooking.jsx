@@ -182,11 +182,26 @@ export default function TotalViewPendingBooking() {
                 })}
             </Grid>
             <Pagination
-                count={10}
-                color="primary"
-                sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', mt: '25px' }}
-                onChange={handlePageChange}
-            />
+                    count={10}
+                    color="primary"
+                    sx={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        mt: '25px',
+                        '& .MuiPaginationItem-root': {
+                            color: '#CD9A2B', // Đặt màu của nút trang khi không được chọn
+                        },
+                        position: "sticky",
+                        top:"100%",
+                        bottom: "5px", 
+                        left: "0px",
+                        right: "0px",
+                        // marginBottom: "0px"
+
+                    }}
+                    onChange={handlePageChange}
+                />
         </>
     );
 }

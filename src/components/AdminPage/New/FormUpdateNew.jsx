@@ -24,13 +24,13 @@ const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
 });
 
-export default function FormUpdateNew() {
+export default function FormUpdateNew({ newsDetail, oldImageUrl }) {
     const [open, setOpen] = React.useState(false);
     const [news, setNews] = useState('');
     const [newsTitle, setNewsTitle] = useState('');
     const [newsPost, setNewsPost] = useState('');
     const [newsContent, setNewsContent] = useState('');
-    const [selectedDate, setSelectedDate] = useState(null); // State cho ngày tháng năm đã chọn
+    const [selectedDate, setSelectedDate] = useState(null);
     const [snackbarOpen, setSnackbarOpen] = React.useState(false);
     const [snackbarMessage, setSnackbarMessage] = React.useState('');
     const [snackbarColor, setSnackbarColor] = React.useState('success');
@@ -62,12 +62,19 @@ export default function FormUpdateNew() {
         return `${year}-${month}-${day}T${hours}:${minutes}:${seconds}.000Z`;
     };
 
+    useEffect(() => {
+        if (newsDetail) {
+            setNewsTitle(newsDetail.newsTitle);
+            setNewsContent(newsDetail.newsContent);
+            setAvatarPreview(oldImageUrl);
+        }
+    }, [newsDetail]);
 
     const handleUpdateNew = async (e) => {
         e.preventDefault();
         console.log(newsId);
         try {
- 
+
             const formData = new FormData();
             formData.append('news', news);
             formData.append('newsTitle', newsTitle);
@@ -86,7 +93,7 @@ export default function FormUpdateNew() {
             setSnackbarMessage('Update successfully !!!')
             setSnackbarColor("success");
             setSnackbarOpen(true);
-           
+
         } catch (error) {
             console.error('Error updating new:', error.response.data);
             setSnackbarMessage('Update failed :(((');
@@ -164,7 +171,7 @@ export default function FormUpdateNew() {
                         onChange={(e) => setNewsContent(e.target.value)}
                     />
 
-                  
+
                 </DialogContent>
                 <SnackBar open={snackbarOpen} message={snackbarMessage} onClose={handleSnackbarClose} color={snackbarColor} />
                 <DialogActions>

@@ -114,7 +114,7 @@ export default function TotalUser() {
         pageSizeOptions={[5, 10]}
         checkboxSelection
         rowHeight={80}
-        sx={{ml:"100px", width:"1550px"}}
+        sx={{ml:"100px", width:"1400px"}}
       />
     </div>
   );
