@@ -66,7 +66,6 @@ export default function BookingDetail() {
 
             ]);
 
-
             setProductBooking(pendingResponse.data);
             setImages(imagesResponse.data);
             setProfiles(profilesResponse.data);
@@ -83,6 +82,7 @@ export default function BookingDetail() {
         try {
             await axios.put(`http://localhost:8080/api/bookings/confirm_booking/${bookingID}`);
             setShowSecondDiv(false);
+        
         } catch (error) {
             console.error('Error fetching projects:', error);
         }
@@ -107,141 +107,98 @@ export default function BookingDetail() {
     console.log(projectImage);
     return (
         <>
+
             <div className='respond-flex'>
+                <div>
+                    <div style={{ marginLeft: "140px", fontWeight: "bold", fontSize: "18px" }}>INFORMATION OF THE OWNER</div>
+                    {productBooking.length > 0 && (
 
-
-                {productBooking.length > 0 && (
-                    <Card sx={{ maxWidth: 345, ml:"100px"}}>
-                        <CardHeader
-                            avatar={
-                                <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
-                                    {/* <ModalProfile accID={userAccount} /> */}
-                                    {/* <ModalProfile accID={productBooking[0].} /> */}
-                                </Avatar>
-                            }
-                            action={
-                                <IconButton aria-label="settings">
-                                    <MoreVertIcon />
-                                </IconButton>
-                            }
-                            title={userAccountProduct.accName}
-                        // subheader="September 14, 2016"
-                        />
-                        <CardMedia
-                            component="img"
-                            height="194"
-                            image={projectImage ? projectImage.imgName : ""}
-                            alt="Paella dish"
-                        />
-                        <CardContent>
-                            <Typography variant="body1" color="text.secondary">
-                                {productBooking[0].productName}
-                            </Typography>
-                            <Typography variant="body2" color="text.secondary">
-                                Description: {productBooking[0].productDescription}
-                            </Typography>
-                            <Typography variant="body2" color="text.secondary">
-                                Convenience: {productBooking[0].productConvenience}
-                            </Typography>
-
-                            <Typography variant="body2" color="text.secondary">
-                                Start Date: {formatDate(productBooking[0].availableStartDate)}
-                            </Typography>
-
-                            <Typography variant="body2" color="text.secondary">
-                                End Date: {formatDate(productBooking[0].availableEndDate)}
-                            </Typography>
-                        </CardContent>
-                        <CardActions disableSpacing>
-                            <IconButton aria-label="add to favorites">
-                                <FavoriteIcon />
-                            </IconButton>
-                            <IconButton aria-label="share">
-                                <ShareIcon />
-                            </IconButton>
-                            <ExpandMore
-                                expand={expanded}
-                                onClick={handleExpandClick}
-                                aria-expanded={expanded}
-                                aria-label="show more"
-                            >
-                                <ExpandMoreIcon />
-                            </ExpandMore>
-                        </CardActions>
-                        <Collapse in={expanded} timeout="auto" unmountOnExit>
+                        <Card sx={{ maxWidth: 345, ml: "100px", boxShadow: 3 }}>
+                            <CardHeader
+                                avatar={
+                                    <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
+                                        <ModalProfile accID={userAccountProduct} />
+                                        {/* <ModalProfile accID={productBooking[0].} /> */}
+                                    </Avatar>
+                                }
+                                title={userAccountProduct.accName}
+                            // subheader="September 14, 2016"
+                            />
+                            <CardMedia
+                                component="img"
+                                height="194"
+                                image={projectImage ? projectImage.imgName : ""}
+                                alt="Paella dish"
+                            />
                             <CardContent>
-                                <Typography variant="body2" color="text.secondary">
-                                    Person: {productBooking[0].productPerson}
+                                <Typography variant="body1" color="text.secondary">
+                                    {productBooking[0].productName}
                                 </Typography>
                                 <Typography variant="body2" color="text.secondary">
-                                    Rating: {productBooking[0].productRating}
+                                    Description: {productBooking[0].productDescription}
+                                </Typography>
+                                <Typography variant="body2" color="text.secondary">
+                                    Convenience: {productBooking[0].productConvenience}
+                                </Typography>
+
+                                <Typography variant="body2" color="text.secondary">
+                                    Start Date: {formatDate(productBooking[0].availableStartDate)}
+                                </Typography>
+
+                                <Typography variant="body2" color="text.secondary">
+                                    End Date: {formatDate(productBooking[0].availableEndDate)}
                                 </Typography>
                             </CardContent>
-                        </Collapse>
-                    </Card>
-                )}
+                        </Card>
 
-                {showSecondDiv && (
-                    <div>
-                        <Grid container spacing={1} sx={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '10px', ml: 'auto' }}>
-                            <Card sx={{ maxWidth: 345 }}>
+                    )}
+                </div>
+                <div>
+
+                    {showSecondDiv && (
+                        <div>
+                            <div style={{ marginLeft: "25px", fontWeight: "bold", fontSize: "18px" }}>INFORMATION OF THE CUSTOMER</div>
+                            <Card sx={{ width: 350, height: 576, boxShadow: 3 }}>
                                 <CardHeader
                                     avatar={
                                         <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
-                                            R
+                                            <ModalProfile accID={userAccountBooking} />
                                         </Avatar>
                                     }
-                                    action={
-                                        <IconButton aria-label="settings">
-                                            <MoreVertIcon />
-                                        </IconButton>
-                                    }
                                     title={userAccountBooking.accName}
-                                  
                                 />
                                 <CardMedia
                                     component="img"
                                     height="350"
                                     image={customerAccountBook[0] ? customerAccountBook[0].imgName : ""}
                                     alt={customerAccountBook[0] ? customerAccountBook[0].imgName : ""}
-                                    sx={{ objectFit: "contain" , maxHeight:"350px"}}
+                                    sx={{ objectFit: "contain", maxHeight: "350px" }}
 
                                 />
                                 <CardContent>
                                     <Typography variant="body2" color="text.secondary">
-                                        This impressive paella is a perfect party dish and a fun meal to cook
-                                        together with your guests. Add 1 cup of frozen peas along with the mussels,
-                                        if you like.
+                                        Booking Price: {customerAccountBook[0] ? customerAccountBook[0].bookingPrice : ""}
+                                    </Typography>
+
+                                    <Typography variant="body2" color="text.secondary">
+                                        Person: {customerAccountBook[0] ? customerAccountBook[0].bookingPerson : ""}
                                     </Typography>
                                 </CardContent>
-                                <CardActions disableSpacing>
+                                <CardActions disableSpacing sx={{ mt: 4 }}>
                                     <Button variant="outlined" color="success" onClick={() => handleAcceptActive(customerAccountBook[0].bookingID)}>
                                         ACCEPT
                                     </Button>
                                     <Button variant="outlined" color="error" onClick={() => handleAcceptReject(customerAccountBook[0].bookingID)}>
                                         REJECT
                                     </Button>
-                                    <ExpandMore
-                                        expand={expanded}
-                                        onClick={handleExpandClick}
-                                        aria-expanded={expanded}
-                                        aria-label="show more"
-                                    >
-                                        <ExpandMoreIcon />
-                                    </ExpandMore>
-                                </CardActions>
-                                <Collapse in={expanded} timeout="auto" unmountOnExit>
-                                    <CardContent>
-                                        <Typography paragraph>Method:</Typography>
-                                       
-                                       
-                                    </CardContent>
-                                </Collapse>
-                            </Card>
-                        </Grid>
-                    </div>
-                )}
 
+                                </CardActions>
+
+                            </Card>
+                        </div>
+
+                    )}
+                </div>
 
             </div>
 

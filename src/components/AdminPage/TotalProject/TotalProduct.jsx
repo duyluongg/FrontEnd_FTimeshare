@@ -26,7 +26,7 @@ const ExpandMore = styled((props) => {
 export default function TotalProduct() {
     const [expanded, setExpanded] = useState(false);
     const [projectActive, setProjectActive] = useState([]);
-    const [selectedProject, setSelectedProject] = useState(null); 
+    const [selectedProject, setSelectedProject] = useState(null);
     const [showCardReport, setShowCardReport] = useState(false);
     const [currentPage, setCurrentPage] = useState(1);
     // const [projectsPerPage] = useState(6);
@@ -37,7 +37,7 @@ export default function TotalProduct() {
     const indexOfFirstProject = indexOfLastProject - projectsPerPage;
     const [images, setImages] = useState([]);
     const [profiles, setProfiles] = useState([]);
-    const [filteredProjects, setFilteredProjects] = useState([]); 
+    const [filteredProjects, setFilteredProjects] = useState([]);
     const currentProjects = searchQuery ? filteredProjects.slice(indexOfFirstProject, indexOfLastProject) : projectActive.slice(indexOfFirstProject, indexOfLastProject);
     const handleSearchChange = (event) => {
         setSearchQuery(event.target.value);
@@ -72,7 +72,7 @@ export default function TotalProduct() {
             setImages(imagesResponse.data);
             setProfiles(profilesResponse.data);
 
-            const filtered = pendingResponse.data.filter(item => 
+            const filtered = pendingResponse.data.filter(item =>
                 item.productName.toLowerCase().includes(searchQuery.toLowerCase())
             );
             setFilteredProjects(filtered);
@@ -143,26 +143,12 @@ export default function TotalProduct() {
                     // const profileAccount = profiles.find(profile => profile.accID === item.accID);
                     console.log(projectImage);
                     return (
-                        <Card key={item.productID} sx={{ maxWidth: 345, mb: '20px', boxShadow: 3, ml:"80px" }}>
+                        <Card key={item.productID} sx={{ maxWidth: 345, mb: '20px', boxShadow: 3, ml: "80px" }}>
                             <CardHeader
-                                // avatar={
-                                //     <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
-                                //         {item.productName[1]}
-                                //     </Avatar>
-                                // }
-                                action={
-                                    <IconButton aria-label="settings">
-                                        {/* <Link to={`/admin/report-project/${item.productID}`}>
-                                        <Button variant="contained" onClick={() => handleReportUserClick(item.productID)}>REPORT'S USER</Button>
-                                    </Link> */}
-                                        <MoreVertIcon />
 
-                                    </IconButton>
-                                }
                                 title={item.productName}
-                                subheader=   {formatDate(item.availableStartDate)}
-                                sx={{ height:"75px"}}
-                                
+                              
+                                sx={{ height: "55px", color: "black", backgroundColor: "white", whiteSpace: "nowrap", overflow:"hidden", textOverflow:"ellipsis"}}
 
                             />
 
@@ -175,45 +161,47 @@ export default function TotalProduct() {
                             />
                             <CardContent>
                                 <Typography variant="body2" color="text.secondary" sx={{ overflow: 'hidden', textOverflow: 'ellipsis', display: '-webkit-box', WebkitLineClamp: '2', WebkitBoxOrient: "vertical" }}>
-                                    {item.productDescription}
+                                    {item.productAddress}
                                 </Typography>
                             </CardContent>
                             <CardActions disableSpacing>
-                                <Button variant="outlined" color="success">
+                                <Button variant="outlined" color="success" sx={{cursor:"default"}}>
                                     {item.productStatus}
                                 </Button>
                                 <Link to={`/staff/report-projectid/${item.productID}/${item.accID}`}>
-                                    <Button variant="outlined" color="error" onClick={() => handleGetIDProject(item.productID)}>
+                                    <Button variant="outlined" onClick={() => handleGetIDProject(item.productID)}>
                                         DETAIL
                                     </Button>
-                                </Link>
-                                <ExpandMore
-                                    expand={expanded}
-                                    onClick={handleExpandClick}
-                                    aria-expanded={expanded}
-                                    aria-label="show more"
-                                >
-                                    <ExpandMoreIcon />
-                                </ExpandMore>
+                                </Link>         
                             </CardActions>
-                            <Collapse in={expanded} timeout="auto" unmountOnExit>
-                                <CardContent>
-                                    <Typography paragraph>
-                                        {item.productConvenience}
-                                    </Typography>
-                                </CardContent>
-                            </Collapse>
+                          
                         </Card>
                     );
                 })}
             </Grid >
             {/* <Pagination count={10} color="primary" sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', mt: '25px' }} /> */}
             <Pagination
-                count={10}
-                color="primary"
-                sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', mt: '25px' }}
-                onChange={handlePageChange}
-            />
+                    count={10}
+                    color="primary"
+                    sx={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        mt: '25px',
+                        '& .MuiPaginationItem-root': {
+                            color: '#CD9A2B', // Đặt màu của nút trang khi không được chọn
+                        },
+                        position: "sticky",
+                        top:"100%",
+                        bottom: "5px", 
+                        left: "0px",
+                        right: "0px",
+                        // marginBottom: "0px"
+
+                    }}
+                    onChange={handlePageChange}
+                />
+
 
 
 

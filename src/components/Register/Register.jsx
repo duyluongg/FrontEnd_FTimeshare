@@ -18,6 +18,7 @@ export default function Register() {
     const [snackbarMessage, setSnackbarMessage] = useState('');
     const [snackbarColor, setSnackbarColor] = useState('success');
     const [errors, setErrors] = useState({});
+    const [submitAttempted, setSubmitAttempted] = useState(false);
     const formatDate = (date) => {
         const d = new Date(date);
         const year = d.getFullYear();
@@ -26,9 +27,6 @@ export default function Register() {
         return `${year}-${month}-${day}`;
     };
 
-    const navigate = useNavigate();
-
-   
     const schema = Yup.object().shape({
         firstName: Yup.string().required('First Name is required'),
         email: Yup.string().email('Invalid email').required('Email is required'),
@@ -40,20 +38,7 @@ export default function Register() {
 
     const handleRegister = async (e) => {
         e.preventDefault();
-        // if (!firstName || !email || !phoneNumber || !password || !birthday || !avatar) {
-
-        //     setSnackbarMessage('Please fill in all required fields');
-        //     setSnackbarColor("error");
-        //     setSnackbarOpen(true);
-        //     return;
-        // }
-
-        // if (isNaN(phoneNumber)) {
-        //     setSnackbarMessage('Please enter a valid phone number');
-        //     setSnackbarColor("error");
-        //     setSnackbarOpen(true);
-        //     return;
-        // }
+        setSubmitAttempted(true); 
         try {
 
             await schema.validate({
@@ -88,17 +73,17 @@ export default function Register() {
 
 
         } catch (error) {
-           if (error instanceof Yup.ValidationError) {
+            if (error instanceof Yup.ValidationError) {
                 const yupErrors = {};
                 error.inner.forEach((e) => {
                     yupErrors[e.path] = e.message;
                 });
                 setErrors(yupErrors);
             } else {
-                console.error('Registration failed :(((', error.response.data); 
+                console.error('Registration failed :(((', error.response.data);
                 setSnackbarMessage('Registration failed :(((');
-                setSnackbarColor("error");   
-                setSnackbarOpen(true); 
+                setSnackbarColor("error");
+                setSnackbarOpen(true);
             }
         }
     }
@@ -160,7 +145,7 @@ export default function Register() {
                             value={firstName}
                             onChange={(e) => setFirstName(e.target.value)}
                         />
-                          {errors.firstName && <p>{errors.firstName}</p>}
+                        {errors.firstName && <p className="error-message">{errors.firstName}</p>}
                     </div>
 
                     <div className="input-container">
@@ -170,8 +155,8 @@ export default function Register() {
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
                         />
-                          {errors.email && <p>{errors.email}</p>}
-                        
+                      {errors.email && <p className="error-message">{errors.email}</p>}
+
                     </div>
                     <div className="input-container">
                         <input
@@ -180,7 +165,7 @@ export default function Register() {
                             value={phoneNumber}
                             onChange={(e) => setPhoneNumber(e.target.value)}
                         />
-                          {errors.phoneNumber && <p>{errors.phoneNumber}</p>}
+                          {errors.phoneNumber && <p className="error-message">{errors.phoneNumber}</p>}
                     </div>
                     <div className="input-container">
                         <input
@@ -189,8 +174,8 @@ export default function Register() {
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
                         />
-                          {errors.password && <p>{errors.password}</p>}
-                        
+                           {errors.password && <p className="error-message">{errors.password}</p>}
+
                     </div>
 
                     <div className="input-container">
@@ -201,8 +186,7 @@ export default function Register() {
                             value={birthday}
                             onChange={(e) => setBirthday(e.target.value)}
                         />
-                          {errors.birthday && <p>{errors.birthday}</p>}
-
+                       {submitAttempted && !birthday && <p className="error-message">Birthday is required</p>}
                     </div>
 
                     <button className="register-button" type="submit">REGISTER</button>

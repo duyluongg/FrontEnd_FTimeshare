@@ -209,3 +209,8 @@ form .register-button:hover {
     background-color: #c0392b;
     border-color: #c0392b;
 }
+
+.error-message {
+    color: red;
+
+}

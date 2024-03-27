@@ -44,7 +44,7 @@ export default function ModalPopUpReport({ onDelete, reportID,color }) {
       >
         <DialogContent>
           <DialogContentText id="alert-dialog-description" fullWidth>
-            Are you sure you want to delete this account?
+            Are you sure you want to delete this report?
           </DialogContentText>
         </DialogContent>
         <DialogActions>
