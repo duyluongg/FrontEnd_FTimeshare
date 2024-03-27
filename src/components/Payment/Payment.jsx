@@ -20,8 +20,6 @@ export default function Payment() {
     const [orderSummary, setOrderSummary] = useState('');
     const [totalPrice, setTotalPrice] = useState('');
     const [totalDay, setTotalDay] = useState('');
-    // const [servicePrice, setServicePrice] = useState('');
-    // const [finalTotalPrice, setFinalTotalPrice] = useState('');
     const [bankAccountQRCode, setBankAccountQRCode] = useState('');
     const [image, setImage] = useState('');
     const [imagePreview, setImagePreview] = useState(null);
@@ -225,7 +223,7 @@ export default function Payment() {
                                 <div className="kvWjhK">
                                     <div class="iSSCtq">
                                         <div class="k7UefF l0wK0t">
-                                            <h2 class="zgWBzz">Timeshare Owner</h2>
+                                            <h2 class="zgWBzz">Homestay Owner</h2>
                                         </div>
                                         <div class="k7UefF zQOVG9"></div>
                                         <div class="k7UefF">Price($/day)</div>
@@ -281,7 +279,7 @@ export default function Payment() {
                                         <div className="IN_fAG">
                                             <div className="UPSKhT wp5W5e">Payment Method</div>
                                             <div className="LhNuge">Online Payment</div>
-                                            <button className="BM_J3y div-style">Thay đổi</button>
+                                            {/* <button className="BM_J3y div-style">Thay đổi</button> */}
                                         </div>
                                     </div>
                                 )}

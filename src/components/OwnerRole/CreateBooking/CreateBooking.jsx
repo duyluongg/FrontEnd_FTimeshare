@@ -83,6 +83,7 @@ const Booking = () => {
             }
         } catch (error) {
             console.error('Error booking:', error);
+            console.log(error.response.data);
             if (error.response && error.response.data) {
                 setSnackbarMessage(error.response.data);
                 setSnackbarColor("error");
