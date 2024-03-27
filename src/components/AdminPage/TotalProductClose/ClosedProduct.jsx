@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { styled } from '@mui/material/styles';
+
 import { red } from '@mui/material/colors';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import axios from 'axios';
 import { Grid, Card, CardHeader, CardMedia, CardContent, CardActions, Collapse, Avatar, IconButton, Typography, Button, TextField, Pagination } from '@mui/material';
+
 import SearchIcon from '@mui/icons-material/Search';
-import { Link } from 'react-router-dom';
 import ModalProfile from '../ViewReport/ModalProfile';
 
 const ExpandMore = styled((props) => {
@@ -20,88 +21,74 @@ const ExpandMore = styled((props) => {
     }),
 }));
 
-export default function TotalViewPendingBooking() {
-    const [loading, setLoading] = useState(true);
-    const [projectActive, setProjectActive] = useState([]);
-    const [currentPage, setCurrentPage] = useState(1);
-    const [images, setImages] = useState([]);
-    const [profiles, setProfiles] = useState([]);
+export default function ClosedProduct() {
+    const [expanded, setExpanded] = React.useState(false);
+    const [projectActive, setProjectActive] = React.useState([])
     const [searchQuery, setSearchQuery] = useState('');
-    const [expanded, setExpanded] = useState(false);
-
+    const [profiles, setProfiles] = useState([]);
+    const [currentPage, setCurrentPage] = useState(1);
     const projectsPerPage = 6;
     const indexOfLastProject = currentPage * projectsPerPage;
     const indexOfFirstProject = indexOfLastProject - projectsPerPage;
     const currentProjects = projectActive.slice(indexOfFirstProject, indexOfLastProject);
-
-    const handleExpandClick = () => {
-        setExpanded(!expanded);
-    };
+    const [images, setImages] = useState([]);
 
     const handleSearchChange = (event) => {
         setSearchQuery(event.target.value);
     };
 
-    const handlePageChange = (event, value) => {
-        setCurrentPage(value);
-    };
-
-
-
     useEffect(() => {
-        fetchData();
-    }, [currentPage]);
-    const fetchData = async () => {
+        fetchProjectPending();
+    }, []);
+
+    // const fetchProjectPending = async () => {
+    //     try {
+    //         const response = await axios.get('http://localhost:8080/api/products/staff/rejected');
+    //         setProjectActive(response.data);
+    //         console.log(response);
+    //     } catch (error) {
+    //         console.error('Error fetching projects:', error);
+    //     }
+    // };
+
+    const fetchProjectPending = async () => {
         try {
-            const [pendingResponse, imagesResponse, profilesResponse] = await Promise.all([
-                axios.get('http://localhost:8080/api/bookings/staff/active'),
-                axios.get('http://localhost:8080/api/pictures/customerview'),
-                axios.get('http://localhost:8080/api/users/staffview')
-               
+            const [rejectResponse,  profilesResponse, imagesResponse] = await Promise.all([
+                axios.get('http://localhost:8080/api/products/staff/closed'),
+                axios.get('http://localhost:8080/api/users/staffview'),
+                axios.get('http://localhost:8080/api/pictures/customerview')
             ]);
 
-            setProjectActive(pendingResponse.data);
-            setImages(imagesResponse.data);
+            setProjectActive(rejectResponse.data);
+          
             setProfiles(profilesResponse.data);
+            setImages(imagesResponse.data);
 
-            setLoading(false);
         } catch (error) {
             console.error('Error fetching data:', error);
-            setLoading(false);
+            // setLoading(false);
         }
     };
 
-
-
-    // const handleAcceptCancel = async (bookingID) => {
-    //     try {
-    //         await axios.put(`http://localhost:8080/api/bookings/staff/cancel/${bookingID}`);
-    //         fetchData();
-    //     } catch (error) {
-    //         console.error('Error fetching projects:', error);
-    //     }
-    // };
-
-    // const handleAcceptActive = async (bookingID) => {
-    //     try {
-    //         await axios.put(`http://localhost:8080/api/bookings/staff/active/${bookingID}`);
-    //         fetchData();
-    //     } catch (error) {
-    //         console.error('Error fetching projects:', error);
-    //     }
-    // };
-
-    if (loading) {
-        return <div>Loading...</div>;
-    }
+    const handleExpandClick = () => {
+        setExpanded(!expanded);
+    };
 
     const formatDate = (dateArray) => {
         const [year, month, day] = dateArray;
         return `${day}/${month}/${year}`;
     };
 
+    const handlePageChange = (event, value) => {
+        setCurrentPage(value);
+    };
+
+   
+
+
     return (
         <>
+
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                 <TextField
                     sx={{ width: '500px', mb: '35px' }}
@@ -118,58 +105,67 @@ export default function TotalViewPendingBooking() {
 
             <Grid container spacing={1} sx={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '10px' }}>
                 {currentProjects.map((item) => {
+                    const userAccount = profiles.find(acc => acc.accID === item.accID);
                     const projectImage = images.find(image => image.productID === item.productID);
-                    const profileAccount = profiles.find(profile => profile.accID === item.accID);
-                    console.log(projectImage);
-
                     return (
-                        <Card key={item.bookingID} sx={{ maxWidth: 345, mb: '20px', boxShadow: 3, ml:"120px" }}>
+                        <Card key={item.newsID} sx={{ maxWidth: 345, mb: '20px', boxShadow: 3, ml: "120px" }}>
                             <CardHeader
                                 avatar={
                                     <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
-                                       <ModalProfile accID={profileAccount} />
+                                        <ModalProfile accID={userAccount} />
                                     </Avatar>
                                 }
+                            
+                                title={userAccount.accName}
                              
-                                title={profileAccount ? profileAccount.accName : ""}
-                                subheader={formatDate(item.createDate)}
                             />
-
                             <CardMedia
                                 component="img"
-                                height="350"
-                                image={item.imgName}
-                                // image={item.imgName}
-
+                                height="194"
+                                image={projectImage ? projectImage.imgName : ""}
                                 alt="Project image"
-                                // sx={{ width: "350px", height: "350px", objectFit: "cover", maxWidth: "100%" }}
-                                sx={{ objectFit: "contain" , maxHeight:"350px"}}
+                                sx={{ width: "350px", height: "300px", objectFit: "cover", maxWidth: "100%" }}
+
                             />
                             <CardContent>
-                                <Typography variant="body2" color="text.secondary">
-                                    Price: {item.bookingPrice}
+                                {/* <Typography sx={{ fontSize: "20px", fontWeight: "bold" }}> */}
+                                <Typography variant="body1" sx={{ fontSize: "20px", fontWeight: "bold", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
+                                    {item.productName}
                                 </Typography>
-                                <Typography variant="body2" color="text.secondary">
-                                    Person: {item.bookingPerson}
+                                <Typography variant="body1" color="text.secondary">
+                                    Available Start Date: {formatDate(item.availableStartDate)}<br />
+                                    Available End Date: {formatDate(item.availableEndDate)}<br />
                                 </Typography>
-                                <Typography variant="body2" color="text.secondary">
-                                    Status: {item.bookingStatus}
+                                <Typography variant="body1" color="text.secondary" sx={{ overflow: 'hidden', textOverflow: 'ellipsis', display: '-webkit-box', WebkitLineClamp: '2', WebkitBoxOrient: "vertical" }}>
+                                    Description: {item.productDescription}<br />
+
+                                </Typography>
+                                <Typography variant="body1" color="text.secondary">
+                                    Address: {item.productAddress}
+                                </Typography>
+                                <Typography variant="body1" color="text.secondary" sx={{ overflow: 'hidden', textOverflow: 'ellipsis', display: '-webkit-box', WebkitLineClamp: '2', WebkitBoxOrient: "vertical" }}>
+                                    Convenience: {item.productConvenience}
+                                </Typography>
+                                <Typography variant="body1" color="text.secondary">
+                                    Price: {item.productPrice}
+                                </Typography>
+                                <Typography variant="body1" color="text.secondary">
+                                    Person: {item.productPerson}
                                 </Typography>
                             </CardContent>
                             <CardActions disableSpacing>
-                                {/* <Button variant="outlined" color="success" onClick={() => handleAcceptActive(item.bookingID)}>
-                                    ACCEPT
+                                <Button variant="outlined" color="error" sx={{ cursor: "default" }}>
+                                    {item.productStatus}
                                 </Button>
-                                <Button variant="outlined" color="error" onClick={() => handleAcceptCancel(item.bookingID)}>
-                                    CANCEL
-                                </Button> */}
-                       
+
                             </CardActions>
-                         
+
                         </Card>
-                    );
+                    )
                 })}
-            </Grid>
+
+
+            </Grid >
             <Pagination
                     count={10}
                     color="primary"
@@ -179,7 +175,7 @@ export default function TotalViewPendingBooking() {
                         justifyContent: 'center',
                         mt: '25px',
                         '& .MuiPaginationItem-root': {
-                            color: '#CD9A2B', // Đặt màu của nút trang khi không được chọn
+                            color: '#CD9A2B', 
                         },
                         position: "sticky",
                         top:"100%",
@@ -192,5 +188,6 @@ export default function TotalViewPendingBooking() {
                     onChange={handlePageChange}
                 />
         </>
+
     );
 }

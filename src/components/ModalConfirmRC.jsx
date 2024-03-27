@@ -6,7 +6,7 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 
-export default function ModalConfirm({ openModalConfirm }) {
+export default function ModalConfirmRC({ openModalConfirm }) {
     const [open, setOpen] = React.useState(false);
 
     const handleClickOpen = () => {
@@ -19,13 +19,15 @@ export default function ModalConfirm({ openModalConfirm }) {
     };
 
     const handleCloseProduct = () => {
-        openModalConfirm();
+        handleClose(); 
+        openModalConfirm(); 
     };
+    
 
     return (
         <React.Fragment>
-            <Button variant="outlined" onClick={handleClickOpen} color='error'>
-                CLOSE
+            <Button variant="outlined" onClick={handleClickOpen} color='success' sx={{ width: 310 }}>
+                ACCEPT
             </Button>
             <Dialog
                 open={open}
@@ -36,7 +38,7 @@ export default function ModalConfirm({ openModalConfirm }) {
 
                 <DialogContent>
                     <DialogContentText id="alert-dialog-description">
-                        Are you sure you want to close this product ?
+                        Are you sure you want to accept respond ?
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions>

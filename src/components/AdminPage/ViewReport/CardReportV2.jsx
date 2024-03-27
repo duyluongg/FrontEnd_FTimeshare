@@ -30,6 +30,9 @@ import SearchIcon from '@mui/icons-material/Search';
 import ModalNotify from './ModalNotify';
 import ModalConfirm from '../../ModalConfirm';
 import { Pagination } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
+
+
 const ExpandMore = styled((props) => {
     const { expand, ...other } = props;
     return <IconButton {...other} />;
@@ -120,6 +123,7 @@ export default function CardReportV2() {
         }
     };
 
+    const navigate = useNavigate();
     const handleCloseProduct = async (productID) => {
         console.log(productID);
         try {
@@ -127,10 +131,20 @@ export default function CardReportV2() {
             setIsProjectClosed(true);
             setShowModalConfirm(true);
             setShowModalNotify(true);
+            // navigate("/staff/total-product")
         } catch (error) {
             console.error('Error deleting report:', error);
         }
     };
+
+    useEffect(() => {
+        if (isProjectClosed) {
+            setShowModalNotify(true);
+            setTimeout(() => navigate('/staff/total-product'), 2000);
+        }
+    }, [isProjectClosed]);
+
+  
 
 
     const formatDate = (dateArray) => {
@@ -193,29 +207,9 @@ export default function CardReportV2() {
                                     <CardActions disableSpacing>
                                         {/* <Button variant="outlined" color="error" onClick={() => handleCloseProduct(projectDetail[0].productID)}> */}
                                         <ModalConfirm openModalConfirm={() => handleCloseProduct(projectDetail[0].productID)} />
-                                        {/* </Button> */}
-
-
+                                        
                                     </CardActions>
-                                    {/* <Collapse in={expanded} timeout="auto" unmountOnExit>
-                                    <CardContent>
-                                        <Typography paragraph>
-                                            Project Name: {reportDetails[projectReport[0].reportID] && reportDetails[projectReport[0].reportID].productID.projectID.projectName}
-                                        </Typography>
-                                        <Typography paragraph>
-                                            Desecription:  {reportDetails[projectReport[0].reportID] && reportDetails[projectReport[0].reportID].productID.projectID.projectDescription}
-                                        </Typography>
-                                        <Typography paragraph>
-                                            Build Date:  {reportDetails[projectReport[0].reportID] && reportDetails[projectReport[0].reportID].productID.projectID.projectBuildDate}
-                                        </Typography>
-                                        <Typography paragraph>
-                                            Project Area: {reportDetails[projectReport[0].reportID] && reportDetails[projectReport[0].reportID].productID.projectID.projectArea}
-                                        </Typography>
-                                        <Typography paragraph>
-                                            Contractor Name: {reportDetails[projectReport[0].reportID] && reportDetails[projectReport[0].reportID].productID.projectID.contractorID.contractorName}
-                                        </Typography>
-                                    </CardContent>
-                                </Collapse> */}
+
                                 </Card>
                             )}
                         </div>
@@ -240,7 +234,7 @@ export default function CardReportV2() {
                             {currentProjects.map((item) => {
                                 const reportAcc = profiles.find(profile => profile.accID === item.accID);
                                 return (
-                                    <Card key={item.reportID} sx={{ maxWidth: 345, margin: "20px", boxShadow: 3}}>
+                                    <Card key={item.reportID} sx={{ maxWidth: 345, margin: "20px", boxShadow: 3 }}>
                                         <CardHeader
                                             avatar={
                                                 <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
@@ -276,26 +270,26 @@ export default function CardReportV2() {
 
                         </Grid>
                         <Pagination
-                    count={10}
-                    color="primary"
-                    sx={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        mt: '25px',
-                        '& .MuiPaginationItem-root': {
-                            color: '#CD9A2B', // Đặt màu của nút trang khi không được chọn
-                        },
-                        position: "sticky",
-                        top:"100%",
-                        bottom: "5px", 
-                        left: "0px",
-                        right: "0px",
-                        // marginBottom: "0px"
+                            count={10}
+                            color="primary"
+                            sx={{
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                mt: '25px',
+                                '& .MuiPaginationItem-root': {
+                                    color: '#CD9A2B',
+                                },
+                                position: "sticky",
+                                top: "100%",
+                                bottom: "5px",
+                                left: "0px",
+                                right: "0px",
+                                // marginBottom: "0px"
 
-                    }}
-                    onChange={handlePageChange}
-                />
+                            }}
+                            onChange={handlePageChange}
+                        />
 
                     </div>
                 </div>

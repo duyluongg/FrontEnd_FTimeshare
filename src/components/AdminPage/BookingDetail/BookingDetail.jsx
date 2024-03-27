@@ -19,6 +19,10 @@ import { Grid } from '@mui/material';
 import { Button } from '@mui/material';
 import axios from 'axios';
 import ModalProfile from '../ViewReport/ModalProfile';
+import { useNavigate } from 'react-router-dom';
+import ModalAccept from '../../ModalAccept';
+import ModalSuccess from '../../ModalSuccess';
+import ModalReject from '../../ModalReject';
 const ExpandMore = styled((props) => {
     const { expand, ...other } = props;
     return <IconButton {...other} />;
@@ -45,8 +49,11 @@ export default function BookingDetail() {
     const [userAccountProduct, setUserAccountProduct] = useState([]);
     const [customerAccountBook, setCustomerAccountBook] = useState([]);
     const [showSecondDiv, setShowSecondDiv] = useState(true);
-
-
+    const [showModalNotify, setShowModalNotify] = useState(false);
+    const navigate = useNavigate()
+    const toggleModal = () => {
+        setShowModalNotify(!showModalNotify);
+    };
     console.log(bookingID);
     useEffect(() => {
         fetchData();
@@ -82,6 +89,8 @@ export default function BookingDetail() {
         try {
             await axios.put(`http://localhost:8080/api/bookings/confirm_booking/${bookingID}`);
             setShowSecondDiv(false);
+            setShowModalNotify(true)
+            setTimeout(() => navigate("/staff/wait-to-confirm-list"), 2000)
         
         } catch (error) {
             console.error('Error fetching projects:', error);
@@ -91,7 +100,10 @@ export default function BookingDetail() {
     const handleAcceptReject = async (bookingID) => {
         try {
             await axios.put(`http://localhost:8080/api/bookings/staff/Rejected/${bookingID}`);
-            setShowSecondDiv(false);
+            // setShowSecondDiv(false);
+            setShowModalNotify(true)
+            setTimeout(() => navigate("/staff/wait-to-confirm-list"), 2000)
+
         } catch (error) {
             console.error('Error fetching projects:', error);
         }
@@ -155,7 +167,7 @@ export default function BookingDetail() {
                 </div>
                 <div>
 
-                    {showSecondDiv && (
+                    {/* {showSecondDiv && ( */}
                         <div>
                             <div style={{ marginLeft: "25px", fontWeight: "bold", fontSize: "18px" }}>INFORMATION OF THE CUSTOMER</div>
                             <Card sx={{ width: 350, height: 576, boxShadow: 3 }}>
@@ -185,23 +197,27 @@ export default function BookingDetail() {
                                     </Typography>
                                 </CardContent>
                                 <CardActions disableSpacing sx={{ mt: 4 }}>
-                                    <Button variant="outlined" color="success" onClick={() => handleAcceptActive(customerAccountBook[0].bookingID)}>
+                                    {/* <Button variant="outlined" color="success" onClick={() => handleAcceptActive(customerAccountBook[0].bookingID)}>
                                         ACCEPT
-                                    </Button>
-                                    <Button variant="outlined" color="error" onClick={() => handleAcceptReject(customerAccountBook[0].bookingID)}>
+                                    </Button> */}
+                                    <ModalAccept openModalConfirm={() => handleAcceptActive(customerAccountBook[0].bookingID)}/>
+                                    {/* <Button variant="outlined" color="error" onClick={() => handleAcceptReject(customerAccountBook[0].bookingID)}>
                                         REJECT
-                                    </Button>
+                                    </Button> */}
+                                    <ModalReject openModalConfirm={() => handleAcceptActive(customerAccountBook[0].bookingID)}/>
+
 
                                 </CardActions>
 
                             </Card>
                         </div>
 
-                    )}
+                    {/* )} */}
                 </div>
 
             </div>
 
+            <ModalSuccess openModal={showModalNotify} onClose={toggleModal} />
 
         </>
 
