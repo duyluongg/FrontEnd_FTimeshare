@@ -19,10 +19,6 @@ export default function Project() {
 
   const [productListByUserId, setProductListByUserId] = useState([]);
 
-  // useEffect(() => {
-  //     window.scrollTo(0, 0);
-  // }, []);
-
   var settings = {
     dots: true,
     infinite: false,
@@ -63,18 +59,6 @@ export default function Project() {
     return `${day}/${month}/${year}`;
   };
 
-  // useEffect(() => {
-  //   const fetchProductByUserId = async () => {
-  //     try {
-  //       const response = await axios.get(`http://localhost:8080/api/products/${user.id}`);
-  //       setProductListByUserId(response.data);
-  //     } catch (error) {
-  //       console.error('Error fetching products by user-id:', error);
-  //     }
-  //   };
-  //   fetchProductByUserId();
-  // }, [user.id]);
-
   useEffect(() => {
     const fetchProductByUserId = async () => {
       try {
@@ -96,18 +80,6 @@ export default function Project() {
     fetchProductByUserId();
   }, [user.id]);
 
-  // useEffect(() => {
-  //   const fetchProjects = async () => {
-  //     try {
-  //       const response = await axios.get('http://localhost:8080/api/products/staff/active');
-  //       setProject(response.data);
-  //     } catch (error) {
-  //       console.error('Error fetching projects:', error);
-  //     }
-  //   };
-  //   fetchProjects();
-  // }, []);
-
   useEffect(() => {
     const fetchProjects = async () => {
       try {
@@ -121,7 +93,11 @@ export default function Project() {
           return { ...project, rating };
         }));
 
-        setProject(updatedProjects);
+        updatedProjects.sort((a, b) => b.rating - a.rating);
+
+        const top8Projects = updatedProjects.slice(0, 8);
+
+        setProject(top8Projects);
       } catch (error) {
         console.error('Error fetching projects:', error);
       }

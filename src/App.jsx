@@ -96,12 +96,30 @@ import AllNew from './components/AdminPage/New/AllNew.jsx'
 function App() {
 
   const { user, loginContext } = useContext(UserContext);
+  // const [accountUser, setAccountUser] = useState();
+
   // console.log(user.id);
   useEffect(() => {
     if (localStorage.getItem("token")) {
       loginContext(localStorage.getItem("id"), localStorage.getItem("role"), localStorage.getItem("token"));
     }
-  }, [])
+  }, []);
+
+  // useEffect(() => {
+  //   const fetchDataUser = async () => {
+  //     try {
+  //       const [accountResponse, imagesResponse] = await Promise.all([
+  //         axios.get(`http://localhost:8080/api/users/viewDetail/${user.id}`),
+  //       ]);
+  //       const formattedBirthday = format(new Date(accountResponse.data.accBirthday), 'dd/MM/yyyy');
+  //       const formattedData = { ...accountResponse.data, accBirthday: formattedBirthday };
+  //       setAccountUser(formattedData);
+  //     } catch (error) {
+  //       console.error('Error fetching data:', error);
+  //     }
+  //   };
+  //   fetchDataUser();
+  // }, [user.id]);
 
   const location = useLocation();
   const isDetailPage = location.pathname.includes('/detail');
@@ -126,14 +144,15 @@ function App() {
   const isCreateBooking = location.pathname.includes('/create-booking');
   const isBookingStage = location.pathname.includes('/booking-stage');
   const isProfile = location.pathname.includes('/profile');
-  const isUpdateProfile = location.pathname.includes('/update-profile/:accID');
+  const isUpdateProfile = location.pathname.includes('/update-profile');
   const isUpdateProfileStaff = location.pathname.includes('/update-profile-staff/:accID');
   const isAccommodationDetail = location.pathname.includes('accommodation-detail');
 
 
   const isPayment = location.pathname.includes('/payment');
   const isUpdateProduct = location.pathname.includes('/update-product');
-  const isSidebar = location.pathname.includes('/profile') || location.pathname.includes('/view-booking-history');
+  const isSidebar = location.pathname.includes('/profile') || location.pathname.includes('/view-booking-history')
+    || location.pathname.includes('/update-profile');
 
   const navigate = useNavigate();
 
@@ -149,13 +168,15 @@ function App() {
 
         {!isDetailPage && !isLoginPage && !isRegisterPage && !isContactPage && !isStaffPage && !isAdminPage && !isUpdateProfileStaff
           && !isCreateTimeshare && !isViewSummary && !isViewDetail && !isViewNews && !isViewNewAll && !isCreateNews && !isAccommodation
-          && !isBooking && !isCreateBooking && !isBookingStage && !isProfile && !isPayment && !isUpdateProduct && !isSidebar && !isAccommodationDetail && <Header />}
+          && !isBooking && !isCreateBooking && !isBookingStage && !isProfile && !isPayment && !isUpdateProduct && !isSidebar
+          && !isAccommodationDetail && !isUpdateProfile && <Header />}
 
         {isSidebar && (
           <Sidebar>
             <Routes>
               <Route path='/profile' element={<Profile getData={user.id} />}></Route>
               <Route path='/view-booking-history' element={<Booking />}></Route>
+              <Route path='/update-profile' element={<UpdateProfile getData={user.id} />}></Route>
             </Routes>
           </Sidebar>
         )}
@@ -181,7 +202,8 @@ function App() {
           <Route path='/payment' element={<Payment />}></Route>
           <Route path='/create-payment' element={<CreatePayment />}></Route>
           <Route path='/update-product' element={<UpdateProduct />}></Route>
-          <Route path='/update-profile/:accID' element={<UpdateProfile />}></Route>
+          {/* <Route path='/update-profile' element={<UpdateProfile getData={user.id} />}></Route> */}
+          {/* <Route path='/update-profile/:accID' element={<UpdateProfile />}></Route> */}
           <Route path='/accommodation-detail/:projectID' element={<AccommodationDetail />}></Route>
 
           {/* <Route path='/admin/total-users/*' element={<TotalUser />}></Route> */}

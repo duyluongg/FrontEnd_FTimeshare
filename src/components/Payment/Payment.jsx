@@ -40,6 +40,7 @@ export default function Payment() {
     const [showCreatePayment, setShowCreatePayment] = useState(false);
     const [showPaymentMethod, setShowPaymentMethod] = useState(false);
     const [showPaymentConfirmation, setShowPaymentConfirmation] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
 
     const { startDate, endDate, bookingPerson, productID, name, phone } = location.state;
 
@@ -145,6 +146,8 @@ export default function Payment() {
         const formattedStartDate = startDateObj.toISOString().split('T')[0] + 'T08:00:00';
         const formattedEndDate = endDateObj.toISOString().split('T')[0] + 'T08:00:00';
 
+        setIsLoading(true);
+
         try {
             const formData = new FormData();
             formData.append('bill', image);
@@ -162,13 +165,14 @@ export default function Payment() {
             setSnackbarMessage('Booking successfully !!!')
             setSnackbarColor("success");
             setSnackbarOpen(true);
-            setTimeout(() => navigate('/view-booking-history'), 300);
+            setTimeout(() => navigate('/view-booking-history'), 1000);
 
         } catch (error) {
             console.error('Error creating booking:', error.response.data);
             setSnackbarMessage('Booking failed !!!');
             setSnackbarColor("error");
             setSnackbarOpen(true);
+            setIsLoading(false);
         }
     };
 
@@ -332,12 +336,13 @@ export default function Payment() {
                                             <a href="https://help.shopee.vn/portal/article/77242" target="_blank" rel="noopener noreferrer" previewlistener="true" className="payment-term"> P-Timeshare's Terms</a>
                                         </div>
                                     </div>
-                                    {/* {showCreatePayment ? (
-                                    <CreatePayment getID={user.id} hideCreatePayment={() => setShowCreatePayment(false)} />
-                                ) : (
-                                    <button class="stardust-button stardust-button--CD9A2B stardust-button--large LtH6tW" onClick={handleSubmit}>Booking</button>
-                                )} */}
-                                    <button class="stardust-button stardust-button--CD9A2B stardust-button--large LtH6tW" onClick={handleSubmit}>Booking</button>
+                                    <button
+                                        className={`stardust-button stardust-button--CD9A2B stardust-button--large LtH6tW ${isLoading ? 'disabled' : ''}`}
+                                        onClick={handleSubmit}
+                                        disabled={isLoading}
+                                    >
+                                        {isLoading ? 'Booking...' : 'Booking'}
+                                    </button>
                                 </div>
                                 <SnackBar open={snackbarOpen} message={snackbarMessage} onClose={handleSnackbarClose} color={snackbarColor} />
                             </div>

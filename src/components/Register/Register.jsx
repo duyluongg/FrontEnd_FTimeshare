@@ -5,7 +5,9 @@ import { faFacebookF, faGooglePlusG } from '@fortawesome/free-brands-svg-icons';
 import axios from 'axios';
 import SnackBar from "../SnackBar.jsx";
 import { useNavigate } from "react-router";
+import { Link } from "react-router-dom";
 import * as Yup from 'yup';
+
 export default function Register() {
     const [firstName, setFirstName] = useState('');
     const [email, setEmail] = useState('');
@@ -40,7 +42,6 @@ export default function Register() {
         e.preventDefault();
         setSubmitAttempted(true); 
         try {
-
             await schema.validate({
                 firstName,
                 email,
@@ -49,28 +50,9 @@ export default function Register() {
                 birthday,
                 avatar
             }, { abortEarly: false });
-            const formattedBirthday = formatDate(birthday);
-            const formData = new FormData();
-            formData.append('Avatar', avatar);
-            formData.append('accName', firstName);
-            formData.append('accEmail', email);
-            formData.append('accPhone', phoneNumber);
-            formData.append('accPassword', password);
-            formData.append('accStatus', 'active');
-            formData.append('roleID', '3');
-            formData.append('accBirthday', formattedBirthday);
 
-            const response = await axios.post('http://localhost:8080/api/users', formData, {
-                headers: {
-                    'Content-Type': 'multipart/form-data'
-                }
-            });
-
-            console.log(response.data);
-            setSnackbarMessage('Registration successfully !!!')
-            setSnackbarColor("success");
-            setSnackbarOpen(true);
-
+            setErrors({});
+            hasError = false;
 
         } catch (error) {
             if (error instanceof Yup.ValidationError) {
@@ -119,7 +101,8 @@ export default function Register() {
                     </div>
                     <div className="login-here">
                         <span>
-                            Already have an account? <a href="/login">Login here</a>
+                            Already have an account?
+                            <Link to="/login">&nbsp;Login here</Link>
                         </span>
                     </div>
 
@@ -144,6 +127,7 @@ export default function Register() {
                             placeholder="First Name"
                             value={firstName}
                             onChange={(e) => setFirstName(e.target.value)}
+                            style={{ borderColor: errors.firstName ? 'red' : null }}
                         />
                         {errors.firstName && <p className="error-message">{errors.firstName}</p>}
                     </div>
@@ -154,6 +138,7 @@ export default function Register() {
                             placeholder="Email"
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
+                            style={{ borderColor: errors.email ? 'red' : null }}
                         />
                       {errors.email && <p className="error-message">{errors.email}</p>}
 
@@ -164,6 +149,7 @@ export default function Register() {
                             placeholder="Phone Number"
                             value={phoneNumber}
                             onChange={(e) => setPhoneNumber(e.target.value)}
+                            style={{ borderColor: errors.phoneNumber ? 'red' : null }}
                         />
                           {errors.phoneNumber && <p className="error-message">{errors.phoneNumber}</p>}
                     </div>
@@ -173,6 +159,7 @@ export default function Register() {
                             placeholder="Password"
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
+                            style={{ borderColor: errors.password ? 'red' : null }}
                         />
                            {errors.password && <p className="error-message">{errors.password}</p>}
 
@@ -185,6 +172,7 @@ export default function Register() {
                             id="birthday"
                             value={birthday}
                             onChange={(e) => setBirthday(e.target.value)}
+                            style={{ borderColor: errors.birthday ? 'red' : null }}
                         />
                        {submitAttempted && !birthday && <p className="error-message">Birthday is required</p>}
                     </div>
@@ -192,7 +180,7 @@ export default function Register() {
                     <button className="register-button" type="submit">REGISTER</button>
                 </form>
                 <SnackBar open={snackbarOpen} message={snackbarMessage} onClose={handleSnackbarClose} color={snackbarColor} />
-                <div className="line-container">
+                {/* <div className="line-container">
                     <div className="line"></div>
                     <div className="or">Or login with</div>
                     <div className="line"></div>
@@ -206,7 +194,7 @@ export default function Register() {
                         <span className="google-icon"><FontAwesomeIcon icon={faGooglePlusG} className="icon" /></span>
                         <span>Google</span>
                     </button>
-                </div>
+                </div> */}
             </div>
         </div>
     );

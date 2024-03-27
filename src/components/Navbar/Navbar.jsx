@@ -192,37 +192,28 @@ export default function Navbar({ getData }) {
                     <Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                       <Menu.Item>
                         {({ active }) => (
-                          <Link to='/profile'>
-                            <a
-                              href="#"
-                              className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
-                            >
-                              Your Profile
-                            </a>
+                          <Link to='/profile' className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}>
+                            My Profile
                           </Link>
-
                         )}
                       </Menu.Item>
 
                       <Menu.Item>
                         {({ active }) => (
                           <Link to={'/view-booking-history'} className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}>
-                            Booking
+                            My Booking
                           </Link>
-
                         )}
                       </Menu.Item>
 
-                      <Menu.Item>
+                      {/* <Menu.Item>
                         {({ active }) => (
-                          <a
-                            href="#"
-                            className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
-                          >
-                            Settings
-                          </a>
+                          <Link to={'/view-summary'} className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}>
+                            My Post
+                          </Link>
                         )}
-                      </Menu.Item>
+                      </Menu.Item> */}
+
                       <Menu.Item>
                         {user && user.auth === true ? (
                           ({ active }) => (

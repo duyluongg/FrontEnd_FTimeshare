@@ -1,31 +1,34 @@
-.footer{
+.footer {
     background-color: #CD9A2B;
     padding: 20px;
 }
-.footer-item{
+
+.footer-item {
     display: flex;
 }
-.footer-item-contact{
+
+.footer-item-contact {
     margin: 0 auto;
     max-width: 210px;
     font-weight: bold;
     color: white;
     font-size: 17px;
 }
-.footer-item-contact h3{
-  
-   padding: 5px 0;
-   
+
+.footer-item-contact h3 {
+
+    padding: 5px 0;
+
 }
 
 .footer-item-contact .icon-mxh {
     display: flex;
 }
 
-.footer-item-contact .icon-mxh > *:not(:last-child) {
-    margin-right: 20px; 
+.footer-item-contact .icon-mxh>*:not(:last-child) {
+    margin-right: 20px;
 }
 
-.footer-item-contact-title{
+.footer-item-contact-title {
     text-align: center;
 }
