@@ -45,6 +45,13 @@ form {
     padding: 10px;
 }
 
+.input-container select {
+    width: 100%;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 10px;
+}
+
 form .login-button {
     width: 100%;
     background-color: #CD9A2B;

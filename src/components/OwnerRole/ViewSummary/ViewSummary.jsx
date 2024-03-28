@@ -106,16 +106,6 @@ export default function ViewSummary() {
                                         <FontAwesomeIcon icon={faPen} />
                                         &nbsp;Update
                                     </Link>
-                                    {/* {product.productType === 'pending' ? (
-                                    <Link to={'/update-product'}>
-                                        <FontAwesomeIcon icon={faPen} />
-                                        &nbsp;Update
-                                    </Link>
-                                ) : (
-                                    <div className="disabled-button">
-                                        <span>This timeshare is active and cannot be updated.</span>
-                                    </div>
-                                )} */}
                                     <Link to={'/view-summary'}>
                                         <FontAwesomeIcon icon={faTrash} />
                                         &nbsp;Delete
