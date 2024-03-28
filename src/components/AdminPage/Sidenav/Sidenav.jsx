@@ -42,6 +42,7 @@ import AllNew from '../New/AllNew.jsx';
 import Profile from '../../Profile/Profile.jsx';
 import ProfileStaff from '../ProfileStaff/ProfileStaff.jsx';
 import AccountBoxIcon from '@mui/icons-material/AccountBox';
+import HomeIcon from '@mui/icons-material/Home';
 const drawerWidth = 240;
 
 const openedMixin = (theme) => ({
@@ -142,7 +143,7 @@ export default function Sidenav() {
                         sx={{
                             marginRight: 5,
                             ...(open && { display: 'none' }),
-                            
+
                         }}
                     >
                         <MenuIcon />
@@ -203,9 +204,35 @@ export default function Sidenav() {
                             </ListItemIcon>
                             <ListItemText primary="Profile" sx={{ opacity: open ? 1 : 0 }} />
                         </ListItemButton>
+
+
+                    </ListItem>
+
+                    <ListItem disablePadding sx={{ display: 'block' }} component={Link} to="/staff">
+                        <ListItemButton
+                            sx={{
+                                minHeight: 48,
+                                justifyContent: open ? 'initial' : 'center',
+                                px: 2.5,
+                            }}
+                        >
+                            <ListItemIcon
+                                sx={{
+                                    minWidth: 0,
+                                    mr: open ? 3 : 'auto',
+                                    justifyContent: 'center',
+                                }}
+                            >
+                                <HomeIcon />
+                            </ListItemIcon>
+                            <ListItemText primary="Home" sx={{ opacity: open ? 1 : 0 }} />
+                        </ListItemButton>
+
+
                     </ListItem>
 
                 </List>
+
 
                 <Divider />
                 <List>
