@@ -125,7 +125,7 @@ export default function ViewBookingConfirm() {
                     // console.log(projectImage);
 
                     return (
-                        <Card key={item.bookingID} sx={{ maxWidth: 345, height: 530, mb: '20px', boxShadow: 3, ml: "120px" }}>
+                        <Card key={item.bookingID} sx={{ maxWidth: 345, height: 620, mb: '20px', boxShadow: 3, ml: "120px" }}>
 
                             <CardHeader
                                 avatar={

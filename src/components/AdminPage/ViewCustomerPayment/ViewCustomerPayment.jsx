@@ -114,7 +114,7 @@ export default function ViewCustomerPayment() {
                     console.log(projectImage);
 
                     return (
-                        <Card key={item.bookingID} sx={{ maxWidth: 345, height: 530, mb: '20px', boxShadow: 3, ml: "120px" }}>
+                        <Card key={item.bookingID} sx={{ maxWidth: 345, height: 620,mb: '20px', boxShadow: 3, ml: "120px" }}>
                             <CardHeader
                                 avatar={
                                     <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
@@ -169,22 +169,9 @@ export default function ViewCustomerPayment() {
                             
                                 </Link>
                               
-                                <ExpandMore
-                                    expand={expanded}
-                                    onClick={handleExpandClick}
-                                    aria-expanded={expanded}
-                                    aria-label="show more"
-                                >
-                                    <ExpandMoreIcon />
-                                </ExpandMore>
+                             
                             </CardActions>
-                            <Collapse in={expanded} timeout="auto" unmountOnExit>
-                                <CardContent>
-                                    <Typography paragraph>
-                                        {/* {item.productConvenience} */}
-                                    </Typography>
-                                </CardContent>
-                            </Collapse>
+                           
                         </Card>
                     );
                 })}

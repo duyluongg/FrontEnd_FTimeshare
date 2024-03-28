@@ -229,8 +229,8 @@ export default function RespondPayment80() {
                             <CardMedia
                                 component="img"
                                 height="194"
-                                image={customerAccountPayment[0] ? customerAccountPayment[0].imgName : ""}
-                                alt={customerAccountPayment[0] ? customerAccountPayment[0].imgName : ""}
+                                image={customerAccountBook[0] ? customerAccountBook[0].imgName : ""}
+                                alt={customerAccountBook[0] ? customerAccountBook[0].imgName : ""}
                                 sx={{ objectFit: "contain", maxHeight: "350px" }}
                             />
                             <CardContent>
@@ -279,9 +279,8 @@ export default function RespondPayment80() {
                             />
 
                             <CardContent>
-
                                 <Typography variant="body2" color="text.secondary">
-                                    Cash refund amount: {customerAccountPayment[0] ? customerAccountPayment[0].bookingPrice : ""}
+                                    Cash refund amount: {customerAccountBook[0] ? customerAccountBook[0].bookingPrice : ""}
                                 </Typography>
 
                                 <Typography variant="body2" color="text.secondary">
@@ -295,7 +294,6 @@ export default function RespondPayment80() {
                                 <Typography variant="body2" color="text.secondary">
                                     Account Number: {userAccountPayment[0] ? userAccountPayment[0].accountNumber : ""}
                                 </Typography>
-
                             </CardContent>
 
                         </Card>
