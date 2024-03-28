@@ -74,7 +74,7 @@ export default function Login() {
                         setSnackbarMessage('Login successfully !!!')
                         setSnackbarColor("success");
                         setSnackbarOpen(true);
-                        setTimeout(() => navigate('/admin'), 1000);
+                        setTimeout(() => navigate('/staff'), 1000);
                     } else {
                         setSnackbarMessage('Login successfully !!!')
                         setSnackbarColor("success");

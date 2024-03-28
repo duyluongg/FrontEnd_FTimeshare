@@ -1,6 +1,4 @@
 import { useEffect, useState } from 'react'
-import axios from 'axios';
-import { format } from 'date-fns';
 import './App.css'
 import './components/Navigation/Navigation.css'
 import Navigation from './components/Navigation/Navigation.jsx'
@@ -102,7 +100,7 @@ import ClosedProduct from './components/AdminPage/TotalProductClose/ClosedProduc
 function App() {
 
   const { user, loginContext } = useContext(UserContext);
-  // const [account, setAccount] = useState();
+  // const [accountUser, setAccountUser] = useState();
 
   // console.log(user.id);
   useEffect(() => {
@@ -119,8 +117,7 @@ function App() {
   //       ]);
   //       const formattedBirthday = format(new Date(accountResponse.data.accBirthday), 'dd/MM/yyyy');
   //       const formattedData = { ...accountResponse.data, accBirthday: formattedBirthday };
-  //       setAccount(formattedData);
-  //       console.log(accountResponse.data);
+  //       setAccountUser(formattedData);
   //     } catch (error) {
   //       console.error('Error fetching data:', error);
   //     }
@@ -187,15 +184,8 @@ function App() {
               <Route path='/update-profile' element={<UpdateProfile getData={user.id} />}></Route>
             </Routes>
           </Sidebar>
+        
         )}
-
-        {/* <Sidebar>
-          <Routes>
-            <Route path='/profile' element={<Profile getData={user.id} />} />
-            <Route path='/view-booking-history' element={<Booking />} />
-            <Route path='/update-profile' element={<UpdateProfile getData={user.id} />} />
-          </Routes>
-        </Sidebar> */}
 
         <Routes>
           <Route path='/' element={<Project />}></Route>
@@ -218,8 +208,6 @@ function App() {
           <Route path='/payment' element={<Payment />}></Route>
           <Route path='/create-payment' element={<CreatePayment />}></Route>
           <Route path='/update-product' element={<UpdateProduct />}></Route>
-          {/* <Route path='/update-profile' element={<UpdateProfile getData={user.id} />}></Route> */}
-          {/* <Route path='/update-profile/:accID' element={<UpdateProfile />}></Route> */}
           <Route path='/accommodation-detail/:projectID' element={<AccommodationDetail />}></Route>
           <Route path='/homestay' element={<Homestay />}></Route>
           <Route path='/confirm-register' element={<ConfirmRegister />}></Route>
@@ -232,19 +220,6 @@ function App() {
           {/* <Route path='/profile' element={<Profile getData={user.id} />}></Route>
         <Route path='/update-profile/:accID' element={<UpdateProfile/>}></Route> */}
           <Route path='/new' element={<ViewAllNew />}></Route>
-
-          {/* <Route path='/admin/view-news-staff/:newsId' element={<ViewNewStaff />}></Route> */}
-
-          {/* 
-        <Route path='/staff' element={<StaffView />} />
-        <Route path="/staff/register" element={<RegisterStaff />} />
-        <Route path="/staff/view-account-staff" element={<TotalStaffAdmin />} />
-
-        <Route path="/staff-profile" element={<ProfileStaff getData={user.id} />} />
-        <Route path='/update-profile-staff/:accID' element={<SideNavUpdateStaff />} /> */}
-
-          {/* Các routes khác */}
-
         </Routes>
         {!isStaffPage && !isAdminPage && !isUpdateProfileStaff && <Footer />}
 
@@ -281,15 +256,21 @@ function App() {
 
         {/* ================================================================================================================================================================= */}
         {/* ADMIN */}
+
         {isAdminPage && (
           <StaffNavbar />
         )}
+
         <Routes>
           <Route path='/admin/*' element={<AdminView />}></Route>
           <Route path="/admin/register" element={<RegisterStaff />}></Route>
           <Route path="/admin/view-account-staff" element={<TotalStaffAdmin />}></Route>
         </Routes>
       </div>
+
+
+
+
     </>
   );
 }

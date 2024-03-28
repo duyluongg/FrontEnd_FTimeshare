@@ -22,7 +22,7 @@ export default function ModalProfile({ accID }) {
         return null; // Trả về null nếu accID hoặc accName không tồn tại
     }
     console.log(accID);
-    const { accName, accPhone, accEmail, accPassword, accBirthday, roleID } = accID;
+    const { accName, accPhone, accEmail, accPassword, accBirthday, roleID, imgName } = accID;
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
@@ -34,7 +34,7 @@ export default function ModalProfile({ accID }) {
         const year = date.getFullYear();
         return `${day}/${month}/${year}`;
     };
-    
+
     return (
         <div>
             <Button onClick={handleOpen}>
@@ -50,11 +50,14 @@ export default function ModalProfile({ accID }) {
             >
 
                 <Box sx={style}>
+                    <Typography >
+                        <img src={imgName} sx={{width:"333px", height:"333px", objectFit: "cover", maxWidth: "100%" }}/>
+                    </Typography>
 
-                    <Typography id="modal-modal-title" variant="h6" component="h2">
+                    <Typography id="modal-modal-title" variant="h6" component="h1">
                         Full of Name: {accName}
                     </Typography>
-                    <Typography id="modal-modal-title" variant="h6" component="h2">
+                    <Typography id="modal-modal-title"  sx={{ mt: 2 }} >
                         Birthday: {formatDate(accBirthday)}
                     </Typography>
                     <Typography id="modal-modal-description" sx={{ mt: 2 }}>
@@ -63,8 +66,6 @@ export default function ModalProfile({ accID }) {
                     <Typography id="modal-modal-description" sx={{ mt: 2 }}>
                         Email: {accEmail}
                     </Typography>
-
-
 
                 </Box>
 

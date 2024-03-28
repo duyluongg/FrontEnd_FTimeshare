@@ -125,7 +125,8 @@ export default function ViewBookingConfirm() {
                     // console.log(projectImage);
 
                     return (
-                        <Card key={item.bookingID} sx={{ maxWidth: 345, mb: '20px', boxShadow: 3, ml:"120px" }}>
+                        <Card key={item.bookingID} sx={{ maxWidth: 345, height: 530, mb: '20px', boxShadow: 3, ml: "120px" }}>
+
                             <CardHeader
                                 avatar={
                                     <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
@@ -133,9 +134,9 @@ export default function ViewBookingConfirm() {
                                         <ModalProfile accID={profileAccount} />
                                     </Avatar>
                                 }
-                              
+
                                 title={profileAccount ? profileAccount.accName : ""}
-                              
+
                             />
 
                             <CardMedia
@@ -145,7 +146,7 @@ export default function ViewBookingConfirm() {
                                 image={item.imgName}
 
                                 alt="Project image"
-                                sx={{ objectFit: "contain" , maxHeight:"350px"}}
+                                sx={{ objectFit: "contain", maxHeight: "350px" }}
 
                             />
                             <CardContent>
@@ -177,36 +178,36 @@ export default function ViewBookingConfirm() {
                                     <Button variant="outlined" >
                                         DETAIL
                                     </Button>
-                            
+
                                 </Link>
-                              
+
                             </CardActions>
-                          
+
                         </Card>
                     );
                 })}
             </Grid>
             <Pagination
-                    count={10}
-                    color="primary"
-                    sx={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        mt: '25px',
-                        '& .MuiPaginationItem-root': {
-                            color: '#CD9A2B', // Đặt màu của nút trang khi không được chọn
-                        },
-                        position: "sticky",
-                        top:"100%",
-                        bottom: "5px", 
-                        left: "0px",
-                        right: "0px",
-                        // marginBottom: "0px"
+                count={10}
+                color="primary"
+                sx={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    mt: '25px',
+                    '& .MuiPaginationItem-root': {
+                        color: '#CD9A2B', // Đặt màu của nút trang khi không được chọn
+                    },
+                    position: "sticky",
+                    top: "100%",
+                    bottom: "5px",
+                    left: "0px",
+                    right: "0px",
+                    // marginBottom: "0px"
 
-                    }}
-                    onChange={handlePageChange}
-                />
+                }}
+                onChange={handlePageChange}
+            />
         </>
     );
 }

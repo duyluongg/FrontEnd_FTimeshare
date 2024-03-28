@@ -7,3 +7,7 @@
   .month-admin {
     margin-right: 10px; 
   } */
+
+  .month-admin{
+    text-align: start;
+  }

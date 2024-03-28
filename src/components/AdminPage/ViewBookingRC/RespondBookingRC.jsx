@@ -244,8 +244,8 @@ export default function RespondBookingRC() {
                             <CardMedia
                                 component="img"
                                 height="194"
-                                image={customerAccountPayment[0] ? customerAccountPayment[0].imgName : ""}
-                                alt={customerAccountPayment[0] ? customerAccountPayment[0].imgName : ""}
+                                image={customerAccountBook[0] ? customerAccountBook[0].imgName : ""}
+                                alt={customerAccountBook[0] ? customerAccountBook[0].imgName : ""}
                                 sx={{ objectFit: "contain", maxHeight: "350px" }}
                             />
 
@@ -345,7 +345,7 @@ export default function RespondBookingRC() {
                             <CardContent>
 
                                 <Typography variant="body2" color="text.secondary">
-                                    Cash refund amount: {customerAccountPayment[0] ? customerAccountPayment[0].bookingPrice : ""}
+                                    Cash refund amount: {customerAccountBook[0] ? customerAccountBook[0].bookingPrice : ""}
                                 </Typography>
 
                                 <Typography variant="body2" color="text.secondary">

@@ -68,10 +68,11 @@ export default function AllNew() {
                     <SearchIcon />
                 </IconButton>
             </div>
-            <Grid container spacing={1} sx={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '10px', ml: '95px' }}>
+            <Grid container spacing={1} sx={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '10px' }}>
                 {currentNews.map((item) => {
                     return (
-                        <Card sx={{ maxWidth: 345, ml:"30px" }} key={item.newsID}>
+                        <Card sx={{ maxWidth: 345, ml: "120px", mb: "20px", boxShadow: 3 }} key={item.newsID}>
+
                             <CardMedia
                                 component="img"
                                 alt="green iguana"

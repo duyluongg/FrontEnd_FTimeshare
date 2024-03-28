@@ -9,7 +9,7 @@ import { Grid, Card, CardHeader, CardMedia, CardContent, CardActions, Collapse, 
 
 import SearchIcon from '@mui/icons-material/Search';
 import ModalProfile from '../ViewReport/ModalProfile';
-
+import SelectProject from '../../SelectProject';
 const ExpandMore = styled((props) => {
     const { expand, ...other } = props;
     return <IconButton {...other} />;
@@ -30,14 +30,18 @@ export default function RejectedPrj() {
     const projectsPerPage = 6;
     const indexOfLastProject = currentPage * projectsPerPage;
     const indexOfFirstProject = indexOfLastProject - projectsPerPage;
-    const currentProjects = projectActive.slice(indexOfFirstProject, indexOfLastProject);
+    // const currentProjects = projectActive.slice(indexOfFirstProject, indexOfLastProject);
+    const [filteredProjects, setFilteredProjects] = useState([]);
+    const [projectName, setProjectName] = useState([]);
+    const [selectedProjectID, setSelectedProjectID] = useState(null);
+
     const handleSearchChange = (event) => {
         setSearchQuery(event.target.value);
     };
 
     useEffect(() => {
-        fetchProjectPending();
-    }, []);
+        fetchProjectPending(); // Cập nhật dữ liệu sau khi đã chọn dự án mới
+    }, [currentPage, searchQuery, selectedProjectID]);
 
     // const fetchProjectPending = async () => {
     //     try {
@@ -51,16 +55,38 @@ export default function RejectedPrj() {
 
     const fetchProjectPending = async () => {
         try {
-            const [rejectResponse,  profilesResponse] = await Promise.all([
+            const [rejectResponse, profilesResponse, projectResponse] = await Promise.all([
                 axios.get('http://localhost:8080/api/products/staff/rejected'),
-                axios.get('http://localhost:8080/api/users/staffview')
-              
+                axios.get('http://localhost:8080/api/users/staffview'),
+                axios.get('http://localhost:8080/api/project/customer/viewproject')
 
             ]);
 
             setProjectActive(rejectResponse.data);
-        
+
             setProfiles(profilesResponse.data);
+            setProjectName(projectResponse.data);
+
+            const productsData = rejectResponse.data;
+
+            let filteredProductsData = productsData;
+
+            if (selectedProjectID) {
+                console.log("ID:", selectedProjectID);
+                filteredProductsData = productsData.filter(product => product.projectID === selectedProjectID);
+                console.log(filteredProductsData);
+            }
+
+
+
+            if (searchQuery) {
+                console.log(searchQuery);
+                filteredProductsData = filteredProductsData.filter(product =>
+                    product.productName.toLowerCase().includes(searchQuery.toLowerCase())
+                );
+            }
+
+            setFilteredProjects(filteredProductsData);
 
         } catch (error) {
             console.error('Error fetching data:', error);
@@ -80,11 +106,15 @@ export default function RejectedPrj() {
     const handlePageChange = (event, value) => {
         setCurrentPage(value);
     };
+    const handleSelectProject = (projectId) => {
+        setSelectedProjectID(projectId);
+        console.log("Selected project ID:", projectId);
+    };
 
     return (
         <>
 
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+<div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', marginTop: "-20px" }}>
                 <TextField
                     sx={{ width: '500px', mb: '35px' }}
                     placeholder="Search..."
@@ -96,11 +126,15 @@ export default function RejectedPrj() {
                 <IconButton type="submit" aria-label="search" sx={{ mb: '30px' }}>
                     <SearchIcon />
                 </IconButton>
+                <SelectProject onSelectProject={handleSelectProject} />
+
             </div>
 
-            <Grid container spacing={1} sx={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '10px'}}>
-                {currentProjects.map((item) => {
+            <Grid container spacing={1} sx={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '10px' }}>
+                {filteredProjects.slice(indexOfFirstProject, indexOfLastProject).map((item) => {
                     const userAccount = profiles.find(acc => acc.accID === item.accID);
+                    const projecType = projectName.find(prj => prj.projectID === item.projectID);
+                   
                     return (
                         <Card key={item.newsID} sx={{ maxWidth: 345, mb: '20px', boxShadow: 3, ml: "120px" }}>
                             <CardHeader
@@ -109,9 +143,9 @@ export default function RejectedPrj() {
                                         <ModalProfile accID={userAccount} />
                                     </Avatar>
                                 }
-                            
+
                                 title={userAccount.accName}
-                             
+
                             />
                             <CardMedia
                                 component="img"
@@ -124,18 +158,21 @@ export default function RejectedPrj() {
                                 <Typography variant="body1" sx={{ fontSize: "20px", fontWeight: "bold", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
                                     {item.productName}
                                 </Typography>
+                                <Typography variant="body1" color="text.secondary" sx={{ overflow: 'hidden', textOverflow: 'ellipsis', display: '-webkit-box', WebkitLineClamp: '1', WebkitBoxOrient: "vertical" }}>
+                                    Project Name: {projecType.projectName}
+                                </Typography>
                                 <Typography variant="body1" color="text.secondary">
                                     Available Start Date: {formatDate(item.availableStartDate)}<br />
                                     Available End Date: {formatDate(item.availableEndDate)}<br />
                                 </Typography>
-                                <Typography variant="body1" color="text.secondary" sx={{ overflow: 'hidden', textOverflow: 'ellipsis', display: '-webkit-box', WebkitLineClamp: '2', WebkitBoxOrient: "vertical" }}>
+                                <Typography variant="body1" color="text.secondary" sx={{ overflow: 'hidden', textOverflow: 'ellipsis', display: '-webkit-box', WebkitLineClamp: '1', WebkitBoxOrient: "vertical" }}>
                                     Description: {item.productDescription}<br />
-
                                 </Typography>
-                                <Typography variant="body1" color="text.secondary">
+                                <Typography variant="body1" color="text.secondary" sx={{ overflow: 'hidden', textOverflow: 'ellipsis', display: '-webkit-box', WebkitLineClamp: '1', WebkitBoxOrient: "vertical" }}>
+
                                     Address: {item.productAddress}
                                 </Typography>
-                                <Typography variant="body1" color="text.secondary" sx={{ overflow: 'hidden', textOverflow: 'ellipsis', display: '-webkit-box', WebkitLineClamp: '2', WebkitBoxOrient: "vertical" }}>
+                                <Typography variant="body1" color="text.secondary" sx={{ overflow: 'hidden', textOverflow: 'ellipsis', display: '-webkit-box', WebkitLineClamp: '1', WebkitBoxOrient: "vertical" }}>
                                     Convenience: {item.productConvenience}
                                 </Typography>
                                 <Typography variant="body1" color="text.secondary">
@@ -159,26 +196,26 @@ export default function RejectedPrj() {
 
             </Grid >
             <Pagination
-                    count={10}
-                    color="primary"
-                    sx={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        mt: '25px',
-                        '& .MuiPaginationItem-root': {
-                            color: '#CD9A2B', 
-                        },
-                        position: "sticky",
-                        top:"100%",
-                        bottom: "5px", 
-                        left: "0px",
-                        right: "0px",
-                        // marginBottom: "0px"
+                count={10}
+                color="primary"
+                sx={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    mt: '25px',
+                    '& .MuiPaginationItem-root': {
+                        color: '#CD9A2B',
+                    },
+                    position: "sticky",
+                    top: "100%",
+                    bottom: "5px",
+                    left: "0px",
+                    right: "0px",
+                    // marginBottom: "0px"
 
-                    }}
-                    onChange={handlePageChange}
-                />
+                }}
+                onChange={handlePageChange}
+            />
         </>
 
     );

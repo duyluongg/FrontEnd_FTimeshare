@@ -57,7 +57,7 @@ export default function TotalViewPendingBooking() {
                 axios.get('http://localhost:8080/api/bookings/staff/active'),
                 axios.get('http://localhost:8080/api/pictures/customerview'),
                 axios.get('http://localhost:8080/api/users/staffview')
-               
+
             ]);
 
             setProjectActive(pendingResponse.data);
@@ -123,14 +123,14 @@ export default function TotalViewPendingBooking() {
                     console.log(projectImage);
 
                     return (
-                        <Card key={item.bookingID} sx={{ maxWidth: 345, mb: '20px', boxShadow: 3, ml:"120px" }}>
+                        <Card key={item.bookingID} sx={{ maxWidth: 345, height: 530, mb: '20px', boxShadow: 3, ml: "120px" }}>
                             <CardHeader
                                 avatar={
                                     <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
-                                       <ModalProfile accID={profileAccount} />
+                                        <ModalProfile accID={profileAccount} />
                                     </Avatar>
                                 }
-                             
+
                                 title={profileAccount ? profileAccount.accName : ""}
                                 subheader={formatDate(item.createDate)}
                             />
@@ -143,7 +143,7 @@ export default function TotalViewPendingBooking() {
 
                                 alt="Project image"
                                 // sx={{ width: "350px", height: "350px", objectFit: "cover", maxWidth: "100%" }}
-                                sx={{ objectFit: "contain" , maxHeight:"350px"}}
+                                sx={{ objectFit: "contain", maxHeight: "350px" }}
                             />
                             <CardContent>
                                 <Typography variant="body2" color="text.secondary">
@@ -163,34 +163,34 @@ export default function TotalViewPendingBooking() {
                                 <Button variant="outlined" color="error" onClick={() => handleAcceptCancel(item.bookingID)}>
                                     CANCEL
                                 </Button> */}
-                       
+
                             </CardActions>
-                         
+
                         </Card>
                     );
                 })}
             </Grid>
             <Pagination
-                    count={10}
-                    color="primary"
-                    sx={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        mt: '25px',
-                        '& .MuiPaginationItem-root': {
-                            color: '#CD9A2B', // Đặt màu của nút trang khi không được chọn
-                        },
-                        position: "sticky",
-                        top:"100%",
-                        bottom: "5px", 
-                        left: "0px",
-                        right: "0px",
-                        // marginBottom: "0px"
+                count={10}
+                color="primary"
+                sx={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    mt: '25px',
+                    '& .MuiPaginationItem-root': {
+                        color: '#CD9A2B', // Đặt màu của nút trang khi không được chọn
+                    },
+                    position: "sticky",
+                    top: "100%",
+                    bottom: "5px",
+                    left: "0px",
+                    right: "0px",
+                    // marginBottom: "0px"
 
-                    }}
-                    onChange={handlePageChange}
-                />
+                }}
+                onChange={handlePageChange}
+            />
         </>
     );
 }

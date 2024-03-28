@@ -13,8 +13,9 @@ export default function SelectProject({ onSelectProject }) {
   const handleChange = (event) => {
     const projectId = event.target.value;
     setSelectedProject(projectId);
-    onSelectProject(projectId); // Gọi hàm xử lý khi chọn dự án
-};
+    onSelectProject(projectId);
+  };
+
 
   useEffect(() => {
     const fetchProjects = async () => {
@@ -30,9 +31,10 @@ export default function SelectProject({ onSelectProject }) {
   }, []);
 
   return (
-    <Box sx={{ width: 100, ml: "120px" }}>
+    <Box sx={{ width: 145, mb: "35px" }}>
       <FormControl fullWidth>
         <InputLabel id="demo-simple-select-label">Select Project</InputLabel>
+
         <Select
           labelId="demo-simple-select-label"
           id="demo-simple-select"
@@ -40,6 +42,7 @@ export default function SelectProject({ onSelectProject }) {
           label="Select Project"
           onChange={handleChange}
         >
+          <MenuItem value="">All product</MenuItem>
           {projects.map((project) => (
             <MenuItem key={project.projectID} value={project.projectID}>
               {project.projectName}
