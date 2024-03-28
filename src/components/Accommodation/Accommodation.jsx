@@ -109,7 +109,7 @@ export default function Accommodation() {
         setCurrentPage(value);
     };
     return (
-        <div>
+        <div>     
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                 <TextField
                     sx={{ width: '500px', mb: '35px' }}
@@ -123,6 +123,7 @@ export default function Accommodation() {
                     <SearchIcon />
                 </IconButton>
             </div>
+            <h1 className='accommodation-title'>Constructors of homestay</h1>
             <Grid container spacing={1} sx={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '10px', ml: '95px' }}>
                 {currentProjects.map((item) => {
                     return (

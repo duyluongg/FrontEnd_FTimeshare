@@ -1,4 +1,6 @@
 import { useEffect, useState } from 'react'
+import axios from 'axios';
+import { format } from 'date-fns';
 import './App.css'
 import './components/Navigation/Navigation.css'
 import Navigation from './components/Navigation/Navigation.jsx'
@@ -53,6 +55,7 @@ import TotalUser from './components/AdminPage/TotalUser/TotalUser.jsx'
 import CardReport from './components/AdminPage/ViewReport/CardReport.jsx'
 import ViewReport from './components/AdminPage/ViewReport/ViewReport.jsx'
 import Sidenav from './components/AdminPage/Sidenav/Sidenav.jsx';
+import Homestay from './components/Accommodation/Homestay.jsx';
 
 import { useLocation } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
@@ -97,7 +100,7 @@ import ClosedProduct from './components/AdminPage/TotalProductClose/ClosedProduc
 function App() {
 
   const { user, loginContext } = useContext(UserContext);
-  // const [accountUser, setAccountUser] = useState();
+  // const [account, setAccount] = useState();
 
   // console.log(user.id);
   useEffect(() => {
@@ -114,7 +117,8 @@ function App() {
   //       ]);
   //       const formattedBirthday = format(new Date(accountResponse.data.accBirthday), 'dd/MM/yyyy');
   //       const formattedData = { ...accountResponse.data, accBirthday: formattedBirthday };
-  //       setAccountUser(formattedData);
+  //       setAccount(formattedData);
+  //       console.log(accountResponse.data);
   //     } catch (error) {
   //       console.error('Error fetching data:', error);
   //     }
@@ -147,7 +151,8 @@ function App() {
   const isProfile = location.pathname.includes('/profile');
   const isUpdateProfile = location.pathname.includes('/update-profile');
   const isUpdateProfileStaff = location.pathname.includes('/update-profile-staff/:accID');
-  const isAccommodationDetail = location.pathname.includes('accommodation-detail');
+  const isAccommodationDetail = location.pathname.includes('/accommodation-detail');
+  const isHomestay = location.pathname.includes('/homestay');
 
 
   const isPayment = location.pathname.includes('/payment');
@@ -170,9 +175,9 @@ function App() {
         {!isDetailPage && !isLoginPage && !isRegisterPage && !isContactPage && !isStaffPage && !isAdminPage && !isUpdateProfileStaff
           && !isCreateTimeshare && !isViewSummary && !isViewDetail && !isViewNews && !isViewNewAll && !isCreateNews && !isAccommodation
           && !isBooking && !isCreateBooking && !isBookingStage && !isProfile && !isPayment && !isUpdateProduct && !isSidebar
-          && !isAccommodationDetail && !isUpdateProfile && <Header />}
+          && !isAccommodationDetail && !isUpdateProfile && !isHomestay && <Header />}
 
-        {isSidebar && (
+        {/* {isSidebar && (
           <Sidebar>
             <Routes>
               <Route path='/profile' element={<Profile getData={user.id} />}></Route>
@@ -180,7 +185,15 @@ function App() {
               <Route path='/update-profile' element={<UpdateProfile getData={user.id} />}></Route>
             </Routes>
           </Sidebar>
-        )}
+        )} */}
+
+        <Sidebar>
+          <Routes>
+            <Route path='/profile' element={<Profile getData={user.id} />} />
+            <Route path='/view-booking-history' element={<Booking />} />
+            <Route path='/update-profile' element={<UpdateProfile getData={user.id} />} />
+          </Routes>
+        </Sidebar>
 
         <Routes>
           <Route path='/' element={<Project />}></Route>
@@ -206,7 +219,7 @@ function App() {
           {/* <Route path='/update-profile' element={<UpdateProfile getData={user.id} />}></Route> */}
           {/* <Route path='/update-profile/:accID' element={<UpdateProfile />}></Route> */}
           <Route path='/accommodation-detail/:projectID' element={<AccommodationDetail />}></Route>
-
+          <Route path='/homestay' element={<Homestay />}></Route>
           {/* <Route path='/admin/total-users/*' element={<TotalUser />}></Route> */}
           {/* <Route path='/admin/*' element={<AdminPage />}></Route> */}
           {/* <Route path='/admin/*' element={<Sidenav />}></Route> */}

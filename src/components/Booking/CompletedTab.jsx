@@ -28,7 +28,7 @@ const CompletedTab = ({ bookingInfoComplete, images, formatDate, handleCancelAct
                                         <h3 className="a11y-hidden"></h3>
                                         <div className='P2JMvg'>
                                             <div classNae="RBPP9y">
-                                                <div class="UDaMW3" tabindex="0">Owner Name</div>
+                                                {/* <div class="UDaMW3" tabindex="0">Owner Name</div> */}
                                             </div>
                                             <div className='jgIyoX'>
                                                 <div class="bv3eJE" tabindex="0">{bookingInfo.bookingStatus}</div>
@@ -100,11 +100,11 @@ const CompletedTab = ({ bookingInfoComplete, images, formatDate, handleCancelAct
                                             <FormReport getID={bookingInfo.productID} getBookID={bookingInfo.bookingID} class="stardust-button stardust-button--primary QY7kZh" />
                                         </div>
                                     </div>
-                                    <div class="aAXjeK">
+                                    {/* <div class="aAXjeK">
                                         <div>
                                             <button class="stardust-button stardust-button--secondary QY7kZh">Book Again</button>
                                         </div>
-                                    </div>
+                                    </div> */}
                                 </section>
                             </div>
                         </div>

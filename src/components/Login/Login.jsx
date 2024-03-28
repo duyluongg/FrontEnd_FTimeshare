@@ -34,19 +34,19 @@ export default function Login() {
 
     const handleLogin = async (e) => {
         e.preventDefault();
-    
+
         let hasError = false; // Biến cờ để kiểm tra có lỗi từ Yup không
-    
+
         try {
             await schema.validate({
                 email,
                 password
             }, { abortEarly: false });
-    
+
             // Nếu không có lỗi từ Yup, đặt hasError thành false
             setErrors({});
             hasError = false;
-    
+
         } catch (error) {
             if (error instanceof Yup.ValidationError) {
                 const yupErrors = {};
@@ -57,17 +57,17 @@ export default function Login() {
                 hasError = true; // Nếu có lỗi từ Yup, đặt hasError thành true
             }
         }
-    
+
         // Kiểm tra biến cờ để gọi API chỉ khi không có lỗi từ Yup
         if (!hasError) {
             try {
                 setLoadingAPI(true);
-    
+
                 const response = await axios.post('http://localhost:8080/auth/login', {
                     email,
                     password
                 });
-    
+
                 if (response && response.data.token) {
                     loginContext(response.data.id, response.data.role, response.data.token);
                     if (response.data.role === '[ROLE_ADMIN]' || response.data.role === '[ROLE_STAFF]') {
@@ -81,11 +81,18 @@ export default function Login() {
                         setSnackbarOpen(true);
                         setTimeout(() => navigate('/'), 1000);
                     }
-                } 
-                
+                }
             } catch (error) {
+                // console.error('Login failed:', error);
+                // setSnackbarMessage('Email or Password are incorrect !!!');
+                // setSnackbarColor("error");
+                // setSnackbarOpen(true);
                 console.error('Login failed:', error);
-                setSnackbarMessage('Email or Password are incorrect !!!');
+                if (error.response && error.response.status === 401 && error.response.data && error.response.data.message === "Tài khoản này đã bị đình chỉ hoạt động") {
+                    setSnackbarMessage(error.response.data.message);
+                } else {
+                    setSnackbarMessage('Email or Password are incorrect !!!');
+                }
                 setSnackbarColor("error");
                 setSnackbarOpen(true);
             } finally {
@@ -93,7 +100,7 @@ export default function Login() {
             }
         }
     }
-    
+
 
     const handleSnackbarClose = () => {
         setSnackbarOpen(false);

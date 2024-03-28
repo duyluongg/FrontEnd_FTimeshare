@@ -27,7 +27,7 @@ const WaitToConfirmTab = ({ bookingInfoConfirm, images, formatDate, handleCancel
                                         <h3 className="a11y-hidden"></h3>
                                         <div className='P2JMvg'>
                                             <div classNae="RBPP9y">
-                                                <div class="UDaMW3" tabindex="0">Owner Name</div>
+                                                {/* <div class="UDaMW3" tabindex="0">Owner Name</div> */}
                                             </div>
                                             <div className='jgIyoX'>
                                                 <div class="bv3eJE" tabindex="0">{bookingInfo.bookingStatus}</div>

@@ -172,15 +172,6 @@ export default function CreateTimeshare() {
                 }
             }
 
-            const imageNames = images.map(image => image.name);
-            const uniqueImageNames = new Set(imageNames);
-            if (uniqueImageNames.size !== images.length) {
-                setSnackbarMessage('Image names must be unique!!!');
-                setSnackbarColor("error");
-                setSnackbarOpen(true);
-                return;
-            }
-
             const startDateObj = new Date(createProductData.availableStartDate);
             const endDateObj = new Date(createProductData.availableEndDate);
             const formattedStartDate = startDateObj.toISOString().split('T')[0] + 'T08:00:00';

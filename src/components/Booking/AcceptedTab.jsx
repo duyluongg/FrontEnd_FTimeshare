@@ -22,6 +22,10 @@ const AcceptedTab = ({ bookingInfoAccepted, images, formatDate, handleCancelActi
                     console.log(bookingInfo);
                     const projectImage = images.find(image => image.productID === bookingInfo.product.productID);
                     console.log(projectImage);
+                    if (bookingInfo.bookingStatus === 'Done') {
+                        // Bỏ qua việc render nếu bookingStatus là "Done"
+                        return null;
+                    }
                     return (
                         <div className="YL_VlX" key={index}>
                             <div>
@@ -30,7 +34,7 @@ const AcceptedTab = ({ bookingInfoAccepted, images, formatDate, handleCancelActi
                                         <h3 className="a11y-hidden"></h3>
                                         <div className='P2JMvg'>
                                             <div classNae="RBPP9y">
-                                                <div class="UDaMW3" tabindex="0">Owner Name</div>
+                                                {/* <div class="UDaMW3" tabindex="0">Owner Name</div> */}
                                             </div>
                                             <div className='jgIyoX'>
                                                 <div class="bv3eJE" tabindex="0">{bookingInfo.bookingStatus}</div>
@@ -102,8 +106,10 @@ const AcceptedTab = ({ bookingInfoAccepted, images, formatDate, handleCancelActi
                                         <div>
                                             <button
                                                 onClick={() => handleCancelActive(bookingInfo.bookingID)}
-                                                className={`stardust-button stardust-button--primary QY7kZh ${bookingInfo.bookingStatus.includes('Wait to respond') || bookingInfo.bookingStatus === 'In progress' || bookingInfo.bookingStatus === 'Done' ? 'disabled' : ''}`}
-                                                disabled={bookingInfo.bookingStatus.includes('Wait to respond') || bookingInfo.bookingStatus === 'In progress' || bookingInfo.bookingStatus === 'Done'}
+                                                // className={`stardust-button stardust-button--primary QY7kZh ${bookingInfo.bookingStatus.includes('Wait to respond') || bookingInfo.bookingStatus === 'In progress' || bookingInfo.bookingStatus === 'Done' ? 'disabled' : ''}`}
+                                                // disabled={bookingInfo.bookingStatus.includes('Wait to respond') || bookingInfo.bookingStatus === 'In progress' || bookingInfo.bookingStatus === 'Done'}
+                                                className={`stardust-button stardust-button--primary QY7kZh ${bookingInfo.bookingStatus.includes('Wait to respond') || bookingInfo.bookingStatus === 'In progress' ? 'disabled' : ''}`}
+                                                disabled={bookingInfo.bookingStatus.includes('Wait to respond') || bookingInfo.bookingStatus === 'In progress'}
                                             >
                                                 Cancel
                                             </button>

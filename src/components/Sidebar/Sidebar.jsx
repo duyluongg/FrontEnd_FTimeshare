@@ -10,7 +10,7 @@ import { faClipboardList } from "@fortawesome/free-solid-svg-icons";
 import { faGear } from "@fortawesome/free-solid-svg-icons";
 import { colors } from "@mui/material";
 
-const Sidebar = ({ children, accountUser }) => {
+const Sidebar = ({ children }) => {
     const menuItem = [
         {
             path: "/profile",
@@ -26,6 +26,7 @@ const Sidebar = ({ children, accountUser }) => {
 
     const { user } = useContext(UserContext);
     const location = useLocation();
+    const [userInfo, setUserInfo] = useState(null);
 
     const [activeMenuItem, setActiveMenuItem] = useState("");
 
@@ -33,6 +34,42 @@ const Sidebar = ({ children, accountUser }) => {
         // Cập nhật mục được chọn khi đường dẫn thay đổi
         setActiveMenuItem(location.pathname);
     }, [location.pathname]);
+
+    // useEffect(() => {
+    //     const fetchDataUser = async () => {
+    //         try {
+    //             const [accountResponse, imagesResponse] = await Promise.all([
+    //                 axios.get(`http://localhost:8080/api/users/viewDetail/${user.id}`),
+    //             ]);
+    //             const formattedBirthday = format(new Date(accountResponse.data.accBirthday), 'dd/MM/yyyy');
+    //             const formattedData = { ...accountResponse.data, accBirthday: formattedBirthday };
+    //             setAccount(formattedData);
+    //             console.log(accountResponse.data);
+    //         } catch (error) {
+    //             console.error('Error fetching data:', error);
+    //         }
+    //     };
+    //     fetchDataUser();
+    // }, [user.id]);
+
+    useEffect(() => {
+        // Kiểm tra nếu đường dẫn là '/view-booking-history'
+        if (location.pathname === '/view-booking-history') {
+            const fetchDataUser = async () => {
+                try {
+                    const response = await axios.get(`http://localhost:8080/api/users/viewDetail/${user.id}`);
+                    const formattedBirthday = format(new Date(response.data.accBirthday), 'dd/MM/yyyy');
+                    const formattedData = { ...response.data, accBirthday: formattedBirthday };
+                    setUserInfo(formattedData);
+                } catch (error) {
+                    console.error('Error fetching user data:', error);
+                }
+            };
+            fetchDataUser();
+        }
+    }, [location.pathname, user.id]);
+
+    console.log(userInfo);
 
     return (
         <>
@@ -43,15 +80,20 @@ const Sidebar = ({ children, accountUser }) => {
                             <Link to="/profile" className="_1O4r+C" previewlistener="true">
                                 <div className="sidebar-avatar">
                                     <div className="sidebar-avatar__placeholder">
-                                        <svg enable-background="new 0 0 15 15" viewBox="0 0 15 15" x="0" y="0" class="sidebar-svg-icon icon-headshot"><g><circle cx="7.5" cy="4.5" fill="none" r="3.8" stroke-miterlimit="10"></circle><path d="m1.5 14.2c0-3.3 2.7-6 6-6s6 2.7 6 6" fill="none" stroke-linecap="round" stroke-miterlimit="10"></path></g></svg>
+                                        {/* <img
+                                            className="sidebar-avatar__placeholder"
+                                            src={accountUser.imgName} // Đường dẫn hình ảnh đại diện từ accountUser
+                                            alt="Avatar"
+                                        /> */}
+                                        {/* <svg enable-background="new 0 0 15 15" viewBox="0 0 15 15" x="0" y="0" class="sidebar-svg-icon icon-headshot"><g><circle cx="7.5" cy="4.5" fill="none" r="3.8" stroke-miterlimit="10"></circle><path d="m1.5 14.2c0-3.3 2.7-6 6-6s6 2.7 6 6" fill="none" stroke-linecap="round" stroke-miterlimit="10"></path></g></svg> */}
                                     </div>
                                 </div>
                             </Link>
                             <div className="miwGmI">
-                                <div className="mC1Llc">accName</div>
+                                {/* <div className="mC1Llc">{account.accName}</div> */}
                                 <div>
                                     <NavLink to="/update-profile" className="_78QHr1" activeClassName="active" previewlistener="true">
-                                        <FontAwesomeIcon icon={faGear} style={{ color: "#888888" }}/>
+                                        <FontAwesomeIcon icon={faGear} style={{ color: "#888888" }} />
                                         &nbsp;Edit Account
                                     </NavLink>
                                 </div>

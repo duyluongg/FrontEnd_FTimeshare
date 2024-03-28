@@ -239,13 +239,13 @@ export default function Detail() {
                             <div className='container-title'>{productDetail.productName}</div>
                             <div className='container-icon'>
                                 <div>
-                                    <FontAwesomeIcon icon={faPerson} size={'2xl'} /> <a>2 Adults</a>
+                                    <FontAwesomeIcon icon={faPerson} size={'2xl'} /> <a>{productDetail.productPerson} people</a>
                                 </div>
-                                <div>
+                                {/* <div>
                                     <FontAwesomeIcon icon={faChild} size={'2xl'} /> <a>1 Child</a>
-                                </div>
+                                </div> */}
                                 <div>
-                                    <FontAwesomeIcon icon={faExpand} size={'2xl'} /> <a>Room 20m²</a>
+                                    <FontAwesomeIcon icon={faExpand} size={'2xl'} /> <a>{productDetail.productArea}m²</a>
                                 </div>
 
                             </div>
@@ -262,10 +262,9 @@ export default function Detail() {
                                         <FontAwesomeIcon icon={faWifi} size={'2xl'} /> <a>Wifi</a>
 
                                     </div>
-                                    <div className='container-item-service-item'>
+                                    {/* <div className='container-item-service-item'>
                                         <FontAwesomeIcon icon={faPersonSwimming} size={'2xl'} /> <a>Pool</a>
-
-                                    </div>
+                                    </div> */}
                                 </div>
 
 
@@ -273,9 +272,9 @@ export default function Detail() {
                                     <div className='container-item-service-item'>
                                         <FontAwesomeIcon icon={faKitchenSet} size={'2xl'} /> <a>Kitchen</a>
                                     </div>
-                                    <div className='container-item-service-item'>
+                                    {/* <div className='container-item-service-item'>
                                         <FontAwesomeIcon icon={faCity} size={'2xl'} /> <a>City view</a>
-                                    </div>
+                                    </div> */}
                                     <div className='container-item-service-item'>
                                         <FontAwesomeIcon icon={faTv} size={'2xl'} /> <a>Television</a>
                                     </div>
@@ -286,7 +285,7 @@ export default function Detail() {
                         <div className='form'>
                             <h1 className='form-border-bottom'>Booking Information</h1>
                             <h1 className='form-cost'>${productDetail.productPrice}/Day</h1>
-                            <p className="form-time"><FontAwesomeIcon className="icon-calendar" icon={faCalendarDay} size={'2xl'} /> {productDetail.availableStartDate} - {productDetail.availableEndDate}</p>
+                            <p className="form-time"><FontAwesomeIcon className="icon-calendar" icon={faCalendarDay} size={'2xl'} /> {productDetail.availableStartDate} - {productDetail.availableEndDate}</p>   
                             {showBookingButton && (
                                 <form className='form-item' onSubmit={handleBooking}>
                                     <div className='column-form column-2'>

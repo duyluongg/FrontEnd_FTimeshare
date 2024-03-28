@@ -13,8 +13,15 @@ const CancelledTab = ({ bookingInfoCancel, images, formatDate, handleCancelActiv
 
     const [showImage, setShowImage] = useState(false); // Thêm trạng thái cho việc hiển thị ảnh
 
-    const toggleImage = () => {
-        setShowImage(!showImage); // Chuyển đổi trạng thái hiển thị ảnh
+    // const toggleImage = () => {
+    //     setShowImage(!showImage); // Chuyển đổi trạng thái hiển thị ảnh
+    // };
+
+    const toggleImage = (index) => {
+        setShowImage(prevState => ({
+            ...prevState,
+            [index]: !prevState[index] // Chuyển đổi trạng thái hiển thị của sản phẩm
+        }));
     };
 
     return (
@@ -32,7 +39,7 @@ const CancelledTab = ({ bookingInfoCancel, images, formatDate, handleCancelActiv
                                         <h3 className="a11y-hidden"></h3>
                                         <div className='P2JMvg'>
                                             <div classNae="RBPP9y">
-                                                <div class="UDaMW3" tabindex="0">Owner Name</div>
+                                                {/* <div class="UDaMW3" tabindex="0">Owner Name</div> */}
                                             </div>
                                             <div className='jgIyoX'>
                                                 <div class="bv3eJE" tabindex="0">{bookingInfo.bookingStatus}</div>
@@ -92,13 +99,15 @@ const CancelledTab = ({ bookingInfoCancel, images, formatDate, handleCancelActiv
                                     <h3 class="a11y-hidden"></h3>
                                     <div class="aAXjeK">
                                         <div>
-                                            <button class="stardust-button stardust-button--secondary QY7kZh" onClick={toggleImage}>View Refund Image</button>
+                                            <button class="stardust-button stardust-button--secondary QY7kZh" onClick={() => toggleImage(index)}>View Refund Image</button>
+                                            {/* <button class="stardust-button stardust-button--secondary QY7kZh" onClick={toggleImage}>View Refund Image</button> */}
                                         </div>
                                     </div>
                                 </section>
                             </div>
                             <div className='refund-image'>
-                                {showImage && <img src={bookingInfo.imgRespondName} alt="Booking Respond" style={{ width: '300px' }} />}
+                                {/* {showImage && <img src={bookingInfo.imgRespondName} alt="Booking Respond" style={{ width: '300px' }} />} */}
+                                {showImage[index] && <img src={bookingInfo.imgRespondName} alt="Booking Respond" style={{ width: '300px' }} />}
                             </div>
                         </div>
                     )
