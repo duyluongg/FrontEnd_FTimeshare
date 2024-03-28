@@ -9,7 +9,7 @@ import IconButton from '@mui/material/IconButton';
 import SearchIcon from '@mui/icons-material/Search';
 // import SelectOption from '../SelectOption.jsx';
 import SelectOption from '../AdminPage/TotalUser/SelectOption';
-export default function TotalUser() {
+export default function TotalUserAd() {
   const [rows, setRows] = useState([]);
   const [search, setSearch] = useState('');
 
@@ -88,7 +88,7 @@ export default function TotalUser() {
           { field: 'id', headerName: 'ID', width: 70 },
           { field: 'accName', headerName: 'Name', width: 200 },
           { field: 'accPhone', headerName: 'Phone', width: 200 },
-          { field: 'accEmail', headerName: 'Email', width: 300 },
+          { field: 'accEmail', headerName: 'Email', width: 200 },
           // {
           //   field: 'delete',
           //   headerName: 'Action',
@@ -115,7 +115,7 @@ export default function TotalUser() {
         pageSizeOptions={[5, 10]}
         checkboxSelection
         rowHeight={80}
-        sx={{ml:"100px", width:"1100px"}}
+        sx={{ml:"50px", width:"900px"}}
       />
     </div>
   );

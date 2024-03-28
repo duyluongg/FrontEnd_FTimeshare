@@ -8,6 +8,7 @@ import { useNavigate } from "react-router";
 import { Link } from "react-router-dom";
 import * as Yup from 'yup';
 
+
 export default function Register() {
     const [firstName, setFirstName] = useState('');
     const [email, setEmail] = useState('');
@@ -21,6 +22,8 @@ export default function Register() {
     const [snackbarColor, setSnackbarColor] = useState('success');
     const [errors, setErrors] = useState({});
     const [submitAttempted, setSubmitAttempted] = useState(false);
+    const navigate = useNavigate();
+
     const formatDate = (date) => {
         const d = new Date(date);
         const year = d.getFullYear();
@@ -40,7 +43,7 @@ export default function Register() {
 
     const handleRegister = async (e) => {
         e.preventDefault();
-        setSubmitAttempted(true); 
+        setSubmitAttempted(true);
         try {
             await schema.validate({
                 firstName,
@@ -52,7 +55,29 @@ export default function Register() {
             }, { abortEarly: false });
 
             setErrors({});
-            hasError = false;
+
+
+            const formattedBirthday = formatDate(birthday);
+            const formData = new FormData();
+            formData.append('Avatar', avatar);
+            formData.append('accName', firstName);
+            formData.append('accEmail', email);
+            formData.append('accPhone', phoneNumber);
+            formData.append('accPassword', password);
+            formData.append('accStatus', 'active');
+            formData.append('roleID', '3');
+            formData.append('accBirthday', formattedBirthday);
+
+            const response = await axios.post('http://localhost:8080/api/users', formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            });
+
+            setSnackbarMessage('Registration successfully !!!')
+            setSnackbarColor("success");
+            setSnackbarOpen(true);
+            setTimeout(() => navigate('/login'), 1000)
 
         } catch (error) {
             if (error instanceof Yup.ValidationError) {
@@ -69,6 +94,54 @@ export default function Register() {
             }
         }
     }
+
+    // const handleRegister = async (e) => {
+    //     e.preventDefault();
+    //     if (!firstName || !email || !phoneNumber || !password || !birthday || !avatar) {
+
+    //         setSnackbarMessage('Please fill in all required fields');
+    //         setSnackbarColor("error");
+    //         setSnackbarOpen(true);
+    //         return; 
+    //     }
+
+    //     if (isNaN(phoneNumber)) {
+    //         setSnackbarMessage('Please enter a valid phone number');
+    //         setSnackbarColor("error");
+    //         setSnackbarOpen(true);
+    //         return; 
+    //     }
+    //     try {
+    //         const formattedBirthday = formatDate(birthday);
+    //         const formData = new FormData();
+    //         formData.append('Avatar', avatar);
+    //         formData.append('accName', firstName);
+    //         formData.append('accEmail', email);
+    //         formData.append('accPhone', phoneNumber);
+    //         formData.append('accPassword', password);
+    //         formData.append('accStatus', 'active');
+    //         formData.append('roleID', '3');
+    //         formData.append('accBirthday', formattedBirthday);
+
+    //         const response = await axios.post('http://localhost:8080/api/users', formData, {
+    //             headers: {
+    //                 'Content-Type': 'multipart/form-data'
+    //             }
+    //         });
+
+    //         console.log(response.data); 
+    //         setSnackbarMessage('Registration successfully !!!')
+    //         setSnackbarColor("success"); 
+    //         setSnackbarOpen(true);
+
+
+    //     } catch (error) {
+    //         console.error('Lỗi đăng ký người dùng:', error.response.data); 
+    //         setSnackbarMessage('Registration failed :(((');
+    //         setSnackbarColor("error"); 
+    //         setSnackbarOpen(true); 
+    //     }
+    // }
 
     const handleAvatarChange = (e) => {
         const file = e.target.files[0];
@@ -140,7 +213,7 @@ export default function Register() {
                             onChange={(e) => setEmail(e.target.value)}
                             style={{ borderColor: errors.email ? 'red' : null }}
                         />
-                      {errors.email && <p className="error-message">{errors.email}</p>}
+                        {errors.email && <p className="error-message">{errors.email}</p>}
 
                     </div>
                     <div className="input-container">
@@ -151,7 +224,7 @@ export default function Register() {
                             onChange={(e) => setPhoneNumber(e.target.value)}
                             style={{ borderColor: errors.phoneNumber ? 'red' : null }}
                         />
-                          {errors.phoneNumber && <p className="error-message">{errors.phoneNumber}</p>}
+                        {errors.phoneNumber && <p className="error-message">{errors.phoneNumber}</p>}
                     </div>
                     <div className="input-container">
                         <input
@@ -161,7 +234,7 @@ export default function Register() {
                             onChange={(e) => setPassword(e.target.value)}
                             style={{ borderColor: errors.password ? 'red' : null }}
                         />
-                           {errors.password && <p className="error-message">{errors.password}</p>}
+                        {errors.password && <p className="error-message">{errors.password}</p>}
 
                     </div>
 
@@ -174,7 +247,7 @@ export default function Register() {
                             onChange={(e) => setBirthday(e.target.value)}
                             style={{ borderColor: errors.birthday ? 'red' : null }}
                         />
-                       {submitAttempted && !birthday && <p className="error-message">Birthday is required</p>}
+                        {submitAttempted && !birthday && <p className="error-message">Birthday is required</p>}
                     </div>
 
                     <button className="register-button" type="submit">REGISTER</button>

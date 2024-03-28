@@ -104,11 +104,18 @@ export default function CardReportV2() {
             setReportDetails(reportData.data);
             console.log(reportData.data);
 
+     
+
         } catch (error) {
             console.error('Error fetching data:', error);
 
         }
     };
+
+    const filteredProjects = currentProjects.filter(item => {
+        const reportAcc = profiles.find(profile => profile.accID === item.accID);
+        return reportAcc && reportAcc.accName.toLowerCase().includes(searchQuery.toLowerCase());
+    });
 
     const handleDelete = async (reportID) => {
         try {
@@ -231,8 +238,9 @@ export default function CardReportV2() {
                         </div>
                         <Grid container spacing={1} sx={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '10px', ml: 'auto' }}>
 
-                            {currentProjects.map((item) => {
+                            {filteredProjects.map((item) => {
                                 const reportAcc = profiles.find(profile => profile.accID === item.accID);
+                                
                                 return (
                                     <Card key={item.reportID} sx={{ maxWidth: 345, margin: "20px", boxShadow: 3 }}>
                                         <CardHeader

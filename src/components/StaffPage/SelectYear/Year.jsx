@@ -47,31 +47,6 @@ const Year = () => {
   };
 
   return (
-    // <div>
-    //   <label htmlFor="year">Year:</label>
-    //   <select id="year" value={selectedYear} onChange={handleChange}>
-    //     <option value="">Year</option>
-    //     {years.map(year => (
-    //       <option key={year} value={year}>{year}</option>
-    //     ))}
-    //   </select>
-    //   {yearlyTotalPrice !== null && (
-    //     <div>
-    //       <p>Total Price for {selectedYear}: {yearlyTotalPrice}</p>
-    //       {monthlyTotalPrice !== null && (
-    //         <div>
-
-    //           <ul > 
-    //             {Object.entries(fillMissingMonths(monthlyTotalPrice)).map(([month, totalPrice]) => (
-    //               <li className='month-admin' key={month}>Month {month}: {totalPrice}</li>
-    //             ))}
-    //           </ul>
-    //         </div>
-
-    //       )}
-    //     </div>
-    //   )}
-    // </div>
 
     <div>
       <label htmlFor="year">Year:</label>
@@ -96,6 +71,31 @@ const Year = () => {
         </div>
       )}
     </div>
+    // <div>
+    //   <label htmlFor="year">Year:</label>
+    //   <select id="year" value={selectedYear} onChange={handleChange}>
+    //     <option value="">Year</option>
+    //     {years.map(year => (
+    //       <option key={year} value={year}>{year}</option>
+    //     ))}
+    //   </select>
+    //   <div className='month-admin'>
+    //     <div>Month 1: </div>
+    //     <div>Month 2: </div>
+    //     <div>Month 3: </div>
+    //     <div>Month 4: </div>
+    //     <div>Month 5: </div>
+    //     <div>Month 6: </div>
+    //     <div>Month 7: </div>
+    //     <div>Month 8: </div>
+    //     <div>Month 9: </div>
+    //     <div>Month 10: </div>
+    //     <div>Month 11: </div>
+    //     <div>Month 12: </div>
+    //   </div>
+
+
+    // </div>
 
   );
 };

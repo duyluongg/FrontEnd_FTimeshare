@@ -38,9 +38,8 @@ export default function TotalProduct() {
     const indexOfFirstProject = indexOfLastProject - projectsPerPage;
     const [images, setImages] = useState([]);
     const [profiles, setProfiles] = useState([]);
-    const [filteredProjects, setFilteredProjects] = useState([]);
     // const currentProjects = searchQuery ? filteredProjects.slice(indexOfFirstProject, indexOfLastProject) : projectActive.slice(indexOfFirstProject, indexOfLastProject);
-
+    const [filteredProjects, setFilteredProjects] = useState([]);
     const [projectName, setProjectName] = useState([]);
     const [selectedProjectID, setSelectedProjectID] = useState(null);
 
@@ -112,10 +111,10 @@ export default function TotalProduct() {
         setShowCardReport(true);
     };
 
-    useEffect(() => {
-        console.log("Selected Project ID changed:", selectedProject);
+    // useEffect(() => {
+    //     console.log("Selected Project ID changed:", selectedProject);
 
-    }, [selectedProject]);
+    // }, [selectedProject]);
 
 
     const handlePageChange = (event, value) => {
@@ -139,22 +138,10 @@ export default function TotalProduct() {
         console.log("Selected project ID:", projectId);
     };
 
-    // useEffect(() => {
-    //     if (selectedProjectID) {
-    //         // Nếu có project được chọn, lọc danh sách sản phẩm theo project đó
-    //         const filteredByProject = projectActive.filter(item => item.projectID === selectedProjectID);
-    //         setFilteredProjects(filteredByProject);
-    //     } else {
-    //         // Nếu không có project được chọn, hiển thị tất cả các sản phẩm
-    //         setFilteredProjects(projectActive);
-    //     }
-    // }, [selectedProjectID, projectActive]);
-
-
-
     return (
         <>
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', marginTop: "-20px" }}>
+
                 <TextField
                     sx={{ width: '500px', mb: '35px' }}
                     placeholder="Search..."
@@ -174,7 +161,7 @@ export default function TotalProduct() {
                 {filteredProjects.slice(indexOfFirstProject, indexOfLastProject).map((item) => {
                     const projectImage = images.find(image => image.productID === item.productID);
                     // const profileAccount = profiles.find(profile => profile.accID === item.accID);
-                    const projecType = projectName.find(prj => prj.projectID === item.projectID)
+                    const projecType = projectName.find(prj => prj.projectID === item.projectID);
                     console.log(projectImage);
                     return (
                         <Card key={item.productID} sx={{ maxWidth: 345, mb: '20px', boxShadow: 3, ml: "120px" }}>
@@ -195,12 +182,12 @@ export default function TotalProduct() {
                                 sx={{ width: "350px", height: "350px", objectFit: "cover", maxWidth: "100%" }}
                             />
                             <CardContent>
-                                <Typography variant="body2" color="text.secondary" sx={{ overflow: 'hidden', textOverflow: 'ellipsis', display: '-webkit-box', WebkitLineClamp: '2', WebkitBoxOrient: "vertical" }}>
+                                <Typography variant="body2" color="text.secondary" sx={{ overflow: 'hidden', textOverflow: 'ellipsis', display: '-webkit-box', WebkitLineClamp: '1', WebkitBoxOrient: "vertical" }}>
                                     {item.productAddress}
                                 </Typography>
 
-                                <Typography>
-                                    {projecType.projectName}
+                                <Typography variant="body1" color="text.secondary" sx={{ overflow: 'hidden', textOverflow: 'ellipsis', display: '-webkit-box', WebkitLineClamp: '1', WebkitBoxOrient: "vertical" }}>
+                                    Project Name: {projecType.projectName}
                                 </Typography>
                             </CardContent>
                             <CardActions disableSpacing>
@@ -240,10 +227,6 @@ export default function TotalProduct() {
                 }}
                 onChange={handlePageChange}
             />
-
-
-
-
         </>
     );
 }

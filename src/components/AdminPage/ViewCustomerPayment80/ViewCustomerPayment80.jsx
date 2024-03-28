@@ -80,7 +80,7 @@ export default function ViewCustomerPayment_80() {
             console.error('Error fetching projects:', error);
         }
     };
- 
+
 
     if (loading) {
         return <div>Loading...</div>;
@@ -93,7 +93,7 @@ export default function ViewCustomerPayment_80() {
 
     return (
         <>
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' , mr:"500px"}}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', mr: "500px" }}>
                 <TextField
                     sx={{ width: '500px', mb: '35px' }}
                     placeholder="Search..."
@@ -107,14 +107,15 @@ export default function ViewCustomerPayment_80() {
                 </IconButton>
             </div>
 
-            <Grid container spacing={1} sx={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '10px', ml: '50px' }}>
+            <Grid container spacing={1} sx={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '10px'}}>
                 {currentProjects.map((item) => {
                     const projectImage = images.find(image => image.productID === item.productID);
                     const profileAccount = profiles.find(profile => profile.accID === item.accID);
                     console.log(projectImage);
 
                     return (
-                        <Card key={item.bookingID} sx={{ maxWidth: 345, mb: '20px', boxShadow: 3, ml:"80px" }}>
+                        <Card key={item.bookingID} sx={{ maxWidth: 345, height: 530, mb: '20px', boxShadow: 3, ml: "120px" }}>
+
                             <CardHeader
                                 avatar={
                                     <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
@@ -128,7 +129,7 @@ export default function ViewCustomerPayment_80() {
                                     </IconButton>
                                 }
                                 title={profileAccount ? profileAccount.accName : ""}
-                              
+
                             />
 
                             <CardMedia
@@ -138,7 +139,7 @@ export default function ViewCustomerPayment_80() {
                                 image={item.imgName}
                                 alt="Project image"
                                 // sx={{ width: "350px", height: "350px", objectFit: "cover", maxWidth: "100%" }}
-                                sx={{ objectFit: "contain" , maxHeight:"350px"}}
+                                sx={{ objectFit: "contain", maxHeight: "350px" }}
 
                             />
                             <CardContent>
@@ -166,9 +167,9 @@ export default function ViewCustomerPayment_80() {
                                     <Button variant="outlined" >
                                         DETAIL
                                     </Button>
-                            
+
                                 </Link>
-                              
+
                                 <ExpandMore
                                     expand={expanded}
                                     onClick={handleExpandClick}
@@ -190,26 +191,26 @@ export default function ViewCustomerPayment_80() {
                 })}
             </Grid>
             <Pagination
-                    count={10}
-                    color="primary"
-                    sx={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        mt: '25px',
-                        '& .MuiPaginationItem-root': {
-                            color: '#CD9A2B', // Đặt màu của nút trang khi không được chọn
-                        },
-                        position: "sticky",
-                        top:"100%",
-                        bottom: "5px", 
-                        left: "0px",
-                        right: "0px",
-                        // marginBottom: "0px"
+                count={10}
+                color="primary"
+                sx={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    mt: '25px',
+                    '& .MuiPaginationItem-root': {
+                        color: '#CD9A2B', // Đặt màu của nút trang khi không được chọn
+                    },
+                    position: "sticky",
+                    top: "100%",
+                    bottom: "5px",
+                    left: "0px",
+                    right: "0px",
+                    // marginBottom: "0px"
 
-                    }}
-                    onChange={handlePageChange}
-                />
+                }}
+                onChange={handlePageChange}
+            />
         </>
     );
 }
