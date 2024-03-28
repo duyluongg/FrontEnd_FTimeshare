@@ -83,7 +83,7 @@ export default function Register() {
             formData.append('accEmail', email);
             formData.append('accPhone', phoneNumber);
             formData.append('accPassword', password);
-            formData.append('accStatus', 'active');
+            formData.append('accStatus', 'block');
             formData.append('roleID', '3');
             formData.append('accBirthday', formattedBirthday);
 
