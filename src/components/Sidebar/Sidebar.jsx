@@ -26,7 +26,6 @@ const Sidebar = ({ children }) => {
 
     const { user } = useContext(UserContext);
     const location = useLocation();
-    const [userInfo, setUserInfo] = useState(null);
 
     const [activeMenuItem, setActiveMenuItem] = useState("");
 
@@ -52,24 +51,24 @@ const Sidebar = ({ children }) => {
     //     fetchDataUser();
     // }, [user.id]);
 
-    useEffect(() => {
-        // Kiểm tra nếu đường dẫn là '/view-booking-history'
-        if (location.pathname === '/view-booking-history') {
-            const fetchDataUser = async () => {
-                try {
-                    const response = await axios.get(`http://localhost:8080/api/users/viewDetail/${user.id}`);
-                    const formattedBirthday = format(new Date(response.data.accBirthday), 'dd/MM/yyyy');
-                    const formattedData = { ...response.data, accBirthday: formattedBirthday };
-                    setUserInfo(formattedData);
-                } catch (error) {
-                    console.error('Error fetching user data:', error);
-                }
-            };
-            fetchDataUser();
-        }
-    }, [location.pathname, user.id]);
+    // useEffect(() => {
+    //     // Kiểm tra nếu đường dẫn là '/view-booking-history'
+    //     if (location.pathname === '/view-booking-history') {
+    //         const fetchDataUser = async () => {
+    //             try {
+    //                 const response = await axios.get(`http://localhost:8080/api/users/viewDetail/${user.id}`);
+    //                 const formattedBirthday = format(new Date(response.data.accBirthday), 'dd/MM/yyyy');
+    //                 const formattedData = { ...response.data, accBirthday: formattedBirthday };
+    //                 setUserInfo(formattedData);
+    //             } catch (error) {
+    //                 console.error('Error fetching user data:', error);
+    //             }
+    //         };
+    //         fetchDataUser();
+    //     }
+    // }, [location.pathname, user.id]);
 
-    console.log(userInfo);
+    // console.log(userInfo);
 
     return (
         <>

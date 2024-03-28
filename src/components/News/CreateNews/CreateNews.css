@@ -36,6 +36,11 @@
     border-radius: 4px;
 }
 
+textarea {
+    height: 400px; /* Đặt chiều cao của textarea */
+    resize: vertical; /* Cho phép người dùng thay đổi kích thước theo chiều dọc */
+}
+
 .form-group input[type="file"] {
     display: block;
 }

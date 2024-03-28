@@ -40,7 +40,7 @@ export default function Register() {
 
     const handleRegister = async (e) => {
         e.preventDefault();
-        setSubmitAttempted(true); 
+        setSubmitAttempted(true);
         try {
             await schema.validate({
                 firstName,
@@ -66,6 +66,36 @@ export default function Register() {
                 setSnackbarMessage('Registration failed :(((');
                 setSnackbarColor("error");
                 setSnackbarOpen(true);
+            }
+        }
+
+        if (!hasError) {
+            try {
+                setLoadingAPI(true);
+
+                const formattedBirthday = formatDate(birthday);
+                const formData = new FormData();
+                formData.append('Avatar', avatar);
+                formData.append('accName', firstName);
+                formData.append('accEmail', email);
+                formData.append('accPhone', phoneNumber);
+                formData.append('accPassword', password);
+                formData.append('accStatus', 'active');
+                formData.append('roleID', '3');
+                formData.append('accBirthday', formattedBirthday);
+
+                const response = await axios.post('http://localhost:8080/api/users', formData, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data'
+                    }
+                });
+            } catch (error) {
+                console.error('Registration failed :(((', error.response.data);
+                setSnackbarMessage('Registration failed :(((');
+                setSnackbarColor("error");
+                setSnackbarOpen(true);
+            } finally {
+                setLoadingAPI(false);
             }
         }
     }
@@ -140,7 +170,7 @@ export default function Register() {
                             onChange={(e) => setEmail(e.target.value)}
                             style={{ borderColor: errors.email ? 'red' : null }}
                         />
-                      {errors.email && <p className="error-message">{errors.email}</p>}
+                        {errors.email && <p className="error-message">{errors.email}</p>}
 
                     </div>
                     <div className="input-container">
@@ -151,7 +181,7 @@ export default function Register() {
                             onChange={(e) => setPhoneNumber(e.target.value)}
                             style={{ borderColor: errors.phoneNumber ? 'red' : null }}
                         />
-                          {errors.phoneNumber && <p className="error-message">{errors.phoneNumber}</p>}
+                        {errors.phoneNumber && <p className="error-message">{errors.phoneNumber}</p>}
                     </div>
                     <div className="input-container">
                         <input
@@ -161,7 +191,7 @@ export default function Register() {
                             onChange={(e) => setPassword(e.target.value)}
                             style={{ borderColor: errors.password ? 'red' : null }}
                         />
-                           {errors.password && <p className="error-message">{errors.password}</p>}
+                        {errors.password && <p className="error-message">{errors.password}</p>}
 
                     </div>
 
@@ -174,7 +204,7 @@ export default function Register() {
                             onChange={(e) => setBirthday(e.target.value)}
                             style={{ borderColor: errors.birthday ? 'red' : null }}
                         />
-                       {submitAttempted && !birthday && <p className="error-message">Birthday is required</p>}
+                        {submitAttempted && !birthday && <p className="error-message">Birthday is required</p>}
                     </div>
 
                     <button className="register-button" type="submit">REGISTER</button>

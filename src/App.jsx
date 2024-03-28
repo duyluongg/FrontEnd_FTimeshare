@@ -157,8 +157,7 @@ function App() {
 
   const isPayment = location.pathname.includes('/payment');
   const isUpdateProduct = location.pathname.includes('/update-product');
-  const isSidebar = location.pathname.includes('/profile') || location.pathname.includes('/view-booking-history')
-    || location.pathname.includes('/update-profile');
+  const isSidebar = location.pathname.includes('/profile') || location.pathname.includes('/view-booking-history') || location.pathname.includes('/update-profile');
 
   const navigate = useNavigate();
 
@@ -177,7 +176,7 @@ function App() {
           && !isBooking && !isCreateBooking && !isBookingStage && !isProfile && !isPayment && !isUpdateProduct && !isSidebar
           && !isAccommodationDetail && !isUpdateProfile && !isHomestay && <Header />}
 
-        {/* {isSidebar && (
+        {isSidebar && (
           <Sidebar>
             <Routes>
               <Route path='/profile' element={<Profile getData={user.id} />}></Route>
@@ -185,15 +184,15 @@ function App() {
               <Route path='/update-profile' element={<UpdateProfile getData={user.id} />}></Route>
             </Routes>
           </Sidebar>
-        )} */}
+        )}
 
-        <Sidebar>
+        {/* <Sidebar>
           <Routes>
             <Route path='/profile' element={<Profile getData={user.id} />} />
             <Route path='/view-booking-history' element={<Booking />} />
             <Route path='/update-profile' element={<UpdateProfile getData={user.id} />} />
           </Routes>
-        </Sidebar>
+        </Sidebar> */}
 
         <Routes>
           <Route path='/' element={<Project />}></Route>
