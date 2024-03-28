@@ -5,6 +5,7 @@ import { faFacebookF, faGooglePlusG } from '@fortawesome/free-brands-svg-icons';
 import axios from 'axios';
 import SnackBar from "../SnackBar.jsx";
 import { useNavigate } from "react-router";
+import * as Yup from 'yup';
 
 export default function CreatePayment({ getID }) {
     const [accountName, setAccountName] = useState('');
@@ -17,6 +18,7 @@ export default function CreatePayment({ getID }) {
     const [snackbarOpen, setSnackbarOpen] = useState(false);
     const [snackbarMessage, setSnackbarMessage] = useState('');
     const [snackbarColor, setSnackbarColor] = useState('success');
+    const [errors, setErrors] = useState({});
 
     // console.log(hideCreatePayment);
     const formatDate = (date) => {
@@ -29,39 +31,70 @@ export default function CreatePayment({ getID }) {
 
     const navigate = useNavigate();
 
+    const schema = Yup.object().shape({
+        accountName: Yup.string().required('Account Name is required'),
+        bank: Yup.string().required('Bank is required'),
+        accountBank: Yup.string().required('Account Bank is required')
+    });
+
     const handleCreatePayment = async (e) => {
         e.preventDefault();
-        console.log(getID);
+        let hasError = false;
+
         try {
+            await schema.validate({
+                accountName,
+                bank,
+                accountBank
+            }, { abortEarly: false });
 
-            const formData = new FormData();
-            // formData.append('ImgBanking', new File([''], { type: 'text/plain' }));
-            formData.append('ImgBanking', new File([''], ''));
-
-            formData.append('accountName', accountName);
-            formData.append('banking', bank);
-            formData.append('accountNumber', accountBank);
-            formData.append('accID', getID);
-
-
-            const response = await axios.post('http://localhost:8080/api/payment', formData, {
-                headers: {
-                    'Content-Type': 'multipart/form-data'
-                }
-            });
-            // hideCreatePayment();
-            // console.log(hideCreatePayment());
-            console.log(response.data);
-            setSnackbarMessage('Create payment successfully !!!')
-            setSnackbarColor("success");
-            setSnackbarOpen(true);
-            window.location.reload();
+            // Nếu không có lỗi từ Yup, đặt hasError thành false
+            setErrors({});
+            hasError = false;
 
         } catch (error) {
-            console.error('Lỗi tạo tk:', error.response.data);
-            setSnackbarMessage('Create payment failed :(((');
-            setSnackbarColor("error");
-            setSnackbarOpen(true);
+            if (error instanceof Yup.ValidationError) {
+                const yupErrors = {};
+                error.inner.forEach((e) => {
+                    yupErrors[e.path] = e.message;
+                });
+                setErrors(yupErrors);
+                hasError = true; // Nếu có lỗi từ Yup, đặt hasError thành true
+            }
+        }
+
+        if (!hasError) {
+            try {
+
+                const formData = new FormData();
+                // formData.append('ImgBanking', new File([''], { type: 'text/plain' }));
+                formData.append('ImgBanking', new File([''], ''));
+
+                formData.append('accountName', accountName);
+                formData.append('banking', bank);
+                formData.append('accountNumber', accountBank);
+                formData.append('accID', getID);
+
+
+                const response = await axios.post('http://localhost:8080/api/payment', formData, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data'
+                    }
+                });
+                // hideCreatePayment();
+                // console.log(hideCreatePayment());
+                console.log(response.data);
+                setSnackbarMessage('Create payment successfully !!!')
+                setSnackbarColor("success");
+                setSnackbarOpen(true);
+                window.location.reload();
+
+            } catch (error) {
+                console.error('Lỗi tạo tk:', error.response.data);
+                setSnackbarMessage('Create payment failed :(((');
+                setSnackbarColor("error");
+                setSnackbarOpen(true);
+            }
         }
     }
 
@@ -119,7 +152,9 @@ export default function CreatePayment({ getID }) {
                             placeholder="Account Name"
                             value={accountName}
                             onChange={(e) => setAccountName(e.target.value)}
+                            style={{ borderColor: errors.accountName ? 'red' : null }}
                         />
+                        {errors.accountName && <p style={{ color: 'red' }}>{errors.accountName}</p>}
                     </div>
 
                     <div className="input-container">
@@ -128,7 +163,9 @@ export default function CreatePayment({ getID }) {
                             placeholder="Bank"
                             value={bank}
                             onChange={(e) => setBank(e.target.value)}
+                            style={{ borderColor: errors.bank ? 'red' : null }}
                         />
+                        {errors.bank && <p style={{ color: 'red' }}>{errors.bank}</p>}
                     </div>
 
                     <div className="input-container">
@@ -137,7 +174,9 @@ export default function CreatePayment({ getID }) {
                             placeholder="Account Number"
                             value={accountBank}
                             onChange={(e) => setAccountBank(e.target.value)}
+                            style={{ borderColor: errors.accountBank ? 'red' : null }}
                         />
+                        {errors.accountBank && <p style={{ color: 'red' }}>{errors.accountBank}</p>}
                     </div>
 
 

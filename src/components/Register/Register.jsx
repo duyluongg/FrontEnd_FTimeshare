@@ -97,10 +97,16 @@ export default function Register() {
                 }
             });
 
-            setSnackbarMessage('Registration successfully !!!')
-            setSnackbarColor("success");
-            setSnackbarOpen(true);
-            setTimeout(() => navigate('/login'), 1000)
+            // setSnackbarMessage('Registration successfully !!!')
+            // setSnackbarColor("success");
+            // setSnackbarOpen(true);
+            // setTimeout(() => navigate('/login'), 1000)
+
+            navigate('/confirm-register', {
+                state: {
+                    email: email
+                }
+            });
 
         } catch (error) {
             if (error instanceof Yup.ValidationError) {

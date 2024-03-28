@@ -53,6 +53,9 @@ import TotalUser from './components/AdminPage/TotalUser/TotalUser.jsx'
 import CardReport from './components/AdminPage/ViewReport/CardReport.jsx'
 import ViewReport from './components/AdminPage/ViewReport/ViewReport.jsx'
 import Sidenav from './components/AdminPage/Sidenav/Sidenav.jsx';
+import Homestay from './components/Accommodation/Homestay.jsx';
+import ConfirmRegister from './components/Register/ConfirmRegister.jsx';
+import './components/Register/ConfirmRegister.css';
 
 import { useLocation } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
@@ -147,7 +150,9 @@ function App() {
   const isProfile = location.pathname.includes('/profile');
   const isUpdateProfile = location.pathname.includes('/update-profile');
   const isUpdateProfileStaff = location.pathname.includes('/update-profile-staff/:accID');
-  const isAccommodationDetail = location.pathname.includes('accommodation-detail');
+  const isAccommodationDetail = location.pathname.includes('/accommodation-detail');
+  const isHomestay = location.pathname.includes('/homestay');
+  const isConfirmRegister = location.pathname.includes('/confirm-register');
 
 
   const isPayment = location.pathname.includes('/payment');
@@ -169,7 +174,7 @@ function App() {
         {!isDetailPage && !isLoginPage && !isRegisterPage && !isContactPage && !isStaffPage && !isAdminPage && !isUpdateProfileStaff
           && !isCreateTimeshare && !isViewSummary && !isViewDetail && !isViewNews && !isViewNewAll && !isCreateNews && !isAccommodation
           && !isBooking && !isCreateBooking && !isBookingStage && !isProfile && !isPayment && !isUpdateProduct && !isSidebar
-          && !isAccommodationDetail && !isUpdateProfile && <Header />}
+          && !isAccommodationDetail && !isUpdateProfile && !isHomestay && !isConfirmRegister && <Header />}
 
         {isSidebar && (
           <Sidebar>
@@ -204,6 +209,16 @@ function App() {
           <Route path='/create-payment' element={<CreatePayment />}></Route>
           <Route path='/update-product' element={<UpdateProduct />}></Route>
           <Route path='/accommodation-detail/:projectID' element={<AccommodationDetail />}></Route>
+          <Route path='/homestay' element={<Homestay />}></Route>
+          <Route path='/confirm-register' element={<ConfirmRegister />}></Route>
+          {/* <Route path='/admin/total-users/*' element={<TotalUser />}></Route> */}
+          {/* <Route path='/admin/*' element={<AdminPage />}></Route> */}
+          {/* <Route path='/admin/*' element={<Sidenav />}></Route> */}
+          {/* <Route path='/staff/*' element={<StaffView />}></Route> */}
+
+          {/* <Route path='/profile' element={<Profile getData={user.id} />}></Route> */}
+          {/* <Route path='/profile' element={<Profile getData={user.id} />}></Route>
+        <Route path='/update-profile/:accID' element={<UpdateProfile/>}></Route> */}
           <Route path='/new' element={<ViewAllNew />}></Route>
         </Routes>
         {!isStaffPage && !isAdminPage && !isUpdateProfileStaff && <Footer />}
