@@ -32,15 +32,6 @@ export default function TotalUser() {
     fetchRow();
   }, []);
 
-  const handleDelete = async (row) => {
-    try {
-      await axios.delete(`http://localhost:8080/api/users/delete/${row.accID}`);
-      setRows((prevRows) => prevRows.filter((prevRow) => prevRow.id !== row.id));
-    } catch (error) {
-      console.error('Error deleting row:', error);
-    }
-  };
-
   const handleRole = async (row, newRole) => {
     try {
       let response;

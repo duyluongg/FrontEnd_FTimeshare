@@ -54,7 +54,7 @@ export default function ViewAllNew() {
     };
     return (
         // <div>abc</div>
-        <div>
+        <>
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                 <TextField
                     sx={{ width: '500px', mb: '35px' }}
@@ -68,10 +68,10 @@ export default function ViewAllNew() {
                     <SearchIcon />
                 </IconButton>
             </div>
-            <Grid container spacing={1} sx={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '10px', ml: '95px' }}>
+            <Grid container spacing={1} sx={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '10px' }}>
                 {currentNews.map((item) => {
                     return (
-                        <Card sx={{ maxWidth: 345 }} key={item.newsID}>
+                        <Card sx={{ maxWidth: 345, ml: "120px" }} key={item.newsID}>
                             <CardMedia
                                 component="img"
                                 alt="green iguana"
@@ -98,13 +98,27 @@ export default function ViewAllNew() {
 
                 })}
             </Grid>
+
             <Pagination
                 count={10}
                 color="primary"
-                sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', mt: '25px', mb: '25px' }}
+                sx={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    mt: '25px',
+                    '& .MuiPaginationItem-root': {
+                        color: '#CD9A2B',
+                    },
+                    position: "sticky",
+                    top: "80%",
+                    
+                    zIndex: 1, 
+                }}
                 onChange={handlePageChange}
             />
-        </div>
+
+        </>
 
     );
 }

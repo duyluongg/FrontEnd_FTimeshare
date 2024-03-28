@@ -15,6 +15,7 @@ import SnackBar from "../SnackBar.jsx";
 import { useNavigate } from "react-router-dom";
 import ModalCreateBook from "../OwnerRole/CreateBooking/ModalCreateBook.jsx";
 import CreatePayment from "../Register/CreatePayment.jsx";
+import ModalTerm from "../Register/ModalTerm.jsx";
 
 export default function Payment() {
     const [orderSummary, setOrderSummary] = useState('');
@@ -330,9 +331,9 @@ export default function Payment() {
 
                                 <div class="s7CqeD">
                                     <div class="sQArKu">
-                                        <div class="xINqui">Clicking "Boooking" means you agree to abide by
-                                            <a href="https://help.shopee.vn/portal/article/77242" target="_blank" rel="noopener noreferrer" previewlistener="true" className="payment-term"> P-Timeshare's Terms</a>
-                                        </div>
+                                        <div class="xINqui">Clicking "Boooking" means you agree to abide by  
+                                            <a  target="_blank" rel="noopener noreferrer" previewlistener="true" className="payment-term"><ModalTerm/></a>
+                                            </div>
                                     </div>
                                     <button
                                         className={`stardust-button stardust-button--CD9A2B stardust-button--large LtH6tW ${isLoading ? 'disabled' : ''}`}

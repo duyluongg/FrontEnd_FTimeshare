@@ -25,12 +25,12 @@ export default function ModalTerm() {
 
     return (
         <div>
-            <div style={{ display: "flex", alignItems: "center" }}>
-                <span>ACCEPT</span>
+            {/* <div style={{ display: "flex", alignItems: "center" }}> */}
+                {/* <span>ACCEPT</span> */}
                 <Button onClick={handleOpen} >
-                    <span style={{ color: "#CD9A2B", marginTop: "3.5px" }}>Term & Services</span>
+                    <span style={{ color: "#CD9A2B" }}>Term & Services</span>
                 </Button>
-            </div>
+            {/* </div> */}
 
 
             <Modal

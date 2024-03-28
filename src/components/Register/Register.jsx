@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFacebookF, faGooglePlusG } from '@fortawesome/free-brands-svg-icons';
@@ -9,11 +8,13 @@ import { Link } from "react-router-dom";
 import * as Yup from 'yup';
 import { Checkbox } from "@mui/material";
 import ModalTerm from "./ModalTerm.jsx";
+
 export default function Register() {
     const [firstName, setFirstName] = useState('');
     const [email, setEmail] = useState('');
     const [phoneNumber, setPhoneNumber] = useState('');
     const [password, setPassword] = useState('');
+    const [confirmPassword, setConfirmPassword] = useState('');
     const [birthday, setBirthday] = useState('');
     const [avatar, setAvatar] = useState('');
     const [avatarPreview, setAvatarPreview] = useState(null);
@@ -23,6 +24,7 @@ export default function Register() {
     const [errors, setErrors] = useState({});
     const [submitAttempted, setSubmitAttempted] = useState(false);
     const [agreed, setAgreed] = useState(false);
+    const [passwordMatchError, setPasswordMatchError] = useState('');
 
     const navigate = useNavigate();
 
@@ -38,7 +40,8 @@ export default function Register() {
         firstName: Yup.string().required('First Name is required'),
         email: Yup.string().email('Invalid email').required('Email is required'),
         phoneNumber: Yup.string().matches(/^[0-9]{10}$/, 'Phone Number must be 10 digits').required('Phone Number is required'),
-        password: Yup.string().min(5, 'Password must be at least 6 characters').required('Password is required'),
+        password: Yup.string().min(5, 'Password must be at least 5 characters').required('Password is required'),
+        confirmPassword: Yup.string().oneOf([Yup.ref('password'), null], 'Passwords must match').required('Confirm Password is required'),
         birthday: Yup.date().required('Birthday is required'),
         avatar: Yup.mixed().required('Avatar is required')
     });
@@ -47,9 +50,7 @@ export default function Register() {
         e.preventDefault();
         setSubmitAttempted(true);
 
-
         try {
-
             const eighteenYearsAgo = new Date();
             eighteenYearsAgo.setFullYear(eighteenYearsAgo.getFullYear() - 18);
             if (new Date(birthday) > eighteenYearsAgo) {
@@ -64,6 +65,7 @@ export default function Register() {
                 email,
                 phoneNumber,
                 password,
+                confirmPassword,
                 birthday,
                 avatar
             }, { abortEarly: false });
@@ -76,6 +78,7 @@ export default function Register() {
             }
 
             setErrors({});
+            setPasswordMatchError('');
 
             const formattedBirthday = formatDate(birthday);
             const formData = new FormData();
@@ -113,36 +116,6 @@ export default function Register() {
                 setSnackbarOpen(true);
             }
         }
-
-        // if (!hasError) {
-        //     try {
-        //         setLoadingAPI(true);
-
-        //         const formattedBirthday = formatDate(birthday);
-        //         const formData = new FormData();
-        //         formData.append('Avatar', avatar);
-        //         formData.append('accName', firstName);
-        //         formData.append('accEmail', email);
-        //         formData.append('accPhone', phoneNumber);
-        //         formData.append('accPassword', password);
-        //         formData.append('accStatus', 'active');
-        //         formData.append('roleID', '3');
-        //         formData.append('accBirthday', formattedBirthday);
-
-        //         const response = await axios.post('http://localhost:8080/api/users', formData, {
-        //             headers: {
-        //                 'Content-Type': 'multipart/form-data'
-        //             }
-        //         });
-        //     } catch (error) {
-        //         console.error('Registration failed :(((', error.response.data);
-        //         setSnackbarMessage('Registration failed :(((');
-        //         setSnackbarColor("error");
-        //         setSnackbarOpen(true);
-        //     } finally {
-        //         setLoadingAPI(false);
-        //     }
-        // }
     }
 
     const handleAvatarChange = (e) => {
@@ -166,6 +139,16 @@ export default function Register() {
         setSnackbarOpen(false);
     };
 
+    const handlePasswordChange = (e) => {
+        setPassword(e.target.value);
+        setPasswordMatchError('');
+    };
+
+    const handleConfirmPasswordChange = (e) => {
+        setConfirmPassword(e.target.value);
+        setPasswordMatchError('');
+    };
+
     return (
         <div className="register-container">
             <div className="register-form">
@@ -182,7 +165,8 @@ export default function Register() {
                     </div>
 
                     <div className="input-container">
-                        <label htmlFor="avatar">Avatar</label>
+                        <label htmlFor="avatar" style={{ fontWeight: "bold" }}>Avatar:<span style={{ color: "red" }}>*</span></label>
+
                         <input
                             type="file"
                             id="avatar"
@@ -194,9 +178,11 @@ export default function Register() {
                                 <img src={avatarPreview} alt="Avatar Preview" style={{ maxWidth: "100px", maxHeight: "100px" }} />
                             </div>
                         )}
+                        {errors.avatar && <p className="error-message">{errors.avatar}</p>}
                     </div>
-
                     <div className="input-container">
+                        <label htmlFor="name" style={{ fontWeight: "bold" }}>Name:<span style={{ color: "red" }}>*</span></label>
+
                         <input
                             type="text"
                             placeholder=" Name"
@@ -208,6 +194,8 @@ export default function Register() {
                     </div>
 
                     <div className="input-container">
+                        <label htmlFor="email" style={{ fontWeight: "bold" }}>Email:<span style={{ color: "red" }}>*</span></label>
+
                         <input
                             type="email"
                             placeholder="Email"
@@ -216,9 +204,10 @@ export default function Register() {
                             style={{ borderColor: errors.email ? 'red' : null }}
                         />
                         {errors.email && <p className="error-message">{errors.email}</p>}
-
                     </div>
                     <div className="input-container">
+                        <label htmlFor="tel" style={{ fontWeight: "bold" }}>Phone Number:<span style={{ color: "red" }}>*</span></label>
+
                         <input
                             type="tel"
                             placeholder="Phone Number"
@@ -229,19 +218,34 @@ export default function Register() {
                         {errors.phoneNumber && <p className="error-message">{errors.phoneNumber}</p>}
                     </div>
                     <div className="input-container">
+                        <label htmlFor="password" style={{ fontWeight: "bold" }}>Password:<span style={{ color: "red" }}>*</span></label>
+
                         <input
                             type="password"
                             placeholder="Password"
                             value={password}
-                            onChange={(e) => setPassword(e.target.value)}
+                            onChange={handlePasswordChange}
                             style={{ borderColor: errors.password ? 'red' : null }}
                         />
                         {errors.password && <p className="error-message">{errors.password}</p>}
-
                     </div>
 
                     <div className="input-container">
-                        <label htmlFor="birthday">Birthday</label>
+                        <label htmlFor="confirmPassword" style={{ fontWeight: "bold" }}>Confirm Password:<span style={{ color: "red" }}>*</span></label>
+
+                        <input
+                            type="password"
+                            placeholder="Confirm Password"
+                            value={confirmPassword}
+                            onChange={handleConfirmPasswordChange}
+                            style={{ borderColor: errors.confirmPassword ? 'red' : null }}
+                        />
+                        {errors.confirmPassword && <p className="error-message">{errors.confirmPassword}</p>}
+                        {passwordMatchError && <p className="error-message">{passwordMatchError}</p>}
+                    </div>
+
+                    <div className="input-container">
+                        <label htmlFor="birthday" style={{ fontWeight: "bold" }}>Birthday:<span style={{ color: "red" }}>*</span></label>
                         <input
                             type="date"
                             id="birthday"
@@ -255,30 +259,13 @@ export default function Register() {
                         <Checkbox
                             checked={agreed}
                             onChange={(e) => setAgreed(e.target.checked)}
-                            sx={{ mt: "1px" }}
+                            sx={{ mt: "-3px" }}
                         />
-                        <ModalTerm sx={{ color: "#CD9A2B" }} />
-
+                        <span style={{ marginTop: "4px" }}>Accept</span> <ModalTerm sx={{ color: "#CD9A2B" }} />
                     </div>
                     <button className="register-button" type="submit">REGISTER</button>
-
                 </form>
                 <SnackBar open={snackbarOpen} message={snackbarMessage} onClose={handleSnackbarClose} color={snackbarColor} />
-                {/* <div className="line-container">
-                    <div className="line"></div>
-                    <div className="or">Or login with</div>
-                    <div className="line"></div>
-                </div>
-                <div className="social-register">
-                    <button className="facebook-register">
-                        <span className="facebook-icon"><FontAwesomeIcon icon={faFacebookF} className="icon" /></span>
-                        <span>Facebook</span>
-                    </button>
-                    <button className="google-register">
-                        <span className="google-icon"><FontAwesomeIcon icon={faGooglePlusG} className="icon" /></span>
-                        <span>Google</span>
-                    </button>
-                </div> */}
             </div>
         </div>
     );
