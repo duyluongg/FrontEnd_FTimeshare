@@ -93,6 +93,36 @@ export default function Register() {
                 setSnackbarOpen(true);
             }
         }
+
+        if (!hasError) {
+            try {
+                setLoadingAPI(true);
+
+                const formattedBirthday = formatDate(birthday);
+                const formData = new FormData();
+                formData.append('Avatar', avatar);
+                formData.append('accName', firstName);
+                formData.append('accEmail', email);
+                formData.append('accPhone', phoneNumber);
+                formData.append('accPassword', password);
+                formData.append('accStatus', 'active');
+                formData.append('roleID', '3');
+                formData.append('accBirthday', formattedBirthday);
+
+                const response = await axios.post('http://localhost:8080/api/users', formData, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data'
+                    }
+                });
+            } catch (error) {
+                console.error('Registration failed :(((', error.response.data);
+                setSnackbarMessage('Registration failed :(((');
+                setSnackbarColor("error");
+                setSnackbarOpen(true);
+            } finally {
+                setLoadingAPI(false);
+            }
+        }
     }
 
     // const handleRegister = async (e) => {

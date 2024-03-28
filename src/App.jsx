@@ -152,8 +152,7 @@ function App() {
 
   const isPayment = location.pathname.includes('/payment');
   const isUpdateProduct = location.pathname.includes('/update-product');
-  const isSidebar = location.pathname.includes('/profile') || location.pathname.includes('/view-booking-history')
-    || location.pathname.includes('/update-profile');
+  const isSidebar = location.pathname.includes('/profile') || location.pathname.includes('/view-booking-history') || location.pathname.includes('/update-profile');
 
   const navigate = useNavigate();
 
@@ -173,7 +172,7 @@ function App() {
           && !isAccommodationDetail && !isUpdateProfile && <Header />}
 
         {isSidebar && (
-          <Sidebar getData={user.id}>
+          <Sidebar>
             <Routes>
               <Route path='/profile' element={<Profile getData={user.id} />}></Route>
               <Route path='/view-booking-history' element={<Booking />}></Route>
