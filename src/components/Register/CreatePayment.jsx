@@ -1,5 +1,5 @@
 
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFacebookF, faGooglePlusG } from '@fortawesome/free-brands-svg-icons';
 import axios from 'axios';
@@ -19,6 +19,8 @@ export default function CreatePayment({ getID }) {
     const [snackbarMessage, setSnackbarMessage] = useState('');
     const [snackbarColor, setSnackbarColor] = useState('success');
     const [errors, setErrors] = useState({});
+    const [bankList, setBankList] = useState([]);
+    const [isLoading, setIsLoading] = useState(false);
 
     // console.log(hideCreatePayment);
     const formatDate = (date) => {
@@ -64,6 +66,7 @@ export default function CreatePayment({ getID }) {
         }
 
         if (!hasError) {
+            setIsLoading(true);
             try {
 
                 const formData = new FormData();
@@ -94,6 +97,7 @@ export default function CreatePayment({ getID }) {
                 setSnackbarMessage('Create payment failed :(((');
                 setSnackbarColor("error");
                 setSnackbarOpen(true);
+                setIsLoading(false);
             }
         }
     }
@@ -117,6 +121,24 @@ export default function CreatePayment({ getID }) {
 
     const handleSnackbarClose = () => {
         setSnackbarOpen(false);
+    };
+
+    useEffect(() => {
+        const fetchBankName = async () => {
+            try {
+                const response = await axios.get(`https://api.vietqr.io/v2/banks`);
+
+                setBankList(response.data.data);
+                // console.log(response.data.data);
+            } catch (error) {
+                console.error('Error fetching banks:', error);
+            }
+        };
+        fetchBankName();
+    }, []);
+
+    const handleBankChange = (e) => {
+        setBank(e.target.value);
     };
 
     return (
@@ -157,7 +179,7 @@ export default function CreatePayment({ getID }) {
                         {errors.accountName && <p style={{ color: 'red' }}>{errors.accountName}</p>}
                     </div>
 
-                    <div className="input-container">
+                    {/* <div className="input-container">
                         <input
                             type="Bank"
                             placeholder="Bank"
@@ -165,6 +187,20 @@ export default function CreatePayment({ getID }) {
                             onChange={(e) => setBank(e.target.value)}
                             style={{ borderColor: errors.bank ? 'red' : null }}
                         />
+                        {errors.bank && <p style={{ color: 'red' }}>{errors.bank}</p>}
+                    </div> */}
+
+                    <div className="input-container">
+                        <select
+                            value={bank}
+                            onChange={handleBankChange}
+                            style={{ borderColor: errors.bank ? 'red' : null }}
+                        >
+                            <option value="">Select a bank</option>
+                            {bankList.map(bankItem => (
+                                <option key={bankItem.id} value={bankItem.name}>{bankItem.name} - {bankItem.shortName}</option>
+                            ))}
+                        </select>
                         {errors.bank && <p style={{ color: 'red' }}>{errors.bank}</p>}
                     </div>
 
@@ -180,7 +216,14 @@ export default function CreatePayment({ getID }) {
                     </div>
 
 
-                    <button className="register-button" type="submit">Create</button>
+                    {/* <button className="register-button" type="submit">Create</button> */}
+                    <button
+                        className={`register-button ${isLoading ? 'disabled' : ''}`}
+                        type="submit"
+                        disabled={isLoading}
+                    >
+                        {isLoading ? 'Creating...' : 'Create'}
+                    </button>
                 </form>
                 <SnackBar open={snackbarOpen} message={snackbarMessage} onClose={handleSnackbarClose} color={snackbarColor} />
 
