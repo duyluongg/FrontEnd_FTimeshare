@@ -122,11 +122,7 @@ export default function ViewCustomerPayment() {
                                         <ModalProfile accID={profileAccount} />
                                     </Avatar>
                                 }
-                                action={
-                                    <IconButton aria-label="settings">
-                                        <MoreVertIcon />
-                                    </IconButton>
-                                }
+                           
                                 title={profileAccount ? profileAccount.accName : ""}
                               
                             />
