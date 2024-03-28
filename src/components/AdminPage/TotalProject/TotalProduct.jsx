@@ -33,7 +33,7 @@ export default function TotalProduct() {
     // const [projectsPerPage] = useState(6);
     const [searchQuery, setSearchQuery] = useState('');
     const [getProjectID, setGetProjectID] = useState();
-    const projectsPerPage = 6;
+    const projectsPerPage = 2;
     const indexOfLastProject = currentPage * projectsPerPage;
     const indexOfFirstProject = indexOfLastProject - projectsPerPage;
     const [images, setImages] = useState([]);

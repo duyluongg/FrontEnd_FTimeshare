@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { DataGrid } from '@mui/x-data-grid';
@@ -8,6 +7,7 @@ import { TextField } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
 import SearchIcon from '@mui/icons-material/Search';
 import SelectOption from './SelectOption.jsx';
+
 export default function TotalUser() {
   const [rows, setRows] = useState([]);
   const [search, setSearch] = useState('');
@@ -18,10 +18,12 @@ export default function TotalUser() {
     const fetchRow = async () => {
       try {
         const response = await axios.get('http://localhost:8080/api/users/ROLE_CUSTOMER');
+        console.log(response.data);
         const updatedRows = response.data.map((row, index) => ({
           ...row,
           id: index + 1,
-          status: row.accStatus === 'active' ? 'Active' : 'Block' // Cập nhật trạng thái
+          status: row.accStatus === 'active' ? 'Active' : 'Block', // Cập nhật trạng thái
+          accStatus: row.accStatus // Thêm giá trị accStatus vào mỗi hàng
         }));
         setRows(updatedRows);
       } catch (error) {
@@ -43,14 +45,10 @@ export default function TotalUser() {
 
       console.log(response.data);
 
-
     } catch (error) {
       console.error('Error updating role:', error);
     }
   };
-
-
-
 
   return (
     <div>
@@ -62,15 +60,12 @@ export default function TotalUser() {
           size="small"
           defaultValue=""
           onChange={(s) => setSearch(s.target.value)}
-   
-
         />
         <IconButton type="submit" aria-label="search" sx={{ mb: '30px' }}>
           <SearchIcon />
         </IconButton>
       </div>
       <DataGrid
-        // rows={rows.filter((item) => search.toLocaleLowerCase() === '' ? item : item.accName.toLocaleLowerCase().includes(search)}
         rows={rows.filter((item) =>
           search.trim() === '' ? true : item.accName.toLowerCase().includes(search.toLowerCase())
         )}
@@ -79,14 +74,7 @@ export default function TotalUser() {
           { field: 'accName', headerName: 'Name', width: 200 },
           { field: 'accPhone', headerName: 'Phone', width: 200 },
           { field: 'accEmail', headerName: 'Email', width: 300 },
-          // {
-          //   field: 'delete',
-          //   headerName: 'Action',
-          //   width: 100,
-          //   renderCell: (params) => (
-          //     <ModalPopUp onDelete={handleDelete} row={params.row} color='error' />
-          //   ),
-          // },
+          { field: 'accStatus', headerName: 'Status', width: 150 }, // Thêm cột Status
           {
             field: 'action',
             headerName: 'Action',
@@ -103,11 +91,10 @@ export default function TotalUser() {
           },
         }}
         pageSizeOptions={[5, 10]}
-        checkboxSelection
+        // checkboxSelection
         rowHeight={80}
         sx={{ml:"100px", width:"1400px"}}
       />
     </div>
   );
 }
-

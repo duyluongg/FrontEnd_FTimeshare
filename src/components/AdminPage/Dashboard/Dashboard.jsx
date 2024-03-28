@@ -17,7 +17,7 @@ export default function Dashboard() {
                     axios.get('http://localhost:8080/api/products/staff/totalPending'),
                     axios.get('http://localhost:8080/api/products/staff/totalRejected'),
                     axios.get('http://localhost:8080/api/products/staff/totalClosed'),
-                    axios.get('http://localhost:8080/api/users/staff/count/ROLE_STAFF'),
+                    // axios.get('http://localhost:8080/api/users/staff/count/ROLE_STAFF'),
                     axios.get('http://localhost:8080/api/bookings/staff/totalActive'),
                     axios.get('http://localhost:8080/api/bookings/staff/totalWaitToConfirm'),
                     axios.get('http://localhost:8080/api/bookings/staff/totalWaitToConfirmRC'),
@@ -43,14 +43,14 @@ export default function Dashboard() {
         { id: 3, label: 'Pending Product', link: 'pending-product' },
         { id: 4, label: 'Rejected Product', link: 'rejected-product' },
         { id: 5, label: 'Closed Product', link: 'closed-product' },    
-        { id: 6, label: 'Total Staff', link: 'total-staff' },     
-        { id: 7, label: 'View Active Booking List', link: 'active-list' },
-        { id: 8, label: 'Booking with wait to confirm', link: 'wait-to-confirm-list' },
-        { id: 9, label: 'Booking with wait to confirm request cancel', link: 'wait-to-confirm-rc' },
-        { id: 10, label: 'Booking with Wait to confirm respond payment (100%)', link: 'wait-customer-to-confirm-payment-list/100' },
-        { id: 11, label: 'Booking with Wait to confirm respond payment (80%)', link: 'wait-customer-to-confirm-payment-list/80' },
-        { id: 12, label: 'All New', link: 'all-new' },
-        { id: 13, label: 'New', link: 'new' },
+        // { id: 6, label: 'Total Staff', link: 'total-staff' },     
+        { id: 6, label: 'View Active Booking List', link: 'active-list' },
+        { id: 7, label: 'Booking with wait to confirm', link: 'wait-to-confirm-list' },
+        { id: 8, label: 'Booking with wait to confirm request cancel', link: 'wait-to-confirm-rc' },
+        { id: 9, label: 'Booking with Wait to confirm respond payment (100%)', link: 'wait-customer-to-confirm-payment-list/100' },
+        { id: 10, label: 'Booking with Wait to confirm respond payment (80%)', link: 'wait-customer-to-confirm-payment-list/80' },
+        { id: 11, label: 'All New', link: 'all-new' },
+        { id: 12, label: 'New', link: 'new' },
  
     ];
 
@@ -58,7 +58,7 @@ export default function Dashboard() {
         <div>
 
             <div className='card-db-flex'>
-                <Grid container spacing={1} sx={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: '30px', ml: '80px' }}>
+                <Grid container spacing={1} sx={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '30px', ml: '130px' , mt:"50px"}}>
                     {cards.map((cardDB, index) => (
                         <Link key={cardDB.id} to={`/staff/${cardDB.link}`} className='card-link'>
                             <div className='card-db'>

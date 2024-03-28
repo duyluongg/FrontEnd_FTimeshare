@@ -113,7 +113,7 @@ export default function TotalUserAd() {
           },
         }}
         pageSizeOptions={[5, 10]}
-        checkboxSelection
+        // checkboxSelection
         rowHeight={80}
         sx={{ml:"50px", width:"900px"}}
       />

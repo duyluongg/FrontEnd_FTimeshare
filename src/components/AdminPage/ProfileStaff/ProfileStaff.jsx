@@ -82,7 +82,7 @@ export default function ProfileStaff({ getData }) {
                                 </div>
                             </div>
 
-                            <div>
+                            {/* <div>
                                 <h2 className='profile-title-info'>Project</h2>
                                 <div className='profile-right'>
                                     <div>
@@ -99,7 +99,7 @@ export default function ProfileStaff({ getData }) {
 
                                     </div>
                                 </div>
-                            </div>
+                            </div> */}
                         </div>
 
 

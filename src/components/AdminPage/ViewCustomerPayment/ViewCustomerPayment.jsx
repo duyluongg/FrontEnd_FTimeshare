@@ -28,6 +28,7 @@ export default function ViewCustomerPayment() {
     const [profiles, setProfiles] = useState([]);
     const [searchQuery, setSearchQuery] = useState('');
     const [expanded, setExpanded] = useState(false);
+    const [originalProjects, setOriginalProjects] = useState([]);
 
     const projectsPerPage = 6;
     const indexOfLastProject = currentPage * projectsPerPage;
@@ -39,7 +40,14 @@ export default function ViewCustomerPayment() {
     };
 
     const handleSearchChange = (event) => {
-        setSearchQuery(event.target.value);
+        const value = event.target.value;
+        setSearchQuery(value);
+    
+        const filtered = originalProjects.filter(item => {
+            const profileAccount = profiles.find(profile => profile.accID === item.accID);
+            return profileAccount && profileAccount.accName.toLowerCase().includes(value.toLowerCase());
+        });
+        setProductToConfirm(filtered);
     };
 
     const handlePageChange = (event, value) => {
@@ -60,6 +68,8 @@ export default function ViewCustomerPayment() {
             ]);
 
             setProductToConfirm(pendingResponse.data);
+            setOriginalProjects(pendingResponse.data);
+
             setImages(imagesResponse.data);
             setProfiles(profilesResponse.data);
 
@@ -80,7 +90,7 @@ export default function ViewCustomerPayment() {
             console.error('Error fetching projects:', error);
         }
     };
- 
+
 
     if (loading) {
         return <div>Loading...</div>;
@@ -93,7 +103,7 @@ export default function ViewCustomerPayment() {
 
     return (
         <>
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' , mr:"500px"}}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', mr: "500px" }}>
                 <TextField
                     sx={{ width: '500px', mb: '35px' }}
                     placeholder="Search..."
@@ -114,7 +124,7 @@ export default function ViewCustomerPayment() {
                     console.log(projectImage);
 
                     return (
-                        <Card key={item.bookingID} sx={{ maxWidth: 345, height: 620,mb: '20px', boxShadow: 3, ml: "120px" }}>
+                        <Card key={item.bookingID} sx={{ maxWidth: 345, height: 620, mb: '20px', boxShadow: 3, ml: "120px" }}>
                             <CardHeader
                                 avatar={
                                     <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
@@ -122,9 +132,9 @@ export default function ViewCustomerPayment() {
                                         <ModalProfile accID={profileAccount} />
                                     </Avatar>
                                 }
-                           
+
                                 title={profileAccount ? profileAccount.accName : ""}
-                              
+
                             />
 
                             <CardMedia
@@ -134,7 +144,7 @@ export default function ViewCustomerPayment() {
                                 image={item.imgName}
                                 alt="Project image"
                                 // sx={{ width: "350px", height: "350px", objectFit: "cover", maxWidth: "100%" }}
-                                sx={{ objectFit: "contain" , maxHeight:"350px"}}
+                                sx={{ objectFit: "contain", maxHeight: "350px" }}
 
                             />
                             <CardContent>
@@ -155,44 +165,44 @@ export default function ViewCustomerPayment() {
                                 </Typography>
                             </CardContent>
                             <CardActions disableSpacing>
-                                <Button variant="outlined" color="success" onClick={() => handleAcceptCancelRespond(item.bookingID)}>
+                                {/* <Button variant="outlined" color="success" onClick={() => handleAcceptCancelRespond(item.bookingID)}>
                                     ACCEPT
-                                </Button>
+                                </Button> */}
                                 <Link to={`/staff/wait-customer-to-confirm-payment-list/100/detail/${item.bookingID}/${item.productID}/${item.accID}`}>
-                                    <Button variant="outlined" >
+                                    <Button variant="outlined" sx={{ width: "325px" }}>
                                         DETAIL
                                     </Button>
-                            
+
                                 </Link>
-                              
-                             
+
+
                             </CardActions>
-                           
+
                         </Card>
                     );
                 })}
             </Grid>
             <Pagination
-                    count={10}
-                    color="primary"
-                    sx={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        mt: '25px',
-                        '& .MuiPaginationItem-root': {
-                            color: '#CD9A2B', // Đặt màu của nút trang khi không được chọn
-                        },
-                        position: "sticky",
-                        top:"100%",
-                        bottom: "5px", 
-                        left: "0px",
-                        right: "0px",
-                        // marginBottom: "0px"
+                count={10}
+                color="primary"
+                sx={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    mt: '25px',
+                    '& .MuiPaginationItem-root': {
+                        color: '#CD9A2B', // Đặt màu của nút trang khi không được chọn
+                    },
+                    position: "sticky",
+                    top: "100%",
+                    bottom: "5px",
+                    left: "0px",
+                    right: "0px",
+                    // marginBottom: "0px"
 
-                    }}
-                    onChange={handlePageChange}
-                />
+                }}
+                onChange={handlePageChange}
+            />
         </>
     );
 }

@@ -88,7 +88,7 @@ export default function Login() {
                 // setSnackbarColor("error");
                 // setSnackbarOpen(true);
                 console.error('Login failed:', error);
-                if (error.response && error.response.status === 401 && error.response.data && error.response.data.message === "Tài khoản này đã bị đình chỉ hoạt động") {
+                if (error.response && error.response.status === 401 && error.response.data && error.response.data.message === "Your account blocked") {
                     setSnackbarMessage(error.response.data.message);
                 } else {
                     setSnackbarMessage('Email or Password are incorrect !!!');

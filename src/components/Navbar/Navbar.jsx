@@ -17,7 +17,7 @@ const navigation = [
   { name: 'Home', href: '/', current: false },
   { name: 'About us', href: '/aboutus', current: false },
   { name: 'Constructor', href: '/accommodation', current: false },
-  { name: 'Homestay', href: '/homestay', current: false },
+  // { name: 'Homestay', href: '/homestay', current: false },
   { name: 'Contact', href: '/contact-info', current: false },
   { name: 'News', href: '/new', current: false }
 ]

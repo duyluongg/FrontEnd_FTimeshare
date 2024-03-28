@@ -114,7 +114,7 @@ export default function TotalStaffAdmin() {
           },
         }}
         pageSizeOptions={[5, 10]}
-        checkboxSelection
+        // checkboxSelection
         rowHeight={80}
       />
     </div>

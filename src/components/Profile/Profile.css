@@ -22,7 +22,7 @@
 
 .profile-left {
     background-color: #C69C2D;
-    height: 550px;
+    height: 300px;
     width: 250px;
     text-align: center;
     display: flex;
@@ -59,7 +59,7 @@
 }
 
 .profile-right-big {
-    height: 550px;
+    height: 300px;
     background-color: #F9E897;
     padding: 25px;
     width: 500px;

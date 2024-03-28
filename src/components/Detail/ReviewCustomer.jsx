@@ -74,9 +74,9 @@ export default function ReviewCustomer({ getID }) {
                                     <div className='review-content'>
                                         {item.feedbackDetail}
                                     </div>
-                                    <div className='review-img'>
+                                    {/* <div className='review-img'>
                                         <img src='../image/prj/prj01.jpg' alt='' />
-                                    </div>
+                                    </div> */}
                                     {/* <div className='review-like'><button><ThumbUpIcon /> </button> 1 lượt thích đánh giá này</div> */}
                                 </div>
                             </div>

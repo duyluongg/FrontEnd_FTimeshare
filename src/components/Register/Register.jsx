@@ -8,6 +8,7 @@ import { Link } from "react-router-dom";
 import * as Yup from 'yup';
 import { Checkbox } from "@mui/material";
 import ModalTerm from "./ModalTerm.jsx";
+import { faEyeSlash, faEye } from '@fortawesome/free-solid-svg-icons';
 
 export default function Register() {
     const [firstName, setFirstName] = useState('');
@@ -25,6 +26,7 @@ export default function Register() {
     const [submitAttempted, setSubmitAttempted] = useState(false);
     const [agreed, setAgreed] = useState(false);
     const [passwordMatchError, setPasswordMatchError] = useState('');
+    const [isShowPassword, setIsShowPassword] = useState(false);
 
     const navigate = useNavigate();
 
@@ -96,6 +98,7 @@ export default function Register() {
                     'Content-Type': 'multipart/form-data'
                 }
             });
+            console.log(response.data);
 
             // setSnackbarMessage('Registration successfully !!!')
             // setSnackbarColor("success");
@@ -116,7 +119,7 @@ export default function Register() {
                 });
                 setErrors(yupErrors);
             } else {
-                console.error('Registration failed :(((', error.response.data);
+                console.error('Registration failed', error.response.data);
                 setSnackbarMessage(error.response.data);
                 setSnackbarColor("error");
                 setSnackbarOpen(true);
@@ -227,26 +230,40 @@ export default function Register() {
                         <label htmlFor="password" style={{ fontWeight: "bold" }}>Password:<span style={{ color: "red" }}>*</span></label>
 
                         <input
-                            type="password"
+                            type={isShowPassword === true ? "text" : "password"}
+
                             placeholder="Password"
                             value={password}
                             onChange={handlePasswordChange}
                             style={{ borderColor: errors.password ? 'red' : null }}
+
+
                         />
                         {errors.password && <p className="error-message">{errors.password}</p>}
+                        <FontAwesomeIcon
+                            onClick={() => setIsShowPassword(!isShowPassword)}
+                            className="eye-slash"
+                            icon={isShowPassword ? faEye : faEyeSlash}
+                        />
                     </div>
 
                     <div className="input-container">
                         <label htmlFor="confirmPassword" style={{ fontWeight: "bold" }}>Confirm Password:<span style={{ color: "red" }}>*</span></label>
 
                         <input
-                            type="password"
+                            type={isShowPassword === true ? "text" : "password"}
+
                             placeholder="Confirm Password"
                             value={confirmPassword}
                             onChange={handleConfirmPasswordChange}
                             style={{ borderColor: errors.confirmPassword ? 'red' : null }}
                         />
                         {errors.confirmPassword && <p className="error-message">{errors.confirmPassword}</p>}
+                        <FontAwesomeIcon
+                            onClick={() => setIsShowPassword(!isShowPassword)}
+                            className="eye-slash"
+                            icon={isShowPassword ? faEye : faEyeSlash}
+                        />
                         {passwordMatchError && <p className="error-message">{passwordMatchError}</p>}
                     </div>
 

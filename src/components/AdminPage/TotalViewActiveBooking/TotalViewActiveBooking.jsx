@@ -42,8 +42,8 @@ const ExpandMore = styled((props) => {
 //     const handleSearchChange = (event) => {
 //         const value = event.target.value;
 //         setSearchQuery(value);
-    
-     
+
+
 //         const originalProjects = projectActive;
 //         const filtered = originalProjects.filter(item => {
 //             const profileAccount = profiles.find(profile => profile.accID === item.accID);
@@ -51,7 +51,7 @@ const ExpandMore = styled((props) => {
 //         });
 //         setProjectActive(filtered);
 //     };
-    
+
 
 //     const handlePageChange = (event, value) => {
 //         setCurrentPage(value);
@@ -184,7 +184,7 @@ const ExpandMore = styled((props) => {
 //     );
 // }
 
-export default function TotalViewPendingBooking() {
+export default function TotalViewActiveBooking() {
     const [loading, setLoading] = useState(true);
     const [projectActive, setProjectActive] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
@@ -208,6 +208,7 @@ export default function TotalViewPendingBooking() {
         });
         setProjectActive(filtered);
     };
+    
 
     const handlePageChange = (event, value) => {
         setCurrentPage(value);
@@ -216,6 +217,13 @@ export default function TotalViewPendingBooking() {
     useEffect(() => {
         fetchData();
     }, [currentPage]);
+    // useEffect(() => {
+    //     // Cập nhật lại dữ liệu projectActive từ originalProjects khi currentPage thay đổi
+    //     const startIndex = (currentPage - 1) * projectsPerPage;
+    //     const endIndex = Math.min(startIndex + projectsPerPage, originalProjects.length);
+    //     const updatedProjectActive = originalProjects.slice(startIndex, endIndex);
+    //     setProjectActive(updatedProjectActive);
+    // }, [currentPage, originalProjects, projectsPerPage]);
 
     const fetchData = async () => {
         try {
@@ -266,9 +274,9 @@ export default function TotalViewPendingBooking() {
 
             <Grid container spacing={1} sx={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '10px' }}>
                 {currentProjects.map((item) => {
-                    const projectImage = images.find(image => image.productID === item.productID);
+                    // const projectImage = images.find(image => image.productID === item.productID);
                     const profileAccount = profiles.find(profile => profile.accID === item.accID);
-                    console.log(projectImage);
+
 
                     return (
                         <Card key={item.bookingID} sx={{ maxWidth: 345, height: 530, mb: '20px', boxShadow: 3, ml: "120px" }}>

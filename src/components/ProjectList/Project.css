@@ -116,7 +116,7 @@
     padding: 2px;
 }
 
-.project-list-detail h4{
+.project-list-detail h4 {
     display: -webkit-box;
     -webkit-line-clamp: 1;
     -webkit-box-orient: vertical;
@@ -178,6 +178,8 @@
     -webkit-line-clamp: 6;
     -webkit-box-orient: vertical;
     overflow: hidden;
+    height: 145px;
+    max-height: 145px;
 
 }
 
@@ -261,7 +263,7 @@
 
 .project-learn-button:hover {
     background-color: #8d6d40;
-  
+
 }
 
 .project-owner {

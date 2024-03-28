@@ -28,6 +28,7 @@ export default function ViewCustomerPayment_80() {
     const [profiles, setProfiles] = useState([]);
     const [searchQuery, setSearchQuery] = useState('');
     const [expanded, setExpanded] = useState(false);
+    const [originalProjects, setOriginalProjects] = useState([]);
 
     const projectsPerPage = 6;
     const indexOfLastProject = currentPage * projectsPerPage;
@@ -39,7 +40,14 @@ export default function ViewCustomerPayment_80() {
     };
 
     const handleSearchChange = (event) => {
-        setSearchQuery(event.target.value);
+        const value = event.target.value;
+        setSearchQuery(value);
+    
+        const filtered = originalProjects.filter(item => {
+            const profileAccount = profiles.find(profile => profile.accID === item.accID);
+            return profileAccount && profileAccount.accName.toLowerCase().includes(value.toLowerCase());
+        });
+        setProductToConfirm(filtered);
     };
 
     const handlePageChange = (event, value) => {
@@ -60,6 +68,8 @@ export default function ViewCustomerPayment_80() {
             ]);
 
             setProductToConfirm(pendingResponse.data);
+            setOriginalProjects(pendingResponse.data);
+
             setImages(imagesResponse.data);
             setProfiles(profilesResponse.data);
 
@@ -107,7 +117,7 @@ export default function ViewCustomerPayment_80() {
                 </IconButton>
             </div>
 
-            <Grid container spacing={1} sx={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '10px'}}>
+            <Grid container spacing={1} sx={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '10px' }}>
                 {currentProjects.map((item) => {
                     const projectImage = images.find(image => image.productID === item.productID);
                     const profileAccount = profiles.find(profile => profile.accID === item.accID);
@@ -123,11 +133,7 @@ export default function ViewCustomerPayment_80() {
                                         <ModalProfile accID={profileAccount} />
                                     </Avatar>
                                 }
-                                action={
-                                    <IconButton aria-label="settings">
-                                        <MoreVertIcon />
-                                    </IconButton>
-                                }
+                            
                                 title={profileAccount ? profileAccount.accName : ""}
 
                             />
@@ -160,32 +166,19 @@ export default function ViewCustomerPayment_80() {
                                 </Typography>
                             </CardContent>
                             <CardActions disableSpacing>
-                                <Button variant="outlined" color="success" onClick={() => handleAcceptCancelRespond(item.bookingID)}>
+                                {/* <Button variant="outlined" color="success" onClick={() => handleAcceptCancelRespond(item.bookingID)}>
                                     ACCEPT
-                                </Button>
+                                </Button> */}
                                 <Link to={`/staff/wait-customer-to-confirm-payment-list/80/detail/${item.bookingID}/${item.productID}/${item.accID}`}>
-                                    <Button variant="outlined" >
+                                    <Button variant="outlined" sx={{ width: "325px" }}>
                                         DETAIL
                                     </Button>
 
                                 </Link>
 
-                                <ExpandMore
-                                    expand={expanded}
-                                    onClick={handleExpandClick}
-                                    aria-expanded={expanded}
-                                    aria-label="show more"
-                                >
-                                    <ExpandMoreIcon />
-                                </ExpandMore>
+                           
                             </CardActions>
-                            <Collapse in={expanded} timeout="auto" unmountOnExit>
-                                <CardContent>
-                                    <Typography paragraph>
-                                        {/* {item.productConvenience} */}
-                                    </Typography>
-                                </CardContent>
-                            </Collapse>
+                      
                         </Card>
                     );
                 })}

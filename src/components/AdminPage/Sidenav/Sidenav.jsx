@@ -235,7 +235,7 @@ export default function Sidenav() {
 
 
                 <Divider />
-                <List>
+                {/* <List>
                     {['All mail', 'Trash', 'Spam'].map((text, index) => (
                         <ListItem key={text} disablePadding sx={{ display: 'block' }}>
                             <ListItemButton
@@ -258,7 +258,7 @@ export default function Sidenav() {
                             </ListItemButton>
                         </ListItem>
                     ))}
-                </List>
+                </List> */}
             </Drawer>
             <Box sx={{ mt: "100px" }}  >
                 {/* <DrawerHeader /> */}

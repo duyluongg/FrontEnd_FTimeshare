@@ -36,7 +36,9 @@ function CreateNews({getData}) {
             formData.append('newsContent', content);
             formData.append('newsViewer', 100);
             formData.append('newsStatus', "Active");
-            formData.append('accID', getData);
+            // formData.append('accID', getData);
+            formData.append('accID', 59);
+
 
 
             const response = await axios.post('http://localhost:8080/api/news', formData, {
@@ -58,8 +60,8 @@ function CreateNews({getData}) {
                 });
                 setErrors(yupErrors);
             } else {
-                console.error('Create new failed :(((', error.response.data);
-                setSnackbarMessage('Create new failed :(((');
+                console.error('Create new failed ', error.response.data);
+                setSnackbarMessage('Create new failed ');
                 setSnackbarColor("error");
                 setSnackbarOpen(true);
             }

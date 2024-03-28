@@ -87,7 +87,7 @@ export default function BookingDetail() {
 
     const handleAcceptActive = async (bookingID) => {
         try {
-            await axios.put(`http://localhost:8080/api/bookings/confirm_booking/${bookingID}`);
+            await axios.put(` http://localhost:8080/api/bookings/staff/active/${bookingID}`);     
             setShowSecondDiv(false);
             setShowModalNotify(true)
             setTimeout(() => navigate("/staff/wait-to-confirm-list"), 2000)
@@ -142,10 +142,12 @@ export default function BookingDetail() {
                                 image={projectImage ? projectImage.imgName : ""}
                                 alt="Paella dish"
                             />
+
                             <CardContent>
-                                <Typography variant="body1" color="text.secondary">
+                                <Typography variant="body1" sx={{ fontSize: "20px", fontWeight: "bold", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
                                     {productBooking[0].productName}
                                 </Typography>
+
                                 <Typography variant="body2" color="text.secondary">
                                     Description: {productBooking[0].productDescription}
                                 </Typography>
@@ -159,6 +161,12 @@ export default function BookingDetail() {
 
                                 <Typography variant="body2" color="text.secondary">
                                     End Date: {formatDate(productBooking[0].availableEndDate)}
+                                </Typography>
+                                <Typography variant="body2" color="text.secondary">
+                                    Person: {productBooking[0].productPerson}
+                                </Typography>
+                                <Typography variant="body2" color="text.secondary">
+                                    Rating: {productBooking[0].productRating}
                                 </Typography>
                             </CardContent>
                         </Card>

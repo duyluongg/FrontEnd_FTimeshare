@@ -169,10 +169,10 @@ export default function Project() {
                   <FontAwesomeIcon icon={faPlus} />
                   &nbsp;Create
                 </Link>
-                <Link to={'/view-summary'} className='project-view-detail-button'>
+                {/* <Link to={'/view-summary'} className='project-view-detail-button'>
                   <FontAwesomeIcon icon={faArrowRight} />
                   &nbsp;More
-                </Link>
+                </Link> */}
               </div>
             </div>
             <div className='project-owner-detail'>

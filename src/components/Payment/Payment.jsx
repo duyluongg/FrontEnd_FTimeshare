@@ -42,7 +42,7 @@ export default function Payment() {
     const [isLoading, setIsLoading] = useState(false);
 
     const { startDate, endDate, bookingPerson, productID, name, phone } = location.state;
-
+    console.log(user);
     const formatDate = (date) => {
         const d = new Date(date);
         const year = d.getFullYear();
@@ -331,9 +331,9 @@ export default function Payment() {
 
                                 <div class="s7CqeD">
                                     <div class="sQArKu">
-                                        <div class="xINqui">Clicking "Boooking" means you agree to abide by  
-                                            <a  target="_blank" rel="noopener noreferrer" previewlistener="true" className="payment-term"><ModalTerm/></a>
-                                            </div>
+                                        <div class="xINqui">Clicking "Boooking" means you agree to abide by
+                                            <a target="_blank" rel="noopener noreferrer" previewlistener="true" className="payment-term"><ModalTerm /></a>
+                                        </div>
                                     </div>
                                     <button
                                         className={`stardust-button stardust-button--CD9A2B stardust-button--large LtH6tW ${isLoading ? 'disabled' : ''}`}

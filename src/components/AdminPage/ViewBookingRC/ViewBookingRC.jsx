@@ -21,7 +21,7 @@ const ExpandMore = styled((props) => {
     }),
 }));
 
-export default function ViewBookingConfirm() {
+export default function ViewBookingRC() {
     const [loading, setLoading] = useState(true);
     const [productToConfirm, setProductToConfirm] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
@@ -29,6 +29,7 @@ export default function ViewBookingConfirm() {
     const [profiles, setProfiles] = useState([]);
     const [searchQuery, setSearchQuery] = useState('');
     const [expanded, setExpanded] = useState(false);
+    const [originalProjects, setOriginalProjects] = useState([]);
 
     const projectsPerPage = 6;
     const indexOfLastProject = currentPage * projectsPerPage;
@@ -40,8 +41,16 @@ export default function ViewBookingConfirm() {
     };
 
     const handleSearchChange = (event) => {
-        setSearchQuery(event.target.value);
+        const value = event.target.value;
+        setSearchQuery(value);
+    
+        const filtered = originalProjects.filter(item => {
+            const profileAccount = profiles.find(profile => profile.accID === item.accID);
+            return profileAccount && profileAccount.accName.toLowerCase().includes(value.toLowerCase());
+        });
+        setProductToConfirm(filtered);
     };
+    
 
     const handlePageChange = (event, value) => {
         setCurrentPage(value);
@@ -61,6 +70,7 @@ export default function ViewBookingConfirm() {
             ]);
 
             setProductToConfirm(pendingResponse.data);
+            setOriginalProjects(pendingResponse.data);
             setImages(imagesResponse.data);
             setProfiles(profilesResponse.data);
 
@@ -125,7 +135,7 @@ export default function ViewBookingConfirm() {
                     // console.log(projectImage);
 
                     return (
-                        <Card key={item.bookingID} sx={{ maxWidth: 345, height: 530, mb: '20px', boxShadow: 3, ml: "120px" }}>
+                        <Card key={item.bookingID} sx={{ maxWidth: 345, height: 620, mb: '20px', boxShadow: 3, ml: "120px" }}>
 
                             <CardHeader
                                 avatar={
@@ -175,7 +185,7 @@ export default function ViewBookingConfirm() {
                                 </Button> */}
 
                                 <Link to={`/staff/wait-to-confirm-rc/detail/${item.bookingID}/${item.productID}/${item.accID}`}>
-                                    <Button variant="outlined" >
+                                    <Button variant="outlined" sx={{ width: "325px" }}>
                                         DETAIL
                                     </Button>
 

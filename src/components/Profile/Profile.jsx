@@ -70,7 +70,7 @@ export default function Profile({ getData }) {
                             <Link to={`/update-profile`}>
                                 <button>Edit</button>
                             </Link>
-                      
+
 
 
                         </div>
@@ -88,13 +88,13 @@ export default function Profile({ getData }) {
                                         <h2 className='profile-title'>BirthDay:</h2>
                                         <p>{accountUser.accBirthday}</p>
                                         <h2 className='profile-title'>Role:</h2>
-                                        <p>{accountUser.accBirthday}</p>
+                                        <p>Customer</p>
 
                                     </div>
                                 </div>
                             </div>
 
-                            <div>
+                            {/* <div>
                                 <h2 className='profile-title-info'>Project</h2>
                                 <div className='profile-right'>
                                     <div>
@@ -111,7 +111,7 @@ export default function Profile({ getData }) {
 
                                     </div>
                                 </div>
-                            </div>
+                            </div> */}
                         </div>
 
 

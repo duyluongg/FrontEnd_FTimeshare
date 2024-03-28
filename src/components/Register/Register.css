@@ -214,3 +214,10 @@ form .register-button:hover {
     color: red;
 
 }
+
+.eye-slash-register {
+    position: absolute;
+    top: 40px;
+    right: 10px;
+    cursor: pointer;
+}
