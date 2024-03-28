@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFacebookF, faGooglePlusG } from '@fortawesome/free-brands-svg-icons';
@@ -7,7 +6,8 @@ import SnackBar from "../SnackBar.jsx";
 import { useNavigate } from "react-router";
 import { Link } from "react-router-dom";
 import * as Yup from 'yup';
-
+import { Checkbox } from "@mui/material";
+import ModalTerm from "./ModalTerm.jsx";
 export default function Register() {
     const [firstName, setFirstName] = useState('');
     const [email, setEmail] = useState('');
@@ -21,6 +21,10 @@ export default function Register() {
     const [snackbarColor, setSnackbarColor] = useState('success');
     const [errors, setErrors] = useState({});
     const [submitAttempted, setSubmitAttempted] = useState(false);
+    const [agreed, setAgreed] = useState(false);
+
+    const navigate = useNavigate();
+
     const formatDate = (date) => {
         const d = new Date(date);
         const year = d.getFullYear();
@@ -41,7 +45,19 @@ export default function Register() {
     const handleRegister = async (e) => {
         e.preventDefault();
         setSubmitAttempted(true);
+
+
         try {
+
+            const eighteenYearsAgo = new Date();
+            eighteenYearsAgo.setFullYear(eighteenYearsAgo.getFullYear() - 18);
+            if (new Date(birthday) > eighteenYearsAgo) {
+                setSnackbarMessage('You must be at least 18 years old to register.');
+                setSnackbarColor("error");
+                setSnackbarOpen(true);
+                return;
+            }
+
             await schema.validate({
                 firstName,
                 email,
@@ -51,8 +67,42 @@ export default function Register() {
                 avatar
             }, { abortEarly: false });
 
+            if (!agreed) {
+                setSnackbarMessage('You must agree to the terms before registering.');
+                setSnackbarColor("error");
+                setSnackbarOpen(true);
+                return;
+            }
+
             setErrors({});
-            hasError = false;
+
+            const formattedBirthday = formatDate(birthday);
+            const formData = new FormData();
+            formData.append('Avatar', avatar);
+            formData.append('accName', firstName);
+            formData.append('accEmail', email);
+            formData.append('accPhone', phoneNumber);
+            formData.append('accPassword', password);
+            formData.append('accStatus', 'active');
+            formData.append('roleID', '3');
+            formData.append('accBirthday', formattedBirthday);
+
+            const response = await axios.post('http://localhost:8080/api/users', formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            });
+
+            // setSnackbarMessage('Registration successfully !!!')
+            // setSnackbarColor("success");
+            // setSnackbarOpen(true);
+            // setTimeout(() => navigate('/login'), 1000)
+
+            navigate('/confirm-register', {
+                state: {
+                    email: email
+                }
+            });
 
         } catch (error) {
             if (error instanceof Yup.ValidationError) {
@@ -63,41 +113,41 @@ export default function Register() {
                 setErrors(yupErrors);
             } else {
                 console.error('Registration failed :(((', error.response.data);
-                setSnackbarMessage('Registration failed :(((');
+                setSnackbarMessage(error.response.data);
                 setSnackbarColor("error");
                 setSnackbarOpen(true);
             }
         }
 
-        if (!hasError) {
-            try {
-                setLoadingAPI(true);
+        // if (!hasError) {
+        //     try {
+        //         setLoadingAPI(true);
 
-                const formattedBirthday = formatDate(birthday);
-                const formData = new FormData();
-                formData.append('Avatar', avatar);
-                formData.append('accName', firstName);
-                formData.append('accEmail', email);
-                formData.append('accPhone', phoneNumber);
-                formData.append('accPassword', password);
-                formData.append('accStatus', 'active');
-                formData.append('roleID', '3');
-                formData.append('accBirthday', formattedBirthday);
+        //         const formattedBirthday = formatDate(birthday);
+        //         const formData = new FormData();
+        //         formData.append('Avatar', avatar);
+        //         formData.append('accName', firstName);
+        //         formData.append('accEmail', email);
+        //         formData.append('accPhone', phoneNumber);
+        //         formData.append('accPassword', password);
+        //         formData.append('accStatus', 'active');
+        //         formData.append('roleID', '3');
+        //         formData.append('accBirthday', formattedBirthday);
 
-                const response = await axios.post('http://localhost:8080/api/users', formData, {
-                    headers: {
-                        'Content-Type': 'multipart/form-data'
-                    }
-                });
-            } catch (error) {
-                console.error('Registration failed :(((', error.response.data);
-                setSnackbarMessage('Registration failed :(((');
-                setSnackbarColor("error");
-                setSnackbarOpen(true);
-            } finally {
-                setLoadingAPI(false);
-            }
-        }
+        //         const response = await axios.post('http://localhost:8080/api/users', formData, {
+        //             headers: {
+        //                 'Content-Type': 'multipart/form-data'
+        //             }
+        //         });
+        //     } catch (error) {
+        //         console.error('Registration failed :(((', error.response.data);
+        //         setSnackbarMessage('Registration failed :(((');
+        //         setSnackbarColor("error");
+        //         setSnackbarOpen(true);
+        //     } finally {
+        //         setLoadingAPI(false);
+        //     }
+        // }
     }
 
     const handleAvatarChange = (e) => {
@@ -154,7 +204,7 @@ export default function Register() {
                     <div className="input-container">
                         <input
                             type="text"
-                            placeholder="First Name"
+                            placeholder=" Name"
                             value={firstName}
                             onChange={(e) => setFirstName(e.target.value)}
                             style={{ borderColor: errors.firstName ? 'red' : null }}
@@ -206,8 +256,17 @@ export default function Register() {
                         />
                         {submitAttempted && !birthday && <p className="error-message">Birthday is required</p>}
                     </div>
+                    <div style={{ display: "flex", justifyContent: "center" }}>
+                        <Checkbox
+                            checked={agreed}
+                            onChange={(e) => setAgreed(e.target.checked)}
+                            sx={{ mt: "1px" }}
+                        />
+                        <ModalTerm sx={{ color: "#CD9A2B" }} />
 
+                    </div>
                     <button className="register-button" type="submit">REGISTER</button>
+
                 </form>
                 <SnackBar open={snackbarOpen} message={snackbarMessage} onClose={handleSnackbarClose} color={snackbarColor} />
                 {/* <div className="line-container">
