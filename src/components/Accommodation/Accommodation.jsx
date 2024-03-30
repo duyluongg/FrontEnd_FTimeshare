@@ -123,7 +123,7 @@ export default function Accommodation() {
                     <SearchIcon />
                 </IconButton>
             </div>
-            <h1 className='accommodation-title'>Constructors of homestay</h1>
+            <h1 className='accommodation-title'>Contractor of homestay</h1>
             <Grid container spacing={1} sx={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '10px', ml: '95px' }}>
                 {currentProjects.map((item) => {
                     return (
@@ -132,7 +132,7 @@ export default function Accommodation() {
                                 component="img"
                                 alt="green iguana"
                                 height="140"
-                                image={item.imgName}
+                                image='./image/prj/prj02.jpg'
                                 sx={{ width: "350px", height: "350px", objectFit: "cover", maxWidth: "100%" }}
                             />
                             <CardContent>
