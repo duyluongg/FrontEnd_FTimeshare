@@ -147,14 +147,14 @@ export default function Login() {
                             icon={isShowPassword ? faEye : faEyeSlash}
                         />
                     </div>
-                    <div className="link-login">
+                    {/* <div className="link-login">
                         <span className="forgot-password">
                             <a href="#">Forgot your password?</a>
-                        </span>
+                        </span> */}
                         {/* <span className="register-here">
                             <Link to="/register">Register here</Link>
                         </span> */}
-                    </div>
+                    {/* </div> */}
                     <button className="login-button" type="submit">
                         {loadingAPI && <FontAwesomeIcon icon={faSpinner} spin />}
                         &nbsp;LOGIN

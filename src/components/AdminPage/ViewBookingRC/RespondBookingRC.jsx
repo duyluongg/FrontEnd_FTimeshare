@@ -328,7 +328,8 @@ export default function RespondBookingRC() {
                         </Collapse> */}
                         </Card>
 
-                        <Card sx={{ maxWidth: 550 }}>
+                        <Card sx={{ maxWidth: 550, height: 200 }}>
+
                             <CardHeader
 
                                 title="INFORMATION OF CUSTOMER PAYMENT"

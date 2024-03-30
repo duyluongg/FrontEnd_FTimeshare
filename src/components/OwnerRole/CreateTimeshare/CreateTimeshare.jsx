@@ -367,7 +367,7 @@ export default function CreateTimeshare() {
                                 <TextField
                                     id="outlined-select-currency"
                                     select
-                                    label="Constructor *"
+                                    label="Contractor *"
                                     name="projectID"
                                     value={createProductData.projectID}
                                     onChange={handleChange}

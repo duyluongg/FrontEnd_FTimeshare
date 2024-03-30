@@ -50,7 +50,7 @@ export default function ReviewCustomer({ getID }) {
             {isLoading ? (
                 <div className='review-field-child'>Loading...</div>
             ) : getReview.length === 0 ? (
-                <p className='no-feedback'>Sản phẩm này hiện chưa có feedback</p>
+                <p className='no-feedback'>This product currently has no feedback</p>
             ) : (
                 <div>
                     <div className='review-field'>
