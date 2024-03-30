@@ -1,127 +1,54 @@
 import React, { useState, useEffect } from 'react'
-import Card from '@mui/material/Card';
-import CardActions from '@mui/material/CardActions';
-import CardContent from '@mui/material/CardContent';
-import CardMedia from '@mui/material/CardMedia';
-import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
-import axios from 'axios';
-import { Grid, Pagination, TextField, IconButton } from '@mui/material';
-import SearchIcon from '@mui/icons-material/Search';
-import { Link } from 'react-router-dom';
-import { useParams } from 'react-router-dom';
+import './Homestay.css'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faLocationDot } from '@fortawesome/free-solid-svg-icons';
 
 export default function Homestay() {
-    const [products, setProducts] = useState([]);
-    const [images, setImages] = useState([]);
-    const [currentPage, setCurrentPage] = useState(1);
-    const productsPerPage = 6;
-    const [searchQuery, setSearchQuery] = useState('');
-    const indexOfLastProduct = currentPage * productsPerPage;
-    const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
-    const [filteredProducts, setFilteredProducts] = useState([]);
-    const currentProducts = searchQuery ? filteredProducts.slice(indexOfFirstProduct, indexOfLastProduct) : products.slice(indexOfFirstProduct, indexOfLastProduct);
-    const projectID = parseInt(useParams().projectID);
-
-    // console.log(projectID);
-
-    useEffect(() => {
-        fetchProductByProjectID();
-    }, [searchQuery]);
-    const fetchProductByProjectID = async () => {
-
-        try {
-            const response = await axios.get('http://localhost:8080/api/products/staff/active');
-            const products = response.data;
-            // console.log(products);
-            const productData = products.filter(product => product.projectID === projectID);
-            // console.log(productData);
-            setProducts(productData);
-
-            const filtered = productData.filter(item =>
-                item.productName.toLowerCase().includes(searchQuery.toLowerCase())
-            );
-
-            setFilteredProducts(filtered);
-        } catch (error) {
-            console.error('Error fetching products:', error);
-        }
-    };
-
-    useEffect(() => {
-        const fetchImg = async () => {
-          try {
-            const response = await axios.get(`http://localhost:8080/api/pictures/customerview`);
-            setImages(response.data);
-            // console.log(response.data);
-          } catch (error) {
-            console.error('Error fetching view img:', error);
-          }
-        };
-        fetchImg();
-      }, []);
-
-    const handleSearchChange = (event) => {
-        setSearchQuery(event.target.value);
-    };
-
-    const handlePageChange = (event, value) => {
-        setCurrentPage(value);
-    };
     return (
-        <div>
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                <TextField
-                    sx={{ width: '500px', mb: '35px' }}
-                    placeholder="Search..."
-                    variant="outlined"
-                    size="small"
-                    value={searchQuery}
-                    onChange={handleSearchChange}
-                />
-                <IconButton type="submit" aria-label="search" sx={{ mb: '30px' }}>
-                    <SearchIcon />
-                </IconButton>
+        <>
+            <div className='a6e267116d'>
+                <div className='f29a6defed'>
+                    <form>
+                        <div data-testid="searchbox-layout-wide" className='ffb9c3d6a3 c9a7790c31 e691439f9a'>
+                            <div className='e22b782521'>
+                                <div className='b7ab62d599'>
+                                    <div className='c3ffd29f4e bc4cc43c81'>
+                                        <div className='a53cbfa6de ac9267e216 a20293ec70 d974f7747b'>
+                                            <div className='b9b84f4305'>
+                                                <div className='e000754250'>
+                                                    <div className='eac0b6e5ba'>
+                                                        <span className="fcd9eec8fb d24fc26e73 c696a7d242" aria-hidden="true">
+                                                            <FontAwesomeIcon icon={faLocationDot} />
+                                                        </span>
+                                                    </div>
+                                                    <input
+                                                        name='ss'
+                                                        className='eb46370fe1'
+                                                        placeholder='Where do you want to go?'
+                                                        autoComplete='off'
+                                                        aria-autocomplete='list'
+                                                        aria-controls='autocomplete-results'
+                                                        aria-haspopup='listbox'
+                                                        aria-label='Where do you want to go?'
+                                                        aria-expanded='false'
+                                                        role='combobox'
+                                                        id=''
+                                                        value="Location"
+                                                    >
+                                                    </input>
+                                                    <div class="e7e5251f68 c96fa981fd"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className="acf75b5882"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
             </div>
-            <Grid container spacing={1} sx={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '10px', ml: '95px' }}>
-                {currentProducts.map((item) => {
-                    const projectImage = images.find(image => image.productID === item.productID);
-                    return (
-                        <Card sx={{ maxWidth: 345 }} key={item.productID}>
-                            <CardMedia
-                                component="img"
-                                alt="green iguana"
-                                height="140"
-                                image={projectImage && projectImage.imgName}
-                                sx={{ width: "350px", height: "350px", objectFit: "cover", maxWidth: "100%" }}
-                            />
-                            <CardContent>
-                                <Typography gutterBottom variant="h5" component="div" sx={{ display: '-webkit-box', WebkitLineClamp: 1, WebkitBoxOrient: 'vertical', overflow: 'hidden', mb: "20px" }} >
-                                    {item.productName}
-                                </Typography>
-                                <Typography variant="body2" color="text.secondary" sx={{ display: '-webkit-box', WebkitLineClamp: 3, WebkitBoxOrient: 'vertical', overflow: 'hidden' }} >
-                                    {item.productDescription}
-                                </Typography>
-                            </CardContent>
-                            <Link to={`/detail/${item.productID}`}>
-                                <CardActions>
-                                    <Button size="small">View Detail</Button>
-                                </CardActions>
-                            </Link>
-
-                        </Card>
-                    )
-
-                })}
-            </Grid>
-            <Pagination
-                count={10}
-                color="primary"
-                sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', mt: '25px', mb: '25px' }}
-                onChange={handlePageChange}
-            />
-        </div>
-
+        </>
     );
 }
 
