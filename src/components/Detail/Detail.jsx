@@ -16,7 +16,12 @@ import { useContext } from 'react'
 import { UserContext } from '../UserContext.jsx'
 import { ProjectsDataSimilar } from '../../Shared/ListOfProjectSimilar';
 import { RoomData } from '../../Shared/Room';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
 import { format } from 'date-fns';
+import { faCalendarDays } from '@fortawesome/free-solid-svg-icons';
+import { faUser } from '@fortawesome/free-solid-svg-icons';
+import { faCheck } from '@fortawesome/free-solid-svg-icons';
 
 import ReviewCustomer from './ReviewCustomer.jsx'
 // import ViewFeedback from './ViewFeedback.jsx';
@@ -111,6 +116,40 @@ export default function Detail() {
     const { user } = useContext(UserContext);
     const [filteredProducts, setFilteredProducts] = useState([]);
     const [bestProducts, setBestProducts] = useState([]);
+
+    const [startDate, setStartDate] = useState(null); // Khởi tạo với giá trị null
+    const [endDate, setEndDate] = useState(null); // Khởi tạo với giá trị null
+    const [numberOfPerson, setNumberOfPerson] = useState(0);
+
+    const handleFindAvailability = async (e) => {
+        e.preventDefault();
+        setSearchClicked(true);
+        try {
+
+            // let formattedStartDate = null;
+            // let formattedEndDate = null;
+
+            const startDateObj = new Date(startDate);
+            const endDateObj = new Date(endDate);
+            const formattedStartDate = format(startDateObj, "yyyy-MM-dd'T'HH:mm:ss");
+            const formattedEndDate = format(endDateObj, "yyyy-MM-dd'T'HH:mm:ss");
+
+            const formData = new FormData();
+            // formData.append('cityInAddress', city);
+            // formData.append('numberOfPerson', numberOfPerson);
+            formData.append('startDate', formattedStartDate);
+            formData.append('endDate', formattedEndDate);
+
+            const response = await axios.post('http://localhost:8080/api/products/filter', formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            });
+            // setFilterProduct(response.data);
+        } catch (error) {
+            console.error('Filter product failed', error.response);
+        }
+    }
 
 
     useEffect(() => {
@@ -283,6 +322,76 @@ export default function Detail() {
                         </div>
 
                         <div className='form'>
+                            <form className='filter-form' onSubmit={handleFindAvailability}>
+                                <div data-testid="searchbox-layout-wide" className='ffb9c3d6a3 c9a7790c31 e691439f9a'>
+                                    <div className='e22b782521'>
+                                        <div tabindex="-1" className='a1139161bf'>
+                                            <div className='f73e6603bf'>
+                                                <span className='fcd9eec8fb e93f4f9263 c2cc050fb8 c696a7d242'>
+                                                    <FontAwesomeIcon className='filter-icon' icon={faCalendarDays} />
+                                                </span>
+                                                <DatePicker
+                                                    selected={startDate}
+                                                    onChange={(date) => setStartDate(date)}
+                                                    placeholderText="Start Date"
+                                                    className="ebbedaf8ac ab26a5d2bd e33c97ff6b"
+                                                    dateFormat="dd/MM/yyyy"
+                                                    minDate={new Date()}
+                                                    required
+                                                />
+                                                <span className="ac2e4f2389"> — </span>
+                                                <DatePicker
+                                                    selected={endDate}
+                                                    onChange={(date) => setEndDate(date)}
+                                                    minDate={startDate ? new Date(startDate.getTime() + 86400000) : null}
+                                                    placeholderText="End Date"
+                                                    className="ebbedaf8ac ab26a5d2bd e33c97ff6b"
+                                                    dateFormat="dd/MM/yyyy"
+                                                    disabled={!startDate}
+                                                    required
+                                                />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className='e22b782521'>
+                                        <div tabindex="-1" className='d777d2b248'>
+                                            <button aria-expanded="false" type="button" className='a83ed08757 ebbedaf8ac ada2387af8'>
+                                                <span className='a8887b152e'>
+                                                    <span className="fcd9eec8fb a6a399739a c2cc050fb8 c696a7d242" aria-hidden="true">
+                                                        <FontAwesomeIcon className='filter-icon' icon={faUser} />
+                                                    </span>
+                                                </span>
+                                                <input
+                                                    className='a83ed08757 ebbedaf8ac ada2387af8 input-filter-outline'
+                                                    type="number"
+                                                    value={numberOfPerson}
+                                                    onChange={(e) => setNumberOfPerson(e.target.value)}
+                                                    aria-label="Number of People"
+                                                />
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div className='e22b782521 d12ff5f5bf'>
+                                        <button type="submit" className="a83ed08757 c21c56c305 a4c1805887 f671049264 d2529514af c082d89982 cceeb8986b">
+                                            <span className="e4adce92df">Check availability</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </form >
+                            <h1 className='form-cost'>${productDetail.productPrice}/Day</h1>
+                            <p className="form-time"><FontAwesomeIcon className="icon-calendar" icon={faUser} />{numberOfPerson}</p>
+                            <p className="form-time"><FontAwesomeIcon className="icon-calendar" icon={faCalendarDay} />{startDate && endDate ? `${startDate.toLocaleDateString('en-GB')} - ${endDate.toLocaleDateString('en-GB')}` : "Please select dates"}</p>
+                            <p className="form-time"><FontAwesomeIcon icon={faCheck} />Free cancellation before April 4, 2024</p>
+                            {showBookingButton && (
+                                <form className='form-item' onSubmit={handleBooking}>
+                                    <div className='column-form column-2'>
+                                        <button type="submit">Booking</button>
+                                    </div>
+                                </form>
+                            )}
+                        </div>
+
+                        {/* <div className='form'>
                             <h1 className='form-border-bottom'>Booking Information</h1>
                             <h1 className='form-cost'>${productDetail.productPrice}/Day</h1>
                             <p className="form-time"><FontAwesomeIcon className="icon-calendar" icon={faCalendarDay} size={'2xl'} /> {productDetail.availableStartDate} - {productDetail.availableEndDate}</p>   
@@ -293,7 +402,7 @@ export default function Detail() {
                                     </div>
                                 </form>
                             )}
-                        </div>
+                        </div> */}
                     </div>
                 </div>
 
