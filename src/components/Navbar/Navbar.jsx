@@ -1,3 +1,4 @@
+import React from 'react'
 import { Fragment } from 'react'
 import { Disclosure, Menu, Transition } from '@headlessui/react'
 import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
@@ -35,7 +36,7 @@ export default function Navbar({ getData }) {
     // console.log(getData);
     try {
       const [accountResponse, imagesResponse] = await Promise.all([
-        axios.get(`http://localhost:8080/api/users/viewDetail/${user.id}`),
+        axios.get(`https://bookinghomestayswp.azurewebsites.net/api/users/viewDetail/${user.id}`),
       ]);
       setAccountUser(accountResponse.data);
       // console.log(accountResponse.data.imgName);

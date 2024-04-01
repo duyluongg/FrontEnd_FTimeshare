@@ -54,9 +54,9 @@ export default function ViewCustomerPayment() {
     const fetchData = async () => {
         try {
             const [pendingResponse, imagesResponse, profilesResponse] = await Promise.all([
-                axios.get('http://localhost:8080/api/bookings/staff/WaitRespondPayment(80)'),
-                axios.get('http://localhost:8080/api/pictures/customerview'),
-                axios.get('http://localhost:8080/api/users/staffview')
+                axios.get('https://bookinghomestayswp.azurewebsites.net/api/bookings/staff/WaitRespondPayment(80)'),
+                axios.get('https://bookinghomestayswp.azurewebsites.net/api/pictures/customerview'),
+                axios.get('https://bookinghomestayswp.azurewebsites.net/api/users/staffview')
             ]);
 
             setProductToConfirm(pendingResponse.data);
@@ -74,7 +74,7 @@ export default function ViewCustomerPayment() {
 
     const handleAcceptCancelRespond = async (bookingID) => {
         try {
-            await axios.put(`http://localhost:8080/api/bookings/staff/finalcancel/${bookingID}`);
+            await axios.put(`https://bookinghomestayswp.azurewebsites.net/api/bookings/staff/finalcancel/${bookingID}`);
             fetchData();
         } catch (error) {
             console.error('Error fetching projects:', error);

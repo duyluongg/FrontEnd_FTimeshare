@@ -37,10 +37,10 @@ export default function CreateTimeshare() {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const projectResponse = await axios.get('http://localhost:8080/api/project/customer/viewproject');
+                const projectResponse = await axios.get('https://bookinghomestayswp.azurewebsites.net/api/project/customer/viewproject');
                 setProjects(projectResponse.data);
 
-                const productTypeResponse = await axios.get('http://localhost:8080/api/productType/customer/viewproductType');
+                const productTypeResponse = await axios.get('https://bookinghomestayswp.azurewebsites.net/api/productType/customer/viewproductType');
                 setProductTypes(productTypeResponse.data);
 
                 const provinceResponse = await axios.get('https://vapi.vnappmob.com/api/province/');
@@ -198,7 +198,7 @@ export default function CreateTimeshare() {
             setIsLoading(true);
 
             try {
-                const productResponse = await axios.post('http://localhost:8080/api/products/add', productDataToSend);
+                const productResponse = await axios.post('https://bookinghomestayswp.azurewebsites.net/api/products/add', productDataToSend);
                 console.log('Product created:', productResponse.data);
 
                 const productID = productResponse.data.productID;
@@ -209,7 +209,7 @@ export default function CreateTimeshare() {
                 });
                 console.log(images);
 
-                const imageResponse = await axios.post(`http://localhost:8080/api/pictures/${productID}`, formData, {
+                const imageResponse = await axios.post(`https://bookinghomestayswp.azurewebsites.net/api/pictures/${productID}`, formData, {
                     headers: {
                         'Content-Type': 'multipart/form-data'
                     }

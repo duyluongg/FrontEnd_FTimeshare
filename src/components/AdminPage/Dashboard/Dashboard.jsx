@@ -12,18 +12,18 @@ export default function Dashboard() {
             try {
                 const responses = await Promise.all([
 
-                    axios.get('http://localhost:8080/api/products/staff/totalActive'),
-                    axios.get('http://localhost:8080/api/users/staff/count/ROLE_CUSTOMER'),
-                    axios.get('http://localhost:8080/api/products/staff/totalPending'),
-                    axios.get('http://localhost:8080/api/products/staff/totalRejected'),
-                    axios.get('http://localhost:8080/api/products/staff/totalClosed'),
+                    axios.get('https://bookinghomestayswp.azurewebsites.net/api/products/staff/totalActive'),
+                    axios.get('https://bookinghomestayswp.azurewebsites.net/api/users/staff/count/ROLE_CUSTOMER'),
+                    axios.get('https://bookinghomestayswp.azurewebsites.net/api/products/staff/totalPending'),
+                    axios.get('https://bookinghomestayswp.azurewebsites.net/api/products/staff/totalRejected'),
+                    axios.get('https://bookinghomestayswp.azurewebsites.net/api/products/staff/totalClosed'),
                     // axios.get('http://localhost:8080/api/users/staff/count/ROLE_STAFF'),
-                    axios.get('http://localhost:8080/api/bookings/staff/totalActive'),
-                    axios.get('http://localhost:8080/api/bookings/staff/totalWaitToConfirm'),
-                    axios.get('http://localhost:8080/api/bookings/staff/totalWaitToConfirmRC'),
-                    axios.get('http://localhost:8080/api/bookings/staff/totalWaitToRespond100'),
-                    axios.get('http://localhost:8080/api/bookings/staff/totalWaitToRespond80'),
-                    axios.get('http://localhost:8080/api/news/staff/totalNews'),
+                    axios.get('https://bookinghomestayswp.azurewebsites.net/api/bookings/staff/totalActive'),
+                    axios.get('https://bookinghomestayswp.azurewebsites.net/api/bookings/staff/totalWaitToConfirm'),
+                    axios.get('https://bookinghomestayswp.azurewebsites.net/api/bookings/staff/totalWaitToConfirmRC'),
+                    axios.get('https://bookinghomestayswp.azurewebsites.net/api/bookings/staff/totalWaitToRespond100'),
+                    axios.get('https://bookinghomestayswp.azurewebsites.net/api/bookings/staff/totalWaitToRespond80'),
+                    axios.get('https://bookinghomestayswp.azurewebsites.net/api/news/staff/totalNews'),
                 ]);
 
                 const data = responses.map(response => response.data);

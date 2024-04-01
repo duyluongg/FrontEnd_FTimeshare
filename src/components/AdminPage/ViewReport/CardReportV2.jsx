@@ -81,11 +81,11 @@ export default function CardReportV2() {
         try {
             console.log(accID);
             const [productItem, imagesResponse, profilesResponse, userData, reportData] = await Promise.all([
-                axios.get(`http://localhost:8080/api/products/viewById/${productID}`),
-                axios.get('http://localhost:8080/api/pictures/customerview'),
-                axios.get('http://localhost:8080/api/users/staffview'),
-                axios.get(`http://localhost:8080/api/users/viewDetail/${accID}`),
-                axios.get(`http://localhost:8080/api/reports/viewByProductId/${productID}`)
+                axios.get(`https://bookinghomestayswp.azurewebsites.net/api/products/viewById/${productID}`),
+                axios.get('https://bookinghomestayswp.azurewebsites.net/api/pictures/customerview'),
+                axios.get('https://bookinghomestayswp.azurewebsites.net/api/users/staffview'),
+                axios.get(`https://bookinghomestayswp.azurewebsites.net/api/users/viewDetail/${accID}`),
+                axios.get(`https://bookinghomestayswp.azurewebsites.net/api/reports/viewByProductId/${productID}`)
 
 
             ]);
@@ -119,7 +119,7 @@ export default function CardReportV2() {
 
     const handleDelete = async (reportID) => {
         try {
-            await axios.delete(`http://localhost:8080/api/reports/delete/${reportID}`);
+            await axios.delete(`https://bookinghomestayswp.azurewebsites.net/api/reports/delete/${reportID}`);
 
             // setProjectReport(prevProjectReport => prevProjectReport.filter(item => item.reportID !== reportID));
             // setProjectReport(true);
@@ -134,7 +134,7 @@ export default function CardReportV2() {
     const handleCloseProduct = async (productID) => {
         console.log(productID);
         try {
-            await axios.put(`http://localhost:8080/api/products/staff/close/${productID}`);
+            await axios.put(`https://bookinghomestayswp.azurewebsites.net/api/products/staff/close/${productID}`);
             setIsProjectClosed(true);
             setShowModalConfirm(true);
             setShowModalNotify(true);

@@ -56,9 +56,9 @@ export default function RejectedPrj() {
     const fetchProjectPending = async () => {
         try {
             const [rejectResponse, profilesResponse, projectResponse] = await Promise.all([
-                axios.get('http://localhost:8080/api/products/staff/rejected'),
-                axios.get('http://localhost:8080/api/users/staffview'),
-                axios.get('http://localhost:8080/api/project/customer/viewproject')
+                axios.get('https://bookinghomestayswp.azurewebsites.net/api/products/staff/rejected'),
+                axios.get('https://bookinghomestayswp.azurewebsites.net/api/users/staffview'),
+                axios.get('https://bookinghomestayswp.azurewebsites.net/api/project/customer/viewproject')
 
             ]);
 

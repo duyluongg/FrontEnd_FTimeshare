@@ -86,7 +86,7 @@ export default function Accommodation() {
     }, [searchQuery]);
     const fetchAllProjects = async () => {
         try {
-            const projectResponse = await axios.get('http://localhost:8080/api/project/customer/viewproject');
+            const projectResponse = await axios.get('https://bookinghomestayswp.azurewebsites.net/api/project/customer/viewproject');
             
             setProjects(projectResponse.data);
 

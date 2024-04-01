@@ -20,7 +20,7 @@ export default function SelectProject({ onSelectProject }) {
   useEffect(() => {
     const fetchProjects = async () => {
       try {
-        const response = await axios.get('http://localhost:8080/api/project/customer/viewproject');
+        const response = await axios.get('https://bookinghomestayswp.azurewebsites.net/api/project/customer/viewproject');
         setProjects(response.data);
       } catch (error) {
         console.error('Error fetching projects:', error);

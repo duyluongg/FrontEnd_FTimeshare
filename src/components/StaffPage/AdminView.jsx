@@ -72,7 +72,7 @@ export default function StaffView() {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axios.get('http://localhost:8080/api/bookings/admin/total_Price_For_Done_Bookings');
+                const response = await axios.get('https://bookinghomestayswp.azurewebsites.net/api/bookings/admin/total_Price_For_Done_Bookings');
                 setTotalPrice(response.data);
             } catch (error) {
                 console.error('Error fetching data:', error);

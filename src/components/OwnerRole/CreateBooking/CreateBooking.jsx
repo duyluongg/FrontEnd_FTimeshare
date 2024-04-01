@@ -36,7 +36,7 @@ const Booking = () => {
     useEffect(() => {
         const fetchAccInfoAPI = async () => {
             try {
-                const response = await axios.get(`http://localhost:8080/api/users/viewDetail/${user.id}`);
+                const response = await axios.get(`https://bookinghomestayswp.azurewebsites.net/api/users/viewDetail/${user.id}`);
                 setAccInfo(response.data);
                 console.log(response.data);
             } catch (error) {
@@ -64,7 +64,7 @@ const Booking = () => {
 
             console.log(formData)
 
-            const response = await axios.post('http://localhost:8080/api/bookings/customer/checkbooking', formData, {
+            const response = await axios.post('https://bookinghomestayswp.azurewebsites.net/api/bookings/customer/checkbooking', formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 }
@@ -100,7 +100,7 @@ const Booking = () => {
     useEffect(() => {
         const fetchBookedDates = async () => {
             try {
-                const response = await axios.get(`http://localhost:8080/api/products/view/bookedDate/${productID}`);
+                const response = await axios.get(`https://bookinghomestayswp.azurewebsites.net/api/products/view/bookedDate/${productID}`);
                 console.log(response.data);
                 setBookedDate(response.data);
 

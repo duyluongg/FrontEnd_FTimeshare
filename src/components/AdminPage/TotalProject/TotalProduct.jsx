@@ -263,10 +263,10 @@ export default function DataTable() {
     const fetchData = async () => {
         try {
             const [pendingResponse, imagesResponse, profilesResponse, projectResponse] = await Promise.all([
-                axios.get('http://localhost:8080/api/products/staff/active'),
-                axios.get('http://localhost:8080/api/pictures/customerview'),
-                axios.get('http://localhost:8080/api/users/staffview'),
-                axios.get('http://localhost:8080/api/project/customer/viewproject')
+                axios.get('https://bookinghomestayswp.azurewebsites.net/api/products/staff/active'),
+                axios.get('https://bookinghomestayswp.azurewebsites.net/api/pictures/customerview'),
+                axios.get('https://bookinghomestayswp.azurewebsites.net/api/users/staffview'),
+                axios.get('https://bookinghomestayswp.azurewebsites.net/api/project/customer/viewproject')
             ]);
 
             const dataWithId = pendingResponse.data.map((item, index) => ({

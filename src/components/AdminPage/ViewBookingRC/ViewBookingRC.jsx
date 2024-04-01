@@ -64,9 +64,9 @@ export default function ViewBookingRC() {
     const fetchData = async () => {
         try {
             const [pendingResponse, imagesResponse, profilesResponse] = await Promise.all([
-                axios.get('http://localhost:8080/api/bookings/staff/waitToConfirmRC'),
-                axios.get('http://localhost:8080/api/pictures/customerview'),
-                axios.get('http://localhost:8080/api/users/staffview')
+                axios.get('https://bookinghomestayswp.azurewebsites.net/api/bookings/staff/waitToConfirmRC'),
+                axios.get('https://bookinghomestayswp.azurewebsites.net/api/pictures/customerview'),
+                axios.get('https://bookinghomestayswp.azurewebsites.net/api/users/staffview')
             ]);
 
             setProductToConfirm(pendingResponse.data);
@@ -86,7 +86,7 @@ export default function ViewBookingRC() {
 
     const handleAcceptActive = async (bookingID) => {
         try {
-            await axios.put(`http://localhost:8080/api/bookings/confirm_booking/${bookingID}`);
+            await axios.put(`https://bookinghomestayswp.azurewebsites.net/api/bookings/confirm_booking/${bookingID}`);
             fetchData();
         } catch (error) {
             console.error('Error fetching projects:', error);
@@ -95,7 +95,7 @@ export default function ViewBookingRC() {
 
     const handleAcceptReject = async (bookingID) => {
         try {
-            await axios.put(`http://localhost:8080/api/bookings/staff/Rejected/${bookingID}`);
+            await axios.put(`https://bookinghomestayswp.azurewebsites.net/api/bookings/staff/Rejected/${bookingID}`);
             fetchData();
         } catch (error) {
             console.error('Error fetching projects:', error);

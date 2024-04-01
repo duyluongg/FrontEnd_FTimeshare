@@ -23,26 +23,56 @@ export default function Homestay() {
     const [filterProduct, setFilterProduct] = useState([]);
     const [allProducts, setAllProducts] = useState([]);
     const [searchClicked, setSearchClicked] = useState(false);
+    const [cityList, setCityList] = useState([]);
+    const [images, setImages] = useState([]);
 
     useEffect(() => {
         showProduct();
+        showLocation();
+        fetchImg();
     }, []);
+
+    const showLocation = async () => {
+        try {
+            const locationResponse = await axios.get('https://vapi.vnappmob.com/api/province/');
+            setCityList(locationResponse.data.results);
+        } catch (error) {
+            console.error('Show location', error.response);
+        }
+    }
+
+    // const showProduct = async () => {
+    //     try {
+    //         const formData = new FormData();
+    //         formData.append('cityInAddress', "All");
+    //         formData.append('numberOfPerson', 0);
+    //         formData.append('startDate', null);
+    //         formData.append('endDate', null);
+
+    //         const response = await axios.post('http://localhost:8080/api/products/filter', formData, {
+    //             headers: {
+    //                 'Content-Type': 'multipart/form-data'
+    //             }
+    //         });
+    //         console.log(response.data);
+    //         setAllProducts(response.data);
+    //     } catch (error) {
+    //         console.error('Filter product failed', error.response);
+    //     }
+    // }
 
     const showProduct = async () => {
         try {
-            const formData = new FormData();
-            formData.append('cityInAddress', "All");
-            formData.append('numberOfPerson', 0);
-            formData.append('startDate', null);
-            formData.append('endDate', null);
+            const response = await axios.get('https://bookinghomestayswp.azurewebsites.net/api/products/staff/active');
+            const activeProducts = response.data;
+            const updatedProjects = await Promise.all(activeProducts.map(async (product) => {
+                const feedbackResponse = await axios.get(`https://bookinghomestayswp.azurewebsites.net/api/feedback/average-feedback-rating/${product.productID}`);
+                const rating = feedbackResponse.data;
+                return { ...product, rating };
+            }));
+            updatedProjects.sort((a, b) => b.rating - a.rating);
 
-            const response = await axios.post('http://localhost:8080/api/products/filter', formData, {
-                headers: {
-                    'Content-Type': 'multipart/form-data'
-                }
-            });
-            console.log(response.data);
-            setAllProducts(response.data);
+            setAllProducts(updatedProjects);
         } catch (error) {
             console.error('Filter product failed', error.response);
         }
@@ -67,20 +97,39 @@ export default function Homestay() {
             console.log(numberOfPerson);
             console.log(formattedStartDate);
 
+            const cityInAddress = city === 'All' ? 'All' : city.province_name;
             const formData = new FormData();
-            formData.append('cityInAddress', city);
+            formData.append('cityInAddress', cityInAddress);
             formData.append('numberOfPerson', numberOfPerson);
             formData.append('startDate', formattedStartDate);
             formData.append('endDate', formattedEndDate);
+            console.log(formData);
 
-            const response = await axios.post('http://localhost:8080/api/products/filter', formData, {
+            const response = await axios.post('https://bookinghomestayswp.azurewebsites.net/api/products/filter', formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 }
             });
-            setFilterProduct(response.data);
+            const filteredProducts = response.data;
+            const updatedProjects = await Promise.all(filteredProducts.map(async (product) => {
+                const feedbackResponse = await axios.get(`https://bookinghomestayswp.azurewebsites.net/api/feedback/average-feedback-rating/${product.productID}`);
+                const rating = feedbackResponse.data;
+                return { ...product, rating };
+            }));
+            updatedProjects.sort((a, b) => b.rating - a.rating);
+
+            setFilterProduct(updatedProjects);
         } catch (error) {
             console.error('Filter product failed', error.response);
+        }
+    }
+
+    const fetchImg = async () => {
+        try {
+            const response = await axios.get(`https://bookinghomestayswp.azurewebsites.net/api/pictures/customerview`);
+            setImages(response.data);
+        } catch (error) {
+            console.error('Error fetching view img:', error);
         }
     }
 
@@ -102,7 +151,7 @@ export default function Homestay() {
                                                             <FontAwesomeIcon className="fcd9eec8fb-icon" icon={faLocationDot} />
                                                         </span>
                                                     </div>
-                                                    <select
+                                                    {/* <select
                                                         name='city'
                                                         className='eb46370fe1'
                                                         autoComplete='off'
@@ -114,6 +163,25 @@ export default function Homestay() {
                                                         <option value="Thu Duc">Thu Duc</option>
                                                         <option value="Los Angeles">Los Angeles</option>
                                                         <option value="Chicago">Chicago</option>
+                                                    </select> */}
+                                                    <select
+                                                        name='city'
+                                                        className='eb46370fe1'
+                                                        autoComplete='off'
+                                                        aria-expanded='false'
+                                                        value={city ? city.province_id : ''}
+                                                        onChange={(e) => {
+                                                            const selectedProvinceId = e.target.value;
+                                                            const selectedProvinceObj = cityList.find(province => province.province_id === selectedProvinceId); // Tìm đối tượng tỉnh/thành phố dựa trên ID
+                                                            setCity(selectedProvinceObj || 'All'); // Cập nhật selectedProvince thành đối tượng tìm thấy
+                                                        }}
+                                                    >
+                                                        <option value="All">All</option>
+                                                        {cityList.map(province => (
+                                                            <option key={province.province_id} value={province.province_id}>
+                                                                {province.province_name}
+                                                            </option>
+                                                        ))}
                                                     </select>
                                                     <div class="e7e5251f68 c96fa981fd"></div>
                                                     <div class="eac0b6e5ba">
@@ -220,93 +288,106 @@ export default function Homestay() {
                                 <h1 aria-live="assertive" className="f6431b446c d5f78961c3">17 properties found</h1>
                             </div>
                             {searchClicked ? (
-                                filterProduct.map((product) => (
-                                    <div className='dcf496a7b9 bb2746aad9' key={product.productID}>
-                                        <div className="c733693b78"></div>
-                                        <div className='d4924c9e74'>
-                                            <div className='df91032a39'></div>
-                                        </div>
-                                        <div class="bea018f16c"><div></div></div>
-                                        <div className='c82435a4b8 a178069f51 a6ae3c2b40 a18aeea94d d794b7a0f7 f53e278e95 c6710787a4 bbefc5a07c'>
-                                            <div className='c066246e13'>
-                                                <div className='a5922b8ca1'>
-                                                    <div className='e952b01718'>
-                                                        <a href="#" tabindex="-1" aria-hidden="true">
-                                                            <img src="https://cf.bstatic.com/xdata/images/hotel/square200/239846786.webp?k=c6fd7abbdd9cbef9f2287507867702b74b372ebf0b5c20884315ac34f8c2f696&amp;o=" alt="Seahorse Tropical Da Nang Hotel by Haviland" width="200" height="200" className="f9671d49b1" />
-                                                        </a>
-                                                    </div>
-                                                </div>
-                                                <div className='c1edfbabcb'>
-                                                    <div className='c624d7469d a0e60936ad a3214e5942 b0db0e8ada'>
-                                                        <div className='c624d7469d f034cf5568 a937b09340 a3214e5942 f02fdbd759'>
-                                                            <div className='dc5041d860 c72df67c95'>
-                                                                <div className='c624d7469d a0e60936ad a3214e5942'>
-                                                                    <div>
-                                                                        <div className='d6767e681c'>
-                                                                            <h3 className='aab71f8e4e'>
-                                                                                <a key={product.productID} href='#' className='a78ca197d0'>
-                                                                                    <div className="f6431b446c a15b38c233">{product.productName}</div>
-                                                                                </a>
-                                                                            </h3>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div>
-                                                                        <div className='abf093bdfe ecc6a9ed89'>
-                                                                            <span class="aee5343fdb">
-                                                                                <span class="f419a93f12">
-                                                                                    <span aria-expanded="false">{product.productDescription}</span>
-                                                                                </span>
-                                                                            </span>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div>
-                                                                        <span className="f419a93f12">
-                                                                            <span aria-expanded="false">
-                                                                                <span className="fcd9eec8fb f798be919c bf9a32efa5" aria-hidden="true">
-
-                                                                                </span>
-                                                                                <span className="abf093bdfe b058f54b9a">{product.productArea}m²</span>
-                                                                            </span>
-                                                                        </span>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div>
-                                                                <div className='c624d7469d a0e60936ad a3214e5942 a0ff1335a1'>
-                                                                    <div className='c624d7469d a0e60936ad a3214e5942'>
-                                                                        <a href="" className='a83ed08757 f88a5204c2 c057617e1a b98133fb50'>
-                                                                            <h3 className='project-list-feedback'>4.5&nbsp;<FontAwesomeIcon icon={faStar} color='#FFD43B' /></h3>
-                                                                        </a>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
+                                filterProduct.map((product) => {
+                                    const projectImage = images.find(image => image.productID === product.productID);
+                                    return (
+                                        <div className='dcf496a7b9 bb2746aad9' key={product.productID}>
+                                            <div className="c733693b78"></div>
+                                            <div className='d4924c9e74'>
+                                                <div className='df91032a39'></div>
+                                            </div>
+                                            <div class="bea018f16c"><div></div></div>
+                                            <div className='c82435a4b8 a178069f51 a6ae3c2b40 a18aeea94d d794b7a0f7 f53e278e95 c6710787a4 bbefc5a07c'>
+                                                <div className='c066246e13'>
+                                                    <div className='a5922b8ca1'>
+                                                        <div className='e952b01718'>
+                                                            <a href="#" tabindex="-1" aria-hidden="true">
+                                                                {projectImage && <img src={projectImage.imgName} />}
+                                                                {/* <img src="https://cf.bstatic.com/xdata/images/hotel/square200/239846786.webp?k=c6fd7abbdd9cbef9f2287507867702b74b372ebf0b5c20884315ac34f8c2f696&amp;o=" alt="Seahorse Tropical Da Nang Hotel by Haviland" width="200" height="200" className="f9671d49b1" /> */}
+                                                            </a>
                                                         </div>
-                                                        <div className='b1037148f8'>
-                                                            <div className='c19beea015'>
-                                                                <div className='ccdd44706b'>
-                                                                    <div className='c59cd18527'>
-                                                                        <h4 tabindex="0" class="abf093bdfe e8f7c070a7">{product.productConvenience}</h4>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div className='a4b53081e1'>
-                                                                <div className='c624d7469d a0e60936ad a3214e5942 fdccaff19b'>
-                                                                    <div className='c5ca594cb1 f19ed67e4b'>
-                                                                        <div className='abf093bdfe f45d8e4c32'>{product.productPerson} People</div>
-                                                                        <div className='project-list-cost'>${product.productPrice}<a>/night</a></div>
-                                                                        <div className="abf093bdfe f45d8e4c32">Taxes and fees included</div>
-                                                                    </div>
-                                                                    <div className="da8b337763">
-                                                                        <Link to={`/detail/${product.productID}`} className="a83ed08757 c21c56c305 a4c1805887 d691166b09 ab98298258 deab83296e c082d89982 c082d89982-before ff33faec5f">
-                                                                            <span className="e4adce92df-button">See Availability</span>
-                                                                            <span className="eedba9e88a d7eef963fa">
-                                                                                <span classNam="fcd9eec8fb bf9a32efa5">
-                                                                                    <span className="fcd9eec8fb bf9a32efa5" aria-hidden="true">
-                                                                                        <FontAwesomeIcon className='fcd9eec8fb-icon' icon={faAngleRight} />
+                                                    </div>
+                                                    <div className='c1edfbabcb'>
+                                                        <div className='c624d7469d a0e60936ad a3214e5942 b0db0e8ada'>
+                                                            <div className='c624d7469d f034cf5568 a937b09340 a3214e5942 f02fdbd759'>
+                                                                <div className='dc5041d860 c72df67c95'>
+                                                                    <div className='c624d7469d a0e60936ad a3214e5942'>
+                                                                        <div>
+                                                                            <div className='d6767e681c'>
+                                                                                <h3 className='aab71f8e4e'>
+                                                                                    <a key={product.productID} href='#' className='a78ca197d0'>
+                                                                                        <div className="f6431b446c a15b38c233">{product.productName}</div>
+                                                                                    </a>
+                                                                                </h3>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div>
+                                                                            <div className='abf093bdfe ecc6a9ed89'>
+                                                                                <span class="aee5343fdb">
+                                                                                    <span class="f419a93f12">
+                                                                                        <span aria-expanded="false">{product.productAddress}</span>
                                                                                     </span>
                                                                                 </span>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div>
+                                                                            <div className='abf093bdfe ecc6a9ed89'>
+                                                                                <span class="aee5343fdb">
+                                                                                    <span class="f419a93f12">
+                                                                                        <span aria-expanded="false">{product.productDescription}</span>
+                                                                                    </span>
+                                                                                </span>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div>
+                                                                            <span className="f419a93f12">
+                                                                                <span aria-expanded="false">
+                                                                                    <span className="fcd9eec8fb f798be919c bf9a32efa5" aria-hidden="true">
+
+                                                                                    </span>
+                                                                                    <span className="abf093bdfe b058f54b9a">{product.productArea}m²</span>
+                                                                                </span>
                                                                             </span>
-                                                                        </Link>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div>
+                                                                    <div className='c624d7469d a0e60936ad a3214e5942 a0ff1335a1'>
+                                                                        <div className='c624d7469d a0e60936ad a3214e5942'>
+                                                                            <a href="" className='a83ed08757 f88a5204c2 c057617e1a b98133fb50'>
+                                                                                <h3 className='project-list-feedback'>{product.rating}&nbsp;<FontAwesomeIcon icon={faStar} color='#FFD43B' /></h3>
+                                                                            </a>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div className='b1037148f8'>
+                                                                <div className='c19beea015'>
+                                                                    <div className='ccdd44706b'>
+                                                                        <div className='c59cd18527'>
+                                                                            <h4 tabindex="0" class="abf093bdfe e8f7c070a7">{product.productConvenience}</h4>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div className='a4b53081e1'>
+                                                                    <div className='c624d7469d a0e60936ad a3214e5942 fdccaff19b'>
+                                                                        <div className='c5ca594cb1 f19ed67e4b'>
+                                                                            <div className='abf093bdfe f45d8e4c32'>{product.productPerson} People</div>
+                                                                            <div className='project-list-cost'>${product.productPrice}<a>/night</a></div>
+                                                                            <div className="abf093bdfe f45d8e4c32">Taxes and fees included</div>
+                                                                        </div>
+                                                                        <div className="da8b337763">
+                                                                            <Link to={`/detail/${product.productID}`} className="a83ed08757 c21c56c305 a4c1805887 d691166b09 ab98298258 deab83296e c082d89982 c082d89982-before ff33faec5f">
+                                                                                <span className="e4adce92df-button">See Availability</span>
+                                                                                <span className="eedba9e88a d7eef963fa">
+                                                                                    <span classNam="fcd9eec8fb bf9a32efa5">
+                                                                                        <span className="fcd9eec8fb bf9a32efa5" aria-hidden="true">
+                                                                                            <FontAwesomeIcon className='fcd9eec8fb-icon' icon={faAngleRight} />
+                                                                                        </span>
+                                                                                    </span>
+                                                                                </span>
+                                                                            </Link>
+                                                                        </div>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -315,97 +396,109 @@ export default function Homestay() {
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                ))
+                                    );
+                                })
                             ) : (
-                                allProducts.map((product) => (
-
-                                    <div className='dcf496a7b9 bb2746aad9' key={product.productID}>
-                                        <div className="c733693b78"></div>
-                                        <div className='d4924c9e74'>
-                                            <div className='df91032a39'></div>
-                                        </div>
-                                        <div class="bea018f16c"><div></div></div>
-                                        <div className='c82435a4b8 a178069f51 a6ae3c2b40 a18aeea94d d794b7a0f7 f53e278e95 c6710787a4 bbefc5a07c'>
-                                            <div className='c066246e13'>
-                                                <div className='a5922b8ca1'>
-                                                    <div className='e952b01718'>
-                                                        <a href="#" tabindex="-1" aria-hidden="true">
-                                                            <img src="https://cf.bstatic.com/xdata/images/hotel/square200/239846786.webp?k=c6fd7abbdd9cbef9f2287507867702b74b372ebf0b5c20884315ac34f8c2f696&amp;o=" alt="Seahorse Tropical Da Nang Hotel by Haviland" width="200" height="200" className="f9671d49b1" />
-                                                        </a>
-                                                    </div>
-                                                </div>
-                                                <div className='c1edfbabcb'>
-                                                    <div className='c624d7469d a0e60936ad a3214e5942 b0db0e8ada'>
-                                                        <div className='c624d7469d f034cf5568 a937b09340 a3214e5942 f02fdbd759'>
-                                                            <div className='dc5041d860 c72df67c95'>
-                                                                <div className='c624d7469d a0e60936ad a3214e5942'>
-                                                                    <div>
-                                                                        <div className='d6767e681c'>
-                                                                            <h3 className='aab71f8e4e'>
-                                                                                <a key={product.productID} href='#' className='a78ca197d0'>
-                                                                                    <div className="f6431b446c a15b38c233">{product.productName}</div>
-                                                                                </a>
-                                                                            </h3>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div>
-                                                                        <div className='abf093bdfe ecc6a9ed89'>
-                                                                            <span class="aee5343fdb">
-                                                                                <span class="f419a93f12">
-                                                                                    <span aria-expanded="false">{product.productDescription}</span>
-                                                                                </span>
-                                                                            </span>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div>
-                                                                        <span className="f419a93f12">
-                                                                            <span aria-expanded="false">
-                                                                                <span className="fcd9eec8fb f798be919c bf9a32efa5" aria-hidden="true">
-
-                                                                                </span>
-                                                                                <span className="abf093bdfe b058f54b9a">{product.productArea}m²</span>
-                                                                            </span>
-                                                                        </span>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div>
-                                                                <div className='c624d7469d a0e60936ad a3214e5942 a0ff1335a1'>
-                                                                    <div className='c624d7469d a0e60936ad a3214e5942'>
-                                                                        <a href="" className='a83ed08757 f88a5204c2 c057617e1a b98133fb50'>
-                                                                            <h3 className='project-list-feedback'>4.5&nbsp;<FontAwesomeIcon icon={faStar} color='#FFD43B' /></h3>
-                                                                        </a>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
+                                allProducts.map((product) => {
+                                    const projectImage = images.find(image => image.productID === product.productID);
+                                    return (
+                                        <div className='dcf496a7b9 bb2746aad9' key={product.productID}>
+                                            <div className="c733693b78"></div>
+                                            <div className='d4924c9e74'>
+                                                <div className='df91032a39'></div>
+                                            </div>
+                                            <div class="bea018f16c"><div></div></div>
+                                            <div className='c82435a4b8 a178069f51 a6ae3c2b40 a18aeea94d d794b7a0f7 f53e278e95 c6710787a4 bbefc5a07c'>
+                                                <div className='c066246e13'>
+                                                    <div className='a5922b8ca1'>
+                                                        <div className='e952b01718'>
+                                                            <a href="#" tabindex="-1" aria-hidden="true">
+                                                                {projectImage && <img src={projectImage.imgName} />}
+                                                                {/* <img src="https://cf.bstatic.com/xdata/images/hotel/square200/239846786.webp?k=c6fd7abbdd9cbef9f2287507867702b74b372ebf0b5c20884315ac34f8c2f696&amp;o=" alt="Seahorse Tropical Da Nang Hotel by Haviland" width="200" height="200" className="f9671d49b1" /> */}
+                                                            </a>
                                                         </div>
-                                                        <div className='b1037148f8'>
-                                                            <div className='c19beea015'>
-                                                                <div className='ccdd44706b'>
-                                                                    <div className='c59cd18527'>
-                                                                        <h4 tabindex="0" class="abf093bdfe e8f7c070a7">{product.productConvenience}</h4>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div className='a4b53081e1'>
-                                                                <div className='c624d7469d a0e60936ad a3214e5942 fdccaff19b'>
-                                                                    <div className='c5ca594cb1 f19ed67e4b'>
-                                                                        <div className='abf093bdfe f45d8e4c32'>{product.productPerson} People</div>
-                                                                        <div className='project-list-cost'>${product.productPrice}<a>/night</a></div>
-                                                                        <div className="abf093bdfe f45d8e4c32">Taxes and fees included</div>
-                                                                    </div>
-                                                                    <div className="da8b337763">
-                                                                        <Link to={`/detail/${product.productID}`} className="a83ed08757 c21c56c305 a4c1805887 d691166b09 ab98298258 deab83296e c082d89982 c082d89982-before ff33faec5f">
-                                                                            <span className="e4adce92df-button">See Availability</span>
-                                                                            <span className="eedba9e88a d7eef963fa">
-                                                                                <span classNam="fcd9eec8fb bf9a32efa5">
-                                                                                    <span className="fcd9eec8fb bf9a32efa5" aria-hidden="true">
-                                                                                        <FontAwesomeIcon className='fcd9eec8fb-icon' icon={faAngleRight} />
+                                                    </div>
+                                                    <div className='c1edfbabcb'>
+                                                        <div className='c624d7469d a0e60936ad a3214e5942 b0db0e8ada'>
+                                                            <div className='c624d7469d f034cf5568 a937b09340 a3214e5942 f02fdbd759'>
+                                                                <div className='dc5041d860 c72df67c95'>
+                                                                    <div className='c624d7469d a0e60936ad a3214e5942'>
+                                                                        <div>
+                                                                            <div className='d6767e681c'>
+                                                                                <h3 className='aab71f8e4e'>
+                                                                                    <a key={product.productID} href='#' className='a78ca197d0'>
+                                                                                        <div className="f6431b446c a15b38c233">{product.productName}</div>
+                                                                                    </a>
+                                                                                </h3>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div>
+                                                                            <div className='abf093bdfe ecc6a9ed89'>
+                                                                                <span class="aee5343fdb">
+                                                                                    <span class="f419a93f12">
+                                                                                        <span aria-expanded="false">{product.productAddress}</span>
                                                                                     </span>
                                                                                 </span>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div>
+                                                                            <div className='abf093bdfe ecc6a9ed89'>
+                                                                                <span class="aee5343fdb">
+                                                                                    <span class="f419a93f12">
+                                                                                        <span aria-expanded="false">{product.productDescription}</span>
+                                                                                    </span>
+                                                                                </span>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div>
+                                                                            <span className="f419a93f12">
+                                                                                <span aria-expanded="false">
+                                                                                    <span className="fcd9eec8fb f798be919c bf9a32efa5" aria-hidden="true">
+
+                                                                                    </span>
+                                                                                    <span className="abf093bdfe b058f54b9a">{product.productArea}m²</span>
+                                                                                </span>
                                                                             </span>
-                                                                        </Link>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div>
+                                                                    <div className='c624d7469d a0e60936ad a3214e5942 a0ff1335a1'>
+                                                                        <div className='c624d7469d a0e60936ad a3214e5942'>
+                                                                            <a href="" className='a83ed08757 f88a5204c2 c057617e1a b98133fb50'>
+                                                                                <h3 className='project-list-feedback'>{product.rating}&nbsp;<FontAwesomeIcon icon={faStar} color='#FFD43B' /></h3>
+                                                                            </a>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div className='b1037148f8'>
+                                                                <div className='c19beea015'>
+                                                                    <div className='ccdd44706b'>
+                                                                        <div className='c59cd18527'>
+                                                                            <h4 tabindex="0" class="abf093bdfe e8f7c070a7">{product.productConvenience}</h4>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div className='a4b53081e1'>
+                                                                    <div className='c624d7469d a0e60936ad a3214e5942 fdccaff19b'>
+                                                                        <div className='c5ca594cb1 f19ed67e4b'>
+                                                                            <div className='abf093bdfe f45d8e4c32'>{product.productPerson} People</div>
+                                                                            <div className='project-list-cost'>${product.productPrice}<a>/night</a></div>
+                                                                            <div className="abf093bdfe f45d8e4c32">Taxes and fees included</div>
+                                                                        </div>
+                                                                        <div className="da8b337763">
+                                                                            <Link to={`/detail/${product.productID}`} className="a83ed08757 c21c56c305 a4c1805887 d691166b09 ab98298258 deab83296e c082d89982 c082d89982-before ff33faec5f">
+                                                                                <span className="e4adce92df-button">See Availability</span>
+                                                                                <span className="eedba9e88a d7eef963fa">
+                                                                                    <span classNam="fcd9eec8fb bf9a32efa5">
+                                                                                        <span className="fcd9eec8fb bf9a32efa5" aria-hidden="true">
+                                                                                            <FontAwesomeIcon className='fcd9eec8fb-icon' icon={faAngleRight} />
+                                                                                        </span>
+                                                                                    </span>
+                                                                                </span>
+                                                                            </Link>
+                                                                        </div>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -414,9 +507,8 @@ export default function Homestay() {
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-
-                                ))
+                                    );
+                                })
                             )}
                         </div>
                     </div>

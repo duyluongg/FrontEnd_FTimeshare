@@ -47,10 +47,10 @@ export default function ClosedProduct() {
     const fetchProjectPending = async () => {
         try {
             const [rejectResponse, profilesResponse, imagesResponse, projectResponse] = await Promise.all([
-                axios.get('http://localhost:8080/api/products/staff/closed'),
-                axios.get('http://localhost:8080/api/users/staffview'),
-                axios.get('http://localhost:8080/api/pictures/customerview'),
-                axios.get('http://localhost:8080/api/project/customer/viewproject')
+                axios.get('https://bookinghomestayswp.azurewebsites.net/api/products/staff/closed'),
+                axios.get('https://bookinghomestayswp.azurewebsites.net/api/users/staffview'),
+                axios.get('https://bookinghomestayswp.azurewebsites.net/api/pictures/customerview'),
+                axios.get('https://bookinghomestayswp.azurewebsites.net/api/project/customer/viewproject')
 
             ]);
 
