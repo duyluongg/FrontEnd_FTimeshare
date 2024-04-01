@@ -55,6 +55,7 @@ import ViewReport from './components/AdminPage/ViewReport/ViewReport.jsx'
 import Sidenav from './components/AdminPage/Sidenav/Sidenav.jsx';
 import Homestay from './components/Accommodation/Homestay.jsx';
 import ConfirmRegister from './components/Register/ConfirmRegister.jsx';
+import Wallet from './components/Wallet&Reward/Wallet.jsx'
 import './components/Register/ConfirmRegister.css';
 
 import { useLocation } from 'react-router-dom';
@@ -100,12 +101,16 @@ import ClosedProduct from './components/AdminPage/TotalProductClose/ClosedProduc
 function App() {
 
   const { user, loginContext } = useContext(UserContext);
-  // const [accountUser, setAccountUser] = useState();
 
-  // console.log(user.id);
+  // useEffect(() => {
+  //   if (localStorage.getItem("token")) {
+  //     loginContext(localStorage.getItem("id"), localStorage.getItem("role"), localStorage.getItem("token"));
+  //   }
+  // }, []);
+
   useEffect(() => {
-    if (localStorage.getItem("token")) {
-      loginContext(localStorage.getItem("id"), localStorage.getItem("role"), localStorage.getItem("token"));
+    if (sessionStorage.getItem("token")) {
+      loginContext(sessionStorage.getItem("id"), sessionStorage.getItem("role"), sessionStorage.getItem("token"));
     }
   }, []);
 
@@ -153,11 +158,12 @@ function App() {
   const isAccommodationDetail = location.pathname.includes('/accommodation-detail');
   const isHomestay = location.pathname.includes('/homestay');
   const isConfirmRegister = location.pathname.includes('/confirm-register');
+  const isWallet = location.pathname.includes('/wallet-and-reward');
 
 
   const isPayment = location.pathname.includes('/payment');
   const isUpdateProduct = location.pathname.includes('/update-product');
-  const isSidebar = location.pathname.includes('/profile') || location.pathname.includes('/view-booking-history') || location.pathname.includes('/update-profile');
+  const isSidebar = location.pathname.includes('/profile') || location.pathname.includes('/view-booking-history') || location.pathname.includes('/update-profile') || location.pathname.includes('/wallet-and-reward');
 
   const navigate = useNavigate();
 
@@ -174,7 +180,7 @@ function App() {
         {!isDetailPage && !isLoginPage && !isRegisterPage && !isContactPage && !isStaffPage && !isAdminPage && !isUpdateProfileStaff
           && !isCreateTimeshare && !isViewSummary && !isViewDetail && !isViewNews && !isViewNewAll && !isCreateNews && !isAccommodation
           && !isBooking && !isCreateBooking && !isBookingStage && !isProfile && !isPayment && !isUpdateProduct && !isSidebar
-          && !isAccommodationDetail && !isUpdateProfile && !isHomestay && !isConfirmRegister && <Header />}
+          && !isAccommodationDetail && !isUpdateProfile && !isHomestay && !isConfirmRegister && !isWallet && <Header />}
 
         {isSidebar && (
           <Sidebar>
@@ -182,6 +188,7 @@ function App() {
               <Route path='/profile' element={<Profile getData={user.id} />}></Route>
               <Route path='/view-booking-history' element={<Booking />}></Route>
               <Route path='/update-profile' element={<UpdateProfile getData={user.id} />}></Route>
+              <Route path='/wallet-and-reward' element={<Wallet />}></Route>
             </Routes>
           </Sidebar>
         

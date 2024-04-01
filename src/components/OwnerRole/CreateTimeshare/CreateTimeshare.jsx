@@ -29,6 +29,8 @@ export default function CreateTimeshare() {
     const [snackbarColor, setSnackbarColor] = useState('success');
     const [errors, setErrors] = useState({});
     const [isLoading, setIsLoading] = useState(false);
+    const [provinces, setProvinces] = useState([]);
+    const [selectedProvince, setSelectedProvince] = useState(null);
 
     const navigate = useNavigate();
 
@@ -40,6 +42,9 @@ export default function CreateTimeshare() {
 
                 const productTypeResponse = await axios.get('http://localhost:8080/api/productType/customer/viewproductType');
                 setProductTypes(productTypeResponse.data);
+
+                const provinceResponse = await axios.get('https://vapi.vnappmob.com/api/province/');
+                setProvinces(provinceResponse.data.results);
             } catch (error) {
                 console.error('Error fetching data:', error);
             }
@@ -103,6 +108,10 @@ export default function CreateTimeshare() {
             validationErrors.productDescription = "Description must be less than or equal to 1000 characters";
         }
 
+        if (!selectedProvince) {
+            validationErrors.selectedProvince = "Province/City is required"
+        }
+
         if (!createProductData.productAddress.trim()) {
             validationErrors.productAddress = "Address is required"
         }
@@ -129,13 +138,13 @@ export default function CreateTimeshare() {
             validationErrors.productPerson = "At least 1 person required";
         }
 
-        if (!createProductData.availableStartDate) {
-            validationErrors.availableStartDate = "Start date is required";
-        }
+        // if (!createProductData.availableStartDate) {
+        //     validationErrors.availableStartDate = "Start date is required";
+        // }
 
-        if (!createProductData.availableEndDate) {
-            validationErrors.availableEndDate = "End date is required";
-        }
+        // if (!createProductData.availableEndDate) {
+        //     validationErrors.availableEndDate = "End date is required";
+        // }
 
         setErrors(validationErrors);
 
@@ -172,17 +181,20 @@ export default function CreateTimeshare() {
                 }
             }
 
-            const startDateObj = new Date(createProductData.availableStartDate);
-            const endDateObj = new Date(createProductData.availableEndDate);
-            const formattedStartDate = startDateObj.toISOString().split('T')[0] + 'T08:00:00';
-            const formattedEndDate = endDateObj.toISOString().split('T')[0] + 'T08:00:00';
+            // const startDateObj = new Date(createProductData.availableStartDate);
+            // const endDateObj = new Date(createProductData.availableEndDate);
+            // const formattedStartDate = startDateObj.toISOString().split('T')[0] + 'T08:00:00';
+            // const formattedEndDate = endDateObj.toISOString().split('T')[0] + 'T08:00:00';
+
+            const address = createProductData.productAddress + `, ${selectedProvince.province_name}`;
 
             const productDataToSend = {
                 ...createProductData,
-                availableStartDate: formattedStartDate,
-                availableEndDate: formattedEndDate,
+                productAddress: address,
+                // availableStartDate: formattedStartDate,
+                // availableEndDate: formattedEndDate,
             };
-            // console.log(productDataToSend);
+            console.log(productDataToSend);
             setIsLoading(true);
 
             try {
@@ -304,6 +316,40 @@ export default function CreateTimeshare() {
                                     />
                                 </FormControl>
                                 {errors.productDescription && <span style={{ color: 'red' }}>{errors.productDescription}</span>}
+                            </div>
+                            <div className="input-create-product">
+                                <TextField
+                                    id="outlined-select-currency"
+                                    select
+                                    label="Province/City *"
+                                    name="province"
+                                    value={selectedProvince ? selectedProvince.province_id : ''}
+                                    onChange={(e) => {
+                                        const selectedProvinceId = e.target.value;
+                                        const selectedProvinceObj = provinces.find(province => province.province_id === selectedProvinceId); // Tìm đối tượng tỉnh/thành phố dựa trên ID
+                                        setSelectedProvince(selectedProvinceObj); // Cập nhật selectedProvince thành đối tượng tìm thấy
+                                    }}
+                                    fullWidth sx={{
+                                        m: 1,
+                                        '& .MuiFormLabel-root.Mui-focused': {
+                                            color: '#CD9A2B',
+                                        },
+                                        '& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                                            borderColor: '#CD9A2B',
+                                        },
+                                        '& .MuiMenuItem-root': {
+                                            color: '#CD9A2B',
+                                        },
+                                    }}
+                                    error={errors.selectedProvince}
+                                >
+                                    {provinces.map(province => (
+                                        <MenuItem key={province.province_id} value={province.province_id}>
+                                            {province.province_name}
+                                        </MenuItem>
+                                    ))}
+                                </TextField>
+                                {errors.selectedProvince && <span style={{ color: 'red' }}>{errors.selectedProvince}</span>}
                             </div>
                             <div className="input-create-product">
                                 <FormControl fullWidth sx={{ m: 1 }}>
@@ -501,7 +547,7 @@ export default function CreateTimeshare() {
                                     {errors.productPerson && <span style={{ color: 'red' }}>{errors.productPerson}</span>}
                                 </FormControl>
                             </div>
-                            <div className="input-create-product flex-2">
+                            {/* <div className="input-create-product flex-2">
                                 <div>
                                     <LocalizationProvider dateAdapter={AdapterDayjs}>
                                         <DemoContainer components={['DatePicker']}>
@@ -546,7 +592,7 @@ export default function CreateTimeshare() {
                                     </LocalizationProvider>
                                     {errors.availableEndDate && <span style={{ color: 'red' }}>{errors.availableEndDate}</span>}
                                 </div>
-                            </div>
+                            </div> */}
                         </div>
                         <div className="create-submit">
                             <div className="input-create-product">
