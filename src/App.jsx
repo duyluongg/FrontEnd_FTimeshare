@@ -197,6 +197,7 @@ function App() {
         <Routes>
           <Route path='/' element={<Project />}></Route>
           <Route path='/detail/:id' element={<Detail />}></Route>
+          <Route path='/create-booking' element={<CreateBooking />}></Route>
           <Route path='/login' element={<Login />}></Route>
           <Route path='/register' element={<Register />}></Route>
           <Route path='/contact-info' element={<Contact />}></Route>
@@ -210,7 +211,6 @@ function App() {
           <Route path='/create-news' element={<CreateNews />}></Route>
           <Route path='/accommodation' element={<Accommodation />}></Route>
           {/* <Route path='/view-booking-history' element={<Booking />}></Route> */}
-          <Route path='/create-booking' element={<CreateBooking />}></Route>
           <Route path='/booking-stage' element={<BookingStage />}></Route>
           <Route path='/payment' element={<Payment />}></Route>
           <Route path='/create-payment' element={<CreatePayment />}></Route>
