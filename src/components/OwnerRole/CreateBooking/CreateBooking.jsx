@@ -138,7 +138,7 @@ const Booking = () => {
                                                         <div className="form-booking-icon"></div>
                                                         <div className="form-booking-date">
                                                             <input
-                                                                type="date" //type="text" dùng datepicker
+                                                                type="date"
                                                                 id="checkInDate"
                                                                 name="checkInDate"
                                                                 value={checkInDate}
