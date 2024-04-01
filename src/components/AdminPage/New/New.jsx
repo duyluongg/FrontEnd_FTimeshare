@@ -41,7 +41,7 @@ function CreateNews({getData}) {
 
 
 
-            const response = await axios.post('http://localhost:8080/api/news', formData, {
+            const response = await axios.post('https://bookinghomestayswp.azurewebsites.net/api/news', formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 }

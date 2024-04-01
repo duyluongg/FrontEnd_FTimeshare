@@ -20,7 +20,7 @@ function ViewNewStaff() {
         const fetchNewsDetail = async () => {
             try {
 
-                const response = await axios.get(`http://localhost:8080/api/news/viewDetail/${newsId}`);
+                const response = await axios.get(`https://bookinghomestayswp.azurewebsites.net/api/news/viewDetail/${newsId}`);
                 // const [imageNew] = await Promise.all(
                 //     axios.get(`http://localhost:8080/api/news/view`)
                 // );
@@ -54,7 +54,7 @@ function ViewNewStaff() {
 
     const handleDelete = async () => {
         try {
-            await axios.delete(`http://localhost:8080/api/news/delete/${newsId}`);
+            await axios.delete(`https://bookinghomestayswp.azurewebsites.net/api/news/delete/${newsId}`);
             setSnackbarMessage('Delete successfully !!!')
             setSnackbarColor("success");
             setSnackbarOpen(true);
@@ -69,11 +69,11 @@ function ViewNewStaff() {
         <div>
             <div className="view-news">
                 <h1 className="news-title">{newsDetail.newsTitle}</h1>
-                <img src={`http://localhost:8080/api/news/imgView/${newsDetail.imgName}`} alt={newsDetail.imgName} className="news-image" />
+                <img src={`https://bookinghomestayswp.azurewebsites.net/api/news/imgView/${newsDetail.imgName}`} alt={newsDetail.imgName} className="news-image" />
                 <p className="news-content">{newsDetail.newsContent}</p>
                 <div className="news-author">By {authorData.accName}</div>
                 <ModalPopUpDelete onDelete={handleDelete} color='error' />
-                <FormUpdateNew newsDetail={newsDetail} oldImageUrl={`http://localhost:8080/api/news/imgView/${newsDetail.imgName}`} />
+                <FormUpdateNew newsDetail={newsDetail} oldImageUrl={`https://bookinghomestayswp.azurewebsites.net/api/news/imgView/${newsDetail.imgName}`} />
             </div>
             <SnackBar open={snackbarOpen} message={snackbarMessage} onClose={handleSnackbarClose} color={snackbarColor} />
         </div>

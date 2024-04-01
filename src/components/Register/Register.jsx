@@ -93,7 +93,7 @@ export default function Register() {
             formData.append('roleID', '3');
             formData.append('accBirthday', formattedBirthday);
 
-            const response = await axios.post('http://localhost:8080/api/users', formData, {
+            const response = await axios.post('https://bookinghomestayswp.azurewebsites.net/api/users', formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 }

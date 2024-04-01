@@ -31,7 +31,7 @@ export default function AccommodationDetail() {
     const fetchProductByProjectID = async () => {
 
         try {
-            const response = await axios.get('http://localhost:8080/api/products/staff/active');
+            const response = await axios.get('https://bookinghomestayswp.azurewebsites.net/api/products/staff/active');
             const products = response.data;
             // console.log(products);
             const productData = products.filter(product => product.projectID === projectID);
@@ -51,7 +51,7 @@ export default function AccommodationDetail() {
     useEffect(() => {
         const fetchImg = async () => {
           try {
-            const response = await axios.get(`http://localhost:8080/api/pictures/customerview`);
+            const response = await axios.get(`https://bookinghomestayswp.azurewebsites.net/api/pictures/customerview`);
             setImages(response.data);
             // console.log(response.data);
           } catch (error) {

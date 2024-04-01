@@ -68,18 +68,18 @@ export default function RespondPayment() {
 
     const fetchData = async () => {
         try {
-            const pendingResponse = await axios.get(`http://localhost:8080/api/products/viewById/${productID}`);
+            const pendingResponse = await axios.get(`https://bookinghomestayswp.azurewebsites.net/api/products/viewById/${productID}`);
             const accIDProduct = pendingResponse.data[0].accID;
 
             const [imagesResponse, profilesResponse, userProductData, userBookingData, customerBookingData, customerPayment, userPayment] = await Promise.all([
-                axios.get('http://localhost:8080/api/pictures/customerview'),
-                axios.get('http://localhost:8080/api/users/staffview'),
-                axios.get(`http://localhost:8080/api/users/viewDetail/${accIDProduct}`),
-                axios.get(`http://localhost:8080/api/users/viewDetail/${accID}`),
-                axios.get(`http://localhost:8080/api/bookings/view-booking-by-Id/${bookingID}`),
-                axios.get('http://localhost:8080/api/bookings/staff/WaitRespondPayment(100)'),
+                axios.get('https://bookinghomestayswp.azurewebsites.net/api/pictures/customerview'),
+                axios.get('https://bookinghomestayswp.azurewebsites.net/api/users/staffview'),
+                axios.get(`https://bookinghomestayswp.azurewebsites.net/api/users/viewDetail/${accIDProduct}`),
+                axios.get(`https://bookinghomestayswp.azurewebsites.net/api/users/viewDetail/${accID}`),
+                axios.get(`https://bookinghomestayswp.azurewebsites.net/api/bookings/view-booking-by-Id/${bookingID}`),
+                axios.get('https://bookinghomestayswp.azurewebsites.net/api/bookings/staff/WaitRespondPayment(100)'),
                 // axios.get('http://localhost:8080/api/bookings/staff/waitToConfirmRC'),
-                axios.get(`http://localhost:8080/api/payment/payment/${accID}`),
+                axios.get(`https://bookinghomestayswp.azurewebsites.net/api/payment/payment/${accID}`),
 
             ]);
 
@@ -125,7 +125,7 @@ export default function RespondPayment() {
             const formData = new FormData();
             formData.append('picture', picture);
             console.log(picture);
-            const response = await axios.put(`http://localhost:8080/api/bookings/updateImgRespond/${bookingID}`, formData, {
+            const response = await axios.put(`https://bookinghomestayswp.azurewebsites.net/api/bookings/updateImgRespond/${bookingID}`, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 }
@@ -142,7 +142,7 @@ export default function RespondPayment() {
 
     const handleAcceptCancelRespond = async (bookingID) => {
         try {
-            await axios.put(`http://localhost:8080/api/bookings/confirm_booking_respond_payment/${bookingID}`);
+            await axios.put(`https://bookinghomestayswp.azurewebsites.net/api/bookings/confirm_booking_respond_payment/${bookingID}`);
             setTimeout(() => navigate("/staff/wait-customer-to-confirm-payment-list/100"), 2000)
 
         } catch (error) {

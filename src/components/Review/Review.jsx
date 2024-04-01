@@ -18,7 +18,7 @@ export default function Review() {
     const fetchProjectActive = async () => {
         console.log(reportID);
         try {
-            const response = await axios.get(`http://localhost:8080/api/reports/viewDetail/${reportID}`)
+            const response = await axios.get(`https://bookinghomestayswp.azurewebsites.net/api/reports/viewDetail/${reportID}`)
             console.log(response.data); // Log the response data directly
             setProjectReport(response.data);
             // console.log(response);

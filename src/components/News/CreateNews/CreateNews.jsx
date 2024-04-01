@@ -33,7 +33,7 @@ function CreateNews() {
         formDataToSend.append('image', formData.newsPicture);
         console.log(formDataToSend);
         try {
-            await axios.post('http://localhost:8080/api/news/add', formDataToSend, {
+            await axios.post('https://bookinghomestayswp.azurewebsites.net/api/news/add', formDataToSend, {
                 headers: {
                     'Content-Type': 'multipart/form-data', // Đặt kiểu phương tiện là multipart/form-data
                 },

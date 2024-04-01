@@ -162,7 +162,7 @@ export default function CardReport() {
     const fetchProjectReport = async () => {
         console.log(reportID);
         try {
-            const response = await axios.get(`http://localhost:8080/api/reports/viewDetail/${reportID}`)
+            const response = await axios.get(`https://bookinghomestayswp.azurewebsites.net/api/reports/viewDetail/${reportID}`)
             console.log(response.data); // Log the response data directly
             setProjectReport(response.data);
             // console.log(response);
@@ -173,7 +173,7 @@ export default function CardReport() {
 
     const handleDelete = async (reportID) => {
         try {
-            await axios.delete(`http://localhost:8080/api/reports/delete/${reportID}`);
+            await axios.delete(`https://bookinghomestayswp.azurewebsites.net/api/reports/delete/${reportID}`);
 
             setDeleted(true);
 

@@ -318,9 +318,9 @@ export default function TotalViewPendingBooking() {
     const fetchData = async () => {
         try {
             const [pendingResponse, imagesResponse, profilesResponse] = await Promise.all([
-                axios.get('http://localhost:8080/api/bookings/staff/pending'),
-                axios.get('http://localhost:8080/api/pictures/customerview'),
-                axios.get('http://localhost:8080/api/users/staffview')
+                axios.get('https://bookinghomestayswp.azurewebsites.net/api/bookings/staff/pending'),
+                axios.get('https://bookinghomestayswp.azurewebsites.net/api/pictures/customerview'),
+                axios.get('https://bookinghomestayswp.azurewebsites.net/api/users/staffview')
             ]);
 
             setProjectActive(pendingResponse.data);
@@ -338,7 +338,7 @@ export default function TotalViewPendingBooking() {
 
     const handleAcceptCancel = async (bookingID) => {
         try {
-            await axios.put(`http://localhost:8080/api/bookings/staff/cancel/${bookingID}`);
+            await axios.put(`https://bookinghomestayswp.azurewebsites.net/api/bookings/staff/cancel/${bookingID}`);
             fetchData();
         } catch (error) {
             console.error('Error fetching projects:', error);
@@ -347,7 +347,7 @@ export default function TotalViewPendingBooking() {
 
     const handleAcceptActive = async (bookingID) => {
         try {
-            await axios.put(`http://localhost:8080/api/bookings/staff/active/${bookingID}`);
+            await axios.put(`https://bookinghomestayswp.azurewebsites.net/api/bookings/staff/active/${bookingID}`);
             fetchData();
         } catch (error) {
             console.error('Error fetching projects:', error);

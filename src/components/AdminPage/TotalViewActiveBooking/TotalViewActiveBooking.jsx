@@ -228,9 +228,9 @@ export default function TotalViewActiveBooking() {
     const fetchData = async () => {
         try {
             const [pendingResponse, imagesResponse, profilesResponse] = await Promise.all([
-                axios.get('http://localhost:8080/api/bookings/staff/active'),
-                axios.get('http://localhost:8080/api/pictures/customerview'),
-                axios.get('http://localhost:8080/api/users/staffview')
+                axios.get('https://bookinghomestayswp.azurewebsites.net/api/bookings/staff/active'),
+                axios.get('https://bookinghomestayswp.azurewebsites.net/api/pictures/customerview'),
+                axios.get('https://bookinghomestayswp.azurewebsites.net/api/users/staffview')
             ]);
 
             const pendingData = pendingResponse.data;

@@ -63,10 +63,10 @@ export default function TotalProductPending() {
     const fetchData = async () => {
         try {
             const [pendingResponse, imagesResponse, profilesResponse, projectResponse] = await Promise.all([
-                axios.get('http://localhost:8080/api/products/staff/pending'),
-                axios.get('http://localhost:8080/api/pictures/customerview'),
-                axios.get('http://localhost:8080/api/users/staffview'),
-                axios.get('http://localhost:8080/api/project/customer/viewproject')
+                axios.get('https://bookinghomestayswp.azurewebsites.net/api/products/staff/pending'),
+                axios.get('https://bookinghomestayswp.azurewebsites.net/api/pictures/customerview'),
+                axios.get('https://bookinghomestayswp.azurewebsites.net/api/users/staffview'),
+                axios.get('https://bookinghomestayswp.azurewebsites.net/api/project/customer/viewproject')
 
             ]);
 
@@ -117,7 +117,7 @@ export default function TotalProductPending() {
     const handleAcceptClick = async (productId) => {
         console.log(productId);
         try {
-            await axios.put(`http://localhost:8080/api/products/staff/active/${productId}`);
+            await axios.put(`https://bookinghomestayswp.azurewebsites.net/api/products/staff/active/${productId}`);
             fetchData();
         } catch (error) {
             console.error('Error accepting project:', error);
@@ -127,7 +127,7 @@ export default function TotalProductPending() {
     const handleRejectClick = async (productId) => {
         console.log(productId);
         try {
-            await axios.put(`http://localhost:8080/api/products/staff/reject/${productId}`);
+            await axios.put(`https://bookinghomestayswp.azurewebsites.net/api/products/staff/reject/${productId}`);
             fetchData();
         } catch (error) {
             console.error('Error accepting project:', error);

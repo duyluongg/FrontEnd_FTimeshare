@@ -79,7 +79,7 @@ export default function CreatePayment({ getID }) {
                 formData.append('accID', getID);
 
 
-                const response = await axios.post('http://localhost:8080/api/payment', formData, {
+                const response = await axios.post('https://bookinghomestayswp.azurewebsites.net/api/payment', formData, {
                     headers: {
                         'Content-Type': 'multipart/form-data'
                     }

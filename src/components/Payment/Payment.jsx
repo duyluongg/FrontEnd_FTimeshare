@@ -56,13 +56,13 @@ export default function Payment() {
     useEffect(() => {
         const getProductData = async () => {
             try {
-                const productResponse = await axios.get(`http://localhost:8080/api/products/viewById/${productID}`);
+                const productResponse = await axios.get(`https://bookinghomestayswp.azurewebsites.net/api/products/viewById/${productID}`);
                 setProductData(productResponse.data[0]);
 
-                const userResponse = await axios.get(`http://localhost:8080/api/users/viewDetail/${productResponse.data[0].accID}`);
+                const userResponse = await axios.get(`https://bookinghomestayswp.azurewebsites.net/api/users/viewDetail/${productResponse.data[0].accID}`);
                 setUserData(userResponse.data);
 
-                const productTypeResponse = await axios.get('http://localhost:8080/api/productType/customer/viewproductType');
+                const productTypeResponse = await axios.get('https://bookinghomestayswp.azurewebsites.net/api/productType/customer/viewproductType');
                 const productTypeData = productTypeResponse.data;
 
                 const selectedProductType = productTypeData.find(type => type.productTypeID === productData.productTypeID);
@@ -96,7 +96,7 @@ export default function Payment() {
     useEffect(() => {
         const fetchImg = async () => {
             try {
-                const response = await axios.get(`http://localhost:8080/api/pictures/customerview`);
+                const response = await axios.get(`https://bookinghomestayswp.azurewebsites.net/api/pictures/customerview`);
                 setImages(response.data);
                 // console.log(response.data);
             } catch (error) {
@@ -109,7 +109,7 @@ export default function Payment() {
     useEffect(() => {
         const fetchBankAccount = async () => {
             try {
-                const bankAccountResponse = await axios.get(`http://localhost:8080/api/payment/payment/${user.id}`);
+                const bankAccountResponse = await axios.get(`https://bookinghomestayswp.azurewebsites.net/api/payment/payment/${user.id}`);
                 const bankAccount = bankAccountResponse.data;
 
                 if (bankAccount.length === 0) {
@@ -156,7 +156,7 @@ export default function Payment() {
             formData.append('acc_id', user.id);
             formData.append('productID', productID);
 
-            const response = await axios.post('http://localhost:8080/api/bookings/customer/createbooking', formData, {
+            const response = await axios.post('https://bookinghomestayswp.azurewebsites.net/api/bookings/customer/createbooking', formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 }

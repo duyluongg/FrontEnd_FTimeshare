@@ -67,12 +67,12 @@ export default function Booking() {
     }, [user.id]);
     const fetchDataAccepted = async () => {
         try {
-            const bookingResponse = await axios.get(`http://localhost:8080/api/bookings/customer/waitToRespond-Active-Done-In_progress/${user.id}`);
+            const bookingResponse = await axios.get(`https://bookinghomestayswp.azurewebsites.net/api/bookings/customer/waitToRespond-Active-Done-In_progress/${user.id}`);
 
             // Combine booking and product information
             const combinedData = await Promise.all(bookingResponse.data.map(async (booking) => {
                 console.log(booking.productID);
-                const productResponse = await axios.get(`http://localhost:8080/api/products/viewById/${booking.productID}`);
+                const productResponse = await axios.get(`https://bookinghomestayswp.azurewebsites.net/api/products/viewById/${booking.productID}`);
                 console.log(productResponse.data[0].productName);
                 return { ...booking, product: productResponse.data[0] };
             }));
@@ -89,8 +89,8 @@ export default function Booking() {
         const fetchData = async () => {
             try {
                 for (const bookingInfo of bookingInfoAccepted) {
-                    await axios.put(`http://localhost:8080/api/bookings/staff/change_status_to_in_progress/${bookingInfo.bookingID}`);
-                    await axios.put(`http://localhost:8080/api/bookings/staff/change_status_to_done/${bookingInfo.bookingID}`);
+                    await axios.put(`https://bookinghomestayswp.azurewebsites.net/api/bookings/staff/change_status_to_in_progress/${bookingInfo.bookingID}`);
+                    await axios.put(`https://bookinghomestayswp.azurewebsites.net/api/bookings/staff/change_status_to_done/${bookingInfo.bookingID}`);
                 }
             } catch (error) {
                 console.error('Error fetching data:', error);
@@ -106,12 +106,12 @@ export default function Booking() {
     }, [user.id]);
     const fetchDataConfirm = async () => {
         try {
-            const bookingResponse = await axios.get(`http://localhost:8080/api/bookings/customer/waitToByAccId/${user.id}`);
+            const bookingResponse = await axios.get(`https://bookinghomestayswp.azurewebsites.net/api/bookings/customer/waitToByAccId/${user.id}`);
 
             // Combine booking and product information
             const combinedData = await Promise.all(bookingResponse.data.map(async (booking) => {
                 console.log(booking.productID);
-                const productResponse = await axios.get(`http://localhost:8080/api/products/viewById/${booking.productID}`);
+                const productResponse = await axios.get(`https://bookinghomestayswp.azurewebsites.net/api/products/viewById/${booking.productID}`);
                 console.log(productResponse.data[0].productName);
                 return { ...booking, product: productResponse.data[0] };
             }));
@@ -128,12 +128,12 @@ export default function Booking() {
     }, [user.id]);
     const fetchDataComplete = async () => {
         try {
-            const bookingResponse = await axios.get(`http://localhost:8080/api/bookings/by-account/done/${user.id}`);
+            const bookingResponse = await axios.get(`https://bookinghomestayswp.azurewebsites.net/api/bookings/by-account/done/${user.id}`);
 
             // Combine booking and product information
             const combinedData = await Promise.all(bookingResponse.data.map(async (booking) => {
                 console.log(booking.productID);
-                const productResponse = await axios.get(`http://localhost:8080/api/products/viewById/${booking.productID}`);
+                const productResponse = await axios.get(`https://bookinghomestayswp.azurewebsites.net/api/products/viewById/${booking.productID}`);
                 console.log(productResponse.data[0].productName);
                 return { ...booking, product: productResponse.data[0] };
             }));
@@ -149,12 +149,12 @@ export default function Booking() {
     }, [user.id]);
     const fetchDataCancel = async () => {
         try {
-            const bookingResponse = await axios.get(`http://localhost:8080/api/bookings/by-account/cancel/${user.id}`);
+            const bookingResponse = await axios.get(`https://bookinghomestayswp.azurewebsites.net/api/bookings/by-account/cancel/${user.id}`);
 
             // Combine booking and product information
             const combinedData = await Promise.all(bookingResponse.data.map(async (booking) => {
                 console.log(booking.productID);
-                const productResponse = await axios.get(`http://localhost:8080/api/products/viewById/${booking.productID}`);
+                const productResponse = await axios.get(`https://bookinghomestayswp.azurewebsites.net/api/products/viewById/${booking.productID}`);
                 console.log(productResponse.data[0].productName);
                 return { ...booking, product: productResponse.data[0] };
             }));
@@ -182,7 +182,7 @@ export default function Booking() {
         console.log(bookingID);
         try {
             // Gửi yêu cầu hủy đặt phòng và chờ phản hồi
-            const cancelResponse = await axios.post(`http://localhost:8080/api/bookings/cancel/${bookingID}`);
+            const cancelResponse = await axios.post(`https://bookinghomestayswp.azurewebsites.net/api/bookings/cancel/${bookingID}`);
             // Gọi lại cả fetchData và fetchDataConfirm để cập nhật dữ liệu mới
             await Promise.all([fetchDataAccepted(), fetchDataConfirm()]);
             console.log(cancelResponse.data);
@@ -197,7 +197,7 @@ export default function Booking() {
     useEffect(() => {
         const fetchImg = async () => {
             try {
-                const response = await axios.get(`http://localhost:8080/api/pictures/customerview`);
+                const response = await axios.get(`https://bookinghomestayswp.azurewebsites.net/api/pictures/customerview`);
 
                 setImages(response.data);
                 console.log(response.data);

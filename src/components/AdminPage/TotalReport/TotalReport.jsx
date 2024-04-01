@@ -40,7 +40,7 @@ export default function RecipeReviewCard() {
 
     const fetchProjectActive = async () => {
         try {
-            const response = await axios.get('http://localhost:8080/api/reports/viewAll');
+            const response = await axios.get('https://bookinghomestayswp.azurewebsites.net/api/reports/viewAll');
             setProjectReport(response.data);
             console.log(response);
         } catch (error) {

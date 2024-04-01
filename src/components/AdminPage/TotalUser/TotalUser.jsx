@@ -17,7 +17,7 @@ export default function TotalUser() {
   useEffect(() => {
     const fetchRow = async () => {
       try {
-        const response = await axios.get('http://localhost:8080/api/users/ROLE_CUSTOMER');
+        const response = await axios.get('https://bookinghomestayswp.azurewebsites.net/api/users/ROLE_CUSTOMER');
         console.log(response.data);
         const updatedRows = response.data.map((row, index) => ({
           ...row,
@@ -38,9 +38,9 @@ export default function TotalUser() {
     try {
       let response;
       if (newRole === 'active') {
-        response = await axios.put(`http://localhost:8080/api/users/staff/active/${row.accID}`);
+        response = await axios.put(`https://bookinghomestayswp.azurewebsites.net/api/users/staff/active/${row.accID}`);
       } else if (newRole === 'block') {
-        response = await axios.put(`http://localhost:8080/api/users/staff/block/${row.accID}`);
+        response = await axios.put(`https://bookinghomestayswp.azurewebsites.net/api/users/staff/block/${row.accID}`);
       }
 
       console.log(response.data);

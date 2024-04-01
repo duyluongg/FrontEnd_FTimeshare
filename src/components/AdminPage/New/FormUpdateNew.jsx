@@ -83,7 +83,7 @@ export default function FormUpdateNew({ newsDetail, oldImageUrl }) {
             formData.append('newsStatus', 'active');
             formData.append('accID', '2');
 
-            const response = await axios.put(`http://localhost:8080/api/news/edit/${newsId}`, formData, {
+            const response = await axios.put(`https://bookinghomestayswp.azurewebsites.net/api/news/edit/${newsId}`, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 }

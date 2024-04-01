@@ -31,7 +31,7 @@ const ConfirmRegister = () => {
         e.preventDefault();
         if (code === randomCode) {
             try {
-                const response = await axios.put(`http://localhost:8080/api/users/verify/active/${email}`);
+                const response = await axios.put(`https://bookinghomestayswp.azurewebsites.net/api/users/verify/active/${email}`);
                 console.log('Email verified:', response.data);
                 // setIsCodeComplete(true);
                 setSendAttempts(0);
@@ -55,7 +55,7 @@ const ConfirmRegister = () => {
             setErrorMessage(`Sending verification code failed. You have ${remaining} attempts left.`);
             if (sendAttempts >= 5) {
                 try {
-                    const response = await axios.delete(`http://localhost:8080/api/users/deleteByEmail/${email}`);
+                    const response = await axios.delete(`https://bookinghomestayswp.azurewebsites.net/api/users/deleteByEmail/${email}`);
                     console.log('Email deletion response:', response.data);
                     // setErrorMessage('Email verification failed. Please register with a new email.');
                     setErrorMessage('');
@@ -78,7 +78,7 @@ const ConfirmRegister = () => {
             const formData = new FormData();
             formData.append('getOTP', randomCode.toString());
             formData.append('email', email);
-            const response = await axios.post('http://localhost:8080/api/users/sendOTP/', formData, {
+            const response = await axios.post('https://bookinghomestayswp.azurewebsites.net/api/users/sendOTP/', formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 }

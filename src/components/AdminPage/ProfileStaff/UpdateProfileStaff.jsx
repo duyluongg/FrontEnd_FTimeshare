@@ -27,7 +27,7 @@ export default function UpdateProfileStaff() {
 
     const fetchDataUser = async (accID) => {
         try {
-            const response = await axios.get(`http://localhost:8080/api/users/viewDetail/${accID}`);
+            const response = await axios.get(`https://bookinghomestayswp.azurewebsites.net/api/users/viewDetail/${accID}`);
             const { accName, accEmail, accPhone, accBirthday, imgName } = response.data;
             setFirstName(accName);
             setEmail(accEmail);
@@ -57,7 +57,7 @@ export default function UpdateProfileStaff() {
             formData.append('roleID', '3');
             formData.append('accBirthday', formattedBirthday);
 
-            const response = await axios.put(`http://localhost:8080/api/users/edit/${accID}`, formData, {
+            const response = await axios.put(`https://bookinghomestayswp.azurewebsites.net/api/users/edit/${accID}`, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 }

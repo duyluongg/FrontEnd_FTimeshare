@@ -11,7 +11,7 @@ const Year = () => {
 
   const fetchMonthlyTotalPrice = async (year) => {
     try {
-      const response = await axios.get(`http://localhost:8080/api/bookings/admin/monthlyTotalPrice/${year}`);
+      const response = await axios.get(`https://bookinghomestayswp.azurewebsites.net/api/bookings/admin/monthlyTotalPrice/${year}`);
       return response.data;
     } catch (error) {
       console.error('Error fetching data:', error);
@@ -28,7 +28,7 @@ const Year = () => {
     const year = e.target.value;
     setSelectedYear(year);
     try {
-      const yearlyResponse = await axios.get(`http://localhost:8080/api/bookings/admin/yearlyTotalPrice/${year}`);
+      const yearlyResponse = await axios.get(`https://bookinghomestayswp.azurewebsites.net/api/bookings/admin/yearlyTotalPrice/${year}`);
       setYearlyTotalPrice(yearlyResponse.data);
 
       const monthlyResponse = await fetchMonthlyTotalPrice(year);
