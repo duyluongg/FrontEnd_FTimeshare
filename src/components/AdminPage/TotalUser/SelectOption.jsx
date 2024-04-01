@@ -5,7 +5,7 @@ import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 
 export default function SelectOption({ row, onRole }) {
-    const [selectedRole, setSelectedRole] = useState(row.accStatus); // Sử dụng accStatus thay vì status
+    const [selectedRole, setSelectedRole] = useState(row.accStatus); 
 
     const handleRoleChange = (event) => {
         const newRole = event.target.value;
@@ -15,12 +15,12 @@ export default function SelectOption({ row, onRole }) {
 
     return (
         <FormControl sx={{ width: "100px" }}>
-            <InputLabel id="demo-simple-select-label">{row.accStatus}</InputLabel> {/* Hiển thị accStatus hiện tại */}
+            <InputLabel id="demo-simple-select-label">{row.accStatus}</InputLabel> 
             <Select
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
                 value={selectedRole}
-                label="Status" // Thay vì label "Age"
+                label="Status" 
                 onChange={handleRoleChange}
             >
                 <MenuItem value="active">Active</MenuItem>

@@ -282,3 +282,12 @@ select {
     border: 1px #cd9a2b solid;
     color: #cd9a2b;
 }
+
+.booked-date {
+    background-color: red; /* Hoặc bất kỳ quy tắc CSS nào bạn muốn áp dụng */
+    color: white;
+}
+
+
+
+  

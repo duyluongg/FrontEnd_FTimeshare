@@ -7,8 +7,8 @@ import { useContext } from 'react';
 import { UserContext } from '../../UserContext';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCalendarDay } from '@fortawesome/free-solid-svg-icons';
-
-
+import CustomDatePicker from "./CustomDatePicker.jsx";
+import flatpickr from "flatpickr";
 const Booking = () => {
     const { user } = useContext(UserContext);
 
@@ -23,11 +23,12 @@ const Booking = () => {
     const [snackbarOpen, setSnackbarOpen] = useState(false);
     const [snackbarMessage, setSnackbarMessage] = useState('');
     const [snackbarColor, setSnackbarColor] = useState('success');
-
+    const [bookedDate, setBookedDate] = useState([]);
+    const [selectedDate, setSelectedDate] = useState(new Date());
     const location = useLocation();
     const { productID, availableStartDate, availableEndDate } = location.state;
 
-
+ 
     const navigate = useNavigate();
 
     const [accInfo, setAccInfo] = useState([]);
@@ -96,6 +97,34 @@ const Booking = () => {
         setSnackbarOpen(false);
     };
 
+    useEffect(() => {
+        const fetchBookedDates = async () => {
+            try {
+                const response = await axios.get(`http://localhost:8080/api/products/view/bookedDate/${productID}`);
+                console.log(response.data);
+                setBookedDate(response.data);
+
+            } catch (error) {
+                console.error('Error fetching booked dates:', error);
+            }
+        };
+
+        fetchBookedDates();
+    }, []);
+
+    const convertDate = (dateArray) => {
+        const formattedDates = dateArray.map(date => {
+            const year = date[0];
+            const month = String(date[1]).padStart(2, '0');
+            const day = String(date[2]).padStart(2, '0');
+            return `${day}/${month}/${year}`;
+        });
+        return formattedDates;
+    };
+
+    const formattedBookedDates = convertDate(bookedDate);
+    console.log(formattedBookedDates);
+
     return (
         <>
             <div className="create-booking-page">
@@ -130,7 +159,7 @@ const Booking = () => {
                                                         />
                                                     </div>
                                                 </div>
-                                                <div class="margin-bottom-5">
+                                                {/* <div class="margin-bottom-5">
                                                     <div className="text-left">
                                                         <label htmlFor="checkInDate">Start Date *</label>
                                                     </div>
@@ -145,8 +174,21 @@ const Booking = () => {
                                                                 onChange={(e) => setCheckInDate(e.target.value)}
                                                                 required
                                                             />
+                                                            
                                                         </div>
                                                     </div>
+                                                </div> */}
+
+                                                <div class="margin-bottom-5">
+                                                    <div className="text-left">
+                                                        <label htmlFor="checkInDate">Start Date *</label>
+                                                    </div>
+                                                    <CustomDatePicker
+                                                        bookedDates={formattedBookedDates}
+                                                        selectedDate={checkInDate}
+                                                        onChange={(date) => setCheckInDate(date)}
+                                                    />
+
                                                 </div>
                                                 <div class="margin-bottom-5">
                                                     <div className="text-left">
@@ -180,7 +222,7 @@ const Booking = () => {
                                                         />
                                                     </div>
                                                 </div>
-                                                <div class="margin-bottom-5">
+                                                {/* <div class="margin-bottom-5">
                                                     <div className="text-left">
                                                         <label htmlFor="checkOutDate">End Date *</label>
                                                     </div>
@@ -197,7 +239,20 @@ const Booking = () => {
                                                             />
                                                         </div>
                                                     </div>
+                                                </div> */}
+
+                                                <div class="margin-bottom-5">
+                                                    <div className="text-left">
+                                                        <label htmlFor="checkOutDate">End Date *</label>
+                                                    </div>
+                                                    <CustomDatePicker
+                                                        bookedDates={formattedBookedDates}
+                                                        selectedDate={checkOutDate}
+                                                        onChange={(date) => setCheckOutDate(date)}
+                                                    />
+
                                                 </div>
+
                                             </div>
                                         </div>
                                         <div className="booking-button-col-12">
