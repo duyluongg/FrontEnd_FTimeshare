@@ -1,0 +1,25 @@
+/* TotalProduct.css */
+
+/* Target the header cells */
+.MuiDataGrid-root .MuiDataGrid-colCellWrapper {
+    /* Add your styling properties */
+    background-color: #eb0202;
+    font-weight: bold;
+}
+  
+/* Target the body cells */
+.MuiDataGrid-root .MuiDataGrid-cell {
+    /* Add your styling properties */
+    border-bottom: 1px solid #ccc;
+}
+  
+/* Target specific columns by their field name */
+.MuiDataGrid-root .MuiDataGrid-colCell[data-field="productName"] {
+    /* Add your styling properties */
+    color: blue;
+}
+  
+.MuiDataGrid-root .MuiDataGrid-colCell[data-field="productAddress"] {
+    /* Add your styling properties */
+    color: green;
+}
