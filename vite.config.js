@@ -16,12 +16,11 @@ import reactRefresh from '@vitejs/plugin-react-refresh';
 import nodeResolve from '@rollup/plugin-node-resolve';
 
 export default defineConfig({
-  plugins: [reactRefresh()],
-  build: {
-    rollupOptions: {
-      plugins: [nodeResolve()],
-    },
-  },
+  plugins: [
+    reactRefresh(),
+    nodeResolve(),
+  ],
 });
+
 
 
