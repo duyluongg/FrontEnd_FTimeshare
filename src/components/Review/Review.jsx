@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
-// import Avatar from 'react-avatar';
 import Avatar from '@mui/material/Avatar';
 import { MdDateRange } from "react-icons/md";
 import "../Review/Review.css"
