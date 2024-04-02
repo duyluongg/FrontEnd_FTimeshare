@@ -22,11 +22,12 @@ import { format } from 'date-fns';
 import { faCalendarDays } from '@fortawesome/free-solid-svg-icons';
 import { faUser } from '@fortawesome/free-solid-svg-icons';
 import { faCheck } from '@fortawesome/free-solid-svg-icons';
+import { addDays } from 'date-fns';
+import { faDollarSign } from '@fortawesome/free-solid-svg-icons';
+import { faXmark } from '@fortawesome/free-solid-svg-icons';
 
 import ReviewCustomer from './ReviewCustomer.jsx'
 // import ViewFeedback from './ViewFeedback.jsx';
-
-
 import {
     faPerson, faChild, faExpand, faBath,
     faKitchenSet,
@@ -38,6 +39,8 @@ import {
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { MdArrowForwardIos, MdArrowBackIosNew } from "react-icons/md";
+import CustomDatePicker from '../OwnerRole/CreateBooking/CustomDatePicker.jsx';
+
 
 
 function SampleNextArrow({ onClick }) {
@@ -109,61 +112,78 @@ export default function Detail() {
     const [productDetail, setProductDetail] = useState([]);
     const [showBookingButton, setShowBookingButton] = useState(false);
     const productId = useParams();
-    // console.log(productId.id);
     const [activeContentIndex, setActiveContentIndex] = useState('');
     const [images, setImages] = useState([]);
     const [imagesSimilar, setImagesSimilar] = useState([]);
     const { user } = useContext(UserContext);
     const [filteredProducts, setFilteredProducts] = useState([]);
+    const [checkAvailableProducts, setCheckAvailableProducts] = useState([]);
     const [bestProducts, setBestProducts] = useState([]);
-
-    const [startDate, setStartDate] = useState(null); // Khởi tạo với giá trị null
-    const [endDate, setEndDate] = useState(null); // Khởi tạo với giá trị null
-    const [numberOfPerson, setNumberOfPerson] = useState(0);
+    // const [startDate, setStartDate] = useState(null);
+    // const [endDate, setEndDate] = useState(null);
+    const [checkInDate, setCheckInDate] = useState("");
+    const [checkOutDate, setCheckOutDate] = useState("");
+    const [numberOfPerson, setNumberOfPerson] = useState(1);
+    const [bookedDate, setBookedDate] = useState([]);
+    const [formSubmitted, setFormSubmitted] = useState(false);
+    const [errors, setErrors] = useState({});
+    const [selectedNumberOfPerson, setSelectedNumberOfPerson] = useState(1);
 
     const handleFindAvailability = async (e) => {
         e.preventDefault();
-        setSearchClicked(true);
+
+        const validationErrors = {}
+        if (!checkInDate) {
+            validationErrors.checkInDate = "Start date is required";
+        }
+
+        if (!checkOutDate) {
+            validationErrors.checkOutDate = "End date is required";
+        }
+
+        setErrors(validationErrors);
+
+        if (Object.keys(validationErrors).length > 0) {
+            return;
+        }
+
+        // console.log(checkInDate);
+
         try {
-
-            // let formattedStartDate = null;
-            // let formattedEndDate = null;
-
-            const startDateObj = new Date(startDate);
-            const endDateObj = new Date(endDate);
-            const formattedStartDate = format(startDateObj, "yyyy-MM-dd'T'HH:mm:ss");
-            const formattedEndDate = format(endDateObj, "yyyy-MM-dd'T'HH:mm:ss");
-
             const formData = new FormData();
-            // formData.append('cityInAddress', city);
-            // formData.append('numberOfPerson', numberOfPerson);
-            formData.append('startDate', formattedStartDate);
-            formData.append('endDate', formattedEndDate);
+            formData.append('productID', productId.id);
+            formData.append('booking_person', numberOfPerson);
 
-            const response = await axios.post('https://bookinghomestayswp.azurewebsites.net/api/products/filter', formData, {
+            const response = await axios.post('https://bookinghomestayswp.azurewebsites.net/api/bookings/customer/checkbooking_person', formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 }
             });
-            // setFilterProduct(response.data);
+            console.log(response.data);
+            setCheckAvailableProducts(response.data);
+            setFormSubmitted(true);
+            setSelectedNumberOfPerson(numberOfPerson);
         } catch (error) {
-            console.error('Filter product failed', error.response);
+            console.error('Check availability failed', error.response.data);
+            setFormSubmitted(true);
+            setCheckAvailableProducts([]);
+            console.log(checkAvailableProducts);
         }
     }
-
 
     useEffect(() => {
 
         const fetchProductDetail = async () => {
             try {
                 const response = await axios.get(`https://bookinghomestayswp.azurewebsites.net/api/products/viewById/${productId.id}`);
+                console.log(response.data[0]);
                 const productData = response.data[0];
-                const startDate = new Date(productData.availableStartDate[0], productData.availableStartDate[1] - 1, productData.availableStartDate[2], productData.availableStartDate[3], productData.availableStartDate[4]);
-                const endDate = new Date(productData.availableEndDate[0], productData.availableEndDate[1] - 1, productData.availableEndDate[2], productData.availableEndDate[3], productData.availableEndDate[4]);
-                const formattedStartDate = format(startDate, 'dd/MM/yyyy');
-                const formattedEndDate = format(endDate, 'dd/MM/yyyy');
-                productData.availableStartDate = formattedStartDate;
-                productData.availableEndDate = formattedEndDate;
+                // const startDate = new Date(productData.availableStartDate[0], productData.availableStartDate[1] - 1, productData.availableStartDate[2], productData.availableStartDate[3], productData.availableStartDate[4]);
+                // const endDate = new Date(productData.availableEndDate[0], productData.availableEndDate[1] - 1, productData.availableEndDate[2], productData.availableEndDate[3], productData.availableEndDate[4]);
+                // const formattedStartDate = format(startDate, 'dd/MM/yyyy');
+                // const formattedEndDate = format(endDate, 'dd/MM/yyyy');
+                // productData.availableStartDate = formattedStartDate;
+                // productData.availableEndDate = formattedEndDate;
                 setProductDetail(productData);
                 setActiveContentIndex(productData.productDescription);
 
@@ -200,10 +220,10 @@ export default function Detail() {
     }, [productId.id, setActiveContentIndex]);
 
     useEffect(() => {
-        console.log("productDetail:", productDetail.accID);
-        console.log("user:", user.id);
+        // console.log("productDetail:", productDetail.accID);
+        // console.log("user:", user.id);
         if (productDetail.accID == user.id) {
-            setShowBookingButton(false); // Nếu là chủ sở hữu, không hiển thị nút booking
+            setShowBookingButton(false);
         } else {
             setShowBookingButton(true);
         }
@@ -235,6 +255,34 @@ export default function Detail() {
         };
         fetchImageSimilar();
     }, []);
+
+    useEffect(() => {
+        const fetchBookedDates = async () => {
+            try {
+                const response = await axios.get(`https://bookinghomestayswp.azurewebsites.net/api/products/view/bookedDate/${productId.id}`);
+                console.log(response.data);
+                setBookedDate(response.data);
+
+            } catch (error) {
+                console.error('Error fetching booked dates:', error);
+            }
+        };
+
+        fetchBookedDates();
+    }, []);
+
+    const convertDate = (dateArray) => {
+        const formattedDates = dateArray.map(date => {
+            const year = date[0];
+            const month = String(date[1]).padStart(2, '0');
+            const day = String(date[2]).padStart(2, '0');
+            return `${day}/${month}/${year}`;
+        });
+        return formattedDates;
+    };
+
+    const formattedBookedDates = convertDate(bookedDate);
+    console.log(formattedBookedDates);
 
     const navigate = useNavigate();
 
@@ -322,38 +370,35 @@ export default function Detail() {
                         </div>
 
                         <div className='form'>
-                            <form className='filter-form' onSubmit={handleFindAvailability}>
+                            <form className='availability-form' onSubmit={handleFindAvailability}>
                                 <div data-testid="searchbox-layout-wide" className='ffb9c3d6a3 c9a7790c31 e691439f9a'>
-                                    <div className='e22b782521'>
+                                    <div className='availability-item'>
                                         <div tabindex="-1" className='a1139161bf'>
                                             <div className='f73e6603bf'>
-                                                <span className='fcd9eec8fb e93f4f9263 c2cc050fb8 c696a7d242'>
-                                                    <FontAwesomeIcon className='filter-icon' icon={faCalendarDays} />
-                                                </span>
-                                                <DatePicker
-                                                    selected={startDate}
-                                                    onChange={(date) => setStartDate(date)}
-                                                    placeholderText="Start Date"
-                                                    className="ebbedaf8ac ab26a5d2bd e33c97ff6b"
-                                                    dateFormat="dd/MM/yyyy"
-                                                    minDate={new Date()}
-                                                    required
-                                                />
-                                                <span className="ac2e4f2389"> — </span>
-                                                <DatePicker
-                                                    selected={endDate}
-                                                    onChange={(date) => setEndDate(date)}
-                                                    minDate={startDate ? new Date(startDate.getTime() + 86400000) : null}
-                                                    placeholderText="End Date"
-                                                    className="ebbedaf8ac ab26a5d2bd e33c97ff6b"
-                                                    dateFormat="dd/MM/yyyy"
-                                                    disabled={!startDate}
-                                                    required
-                                                />
+                                                <div>
+                                                    <CustomDatePicker
+                                                        bookedDates={formattedBookedDates}
+                                                        selectedDate={checkInDate}
+                                                        onChange={(date) => setCheckInDate(date)}
+                                                        label="Check-in date"
+                                                        error={errors.checkInDate}
+                                                    />
+                                                    {errors.checkInDate && <span style={{ color: 'red' }}>{errors.checkInDate}</span>}
+                                                </div>
+                                                <div>
+                                                    <CustomDatePicker
+                                                        bookedDates={formattedBookedDates}
+                                                        selectedDate={checkOutDate}
+                                                        onChange={(date) => setCheckOutDate(date)}
+                                                        label="Check-out date"
+                                                        error={errors.checkOutDate}
+                                                    />
+                                                    {errors.checkOutDate && <span style={{ color: 'red' }}>{errors.checkOutDate}</span>}
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <div className='e22b782521'>
+                                    <div className='availability-item'>
                                         <div tabindex="-1" className='d777d2b248'>
                                             <button aria-expanded="false" type="button" className='a83ed08757 ebbedaf8ac ada2387af8'>
                                                 <span className='a8887b152e'>
@@ -367,166 +412,164 @@ export default function Detail() {
                                                     value={numberOfPerson}
                                                     onChange={(e) => setNumberOfPerson(e.target.value)}
                                                     aria-label="Number of People"
+                                                    min={1}
                                                 />
                                             </button>
                                         </div>
                                     </div>
-                                    <div className='e22b782521 d12ff5f5bf'>
+                                    <div className='availability-item d12ff5f5bf'>
                                         <button type="submit" className="a83ed08757 c21c56c305 a4c1805887 f671049264 d2529514af c082d89982 cceeb8986b">
-                                            <span className="e4adce92df">Check availability</span>
+                                            <span className="e4adce92df e4adce92df-text-size">Check availability</span>
                                         </button>
                                     </div>
                                 </div>
                             </form >
-                            <h1 className='form-cost'>${productDetail.productPrice}/Day</h1>
-                            <p className="form-time"><FontAwesomeIcon className="icon-calendar" icon={faUser} />{numberOfPerson}</p>
-                            <p className="form-time"><FontAwesomeIcon className="icon-calendar" icon={faCalendarDay} />{startDate && endDate ? `${startDate.toLocaleDateString('en-GB')} - ${endDate.toLocaleDateString('en-GB')}` : "Please select dates"}</p>
-                            <p className="form-time"><FontAwesomeIcon icon={faCheck} />Free cancellation before April 4, 2024</p>
-                            {showBookingButton && (
-                                <form className='form-item' onSubmit={handleBooking}>
-                                    <div className='column-form column-2'>
-                                        <button type="submit">Booking</button>
-                                    </div>
-                                </form>
+                            {formSubmitted && checkAvailableProducts === 'Your booking is acceptable' ? (
+                                <>
+                                    <h1 className='form-cost'><FontAwesomeIcon className="icon-calendar" icon={faDollarSign} />&nbsp;{productDetail.productPrice}/Day</h1>
+                                    <p className="form-time"><FontAwesomeIcon className="icon-calendar" icon={faCalendarDays} />&nbsp;{format((checkInDate), 'MMMM d, yyyy')} to {format((checkOutDate), 'MMMM d, yyyy')}</p>
+                                    <p className="form-time"><FontAwesomeIcon className="icon-calendar" icon={faUser} />&nbsp;{selectedNumberOfPerson}</p>
+                                    <p className="form-rule"><FontAwesomeIcon icon={faCheck} />&nbsp;100% refund if canceled before {format(addDays(checkInDate, -1), 'MMMM d, yyyy')}</p>
+                                    <p className="form-rule"><FontAwesomeIcon icon={faCheck} />&nbsp;80% refund if canceled on {format(addDays(checkInDate, -1), 'MMMM d, yyyy')}</p>
+                                    {showBookingButton && (
+                                        <form className='form-item' onSubmit={handleBooking}>
+                                            <div className='column-form column-2'>
+                                                <button type="submit">Booking</button>
+                                            </div>
+                                        </form>
+                                    )}
+                                </>
+                            ) : (
+                                formSubmitted && checkAvailableProducts.length === 0 ? (
+                                    <p className="form-noAvailability"><FontAwesomeIcon icon={faXmark} />&nbsp;This homestay has no availability on our site due to exceeding the maximum number of people.</p>
+                                ) : null
                             )}
+
                         </div>
-
-                        {/* <div className='form'>
-                            <h1 className='form-border-bottom'>Booking Information</h1>
-                            <h1 className='form-cost'>${productDetail.productPrice}/Day</h1>
-                            <p className="form-time"><FontAwesomeIcon className="icon-calendar" icon={faCalendarDay} size={'2xl'} /> {productDetail.availableStartDate} - {productDetail.availableEndDate}</p>   
-                            {showBookingButton && (
-                                <form className='form-item' onSubmit={handleBooking}>
-                                    <div className='column-form column-2'>
-                                        <button type="submit">Booking</button>
-                                    </div>
-                                </form>
-                            )}
-                        </div> */}
                     </div>
-                </div>
 
-                <div id='tabs'>
-                    <menu>
-                        <button
-                            className={`custom-button ${activeContentIndex === productDetail.productDescription ? "active" : ""}`}
-                            onClick={() => {
-                                setActiveContentIndex(productDetail.productDescription);
-                                setProductDetail(productDetail);
-                            }}
-                        >
-                            Popular
-                        </button>
-                        <button
-                            className={`custom-button ${activeContentIndex === productDetail.productConvenience ? "active" : ""}`}
-                            onClick={() => {
-                                setActiveContentIndex(productDetail.productConvenience);
-                                setProductDetail(productDetail);
-                            }}
-                        >
-                            Core Features
-                        </button>
-                    </menu>
+                    <div id='tabs'>
+                        <menu>
+                            <button
+                                className={`custom-button ${activeContentIndex === productDetail.productDescription ? "active" : ""}`}
+                                onClick={() => {
+                                    setActiveContentIndex(productDetail.productDescription);
+                                    setProductDetail(productDetail);
+                                }}
+                            >
+                                Popular
+                            </button>
+                            <button
+                                className={`custom-button ${activeContentIndex === productDetail.productConvenience ? "active" : ""}`}
+                                onClick={() => {
+                                    setActiveContentIndex(productDetail.productConvenience);
+                                    setProductDetail(productDetail);
+                                }}
+                            >
+                                Core Features
+                            </button>
+                        </menu>
 
-                    <div id="tab-content">
+                        <div id="tab-content">
+
+                            <div>
+                                {activeContentIndex === productDetail.productDescription && (
+                                    <div>
+                                        <p>{productDetail.productDescription}</p>
+                                        <p>Free services: {productDetail.productConvenience}</p>
+                                        <p>Check-out time: {productDetail.availableEndDate}</p>
+                                        <p>Payment method: {productDetail.productDescription}</p>
+                                    </div>
+                                )}
+                                {activeContentIndex === productDetail.productConvenience && (
+                                    <p>{productDetail.productConvenience}</p>
+                                )}
+                            </div>
+
+                        </div>
+                        {/* <FormFeedback getID={productId.id}/> */}
+                        {/* <FormReport getID={productId.id}/> */}
+                        {/* <ViewFeedback /> */}
+
+                        <ReviewCustomer getID={productId.id} />
 
                         <div>
-                            {activeContentIndex === productDetail.productDescription && (
+
+                            <div className='project-similar'>
                                 <div>
-                                    <p>{productDetail.productDescription}</p>
-                                    <p>Free services: {productDetail.productConvenience}</p>
-                                    <p>Check-out time: {productDetail.availableEndDate}</p>
-                                    <p>Payment method: {productDetail.productDescription}</p>
-                                </div>
-                            )}
-                            {activeContentIndex === productDetail.productConvenience && (
-                                <p>{productDetail.productConvenience}</p>
-                            )}
-                        </div>
+                                    <div className='project-simi-title'>Similar Rooms</div>
 
-                    </div>
-                    {/* <FormFeedback getID={productId.id}/> */}
-                    {/* <FormReport getID={productId.id}/> */}
-                    {/* <ViewFeedback /> */}
+                                    <div className='project-detail'>
+                                        <Slider {...settings2}>
+                                            {filteredProducts.map((prjsimi) => {
+                                                const productSimilarImage = imagesSimilar.find(imageSimilar => imageSimilar.productID === prjsimi.productID);
 
-                    <ReviewCustomer getID={productId.id} />
-
-                    <div>
-
-                        <div className='project-similar'>
-                            <div>
-                                <div className='project-simi-title'>Similar Rooms</div>
-
-                                <div className='project-detail'>
-                                    <Slider {...settings2}>
-                                        {filteredProducts.map((prjsimi) => {
-                                            const productSimilarImage = imagesSimilar.find(imageSimilar => imageSimilar.productID === prjsimi.productID);
-
-                                            return (
-                                                <div key={prjsimi.productID}>
-                                                    <div className='card-detail'>
-                                                        <div className='img-detail'>
-                                                            {productSimilarImage && <img src={productSimilarImage.imgName} />}
-                                                        </div>
-                                                        <div className='project-list-detail'>
-                                                            <div className='project-list-title'>
-                                                                <h3 className='project-list-name'>{prjsimi.productName}</h3>
-                                                                <h3 className='project-list-feedback'><FontAwesomeIcon icon={faStar} color='#FFD43B' />{prjsimi.rating}</h3>
+                                                return (
+                                                    <div key={prjsimi.productID}>
+                                                        <div className='card-detail'>
+                                                            <div className='img-detail'>
+                                                                {productSimilarImage && <img src={productSimilarImage.imgName} />}
                                                             </div>
-                                                            <h4 className='project-list-description'>{prjsimi.productDescription}</h4>
-                                                            <div className='project-list-cost'>
-                                                                ${prjsimi.productPrice} <a>/ night</a>
+                                                            <div className='project-list-detail'>
+                                                                <div className='project-list-title'>
+                                                                    <h3 className='project-list-name'>{prjsimi.productName}</h3>
+                                                                    <h3 className='project-list-feedback'><FontAwesomeIcon icon={faStar} color='#FFD43B' />{prjsimi.rating}</h3>
+                                                                </div>
+                                                                <h4 className='project-list-description'>{prjsimi.productDescription}</h4>
+                                                                <div className='project-list-cost'>
+                                                                    ${prjsimi.productPrice} <a>/ night</a>
+                                                                </div>
                                                             </div>
+                                                            <p>
+                                                                <a href={`/detail/${prjsimi.productID}`}>
+                                                                    <button
+                                                                        // onClick={() => handleProjectClick(prjsimi)}
+                                                                        className='project-list-button-view'
+                                                                    >
+                                                                        <span className='project-list-view'>View</span>
+                                                                    </button>
+                                                                </a>
+                                                            </p>
                                                         </div>
-                                                        <p>
-                                                            <a href={`/detail/${prjsimi.productID}`}>
-                                                                <button
-                                                                    // onClick={() => handleProjectClick(prjsimi)}
-                                                                    className='project-list-button-view'
-                                                                >
-                                                                    <span className='project-list-view'>View</span>
-                                                                </button>
-                                                            </a>
-                                                        </p>
                                                     </div>
-                                                </div>
-                                            );
-                                        })}
-                                    </Slider>
+                                                );
+                                            })}
+                                        </Slider>
+                                    </div>
+
                                 </div>
 
-                            </div>
-
-                            <div>
-                                <div className='room-title'>Best Room</div>
-                                <div className='room-item'>
-                                    {bestProducts.map((room) => (
-                                        <div key={room.id}>
-                                            <div className='room-card'>
-                                                <div className='img-room'>
-                                                    {imagesSimilar.map((imageSimilar) => {
-                                                        if (imageSimilar.productID === room.productID) {
-                                                            return <img src={imageSimilar.imgName} />;
-                                                        }
-                                                        return null;
-                                                    })}
-                                                </div>
-                                                <a href={`/detail/${room.productID}`}>
-                                                    <div className='room-detail'>
-                                                        <h2>{room.productName}</h2>
-                                                        <p>${room.productPrice}</p>
+                                <div>
+                                    <div className='room-title'>Best Room</div>
+                                    <div className='room-item'>
+                                        {bestProducts.map((room) => (
+                                            <div key={room.id}>
+                                                <div className='room-card'>
+                                                    <div className='img-room'>
+                                                        {imagesSimilar.map((imageSimilar) => {
+                                                            if (imageSimilar.productID === room.productID) {
+                                                                return <img src={imageSimilar.imgName} />;
+                                                            }
+                                                            return null;
+                                                        })}
                                                     </div>
-                                                </a>
+                                                    <a href={`/detail/${room.productID}`}>
+                                                        <div className='room-detail'>
+                                                            <h2>{room.productName}</h2>
+                                                            <p>${room.productPrice}</p>
+                                                        </div>
+                                                    </a>
+                                                </div>
                                             </div>
-                                        </div>
-                                    ))}
-                                </div>
+                                        ))}
+                                    </div>
 
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            </div >
+                </div >
+            </div>
         </>
     )
 

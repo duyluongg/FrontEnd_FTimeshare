@@ -135,8 +135,9 @@
 }
 
 .form-cost {
-    font-size: 20px;
-    color: red;
+    font-size: 18px;
+    color: #000;
+    font-weight: bold;
     margin-left: 50px;
     margin-top: 10px;
 }
@@ -144,7 +145,7 @@
 .form {
     /* background-color: #F8F8F8; */
     width: 650px;
-    margin-left: 100px;
+    /* margin-left: 100px; */
     margin-top: 20px;
     margin-bottom: 10px;
     border-radius: 20px;
@@ -248,7 +249,15 @@
     /* object-fit: cover; */
 }
 
-
+.availability-form {
+    margin: 0;
+    padding: 0;
+    display: block;
+    margin-top: 0em;
+    unicode-bidi: isolate;
+    margin-bottom: 16px;
+    margin-left: 20px;
+}
 
 .card-detail h4 {
     font-size: 13px;
@@ -256,8 +265,8 @@
 }
 
 .card-detail button {
-   background-color: #CD9A2B;
-   margin-left: 12px;
+    background-color: #CD9A2B;
+    margin-left: 12px;
 }
 
 .arrowst {
@@ -392,26 +401,89 @@
     margin-left: 45px;
 }
 
-.room-detail{
+.room-detail {
     padding-left: 10px;
     font-size: 15px;
 }
 
-.room-detail h2{
+.room-detail h2 {
     font-weight: bold;
-    
+
 }
 
-.room-detail p{
+.room-detail p {
     color: red;
     font-weight: bold;
-    
+
 }
 
 .icon-calendar {
-    color:#CD9A2B;
+    color: #CD9A2B;
 }
 
 .form-time {
     margin-left: 50px;
+}
+
+.form-rule {
+    margin-left: 50px;
+    color: #008009;
+}
+
+.form-noAvailability {
+    margin-left: 50px;
+    color: #D4111E;
+}
+
+.custom-date-picker {
+    height: 60px;
+}
+
+.availability-item {
+    box-sizing: border-box;
+    border-radius: 4px;
+    background-color: #fff;
+    display: flex;
+    flex: 0 0 auto;
+    margin-left: 4px;
+}
+
+@media (max-width: 900px) {
+    .availability-item:first-child {
+        margin-left: 0;
+        margin-top: 0;
+    }
+
+    .availability-item {
+        margin-left: 0;
+        margin-top: 1px;
+        min-height: 50px;
+    }
+}
+
+.availability-item:first-child {
+    flex: 1 1 auto;
+    margin-left: 0;
+}
+
+.availability-item>div {
+    align-self: center;
+    box-sizing: border-box;
+    padding: 8px;
+    width: 100%;
+}
+
+@media (min-width: 901px) {
+
+    .e691439f9a:not(.f200fcc81a) .availability-item:nth-child(2) {
+        width: 15%;
+    }
+
+    .e691439f9a:not(.f200fcc81a) .availability-item:nth-child(3) {
+        width: 15%;
+    }
+}
+
+.e4adce92df-text-size {
+    font-size: 15px;
 }
