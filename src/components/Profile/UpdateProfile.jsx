@@ -66,10 +66,11 @@ export default function UpdateProfile({ getData }) {
                 }
             });
 
-            console.log(response.data);
+            // console.log(response.data);
             setSnackbarMessage('Update successfully !!!')
             setSnackbarColor("success");
             setSnackbarOpen(true);
+            window.location.reload();
         } catch (error) {
             console.error('Error updating profile:', error);
             setSnackbarMessage('Update failed :(((');

@@ -114,22 +114,6 @@ function App() {
     }
   }, []);
 
-  // useEffect(() => {
-  //   const fetchDataUser = async () => {
-  //     try {
-  //       const [accountResponse, imagesResponse] = await Promise.all([
-  //         axios.get(`http://localhost:8080/api/users/viewDetail/${user.id}`),
-  //       ]);
-  //       const formattedBirthday = format(new Date(accountResponse.data.accBirthday), 'dd/MM/yyyy');
-  //       const formattedData = { ...accountResponse.data, accBirthday: formattedBirthday };
-  //       setAccountUser(formattedData);
-  //     } catch (error) {
-  //       console.error('Error fetching data:', error);
-  //     }
-  //   };
-  //   fetchDataUser();
-  // }, [user.id]);
-
   const location = useLocation();
   const isDetailPage = location.pathname.includes('/detail');
   const isLoginPage = location.pathname.includes('/login');

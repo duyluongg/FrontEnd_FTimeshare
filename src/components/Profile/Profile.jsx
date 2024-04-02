@@ -21,7 +21,7 @@ export default function Profile({ getData }) {
 
     const [accountUser, setAccountUser] = useState();
     const fetchDataUser = async (getData) => {
-        console.log(getData);
+        // console.log(getData);
         try {
             const [accountResponse, imagesResponse] = await Promise.all([
                 axios.get(`https://bookinghomestayswp.azurewebsites.net/api/users/viewDetail/${getData}`),

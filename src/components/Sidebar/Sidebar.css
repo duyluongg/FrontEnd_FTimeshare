@@ -208,7 +208,7 @@ main {
     vertical-align: middle;
 }
 
-.acc-profile-card__user-photo img {
+.acc-profile-card__user-photo {
     width: 50px;
     aspect-ratio: auto 50 / 50;
     height: 50px;

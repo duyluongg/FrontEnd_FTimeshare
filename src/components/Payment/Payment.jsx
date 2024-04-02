@@ -42,7 +42,7 @@ export default function Payment() {
     const [isLoading, setIsLoading] = useState(false);
 
     const { startDate, endDate, bookingPerson, productID, name, phone } = location.state;
-    console.log(user);
+
     const formatDate = (date) => {
         const d = new Date(date);
         const year = d.getFullYear();
@@ -83,11 +83,8 @@ export default function Payment() {
             const endDateObj = new Date(endDate);
             const daysDiff = Math.ceil((endDateObj - startDateObj) / (1000 * 60 * 60 * 24));
             const totalPrice = daysDiff * productData.productPrice;
-            // const servicePrice = totalPrice * 0.1;
             setTotalDay(daysDiff);
             setTotalPrice(totalPrice);
-            // setServicePrice(servicePrice);
-            // setFinalTotalPrice(totalPrice + servicePrice);
         };
 
         calculateTotalPrice();
@@ -149,7 +146,7 @@ export default function Payment() {
 
         try {
             const formData = new FormData();
-            formData.append('bill', image);
+            formData.append('bill', new File([''], ''));
             formData.append('startDate', formattedStartDate);
             formData.append('endDate', formattedEndDate);
             formData.append('booking_person', bookingPerson);
@@ -161,13 +158,14 @@ export default function Payment() {
                     'Content-Type': 'multipart/form-data'
                 }
             });
-            setSnackbarMessage('Booking successfully !!!')
-            setSnackbarColor("success");
-            setSnackbarOpen(true);
-            setTimeout(() => navigate('/view-booking-history'), 1000);
+            window.location.href = response.data;
+            // setSnackbarMessage('Booking successfully !!!')
+            // setSnackbarColor("success");
+            // setSnackbarOpen(true);
+            // setTimeout(() => navigate('/view-booking-history'), 1000);
 
         } catch (error) {
-            console.error('Error creating booking:', error.response.data);
+            console.error('Error creating booking:', error.response);
             setSnackbarMessage('Booking failed !!!');
             setSnackbarColor("error");
             setSnackbarOpen(true);
@@ -175,21 +173,21 @@ export default function Payment() {
         }
     };
 
-    const handleImageChange = (e) => {
-        const file = e.target.files[0];
-        if (file) {
-            setImage(file);
-            previewImage(file);
-        }
-    };
+    // const handleImageChange = (e) => {
+    //     const file = e.target.files[0];
+    //     if (file) {
+    //         setImage(file);
+    //         previewImage(file);
+    //     }
+    // };
 
-    const previewImage = (file) => {
-        const reader = new FileReader();
-        reader.readAsDataURL(file);
-        reader.onloadend = () => {
-            setImagePreview(reader.result);
-        };
-    };
+    // const previewImage = (file) => {
+    //     const reader = new FileReader();
+    //     reader.readAsDataURL(file);
+    //     reader.onloadend = () => {
+    //         setImagePreview(reader.result);
+    //     };
+    // };
 
     const handleSnackbarClose = () => {
         setSnackbarOpen(false);
@@ -288,14 +286,13 @@ export default function Payment() {
                                 {showPaymentConfirmation && (
                                     <div class="yHG0SE" aria-live="polite">
                                         <div className="yHG0SE-grid-3">
-                                            <div className="qr-code">
+                                            {/* <div className="qr-code">
                                                 <h2>Bank Account QR Code</h2>
-                                                {/* <img src= './image/QR.png' alt="bankAccountQRCode" style="width: 100px; height: auto;"/> */}
                                                 <div className="qr-code-image">
                                                     <img src="./image/QR.png" alt="bankAccountQRCode" style={{ width: "100px", height: "auto" }} />
                                                 </div>
-                                            </div>
-                                            <div className="upload-section">
+                                            </div> */}
+                                            {/* <div className="upload-section">
                                                 <h2>Upload Payment Confirmation</h2>
                                                 <input
                                                     type="file"
@@ -304,12 +301,11 @@ export default function Payment() {
                                                 <div className="payment-image-container">
                                                     {imagePreview && (
                                                         <div className="input-container">
-                                                            {/* <label>Image Preview:</label> */}
                                                             <img src={imagePreview} alt="Image Preview" style={{ maxWidth: "200px", maxHeight: "200px" }} />
                                                         </div>
                                                     )}
                                                 </div>
-                                            </div>
+                                            </div> */}
                                         </div>
                                         <div className="yHG0SE-grid-9">
                                             <h2 class="a11y-visually-hidden"></h2>
@@ -331,7 +327,7 @@ export default function Payment() {
 
                                 <div class="s7CqeD">
                                     <div class="sQArKu">
-                                        <div class="xINqui">Clicking "Boooking" means you agree to abide by
+                                        <div class="xINqui">Click "Boooking" means you agree to abide by
                                             <a target="_blank" rel="noopener noreferrer" previewlistener="true" className="payment-term"><ModalTerm /></a>
                                         </div>
                                     </div>

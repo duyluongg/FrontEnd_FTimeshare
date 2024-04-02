@@ -62,26 +62,36 @@ const Booking = () => {
             formData.append('productID', productID);
             formData.append('booking_person', numPeople);
 
-            console.log(formData)
 
-            const response = await axios.post('https://bookinghomestayswp.azurewebsites.net/api/bookings/customer/checkbooking', formData, {
-                headers: {
-                    'Content-Type': 'multipart/form-data'
+            // const response = await axios.post('https://bookinghomestayswp.azurewebsites.net/api/bookings/customer/checkbooking', formData, {
+            //     headers: {
+            //         'Content-Type': 'multipart/form-data'
+            //     }
+            // });
+
+            // if (response.status === 202) {
+            //     navigate('/payment', {
+            //         state: {
+            //             startDate: checkInDate,
+            //             endDate: checkOutDate,
+            //             bookingPerson: numPeople,
+            //             productID: productID,
+            //             name: accInfo.accName,
+            //             phone: accInfo.accPhone
+            //         }
+            //     });
+            // }
+
+            navigate('/payment', {
+                state: {
+                    startDate: checkInDate,
+                    endDate: checkOutDate,
+                    bookingPerson: numPeople,
+                    productID: productID,
+                    name: accInfo.accName,
+                    phone: accInfo.accPhone
                 }
             });
-
-            if (response.status === 202) {
-                navigate('/payment', {
-                    state: {
-                        startDate: checkInDate,
-                        endDate: checkOutDate,
-                        bookingPerson: numPeople,
-                        productID: productID,
-                        name: accInfo.accName,
-                        phone: accInfo.accPhone
-                    }
-                });
-            }
         } catch (error) {
             console.error('Error booking:', error);
             console.log(error.response.data);
