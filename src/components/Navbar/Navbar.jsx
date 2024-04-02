@@ -11,7 +11,7 @@ import { useLocation } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import { NavDropdown } from 'react-bootstrap'
 import axios from 'axios';
-import Avatar from 'react-avatar'
+
 import SnackBar from "../SnackBar.jsx";
 
 const navigation = [
@@ -158,27 +158,32 @@ export default function Navbar({ getData }) {
                       <span className="absolute -inset-1.5" />
                       <span className="sr-only">Open user menu</span>
 
-                      {/* <img
+                      <img
                           className="h-8 w-8 rounded-full"
                           src={accountUser.imgName}
                           alt=""
-                        /> */}
-                      <Avatar
+                        />
+                      {/* <Avatar
                         src={accountUser.imgName}
-                        size={50} // Đặt kích thước avatar là 32x32
+                        size={50} 
                         round={true}
-                      />
+                      /> */}
                     </Menu.Button>
 
                   ) : (
                     <Menu.Button className="relative flex rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
                       <span className="absolute -inset-1.5" />
                       <span className="sr-only">Open user menu</span>
-                      <Avatar
+                      {/* <Avatar
                         src="../../image/defaultavatar.jpg"
                         size={50} // Đặt kích thước avatar là 32x32
                         round={true}
-                      />
+                      /> */}
+                         <img
+                          className="h-8 w-8 rounded-full"
+                          src="../../image/defaultavatar.jpg"
+                          alt=""
+                        />
                     </Menu.Button>
                   )}
                   <Transition
