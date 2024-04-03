@@ -99,17 +99,25 @@ export default function Register() {
                 }
             });
             console.log(response.data);
+            if (response.data == "Email already exists") {
+                setSnackbarMessage(response.data);
+                setSnackbarColor("error");
+                setSnackbarOpen(true);
+                return ;
+            } else {
+                navigate('/confirm-register', {
+                    state: {
+                        email: email
+                    }
+                });
+            }
 
             // setSnackbarMessage('Registration successfully !!!')
             // setSnackbarColor("success");
             // setSnackbarOpen(true);
             // setTimeout(() => navigate('/login'), 1000)
 
-            navigate('/confirm-register', {
-                state: {
-                    email: email
-                }
-            });
+
 
         } catch (error) {
             if (error instanceof Yup.ValidationError) {
