@@ -99,17 +99,25 @@ export default function Register() {
                 }
             });
             console.log(response.data);
+            if (response.data == "Email already exists") {
+                setSnackbarMessage(response.data);
+                setSnackbarColor("error");
+                setSnackbarOpen(true);
+                return ;
+            } else {
+                navigate('/confirm-register', {
+                    state: {
+                        email: email
+                    }
+                });
+            }
 
             // setSnackbarMessage('Registration successfully !!!')
             // setSnackbarColor("success");
             // setSnackbarOpen(true);
             // setTimeout(() => navigate('/login'), 1000)
 
-            navigate('/confirm-register', {
-                state: {
-                    email: email
-                }
-            });
+
 
         } catch (error) {
             if (error instanceof Yup.ValidationError) {
@@ -242,7 +250,7 @@ export default function Register() {
                         {errors.password && <p className="error-message">{errors.password}</p>}
                         <FontAwesomeIcon
                             onClick={() => setIsShowPassword(!isShowPassword)}
-                            className="eye-slash"
+                            className="eye-slash-register"
                             icon={isShowPassword ? faEye : faEyeSlash}
                         />
                     </div>
@@ -261,7 +269,7 @@ export default function Register() {
                         {errors.confirmPassword && <p className="error-message">{errors.confirmPassword}</p>}
                         <FontAwesomeIcon
                             onClick={() => setIsShowPassword(!isShowPassword)}
-                            className="eye-slash"
+                            className="eye-slash-register"
                             icon={isShowPassword ? faEye : faEyeSlash}
                         />
                         {passwordMatchError && <p className="error-message">{passwordMatchError}</p>}

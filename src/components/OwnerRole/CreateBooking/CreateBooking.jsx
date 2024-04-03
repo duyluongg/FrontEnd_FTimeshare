@@ -25,6 +25,7 @@ const Booking = () => {
     const [snackbarColor, setSnackbarColor] = useState('success');
     const [bookedDate, setBookedDate] = useState([]);
     const [selectedDate, setSelectedDate] = useState(new Date());
+    const [selectedStartDate, setSelectedStartDate] = useState("");
     const location = useLocation();
     const { productID, availableStartDate, availableEndDate } = location.state;
 
@@ -195,8 +196,13 @@ const Booking = () => {
                                                     </div>
                                                     <CustomDatePicker
                                                         bookedDates={formattedBookedDates}
-                                                        selectedDate={checkInDate}
-                                                        onChange={(date) => setCheckInDate(date)}
+                                                        
+                                                        // onChange={(date) => setCheckInDate(date)}
+                                                        selectedStartDate={selectedStartDate}
+                                                        onChange={(date) => {
+                                                            setCheckInDate(date); // Update checkInDate
+                                                            setSelectedStartDate(date); // Update selectedStartDate
+                                                        }}
                                                     />
 
                                                 </div>
@@ -257,7 +263,7 @@ const Booking = () => {
                                                     </div>
                                                     <CustomDatePicker
                                                         bookedDates={formattedBookedDates}
-                                                        selectedDate={checkOutDate}
+                                                        selectedStartDate={checkInDate} 
                                                         onChange={(date) => setCheckOutDate(date)}
                                                     />
 

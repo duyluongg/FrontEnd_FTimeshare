@@ -83,7 +83,7 @@ function SamplePrevArrowSt2({ onClick }) {
     );
 }
 
-export default function Detail() {
+export default function DetailComponent() {
 
     const settings = {
         focusOnSelect: true,
@@ -105,7 +105,9 @@ export default function Detail() {
         prevArrow: < SamplePrevArrowSt2 />
     };
 
-
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
 
     const [productDetail, setProductDetail] = useState([]);
     const [showBookingButton, setShowBookingButton] = useState(false);
@@ -239,7 +241,7 @@ export default function Detail() {
         };
 
         fetchImg();
-    }, [productId.id]);
+    }, []);
 
     useEffect(() => {
         const fetchImageSimilar = async () => {
@@ -267,7 +269,7 @@ export default function Detail() {
         };
 
         fetchBookedDates();
-    }, []);
+    }, [productId.id]);
 
     const convertDate = (dateArray) => {
         const formattedDates = dateArray.map(date => {
@@ -316,9 +318,6 @@ export default function Detail() {
     //         navigate('/login');
     //     }
     // };
-    useEffect(() => {
-        window.scrollTo(0, 0);
-    }, [productId.id]);
 
     return (
         <>
@@ -578,12 +577,6 @@ export default function Detail() {
                                                             return null;
                                                         })}
                                                     </div>
-                                                    {/* <a href={`/detail/${room.productID}`}>
-                                                        <div className='room-detail'>
-                                                            <h2>{room.productName}</h2>
-                                                            <p>${room.productPrice}</p>
-                                                        </div>
-                                                    </a> */}
                                                     <Link to={`/detail/${room.productID}`}>
                                                         <div className='room-detail'>
                                                             <h2>{room.productName}</h2>

@@ -97,7 +97,7 @@ import RespondPayment80 from './components/AdminPage/ViewCustomerPayment80/Respo
 import New from './components/AdminPage/New/New.jsx'
 import AllNew from './components/AdminPage/New/AllNew.jsx'
 import ClosedProduct from './components/AdminPage/TotalProductClose/ClosedProduct.jsx'
-
+import DetailComponent from './components/Detail/DetailComponent.jsx'
 function App() {
 
   const { user, loginContext } = useContext(UserContext);
@@ -181,6 +181,7 @@ function App() {
         <Routes>
           <Route path='/' element={<Project />}></Route>
           <Route path='/detail/:id' element={<Detail />}></Route>
+          <Route path="/detail/:id" component={<DetailComponent/>} />
           <Route path='/create-booking' element={<CreateBooking />}></Route>
           <Route path='/login' element={<Login />}></Route>
           <Route path='/register' element={<Register />}></Route>
