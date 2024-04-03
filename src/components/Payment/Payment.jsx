@@ -109,29 +109,29 @@ export default function Payment() {
     //     fetchImg();
     // }, []);
 
-    // useEffect(() => {
-    //     const fetchBankAccount = async () => {
-    //         try {
-    //             const bankAccountResponse = await axios.get(`https://bookinghomestayswp.azurewebsites.net/api/payment/payment/${user.id}`);
-    //             const bankAccount = bankAccountResponse.data;
+    useEffect(() => {
+        const fetchBankAccount = async () => {
+            try {
+                const bankAccountResponse = await axios.get(`https://bookinghomestayswp.azurewebsites.net/api/payment/payment/${user.id}`);
+                const bankAccount = bankAccountResponse.data;
 
-    //             if (bankAccount.length === 0) {
-    //                 setHasBankAccount(false);
-    //                 setShowPaymentMethod(false);
-    //                 setShowPaymentConfirmation(false);
-    //                 // setShowCreatePayment(true);
-    //             } else {
-    //                 setHasBankAccount(true);
-    //                 setShowPaymentMethod(true);
-    //                 setShowPaymentConfirmation(true);
-    //             }
+                if (bankAccount.length === 0) {
+                    setHasBankAccount(false);
+                    setShowPaymentMethod(false);
+                    setShowPaymentConfirmation(false);
+                    // setShowCreatePayment(true);
+                } else {
+                    setHasBankAccount(true);
+                    setShowPaymentMethod(true);
+                    setShowPaymentConfirmation(true);
+                }
 
-    //         } catch (error) {
-    //             console.error('Error fetching bank account:', error);
-    //         }
-    //     };
-    //     fetchBankAccount();
-    // }, [user.id]);
+            } catch (error) {
+                console.error('Error fetching bank account:', error);
+            }
+        };
+        fetchBankAccount();
+    }, [user.id]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
