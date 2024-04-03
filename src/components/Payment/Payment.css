@@ -584,3 +584,458 @@ h3.o13Lc4.hERTPn {
 .qr-code-image {
     padding-left: 30px;
 }
+
+/*---------------------------------------------------------------------*/
+
+#bodyconstraint {
+    max-width: 1140px;
+}
+
+#bodyconstraint-inner {
+    position: relative;
+}
+
+.booking-process__container {
+    max-width: 1140px;
+}
+
+.booking-process__container {
+    min-width: 0;
+}
+.booking-process__container {
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 20px;
+    font-family: BlinkMacSystemFont,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+    width: 100%;
+    min-width: 960px;
+    max-width: 1110px;
+    margin: auto;
+}
+.bui-container {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    position: relative;
+    width: 100%;
+    padding: 16px;
+}
+
+@media (min-width: 1024px) {
+    .bui-grid {
+        margin: calc(-1* 24px) calc(-1* 24px / 2) 0 calc(-1* 24px / 2);
+    }
+}
+
+@media (min-width: 576px) {
+    .bui-grid {
+        margin: calc(-1* 24px) calc(-1* 24px / 2) 0 calc(-1* 24px / 2);
+    }
+}
+
+.bui-grid,
+[class*=bui-grid__column] {
+    box-sizing: border-box;
+}
+
+.bui-grid {
+    margin: calc(-1* 16px) calc(-1* 16px / 2) 0 calc(-1* 16px / 2);
+    clear: both;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: flex-start;
+    padding: 0;
+    list-style-type: none;
+}
+
+@media (min-width: 1024px) {
+    .bui-grid>[class*=bui-grid__column] {
+        padding: 24px calc(24px / 2) 0 calc(24px / 2);
+    }
+}
+
+@media (min-width: 576px) {
+    .bui-grid>[class*=bui-grid__column] {
+        padding: 24px calc(24px / 2) 0 calc(24px / 2);
+    }
+}
+
+@media (min-width: 576px) {
+
+    .bui-grid__column-1\/3\@medium,
+    .bui-grid__column-4\@medium {
+        flex-basis: 33.33333%;
+        width: 33.33333%;
+        max-width: 33.33333%;
+    }
+}
+
+[class*=bui-grid__column] {
+    width: 100%;
+    padding: 16px calc(16px / 2) 0 calc(16px / 2);
+    flex-basis: 100%;
+    margin: 0;
+}
+
+aside {
+    display: block;
+    unicode-bidi: isolate;
+}
+
+.bui-group {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+}
+
+[class^=bui-], [class^=bui-]:after, [class^=bui-]:before {
+    box-sizing: border-box;
+}
+
+.bui-group>:first-child {
+    margin-top: 0 !important;
+}
+
+.bui-group--large>* {
+    margin-top: 16px !important;
+}
+.bui-group>* {
+    margin-top: 8px !important;
+}
+
+.a6ae3c2b40 {
+    border-color: #e7e7e7;
+}
+.a178069f51 {
+    background-color: #fff;
+}
+.d794b7a0f7 {
+    border-radius: 8px;
+}
+.a18aeea94d {
+    border: 1px solid #e7e7e7;
+}
+.c82435a4b8 {
+    padding: calc( 4 * 4px );
+}
+.f53e278e95 {
+    overflow: hidden;
+}
+.c82435a4b8 {
+    box-sizing: border-box;
+}
+
+.a3214e5942 {
+    flex-grow: initial;
+}
+.c624d7469d {
+    gap: calc( 4 * 4px );
+}
+.e8f9ae2be9 {
+    align-items: flex-start;
+}
+.a0e60936ad {
+    flex-wrap: initial;
+    flex-direction: column;
+    align-items: stretch;
+}
+.c624d7469d {
+    display: flex;
+    padding: 0;
+    list-style-type: none;
+    height: 100%;
+    margin: 0;
+}
+
+.a937b09340 {
+    flex-wrap: nowrap;
+}
+
+.f034cf5568 {
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: flex-start;
+}
+.c624d7469d>* {
+    flex-shrink: 0;
+    margin-block-start: initial;
+    margin-block-end: initial;
+    margin-inline-start: initial;
+    margin-inline-end: initial;
+}
+.c624d7469d {
+    display: flex;
+    padding: 0;
+    list-style-type: none;
+    height: initial;
+    margin: 0;
+}
+
+.c72df67c95 {
+    flex-shrink: 1;
+}
+
+.dc5041d860 {
+    flex-basis: 100%;
+    flex-grow: 1;
+}
+
+.a0e60936ad {
+    flex-wrap: initial;
+    flex-direction: column;
+    align-items: stretch;
+}
+
+.dbf03e5db3 {
+    flex-wrap: initial;
+    flex-direction: column-reverse;
+    align-items: stretch;
+}
+
+.bp-mfe-container--property-details h1 {
+    margin-left: 0;
+    margin-right: 0;
+}
+
+.e1eebb6a1e {
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 24px;
+    font-family: BlinkMacSystemFont,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+}
+
+.a0e60936ad {
+    flex-wrap: initial;
+    flex-direction: column;
+    align-items: stretch;
+}
+
+.f419a93f12 {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.a83ed08757[role=button], a.a83ed08757, button.a83ed08757 {
+    cursor: pointer;
+}
+
+.a9377ef817 {
+    cursor: copy;
+}
+
+.a83ed08757 {
+    display: inline-flex;
+    vertical-align: top;
+    text-decoration: none;
+    color: inherit;
+    text-align: start;
+    border: none;
+    padding: 0;
+    background: none;
+    font-size: inherit;
+    font-weight: inherit;
+    box-sizing: border-box;
+    position: relative;
+}
+
+.a53cbfa6de {
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 20px;
+    font-family: BlinkMacSystemFont,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+}
+
+.dab7c5c6fa {
+    align-items: center;
+}
+
+.bui-card {
+    display: flex;
+    background-color: #fff;
+    color: #1a1a1a;
+    border: 1px solid #e7e7e7;
+    border-radius: 8px;
+    padding: 16px;
+}
+
+section {
+    display: block;
+    unicode-bidi: isolate;
+}
+
+.bui-card__content {
+    max-width: 100%;
+    flex-grow: 1;
+}
+
+.bui-card__content header {
+    background-color: transparent;
+}
+.bui-spacer--large {
+    margin-bottom: 16px !important;
+}
+
+.bui-card__title {
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 24px;
+    font-family: BlinkMacSystemFont,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+}
+
+.bui-card__subtitle, .bui-card__title {
+    margin: 0;
+    padding: 0;
+}
+
+.bui-group__item {
+    flex-shrink: 0;
+}
+
+.bui-date-range {
+    display: flex;
+}
+
+.bui-date-range .bui-date-range__item:first-child {
+    padding-right: 16px;
+}
+
+.bui-date__label {
+    margin: 0 0 4px;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 20px;
+    font-family: BlinkMacSystemFont,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+}
+
+.bui-date--large {
+    text-align: left;
+}
+
+.bui-date {
+    display: inline-block;
+    position: relative;
+    text-align: center;
+}
+
+.bui-date-range--large .bui-date__title {
+    text-align: left;
+}
+
+.bui-date__title {
+    display: block;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 24px;
+    font-family: BlinkMacSystemFont,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+}
+
+.bui-date-range .bui-date-range__item+.bui-date-range__item .bui-date:before {
+    content: "";
+    background: #e7e7e7;
+    position: absolute;
+    height: 100%;
+    left: calc(16px* -1);
+    top: 0;
+    width: 1px;
+}
+
+.bui-date-range .bui-date-range__item+.bui-date-range__item {
+    padding-left: 16px;
+}
+
+.bui_font_emphasized, body .bui-f-font-emphasized, body .bui_font_emphasized {
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 20px;
+    font-family: BlinkMacSystemFont,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+}
+
+.bui-group--small>* {
+    margin-top: 4px !important;
+}
+
+.bui_font_strong, body .bui-f-font-strong, body .bui_font_strong {
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 20px;
+    font-family: BlinkMacSystemFont,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+}
+
+.bp-price-details__total--discount-breakdown-with-bg {
+    background-color: #ebf3ff;
+}
+
+.bp-price-details__total--discount-breakdown {
+    position: relative;
+    background-color: transparent;
+}
+.bp-price-details__total {
+    background-color: #ebf3ff;
+    padding: 16px;
+    margin-left: -16px;
+    margin-right: -16px;
+    border: 0;
+}
+.bui-card__text {
+    margin: 16px 0 0;
+}
+
+.bp-price-details__total--discount-breakdown-with-discount:before {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    height: 1px;
+    border-top: 1px solid #e7e7e7;
+}
+
+.bp-price-details__total-line--v-align-end {
+    align-items: flex-end;
+}
+
+.bp-price-details__charge-line, .bp-price-details__total-line, .bp-schedule__milestone {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+}
+
+.bp-price-details__total-line--user .bp-price-details__charge-type, .bp-price-details__total-line--user .bp-price-details__charge-name, .bp-price-details__total-line--user .bp-price-details__charge-value {
+    font-weight: 700;
+}
+
+.bp-price-details__total-line .bp-price-details__charge-type, .bp-price-details__total-line .bp-price-details__charge-name, .bp-price-details__total-line .bp-price-details__charge-value {
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 24px;
+    font-family: BlinkMacSystemFont,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+}
+.bp-price-details__charge-type, .bp-schedule__milestone-name {
+    width: auto;
+}
+
+.bp-price-details__total-price {
+    font-size: 24px;
+    font-weight: 700;
+    line-height: 32px;
+    font-family: "Blue Sans",BlinkMacSystemFont,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+}
+
+.bui-u-padding-end--8 {
+    padding-right: 8px !important;
+}
+
+.bui-u-text-right, .u-text-right {
+    text-align: right !important;
+}
+
+.bp-price-details__total--taxes-and-charges-info, .bp-price-details__total--price-in-hotel-currency, .bp-price-details__total--kuna-rate, .bp-price-details__total--installments {
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 20px;
+    font-family: BlinkMacSystemFont,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+    color: #595959;
+}
