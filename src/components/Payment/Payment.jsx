@@ -16,6 +16,8 @@ import { useNavigate } from "react-router-dom";
 import ModalCreateBook from "../OwnerRole/CreateBooking/ModalCreateBook.jsx";
 import CreatePayment from "../Register/CreatePayment.jsx";
 import ModalTerm from "../Register/ModalTerm.jsx";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faStar } from '@fortawesome/free-solid-svg-icons';
 
 export default function Payment() {
     const [orderSummary, setOrderSummary] = useState('');
@@ -41,164 +43,152 @@ export default function Payment() {
     const [showPaymentConfirmation, setShowPaymentConfirmation] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
 
-    const { startDate, endDate, bookingPerson, productID, name, phone } = location.state;
+    // const { startDate, endDate, bookingPerson, productID, name, phone } = location.state;
+    const { checkInDate, checkOutDate, bookingPerson, productID } = location.state;
+    console.log(checkInDate);
+    console.log(bookingPerson);
+    console.log(productID);
 
-    const formatDate = (date) => {
-        const d = new Date(date);
-        const year = d.getFullYear();
-        const month = ('0' + (d.getMonth() + 1)).slice(-2);
-        const day = ('0' + d.getDate()).slice(-2);
-        return `${day}/${month}/${year}`;
-    };
+    // const formatDate = (date) => {
+    //     const d = new Date(date);
+    //     const year = d.getFullYear();
+    //     const month = ('0' + (d.getMonth() + 1)).slice(-2);
+    //     const day = ('0' + d.getDate()).slice(-2);
+    //     return `${day}/${month}/${year}`;
+    // };
 
-    const navigate = useNavigate();
+    // const navigate = useNavigate();
 
-    useEffect(() => {
-        const getProductData = async () => {
-            try {
-                const productResponse = await axios.get(`https://bookinghomestayswp.azurewebsites.net/api/products/viewById/${productID}`);
-                setProductData(productResponse.data[0]);
+    // useEffect(() => {
+    //     const getProductData = async () => {
+    //         try {
+    //             const productResponse = await axios.get(`https://bookinghomestayswp.azurewebsites.net/api/products/viewById/${productID}`);
+    //             setProductData(productResponse.data[0]);
 
-                const userResponse = await axios.get(`https://bookinghomestayswp.azurewebsites.net/api/users/viewDetail/${productResponse.data[0].accID}`);
-                setUserData(userResponse.data);
+    //             const userResponse = await axios.get(`https://bookinghomestayswp.azurewebsites.net/api/users/viewDetail/${productResponse.data[0].accID}`);
+    //             setUserData(userResponse.data);
 
-                const productTypeResponse = await axios.get('https://bookinghomestayswp.azurewebsites.net/api/productType/customer/viewproductType');
-                const productTypeData = productTypeResponse.data;
+    //             const productTypeResponse = await axios.get('https://bookinghomestayswp.azurewebsites.net/api/productType/customer/viewproductType');
+    //             const productTypeData = productTypeResponse.data;
 
-                const selectedProductType = productTypeData.find(type => type.productTypeID === productData.productTypeID);
-                const typeName = selectedProductType ? selectedProductType.productTypeName : 'Unknown';
-                setTypeName(typeName);
+    //             const selectedProductType = productTypeData.find(type => type.productTypeID === productData.productTypeID);
+    //             const typeName = selectedProductType ? selectedProductType.productTypeName : 'Unknown';
+    //             setTypeName(typeName);
 
-            } catch (error) {
-                console.error('Error fetching data:', error);
-                throw error;
-            }
-        };
-        getProductData();
-    }, [user.id]);
+    //         } catch (error) {
+    //             console.error('Error fetching data:', error);
+    //             throw error;
+    //         }
+    //     };
+    //     getProductData();
+    // }, [user.id]);
 
-    useEffect(() => {
-        const calculateTotalPrice = () => {
-            const startDateObj = new Date(startDate);
-            const endDateObj = new Date(endDate);
-            const daysDiff = Math.ceil((endDateObj - startDateObj) / (1000 * 60 * 60 * 24));
-            const totalPrice = daysDiff * productData.productPrice;
-            setTotalDay(daysDiff);
-            setTotalPrice(totalPrice);
-        };
+    // useEffect(() => {
+    //     const calculateTotalPrice = () => {
+    //         const startDateObj = new Date(startDate);
+    //         const endDateObj = new Date(endDate);
+    //         const daysDiff = Math.ceil((endDateObj - startDateObj) / (1000 * 60 * 60 * 24));
+    //         const totalPrice = daysDiff * productData.productPrice;
+    //         setTotalDay(daysDiff);
+    //         setTotalPrice(totalPrice);
+    //     };
 
-        calculateTotalPrice();
-    }, [startDate, endDate, productData.productPrice]);
+    //     calculateTotalPrice();
+    // }, [startDate, endDate, productData.productPrice]);
 
-    useEffect(() => {
-        const fetchImg = async () => {
-            try {
-                const response = await axios.get(`https://bookinghomestayswp.azurewebsites.net/api/pictures/customerview`);
-                setImages(response.data);
-                // console.log(response.data);
-            } catch (error) {
-                console.error('Error fetching view img:', error);
-            }
-        };
-        fetchImg();
-    }, []);
+    // useEffect(() => {
+    //     const fetchImg = async () => {
+    //         try {
+    //             const response = await axios.get(`https://bookinghomestayswp.azurewebsites.net/api/pictures/customerview`);
+    //             setImages(response.data);
+    //             // console.log(response.data);
+    //         } catch (error) {
+    //             console.error('Error fetching view img:', error);
+    //         }
+    //     };
+    //     fetchImg();
+    // }, []);
 
-    useEffect(() => {
-        const fetchBankAccount = async () => {
-            try {
-                const bankAccountResponse = await axios.get(`https://bookinghomestayswp.azurewebsites.net/api/payment/payment/${user.id}`);
-                const bankAccount = bankAccountResponse.data;
+    // useEffect(() => {
+    //     const fetchBankAccount = async () => {
+    //         try {
+    //             const bankAccountResponse = await axios.get(`https://bookinghomestayswp.azurewebsites.net/api/payment/payment/${user.id}`);
+    //             const bankAccount = bankAccountResponse.data;
 
-                if (bankAccount.length === 0) {
-                    setHasBankAccount(false);
-                    setShowPaymentMethod(false);
-                    setShowPaymentConfirmation(false);
-                    // setShowCreatePayment(true);
-                } else {
-                    setHasBankAccount(true);
-                    setShowPaymentMethod(true);
-                    setShowPaymentConfirmation(true);
-                }
+    //             if (bankAccount.length === 0) {
+    //                 setHasBankAccount(false);
+    //                 setShowPaymentMethod(false);
+    //                 setShowPaymentConfirmation(false);
+    //                 // setShowCreatePayment(true);
+    //             } else {
+    //                 setHasBankAccount(true);
+    //                 setShowPaymentMethod(true);
+    //                 setShowPaymentConfirmation(true);
+    //             }
 
-            } catch (error) {
-                console.error('Error fetching bank account:', error);
-            }
-        };
-        fetchBankAccount();
-    }, [user.id]);
+    //         } catch (error) {
+    //             console.error('Error fetching bank account:', error);
+    //         }
+    //     };
+    //     fetchBankAccount();
+    // }, [user.id]);
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
+    // const handleSubmit = async (e) => {
+    //     e.preventDefault();
 
-        if (!hasBankAccount) {
-            setSnackbarMessage('You must create payment first !!!');
-            setSnackbarColor("error");
-            setSnackbarOpen(true);
-            return;
-        }
+    //     if (!hasBankAccount) {
+    //         setSnackbarMessage('You must create payment first !!!');
+    //         setSnackbarColor("error");
+    //         setSnackbarOpen(true);
+    //         return;
+    //     }
 
-        const startDateObj = new Date(startDate);
-        const endDateObj = new Date(endDate);
-        const formattedStartDate = startDateObj.toISOString().split('T')[0] + 'T08:00:00';
-        const formattedEndDate = endDateObj.toISOString().split('T')[0] + 'T08:00:00';
+    //     const startDateObj = new Date(startDate);
+    //     const endDateObj = new Date(endDate);
+    //     const formattedStartDate = startDateObj.toISOString().split('T')[0] + 'T08:00:00';
+    //     const formattedEndDate = endDateObj.toISOString().split('T')[0] + 'T08:00:00';
 
-        setIsLoading(true);
+    //     setIsLoading(true);
 
-        try {
-            const formData = new FormData();
-            formData.append('bill', new File([''], ''));
-            formData.append('startDate', formattedStartDate);
-            formData.append('endDate', formattedEndDate);
-            formData.append('booking_person', bookingPerson);
-            formData.append('acc_id', user.id);
-            formData.append('productID', productID);
+    //     try {
+    //         const formData = new FormData();
+    //         formData.append('bill', new File([''], ''));
+    //         formData.append('startDate', formattedStartDate);
+    //         formData.append('endDate', formattedEndDate);
+    //         formData.append('booking_person', bookingPerson);
+    //         formData.append('acc_id', user.id);
+    //         formData.append('productID', productID);
 
-            const response = await axios.post('https://bookinghomestayswp.azurewebsites.net/api/bookings/customer/createbooking', formData, {
-                headers: {
-                    'Content-Type': 'multipart/form-data'
-                }
-            });
-            window.location.href = response.data;
-            // setSnackbarMessage('Booking successfully !!!')
-            // setSnackbarColor("success");
-            // setSnackbarOpen(true);
-            // setTimeout(() => navigate('/view-booking-history'), 1000);
+    //         const response = await axios.post('https://bookinghomestayswp.azurewebsites.net/api/bookings/customer/createbooking', formData, {
+    //             headers: {
+    //                 'Content-Type': 'multipart/form-data'
+    //             }
+    //         });
+    //         window.location.href = response.data;
+    //         // setSnackbarMessage('Booking successfully !!!')
+    //         // setSnackbarColor("success");
+    //         // setSnackbarOpen(true);
+    //         // setTimeout(() => navigate('/view-booking-history'), 1000);
 
-        } catch (error) {
-            console.error('Error creating booking:', error.response);
-            setSnackbarMessage('Booking failed !!!');
-            setSnackbarColor("error");
-            setSnackbarOpen(true);
-            setIsLoading(false);
-        }
-    };
-
-    // const handleImageChange = (e) => {
-    //     const file = e.target.files[0];
-    //     if (file) {
-    //         setImage(file);
-    //         previewImage(file);
+    //     } catch (error) {
+    //         console.error('Error creating booking:', error.response);
+    //         setSnackbarMessage('Booking failed !!!');
+    //         setSnackbarColor("error");
+    //         setSnackbarOpen(true);
+    //         setIsLoading(false);
     //     }
     // };
 
-    // const previewImage = (file) => {
-    //     const reader = new FileReader();
-    //     reader.readAsDataURL(file);
-    //     reader.onloadend = () => {
-    //         setImagePreview(reader.result);
-    //     };
+    // const handleSnackbarClose = () => {
+    //     setSnackbarOpen(false);
     // };
 
-    const handleSnackbarClose = () => {
-        setSnackbarOpen(false);
-    };
-
-    const projectImage = images.find(image => image.productID === productData.productID);
+    // const projectImage = images.find(image => image.productID === productData.productID);
 
     return (
 
         <>
-            <div className="nApIIM">
+            {/* <div className="nApIIM">
                 <div className="iAQnc1">
                     <div class="iAQnc1-container">
                         <div class="tfMaBS">
@@ -208,12 +198,12 @@ export default function Payment() {
                         </div>
                     </div>
                 </div>
-            </div>
-            <div className="HYmUPs-container">
+            </div> */}
+            {/* <div className="HYmUPs-container">
                 <div className="HYmUPs">
-                    {/* <img src={payment} alt="payment" className="payment-image" /> */}
+
                     <div className="payment-create">
-                        {/* <CreatePayment getID={user.id} hideCreatePayment={() => setShowCreatePayment(false)} /> */}
+
                         <CreatePayment getID={user.id} />
                     </div>
                     <div className="payment-details">
@@ -266,19 +256,13 @@ export default function Payment() {
                                 </div>
                             </div>
                             <div className="N02iLl">
-                                {/* <div className="aSiS8B">
-                                    <div class="IN_fAG">
-                                        <div class="UPSKhT wp5W5e">Payment Method</div>
-                                        <div class="LhNuge">Online Payment</div>
-                                        <button class="BM_J3y div-style">Thay đổi</button>
-                                    </div>
-                                </div> */}
+
                                 {showPaymentMethod && (
                                     <div className="aSiS8B">
                                         <div className="IN_fAG">
                                             <div className="UPSKhT wp5W5e">Payment Method</div>
                                             <div className="LhNuge">Online Payment</div>
-                                            {/* <button className="BM_J3y div-style">Thay đổi</button> */}
+
                                         </div>
                                     </div>
                                 )}
@@ -286,26 +270,7 @@ export default function Payment() {
                                 {showPaymentConfirmation && (
                                     <div class="yHG0SE" aria-live="polite">
                                         <div className="yHG0SE-grid-3">
-                                            {/* <div className="qr-code">
-                                                <h2>Bank Account QR Code</h2>
-                                                <div className="qr-code-image">
-                                                    <img src="./image/QR.png" alt="bankAccountQRCode" style={{ width: "100px", height: "auto" }} />
-                                                </div>
-                                            </div> */}
-                                            {/* <div className="upload-section">
-                                                <h2>Upload Payment Confirmation</h2>
-                                                <input
-                                                    type="file"
-                                                    onChange={handleImageChange}
-                                                />
-                                                <div className="payment-image-container">
-                                                    {imagePreview && (
-                                                        <div className="input-container">
-                                                            <img src={imagePreview} alt="Image Preview" style={{ maxWidth: "200px", maxHeight: "200px" }} />
-                                                        </div>
-                                                    )}
-                                                </div>
-                                            </div> */}
+
                                         </div>
                                         <div className="yHG0SE-grid-9">
                                             <h2 class="a11y-visually-hidden"></h2>
@@ -341,6 +306,116 @@ export default function Payment() {
                                 </div>
                                 <SnackBar open={snackbarOpen} message={snackbarMessage} onClose={handleSnackbarClose} color={snackbarColor} />
                             </div>
+                        </div>
+                    </div>
+                </div>
+            </div> */}
+
+            <div id="bodyconstraint">
+                <div id="bodyconstraint-inner">
+                    <div className="bui-container booking-process__container js-booking-process__container js-booking-process__container--stage-2 e2e-stage-container">
+                        <div className="bui-grid">
+                            <aside className="bui-grid__column bui-grid__column-4@medium">
+                                <div className="bui-group bui-group--large">
+                                    <div className="bp-mfe-container--property-details">
+                                        <div>
+                                            <div className="c82435a4b8 a178069f51 a6ae3c2b40 a18aeea94d d794b7a0f7 f53e278e95 b68dc84f99">
+                                                <div className="c624d7469d a0e60936ad e8f9ae2be9 a3214e5942">
+                                                    <div className="c624d7469d f034cf5568 e8f9ae2be9 a937b09340 a3214e5942">
+                                                        <div className="dc5041d860 c72df67c95">
+                                                            <div className="c624d7469d a0e60936ad a3214e5942">
+                                                                <div className="c624d7469d dbf03e5db3 a3214e5942">
+                                                                    <div class="">
+                                                                        <h1 class="e1eebb6a1e">T Zone Hostel</h1>
+                                                                    </div>
+                                                                </div>
+                                                                <div className="c624d7469d a0e60936ad a3214e5942">
+                                                                    <div className="c624d7469d a0e60936ad a3214e5942">
+                                                                        <span className="f419a93f12">
+                                                                            <button aria-expanded="false" type="button" className="a83ed08757 a9377ef817">
+                                                                                <div className="a53cbfa6de">684/28 Đường Trần Hưng Đạo, District 5, Ho Chi Minh City, Vietnam</div>
+                                                                            </button>
+                                                                        </span>
+                                                                    </div>
+                                                                    <div>
+                                                                        <div className="c624d7469d f034cf5568 dab7c5c6fa a937b09340 a3214e5942 cbf4befc54">
+                                                                            <div className='a83ed08757 f88a5204c2 c057617e1a b98133fb50'>
+                                                                                <h3 className='project-list-feedback'><FontAwesomeIcon icon={faStar} color='#FFD43B' />&nbsp;4.5</h3>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <section className="bui-card bp-card--booking-summary bui-u-bleed@small">
+                                        <div className="bui-card__content">
+                                            <header class="bui-card__header bui-spacer--large ">
+                                                <h2 class="bui-card__title">Your booking details</h2>
+                                            </header>
+                                            <div className="bui-group bui-group--large">
+                                                <div className="bui-group bui-group--large">
+                                                    <div className="bui-group__item">
+                                                        <div className="bui-date-range bui-date-range--large bp-date-range">
+                                                            <div className="bui-date-range__item">
+                                                                <div id="bp-checkin-date__label" className="bui-date__label">Check-in</div>
+                                                                <time className="bui-date bui-date--large">
+                                                                    <span className="bui-date__title">Wed, Apr 3, 2024</span>
+                                                                </time>
+                                                            </div>
+                                                            <div className="bui-date-range__item">
+                                                                <div id="bp-checkout-date__label" className="bui-date__label">Check-out</div>
+                                                                <time className="bui-date bui-date--large">
+                                                                    <span className="bui-date__title">Wed, Apr 3, 2024</span>
+                                                                </time>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div className="bui-group__item bui-group bui-group--small">
+                                                        <div class="bui-group__item bui-f-font-emphasized">Total length of stay:</div>
+                                                        <div class="bui-group__item bui-f-font-strong">
+                                                            1 night
+                                                        </div>
+                                                    </div>
+                                                    <div className="bui-card__text bp-price-details__total bp-price-details__total--discount-breakdown bp-price-details__total--discount-breakdown-with-bg bp-price-details__total--discount-breakdown-with-discount ">
+                                                        <div className="bui-group bui-group--large">
+                                                            <div className="bui-group__item">
+                                                                <div className="bui-group bui-group--medium">
+                                                                    <div className="bui-group__item">
+                                                                        <div className="bp-price-details__total-line bp-price-details__total-line--user js-price-details__total-line--user e2e-price-details__total-line--user bp-price-details__total-line--v-align-end">
+                                                                            <div className="bp-price-details__charge-type">
+                                                                                <div class="bp-price-details__total-price bui-u-padding-end--8">
+                                                                                    Total
+                                                                                </div>
+                                                                            </div>
+                                                                            <div className="bui-u-text-right">
+                                                                                <div class="bp-price-details__total-price --wrap-nowrap e2e-price-details__total-charge--user" data-price="154880" data-currency-code="VND" data-pd-total-usercurrency="">
+                                                                                    <span className="" style={{ display: "inline-block" }}>
+                                                                                        VND&nbsp;154,880
+                                                                                    </span>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="bui-u-text-right">
+                                                                            <div class="bp-price-details__total--taxes-and-charges-info">
+                                                                                Includes taxes and fees
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </section>
+                                </div>
+                            </aside>
                         </div>
                     </div>
                 </div>

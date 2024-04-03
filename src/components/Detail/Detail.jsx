@@ -286,14 +286,15 @@ export default function Detail() {
 
     const navigate = useNavigate();
 
-    const handleBooking = async (e) => {
+    const handleReserve = async (e) => {
         e.preventDefault();
         if (user && user.auth === true) {
-            navigate('/create-booking', {
+            navigate('/payment', {
                 state: {
+                    checkInDate: checkInDate,
+                    checkOutDate: checkOutDate,
+                    bookingPerson: numberOfPerson,
                     productID: productId.id,
-                    availableStartDate: productDetail.availableStartDate,
-                    availableEndDate: productDetail.availableEndDate
                 }
             });
         } else {
@@ -301,6 +302,22 @@ export default function Detail() {
             navigate('/login');
         }
     };
+
+    // const handleReserve = async (e) => {
+    //     e.preventDefault();
+    //     if (user && user.auth === true) {
+    //         navigate('/create-booking', {
+    //             state: {
+    //                 productID: productId.id,
+    //                 availableStartDate: productDetail.availableStartDate,
+    //                 availableEndDate: productDetail.availableEndDate
+    //             }
+    //         });
+    //     } else {
+    //         alert('You need to login to create booking!');
+    //         navigate('/login');
+    //     }
+    // };
 
     return (
         <>
@@ -432,9 +449,9 @@ export default function Detail() {
                                     <p className="form-rule"><FontAwesomeIcon icon={faCheck} />&nbsp;100% refund if canceled before {format(addDays(checkInDate, -1), 'MMMM d, yyyy')}</p>
                                     <p className="form-rule"><FontAwesomeIcon icon={faCheck} />&nbsp;80% refund if canceled on {format(addDays(checkInDate, -1), 'MMMM d, yyyy')}</p>
                                     {showBookingButton && (
-                                        <form className='form-item' onSubmit={handleBooking}>
+                                        <form className='form-item' onSubmit={handleReserve}>
                                             <div className='column-form column-2'>
-                                                <button type="submit">Booking</button>
+                                                <button type="submit">Reserve</button>
                                             </div>
                                         </form>
                                     )}
