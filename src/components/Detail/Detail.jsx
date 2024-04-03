@@ -538,16 +538,14 @@ export default function Detail() {
                                                                 </div>
                                                             </div>
                                                             <p>
-                                                                {/* <a href={`/detail/${prjsimi.productID}`}> */}
-                                                                <Link to={`/detail/${prjsimi.productID}`}>
+                                                                <a href={`/detail/${prjsimi.productID}`}>
                                                                     <button
                                                                         // onClick={() => handleProjectClick(prjsimi)}
                                                                         className='project-list-button-view'
                                                                     >
                                                                         <span className='project-list-view'>View</span>
                                                                     </button>
-                                                                </Link>
-                                                                {/* </a> */}
+                                                                </a>
                                                             </p>
                                                         </div>
                                                     </div>
@@ -572,15 +570,12 @@ export default function Detail() {
                                                             return null;
                                                         })}
                                                     </div>
-                                                    {/* <a href={`/detail/${room.productID}`}> */}
-                                                    <Link to={`/detail/${room.productID}`}>
+                                                    <a href={`/detail/${room.productID}`}>
                                                         <div className='room-detail'>
                                                             <h2>{room.productName}</h2>
                                                             <p>${room.productPrice}</p>
                                                         </div>
-                                                    </Link>
-
-                                                    {/* </a> */}
+                                                    </a>
                                                 </div>
                                             </div>
                                         ))}

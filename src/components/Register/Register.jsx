@@ -242,7 +242,7 @@ export default function Register() {
                         {errors.password && <p className="error-message">{errors.password}</p>}
                         <FontAwesomeIcon
                             onClick={() => setIsShowPassword(!isShowPassword)}
-                            className="eye-slash"
+                            className="eye-slash-register"
                             icon={isShowPassword ? faEye : faEyeSlash}
                         />
                     </div>
@@ -261,7 +261,7 @@ export default function Register() {
                         {errors.confirmPassword && <p className="error-message">{errors.confirmPassword}</p>}
                         <FontAwesomeIcon
                             onClick={() => setIsShowPassword(!isShowPassword)}
-                            className="eye-slash"
+                            className="eye-slash-register"
                             icon={isShowPassword ? faEye : faEyeSlash}
                         />
                         {passwordMatchError && <p className="error-message">{passwordMatchError}</p>}
