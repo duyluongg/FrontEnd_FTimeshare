@@ -87,17 +87,17 @@ export default function TotalStaffAdmin() {
         )}
         columns={[
           { field: 'id', headerName: 'ID', width: 70 },
-          { field: 'accName', headerName: 'Name', width: 130 },
-          { field: 'accPhone', headerName: 'Phone', width: 130 },
-          { field: 'accEmail', headerName: 'Email', width: 200 },
-          {
-            field: 'delete',
-            headerName: 'Action',
-            width: 100,
-            renderCell: (params) => (
-              <ModalPopUp onDelete={handleDelete} row={params.row} color='error' />
-            ),
-          },
+          { field: 'accName', headerName: 'Name', width: 230 },
+          { field: 'accPhone', headerName: 'Phone', width: 230 },
+          { field: 'accEmail', headerName: 'Email', width: 250 },
+          // {
+          //   field: 'delete',
+          //   headerName: 'Action',
+          //   width: 100,
+          //   renderCell: (params) => (
+          //     <ModalPopUp onDelete={handleDelete} row={params.row} color='error' />
+          //   ),
+          // },
           {
             field: 'role',
             headerName: 'Role',

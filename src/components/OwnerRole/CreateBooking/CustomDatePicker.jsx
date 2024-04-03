@@ -39,22 +39,25 @@
 //     </LocalizationProvider>
 //   );
 // }
-import * as React from 'react';
+// CustomDatePicker.jsx
+
+import React, { useState, useEffect } from "react";
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider, DatePicker } from '@mui/x-date-pickers';
 import dayjs from 'dayjs';
 
-export default function CustomDatePicker({ bookedDates, selectedDate, onChange }) {
+export default function CustomDatePicker({ bookedDates, selectedStartDate, onChange }) {
+  const [value, setValue] = useState(dayjs());
+ 
   const isDateBookedOrBetween = (date) => {
     const day = dayjs(date);
-
+   
     const formattedDate = day.format('DD/MM/YYYY');
     if (bookedDates.includes(formattedDate)) {
       return true;
     }
 
-    // Check if the date is between booked dates
     for (let i = 0; i < bookedDates.length - 1; i++) {
       const startDate = dayjs(bookedDates[i], 'DD/MM/YYYY');
       const endDate = dayjs(bookedDates[i + 1], 'DD/MM/YYYY');
@@ -66,19 +69,28 @@ export default function CustomDatePicker({ bookedDates, selectedDate, onChange }
     return false;
   };
 
+  const isDateBeforeSelectedStartDate = (date) => {
+    if (!selectedStartDate) {
+      return false;
+    }
+    const day = dayjs(date);
+    const start = dayjs(selectedStartDate, 'YYYY-MM-DD');
+    return day.isBefore(start, 'day');
+  };
+
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <DemoContainer components={['DatePicker']}>
         <DatePicker
           label="Date"
-          shouldDisableDate={isDateBookedOrBetween}
-          value={dayjs(selectedDate)} 
+          shouldDisableDate={(date) => isDateBookedOrBetween(date) || isDateBeforeSelectedStartDate(date)}
+          // value={value} 
           onChange={(date) => onChange(date.format('YYYY-MM-DD'))} 
           disablePast
-     
         />
       </DemoContainer>
     </LocalizationProvider>
   );
 }
+
 

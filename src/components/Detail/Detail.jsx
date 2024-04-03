@@ -158,12 +158,12 @@ export default function Detail() {
             try {
                 const response = await axios.get(`https://bookinghomestayswp.azurewebsites.net/api/products/viewById/${productId.id}`);
                 const productData = response.data[0];
-                const startDate = new Date(productData.availableStartDate[0], productData.availableStartDate[1] - 1, productData.availableStartDate[2], productData.availableStartDate[3], productData.availableStartDate[4]);
-                const endDate = new Date(productData.availableEndDate[0], productData.availableEndDate[1] - 1, productData.availableEndDate[2], productData.availableEndDate[3], productData.availableEndDate[4]);
-                const formattedStartDate = format(startDate, 'dd/MM/yyyy');
-                const formattedEndDate = format(endDate, 'dd/MM/yyyy');
-                productData.availableStartDate = formattedStartDate;
-                productData.availableEndDate = formattedEndDate;
+                // const startDate = new Date(productData.availableStartDate[0], productData.availableStartDate[1] - 1, productData.availableStartDate[2], productData.availableStartDate[3], productData.availableStartDate[4]);
+                // const endDate = new Date(productData.availableEndDate[0], productData.availableEndDate[1] - 1, productData.availableEndDate[2], productData.availableEndDate[3], productData.availableEndDate[4]);
+                // const formattedStartDate = format(startDate, 'dd/MM/yyyy');
+                // const formattedEndDate = format(endDate, 'dd/MM/yyyy');
+                // productData.availableStartDate = formattedStartDate;
+                // productData.availableEndDate = formattedEndDate;
                 setProductDetail(productData);
                 setActiveContentIndex(productData.productDescription);
 

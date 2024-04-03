@@ -231,53 +231,43 @@
 //     );
 // }
 import React, { useState, useEffect, useCallback } from 'react';
-import { DataGrid } from '@mui/x-data-grid';
+import { alpha, styled } from '@mui/material/styles';
+import { DataGrid, gridClasses } from '@mui/x-data-grid';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { Button } from '@mui/material';
 import './TotalProduct.css'
-
+import { TextField } from '@mui/material';
+import IconButton from '@mui/material/IconButton';
+import SearchIcon from '@mui/icons-material/Search';
 
 export default function DataTable() {
-    const [expanded, setExpanded] = useState(false);
+    const ODD_OPACITY = 0.2;
+    const [search, setSearch] = useState('');
     const [projectActive, setProjectActive] = useState([]);
-    const [selectedProject, setSelectedProject] = useState(null);
-    const [showCardReport, setShowCardReport] = useState(false);
-    const [currentPage, setCurrentPage] = useState(1);
-    // const [projectsPerPage] = useState(6);
-    const [searchQuery, setSearchQuery] = useState('');
-    const [getProjectID, setGetProjectID] = useState();
-    const projectsPerPage = 2;
-    const indexOfLastProject = currentPage * projectsPerPage;
-    const indexOfFirstProject = indexOfLastProject - projectsPerPage;
-    const [images, setImages] = useState([]);
-    const [profiles, setProfiles] = useState([]);
-    // const currentProjects = searchQuery ? filteredProjects.slice(indexOfFirstProject, indexOfLastProject) : projectActive.slice(indexOfFirstProject, indexOfLastProject);
-    const [filteredProjects, setFilteredProjects] = useState([]);
-    const [projectName, setProjectName] = useState([]);
-    const [selectedProjectID, setSelectedProjectID] = useState(null);
 
     useEffect(() => {
         fetchData(); // Cập nhật dữ liệu sau khi đã chọn dự án mới
-    }, [currentPage, searchQuery, selectedProjectID]);
+    }, []);
     const fetchData = async () => {
         try {
-            const [pendingResponse, imagesResponse, profilesResponse, projectResponse] = await Promise.all([
+            const [productResponse, imagesResponse, profilesResponse, projectResponse, productTypeResponse] = await Promise.all([
                 axios.get('https://bookinghomestayswp.azurewebsites.net/api/products/staff/active'),
                 axios.get('https://bookinghomestayswp.azurewebsites.net/api/pictures/customerview'),
                 axios.get('https://bookinghomestayswp.azurewebsites.net/api/users/staffview'),
-                axios.get('https://bookinghomestayswp.azurewebsites.net/api/project/customer/viewproject')
+                axios.get('https://bookinghomestayswp.azurewebsites.net/api/project/customer/viewproject'),
+                axios.get('https://bookinghomestayswp.azurewebsites.net/api/productType/customer/viewproductType')
+
             ]);
 
-            const dataWithId = pendingResponse.data.map((item, index) => ({
+            const dataWithId = productResponse.data.map((item, index) => ({
                 ...item,
                 id: index + 1,
-                projectName: getProjectName(item.projectID, projectResponse.data)
+                projectName: getProjectName(item.projectID, projectResponse.data),
+                productType: getProductType(item.productTypeID, productTypeResponse.data)
             }));
+
             setProjectActive(dataWithId);
-            setImages(imagesResponse.data);
-            setProfiles(profilesResponse.data);
-            // setProjectName(projectResponse.data);
 
         } catch (error) {
             console.error('Error fetching data:', error);
@@ -290,18 +280,27 @@ export default function DataTable() {
         return project ? project.projectName : '';
     };
 
+    const getProductType = (productTypeId, projects) => {
+        const project = projects.find(project => project.productTypeID === productTypeId);
+        return project ? project.productTypeName : '';
+    };
+
     const columns = [
-        { field: 'id', headerName: 'No', width: 70, headerClassName: "super-app-theme--header" },
-        { field: 'productName', headerName: 'Product Name', width: 250 },
-        { field: 'productAddress', headerName: 'Address', width: 250 },
-        { field: 'productStatus', headerName: 'Status', width: 100 },
-        { field: 'projectName', headerName: 'Project', width: 240 },
-        { field: 'availableStartDate', headerName: 'Start Date', width: 130, valueFormatter: (params) => formatDate(params.value) },
-        { field: 'availableEndDate', headerName: 'End Date', width: 130, valueFormatter: (params) => formatDate(params.value) },
+        { field: 'id', headerName: 'No', width: 100, headerClassName: "super-app-theme--header" ,cellClassName: "super-app-theme--cell-other"},
+        { field: 'productName', headerName: 'Product Name', width: 300, headerClassName: "super-app-theme--header",cellClassName: "super-app-theme--cell-other" },
+        { field: 'productAddress', headerName: 'Address', width: 300, headerClassName: "super-app-theme--header" },
+        { field: 'productStatus', headerName: 'Status', width: 90, headerClassName: "super-app-theme--header", cellClassName: "super-app-theme--cell" },
+        { field: 'projectName', headerName: 'Project', width: 300, headerClassName: "super-app-theme--header",cellClassName: "super-app-theme--cell-other" },
+        { field: 'productType', headerName: 'Product Type', width: 200, headerClassName: "super-app-theme--header",cellClassName: "super-app-theme--cell-other" },
+
+        // { field: 'availableStartDate', headerName: 'Start Date', width: 130, valueFormatter: (params) => formatDate(params.value), headerClassName: "super-app-theme--header" },
+        // { field: 'availableEndDate', headerName: 'End Date', width: 130, valueFormatter: (params) => formatDate(params.value), headerClassName: "super-app-theme--header" },
         {
             field: 'detail',
             headerName: 'Detail',
             width: 100,
+            headerClassName: "super-app-theme--header",
+            cellClassName: "super-app-theme--cell-other",
             renderCell: (params) => (
                 <Link to={`/staff/report-projectid/${params.row.productID}/${params.row.accID}`}>
                     <Button variant="outlined" >
@@ -312,33 +311,102 @@ export default function DataTable() {
         },
     ];
 
-    const formatDate = (dateArray) => {
-        const [year, month, day] = dateArray;
-        return `${day}/${month}/${year}`;
-    };
+    // const formatDate = (dateArray) => {
+    //     const [year, month, day] = dateArray;
+    //     return `${day}/${month}/${year}`;
+    // };
+
+    // const formatDate = (dateArray) => {
+    //     if (!dateArray || !Array.isArray(dateArray) || dateArray.length !== 5) {
+    //         return ''; 
+    //     }
+    //     const [year, month, day] = dateArray.slice(0, 3); // Lấy ba giá trị đầu tiên của mảng
+    //     return `${day}/${month}/${year}`;
+    // };
+    const StripedDataGrid = styled(DataGrid)(({ theme }) => ({
+        [`& .${gridClasses.row}.even`]: {
+          backgroundColor: theme.palette.grey[200],
+          '&:hover': {
+            backgroundColor: alpha(theme.palette.primary.main, ODD_OPACITY),
+            '@media (hover: none)': {
+              backgroundColor: 'transparent',
+            },
+          },
+          '&.Mui-selected': {
+            backgroundColor: alpha(
+              theme.palette.primary.main,
+              ODD_OPACITY + theme.palette.action.selectedOpacity,
+            ),
+            '&:hover': {
+              backgroundColor: alpha(
+                theme.palette.primary.main,
+                ODD_OPACITY +
+                  theme.palette.action.selectedOpacity +
+                  theme.palette.action.hoverOpacity,
+              ),
+              // Reset on touch devices, it doesn't add specificity
+              '@media (hover: none)': {
+                backgroundColor: alpha(
+                  theme.palette.primary.main,
+                  ODD_OPACITY + theme.palette.action.selectedOpacity,
+                ),
+              },
+            },
+          },
+        },
+      }));
 
     return (
-        <div style={{ height: 400, width: '90%', marginLeft: "105px" }}>
+        <div style={{ height: 400, width: '90.6%', marginLeft: "104px" }}>
 
-            <DataGrid
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+
+                <TextField sx={{ width: '500px', mb: '35px' }}
+                    placeholder="Search..."
+                    variant="outlined"
+                    size="small"
+                    defaultValue=""
+                    onChange={(s) => setSearch(s.target.value)}
+                />
+                <IconButton type="submit" aria-label="search" sx={{ mb: '30px' }}>
+                    <SearchIcon />
+                </IconButton>
+            </div>
+
+            <StripedDataGrid
                 sx={{
-                   
+
                     '& .super-app-theme--header': {
-                        backgroundColor: 'rgba(255, 7, 0, 0.55)',
+                        backgroundColor: 'gray',
+                        color: 'white',
+                        fontSize:"18px"
+
+                    },
+
+                    '& .super-app-theme--cell': {
+                        color: 'green',
+                        fontSize:"16px"
+                        
+                    },
+                    '& .super-app-theme--cell-other': {
+                        fontSize:"16px"
+                        
                     },
                 }}
-                rows={projectActive}
+                rows={projectActive.filter((item) =>
+                    search.trim() === '' ? true : item.productName.toLowerCase().includes(search.toLowerCase())
+                )}
                 columns={columns}
                 initialState={{
                     pagination: {
                         paginationModel: { page: 0, pageSize: 5 },
                     },
                 }}
+                getRowClassName={(params) =>
+                    params.indexRelativeToCurrentPage % 2 === 0 ? 'even' : 'odd'
+                  }
                 pageSizeOptions={[5, 10]}
-               
             // checkboxSelection
-
-
             />
         </div>
     );

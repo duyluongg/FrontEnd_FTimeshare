@@ -156,10 +156,12 @@ export default function TotalProductPending() {
 
 
     const formatDate = (dateArray) => {
-        const [year, month, day] = dateArray;
+        if (!dateArray || !Array.isArray(dateArray) || dateArray.length !== 5) {
+            return ''; 
+        }
+        const [year, month, day] = dateArray.slice(0, 3); // Lấy ba giá trị đầu tiên của mảng
         return `${day}/${month}/${year}`;
     };
-
 
     const handleSelectProject = (projectId) => {
         setSelectedProjectID(projectId);
