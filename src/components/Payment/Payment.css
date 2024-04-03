@@ -602,16 +602,18 @@ h3.o13Lc4.hERTPn {
 .booking-process__container {
     min-width: 0;
 }
+
 .booking-process__container {
     font-size: 14px;
     font-weight: 400;
     line-height: 20px;
-    font-family: BlinkMacSystemFont,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+    font-family: BlinkMacSystemFont, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
     width: 100%;
     min-width: 960px;
     max-width: 1110px;
     margin: auto;
 }
+
 .bui-container {
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
@@ -691,7 +693,9 @@ aside {
     flex-wrap: nowrap;
 }
 
-[class^=bui-], [class^=bui-]:after, [class^=bui-]:before {
+[class^=bui-],
+[class^=bui-]:after,
+[class^=bui-]:before {
     box-sizing: border-box;
 }
 
@@ -702,6 +706,7 @@ aside {
 .bui-group--large>* {
     margin-top: 16px !important;
 }
+
 .bui-group>* {
     margin-top: 8px !important;
 }
@@ -709,21 +714,27 @@ aside {
 .a6ae3c2b40 {
     border-color: #e7e7e7;
 }
+
 .a178069f51 {
     background-color: #fff;
 }
+
 .d794b7a0f7 {
     border-radius: 8px;
 }
+
 .a18aeea94d {
     border: 1px solid #e7e7e7;
 }
+
 .c82435a4b8 {
-    padding: calc( 4 * 4px );
+    padding: calc(4 * 4px);
 }
+
 .f53e278e95 {
     overflow: hidden;
 }
+
 .c82435a4b8 {
     box-sizing: border-box;
 }
@@ -731,17 +742,21 @@ aside {
 .a3214e5942 {
     flex-grow: initial;
 }
+
 .c624d7469d {
-    gap: calc( 4 * 4px );
+    gap: calc(4 * 4px);
 }
+
 .e8f9ae2be9 {
     align-items: flex-start;
 }
+
 .a0e60936ad {
     flex-wrap: initial;
     flex-direction: column;
     align-items: stretch;
 }
+
 .c624d7469d {
     display: flex;
     padding: 0;
@@ -759,6 +774,7 @@ aside {
     flex-wrap: wrap;
     align-items: flex-start;
 }
+
 .c624d7469d>* {
     flex-shrink: 0;
     margin-block-start: initial;
@@ -766,6 +782,7 @@ aside {
     margin-inline-start: initial;
     margin-inline-end: initial;
 }
+
 .c624d7469d {
     display: flex;
     padding: 0;
@@ -804,7 +821,7 @@ aside {
     font-size: 16px;
     font-weight: 700;
     line-height: 24px;
-    font-family: BlinkMacSystemFont,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+    font-family: BlinkMacSystemFont, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
 }
 
 .a0e60936ad {
@@ -818,7 +835,9 @@ aside {
     vertical-align: middle;
 }
 
-.a83ed08757[role=button], a.a83ed08757, button.a83ed08757 {
+.a83ed08757[role=button],
+a.a83ed08757,
+button.a83ed08757 {
     cursor: pointer;
 }
 
@@ -845,7 +864,7 @@ aside {
     font-size: 14px;
     font-weight: 400;
     line-height: 20px;
-    font-family: BlinkMacSystemFont,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+    font-family: BlinkMacSystemFont, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
 }
 
 .dab7c5c6fa {
@@ -874,6 +893,7 @@ section {
 .bui-card__content header {
     background-color: transparent;
 }
+
 .bui-spacer--large {
     margin-bottom: 16px !important;
 }
@@ -882,10 +902,11 @@ section {
     font-size: 16px;
     font-weight: 700;
     line-height: 24px;
-    font-family: BlinkMacSystemFont,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+    font-family: BlinkMacSystemFont, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
 }
 
-.bui-card__subtitle, .bui-card__title {
+.bui-card__subtitle,
+.bui-card__title {
     margin: 0;
     padding: 0;
 }
@@ -907,7 +928,7 @@ section {
     font-size: 14px;
     font-weight: 500;
     line-height: 20px;
-    font-family: BlinkMacSystemFont,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+    font-family: BlinkMacSystemFont, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
 }
 
 .bui-date--large {
@@ -929,7 +950,7 @@ section {
     font-size: 16px;
     font-weight: 700;
     line-height: 24px;
-    font-family: BlinkMacSystemFont,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+    font-family: BlinkMacSystemFont, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
 }
 
 .bui-date-range .bui-date-range__item+.bui-date-range__item .bui-date:before {
@@ -946,22 +967,26 @@ section {
     padding-left: 16px;
 }
 
-.bui_font_emphasized, body .bui-f-font-emphasized, body .bui_font_emphasized {
+.bui_font_emphasized,
+body .bui-f-font-emphasized,
+body .bui_font_emphasized {
     font-size: 14px;
     font-weight: 500;
     line-height: 20px;
-    font-family: BlinkMacSystemFont,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+    font-family: BlinkMacSystemFont, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
 }
 
 .bui-group--small>* {
     margin-top: 4px !important;
 }
 
-.bui_font_strong, body .bui-f-font-strong, body .bui_font_strong {
+.bui_font_strong,
+body .bui-f-font-strong,
+body .bui_font_strong {
     font-size: 14px;
     font-weight: 700;
     line-height: 20px;
-    font-family: BlinkMacSystemFont,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+    font-family: BlinkMacSystemFont, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
 }
 
 .bp-price-details__total--discount-breakdown-with-bg {
@@ -972,6 +997,7 @@ section {
     position: relative;
     background-color: transparent;
 }
+
 .bp-price-details__total {
     background-color: #ebf3ff;
     padding: 16px;
@@ -979,6 +1005,7 @@ section {
     margin-right: -16px;
     border: 0;
 }
+
 .bui-card__text {
     margin: 16px 0 0;
 }
@@ -997,23 +1024,31 @@ section {
     align-items: flex-end;
 }
 
-.bp-price-details__charge-line, .bp-price-details__total-line, .bp-schedule__milestone {
+.bp-price-details__charge-line,
+.bp-price-details__total-line,
+.bp-schedule__milestone {
     display: flex;
     justify-content: space-between;
     align-items: baseline;
 }
 
-.bp-price-details__total-line--user .bp-price-details__charge-type, .bp-price-details__total-line--user .bp-price-details__charge-name, .bp-price-details__total-line--user .bp-price-details__charge-value {
+.bp-price-details__total-line--user .bp-price-details__charge-type,
+.bp-price-details__total-line--user .bp-price-details__charge-name,
+.bp-price-details__total-line--user .bp-price-details__charge-value {
     font-weight: 700;
 }
 
-.bp-price-details__total-line .bp-price-details__charge-type, .bp-price-details__total-line .bp-price-details__charge-name, .bp-price-details__total-line .bp-price-details__charge-value {
+.bp-price-details__total-line .bp-price-details__charge-type,
+.bp-price-details__total-line .bp-price-details__charge-name,
+.bp-price-details__total-line .bp-price-details__charge-value {
     font-size: 16px;
     font-weight: 400;
     line-height: 24px;
-    font-family: BlinkMacSystemFont,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+    font-family: BlinkMacSystemFont, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
 }
-.bp-price-details__charge-type, .bp-schedule__milestone-name {
+
+.bp-price-details__charge-type,
+.bp-schedule__milestone-name {
     width: auto;
 }
 
@@ -1021,21 +1056,386 @@ section {
     font-size: 24px;
     font-weight: 700;
     line-height: 32px;
-    font-family: "Blue Sans",BlinkMacSystemFont,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+    font-family: "Blue Sans", BlinkMacSystemFont, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
 }
 
 .bui-u-padding-end--8 {
     padding-right: 8px !important;
 }
 
-.bui-u-text-right, .u-text-right {
+.bui-u-text-right,
+.u-text-right {
     text-align: right !important;
 }
 
-.bp-price-details__total--taxes-and-charges-info, .bp-price-details__total--price-in-hotel-currency, .bp-price-details__total--kuna-rate, .bp-price-details__total--installments {
+.bp-price-details__total--taxes-and-charges-info,
+.bp-price-details__total--price-in-hotel-currency,
+.bp-price-details__total--kuna-rate,
+.bp-price-details__total--installments {
     font-size: 14px;
     font-weight: 400;
     line-height: 20px;
-    font-family: BlinkMacSystemFont,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+    font-family: BlinkMacSystemFont, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
     color: #595959;
+}
+
+@media (min-width: 1024px) {
+    .bui-grid>[class*=bui-grid__column] {
+        padding: 24px calc(24px / 2) 0 calc(24px / 2);
+    }
+}
+
+@media (min-width: 576px) {
+    .bui-grid>[class*=bui-grid__column] {
+        padding: 24px calc(24px / 2) 0 calc(24px / 2);
+    }
+}
+
+@media (min-width: 576px) {
+
+    .bui-grid__column-2\/3\@medium,
+    .bui-grid__column-8\@medium {
+        flex-basis: 66.66667%;
+        width: 66.66667%;
+        max-width: 66.66667%;
+    }
+}
+
+[class*=bui-grid__column] {
+    width: 100%;
+    padding: 16px calc(16px / 2) 0 calc(16px / 2);
+    flex-basis: 100%;
+    margin: 0;
+}
+
+.bui-grid,
+[class*=bui-grid__column] {
+    box-sizing: border-box;
+}
+
+.bui-inline-container__main {
+    flex-grow: 1;
+}
+
+.bui-text--variant-headline_3 {
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 28px;
+    font-family: "Blue Sans", BlinkMacSystemFont, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+}
+
+.bui-card__text {
+    margin: 16px 0 0;
+}
+
+@media (min-width: 1024px) {
+    .bui-grid--size-small {
+        margin: calc(-1* 16px) calc(-1* 16px / 2) 0 calc(-1* 16px / 2);
+    }
+}
+
+@media (min-width: 576px) {
+    .bui-grid--size-small {
+        margin: calc(-1* 24px) calc(-1* 24px / 2) 0 calc(-1* 24px / 2);
+    }
+}
+
+@media (min-width: 1024px) {
+    .bui-grid--size-small>[class*=bui-grid__column] {
+        padding: 16px calc(16px / 2) 0 calc(16px / 2);
+    }
+}
+
+@media (min-width: 576px) {
+    .bui-grid--size-small>[class*=bui-grid__column] {
+        padding: 16px calc(16px / 2) 0 calc(16px / 2);
+    }
+}
+
+@media (min-width: 1024px) {
+
+    .bui-grid__column-1\/2\@large,
+    .bui-grid__column-6\@large {
+        flex-basis: 50%;
+        width: 50%;
+        max-width: 50%;
+    }
+}
+
+@media (min-width: 576px) {
+
+    .bui-grid__column-1\/2\@medium,
+    .bui-grid__column-6\@medium,
+    .bui-grid__column-half\@medium {
+        flex-basis: 50%;
+        width: 50%;
+        max-width: 50%;
+    }
+}
+
+.bp_form__field--title,
+.bp_form__field--firstname,
+.bp_form__field--lastname {
+    float: none;
+    padding: 0;
+}
+
+.bp_form__field {
+    margin: 0;
+}
+
+.bp_form__field--title,
+.bp_form__field--firstname {
+    float: left;
+    padding-right: 17px;
+}
+
+.bp_form__field {
+    margin-bottom: 10px;
+}
+
+.bp_form__field__label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 2px;
+}
+
+.bp_form__field .bp_input_text,
+.bp_form__field .bp_input_select,
+.bp_input_select {
+    box-sizing: border-box;
+    height: 36px;
+}
+
+.bp_form__field .bp_input_text,
+.input_holder .bp_input_text,
+.bp_form__field .bp_input_select,
+.bp_input_select,
+.bp-special-requests__textarea {
+    background-color: #fff;
+    border-width: 1px;
+    padding: 4px 24px 4px 8px;
+    line-height: 20px;
+    border-radius: 4px;
+}
+
+.bp_form__field .bp_input_text,
+.input_holder .bp_input_text,
+.bp_form__field .bp_input_select {
+    margin: 0;
+    box-sizing: border-box;
+    height: 36px;
+    width: 100%;
+}
+
+body:not(.bp-input-refresh) .book-form input,
+body:not(.bp-input-refresh).book-form textarea,
+body:not(.bp-input-refresh).book-form select {
+    background: #fff;
+    border: 1px solid #aaa;
+    outline: 0;
+}
+
+.book-form input,
+.book-form textarea,
+.book-form select {
+    border-color: #868686;
+}
+
+.bp_input_text {
+    border-radius: 4px;
+    padding: 6px 25px 6px 2px;
+    zoom: 1;
+    height: 19px;
+    line-height: 23px;
+}
+
+.bWdlgyB0W_fwdujfrgRA .A1lmouXAu10vISnnmR2M,
+.i5VJZqFj5rYEISDkJ2RO .A1lmouXAu10vISnnmR2M {
+    margin-block-start: 8px;
+}
+
+.A1lmouXAu10vISnnmR2M,
+.GNzhSvV2VdyOTAClv1xi {
+    margin: 0;
+    padding: 0;
+}
+
+.x9mw82OGJDdT97ho7Wyc {
+    font-family: BlinkMacSystemFont, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 24px;
+}
+
+.H6lzDEPPhc6rnad4mB7d {
+    color: #474747;
+}
+
+@media (min-width: 992px) {
+    .my-settings-edit-row {
+        display: flex;
+        padding: 0;
+    }
+}
+
+.my-settings-edit-row {
+    background-color: #fff;
+    border-top: 1px solid #e7e7e7;
+    color: #1a1a1a;
+    padding: 16px 0;
+    position: relative;
+}
+
+@media (min-width: 992px) {
+    .my-settings-cell-spacing {
+        padding: 16px;
+    }
+}
+
+@media (min-width: 992px) {
+    .my-settings-col-shrink {
+        min-width: 130px;
+        overflow-x: hidden;
+        position: relative;
+        width: 130px;
+    }
+}
+
+.my-settings-col-shrink {
+    white-space: normal;
+}
+
+.my-settings-cell-spacing {
+    padding: 0 16px;
+    white-space: nowrap;
+}
+
+.x9mw82OGJDdT97ho7Wyc {
+    font-family: BlinkMacSystemFont, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 24px;
+}
+
+@media (min-width: 992px) {
+    .my-settings-col-shrink:after {
+        background: linear-gradient(to right, hsla(0, 0%, 100%, 0), #fff);
+        content: "";
+        height: 100%;
+        position: absolute;
+        right: 0;
+        top: 0;
+        width: 16px;
+    }
+}
+
+.my-settings-flex-grow {
+    flex-grow: 1;
+    width: 0;
+}
+
+.pc-pm-section {
+    position: relative;
+}
+
+.dnrAFC.single-payment-method {
+    margin-top: 0px;
+}
+
+.dnrAFC {
+    margin-top: 16px;
+}
+
+.single-payment-method .cnZRHr {
+    margin-top: 8px;
+}
+
+.cnZRHr {
+    margin-top: 24px;
+    margin-bottom: 16px;
+}
+
+.dFDboCg6ONrjf7Ra7Mvq {
+    clip: rect(0, 0, 0, 0);
+    border: 0;
+    clip-path: inset(50%);
+    height: 1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    white-space: nowrap;
+    width: 1px;
+}
+
+.ikbMPt {
+    width: calc(100% + 8px);
+}
+
+.bui-spacer--large {
+    margin-bottom: 16px !important;
+}
+
+.fsVPjJ {
+    display: inline-block;
+    align-items: center;
+}
+
+.croNNM {
+    height: 18px;
+    margin-right: 8px;
+    aspect-ratio: auto 30 / 18;
+    width: 30px;
+}
+
+/* .PaymentMethodLogo__IconItem-sc-1y6kfmc-1 img {
+    max-width: 363%;
+} */
+
+.my-settings-edit-row--editing .my-settings-flex-by-row--reverse {
+    align-items: flex-start;
+}
+
+@media (min-width: 992px) {
+    .my-settings-flex-by-row--reverse {
+        align-items: flex-start;
+    }
+}
+
+.my-settings-flex-by-row--reverse {
+    align-items: center;
+    flex-direction: row-reverse;
+}
+
+.my-settings-flex-by-row {
+    display: flex;
+    flex-direction: row;
+}
+
+.my-settings-col-grow {
+    align-items: center;
+    flex-grow: 1;
+    white-space: normal;
+}
+.my-settings-cell-spacing {
+    padding: 0 16px;
+    white-space: nowrap;
+}
+
+.bui-spacer--large {
+    margin-bottom: 16px !important;
+}
+
+.c8aJz4rD8xrKZdQeSObm {
+    align-items: flex-end;
+    display: flex;
+    padding: 0;
+    padding-block-end: 4px;
+}
+
+.pdwjKNhlw16m0TS0grss {
+    font-family: BlinkMacSystemFont,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 20px;
 }

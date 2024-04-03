@@ -541,9 +541,13 @@ button.a83ed08757 {
 .c624d7469d {
     gap: calc( 2 * 4px );
 }
-.f034cf5568 {
+/* .f034cf5568 {
     flex-direction: row;
-    /* flex-wrap: wrap; */
+    flex-wrap: nowrap;
+    align-items: flex-start;
+} */
+.f034cf5568-nowrap {
+    flex-direction: row;
     align-items: flex-start;
 }
 .c624d7469d {

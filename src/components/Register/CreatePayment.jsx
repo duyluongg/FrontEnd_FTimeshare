@@ -102,23 +102,6 @@ export default function CreatePayment({ getID }) {
         }
     }
 
-    // const handleImgBankChange = (e) => {
-    //     const file = e.target.files[0];
-    //     if (file) {
-    //         setImgBank(file);
-    //         previewImage(file);
-    //         console.log(file);
-    //     }
-    // };
-
-    // const previewImage = (file) => {
-    //     const reader = new FileReader();
-    //     reader.readAsDataURL(file);
-    //     reader.onloadend = () => {
-    //         setImgBankPreview(reader.result);
-    //     };
-    // };
-
     const handleSnackbarClose = () => {
         setSnackbarOpen(false);
     };
@@ -142,18 +125,19 @@ export default function CreatePayment({ getID }) {
     };
 
     return (
-        <div className="payment-container">
+        <>
+            {/* <div className="payment-container">
 
-            <div className="register-form payment-form">
-                <h1>Please provide a payment account to be able to book</h1>
-                <h3>If you already have a payment account, skip this step</h3>
-                <form onSubmit={handleCreatePayment}>
-                    <h2>CREATE PAYMENT</h2>
+             <div className="register-form payment-form"> */}
+            {/* <h1>Please provide a payment account to be able to book</h1>
+                <h3>If you already have a payment account, skip this step</h3> */}
+            <form onSubmit={handleCreatePayment}>
+                {/* <h2>CREATE PAYMENT</h2>
                     <div className="line-container line-header">
                         <div className="line-register"></div>
-                    </div>
+                    </div> */}
 
-                    {/* <div className="input-container">
+                {/* <div className="input-container">
                         <label htmlFor="avatar">Image Banking</label>
                         <input
                             type="file"
@@ -168,66 +152,77 @@ export default function CreatePayment({ getID }) {
                         )}
                     </div> */}
 
-                    <div className="input-container">
-                        <input
-                            type="text"
-                            placeholder="Account Name"
-                            value={accountName}
-                            onChange={(e) => setAccountName(e.target.value)}
-                            style={{ borderColor: errors.accountName ? 'red' : null }}
-                        />
-                        {errors.accountName && <p style={{ color: 'red' }}>{errors.accountName}</p>}
-                    </div>
+                <div className="input-container">
+                    <label for="accountName" className="pdwjKNhlw16m0TS0grss Po94KgYKmwG71gGN3Gv8 c8aJz4rD8xrKZdQeSObm">
+                        <span>
+                            <span className="atXLw2ldbGuXPrw7Bcmb">Cardholder's name</span>
+                            <span className="PScMTZLHuGQ8u9NyMhm2 RDhZVoNyVUq8VyWOSjKn">*</span>
+                        </span>
+                    </label>
+                    <input
+                        id="accountName"
+                        type="text"
+                        // placeholder="Account Name"
+                        value={accountName}
+                        onChange={(e) => setAccountName(e.target.value)}
+                        style={{ borderColor: errors.accountName ? 'red' : null }}
+                    />
+                    {errors.accountName && <p style={{ color: 'red' }}>{errors.accountName}</p>}
+                </div>
 
-                    {/* <div className="input-container">
-                        <input
-                            type="Bank"
-                            placeholder="Bank"
-                            value={bank}
-                            onChange={(e) => setBank(e.target.value)}
-                            style={{ borderColor: errors.bank ? 'red' : null }}
-                        />
-                        {errors.bank && <p style={{ color: 'red' }}>{errors.bank}</p>}
-                    </div> */}
-
-                    <div className="input-container">
-                        <select
-                            value={bank}
-                            onChange={handleBankChange}
-                            style={{ borderColor: errors.bank ? 'red' : null }}
-                        >
-                            <option value="">Select a bank</option>
-                            {bankList.map(bankItem => (
-                                <option key={bankItem.id} value={bankItem.name}>{bankItem.name} - {bankItem.shortName}</option>
-                            ))}
-                        </select>
-                        {errors.bank && <p style={{ color: 'red' }}>{errors.bank}</p>}
-                    </div>
-
-                    <div className="input-container">
-                        <input
-                            type="Account Number"
-                            placeholder="Account Number"
-                            value={accountBank}
-                            onChange={(e) => setAccountBank(e.target.value)}
-                            style={{ borderColor: errors.accountBank ? 'red' : null }}
-                        />
-                        {errors.accountBank && <p style={{ color: 'red' }}>{errors.accountBank}</p>}
-                    </div>
-
-
-                    {/* <button className="register-button" type="submit">Create</button> */}
-                    <button
-                        className={`register-button ${isLoading ? 'disabled' : ''}`}
-                        type="submit"
-                        disabled={isLoading}
+                <div className="input-container">
+                    <label for="bank" className="pdwjKNhlw16m0TS0grss Po94KgYKmwG71gGN3Gv8 c8aJz4rD8xrKZdQeSObm">
+                        <span>
+                            <span className="atXLw2ldbGuXPrw7Bcmb">Bank</span>
+                            <span className="PScMTZLHuGQ8u9NyMhm2 RDhZVoNyVUq8VyWOSjKn">*</span>
+                        </span>
+                    </label>
+                    <select
+                        id="bank"
+                        value={bank}
+                        onChange={handleBankChange}
+                        style={{ borderColor: errors.bank ? 'red' : null }}
                     >
-                        {isLoading ? 'Creating...' : 'Create'}
-                    </button>
-                </form>
-                <SnackBar open={snackbarOpen} message={snackbarMessage} onClose={handleSnackbarClose} color={snackbarColor} />
+                        <option value="">Select a bank</option>
+                        {bankList.map(bankItem => (
+                            <option key={bankItem.id} value={bankItem.name}>{bankItem.name} - {bankItem.shortName}</option>
+                        ))}
+                    </select>
+                    {errors.bank && <p style={{ color: 'red' }}>{errors.bank}</p>}
+                </div>
 
-            </div>
-        </div>
+                <div className="input-container">
+                    <label for="cardNumber" className="pdwjKNhlw16m0TS0grss Po94KgYKmwG71gGN3Gv8 c8aJz4rD8xrKZdQeSObm">
+                        <span>
+                            <span className="atXLw2ldbGuXPrw7Bcmb">Card number</span>
+                            <span className="PScMTZLHuGQ8u9NyMhm2 RDhZVoNyVUq8VyWOSjKn">*</span>
+                        </span>
+                    </label>
+                    <input
+                        id="cardNumber"
+                        type="Account Number"
+                        // placeholder="Account Number"
+                        value={accountBank}
+                        onChange={(e) => setAccountBank(e.target.value)}
+                        style={{ borderColor: errors.accountBank ? 'red' : null }}
+                    />
+                    {errors.accountBank && <p style={{ color: 'red' }}>{errors.accountBank}</p>}
+                </div>
+
+
+                {/* <button className="register-button" type="submit">Create</button> */}
+                <button
+                    className={`register-button ${isLoading ? 'disabled' : ''}`}
+                    type="submit"
+                    disabled={isLoading}
+                >
+                    {isLoading ? 'Creating...' : 'Create'}
+                </button>
+            </form>
+            <SnackBar open={snackbarOpen} message={snackbarMessage} onClose={handleSnackbarClose} color={snackbarColor} />
+
+            {/*      </div>
+         </div> */}
+        </>
     );
 }
