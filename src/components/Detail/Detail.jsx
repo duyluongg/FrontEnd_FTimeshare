@@ -127,6 +127,7 @@ export default function Detail() {
     const [errors, setErrors] = useState({});
     const [selectedNumberOfPerson, setSelectedNumberOfPerson] = useState(1);
     const [selectedStartDate, setSelectedStartDate] = useState("");
+    const [availabilityMessage, setAvailabiltyMessage] = useState("");
 
     const handleFindAvailability = async (e) => {
         
@@ -147,13 +148,12 @@ export default function Detail() {
             return;
         }
 
-        // console.log(checkInDate);
-
         try {
             const startDateObj = new Date(checkInDate);
             const endDateObj = new Date(checkOutDate);
             const formattedStartDate = startDateObj.toISOString().split('T')[0] + 'T08:00:00';
             const formattedEndDate = endDateObj.toISOString().split('T')[0] + 'T08:00:00';
+
             const formData = new FormData();
             formData.append('productID', productId.id);
             formData.append('booking_person', numberOfPerson);
@@ -174,7 +174,8 @@ export default function Detail() {
             console.error('Check availability failed', error.response.data);
             setFormSubmitted(true);
             setCheckAvailableProducts([]);
-            console.log(checkAvailableProducts);
+            setAvailabiltyMessage(error.response.data);
+            // console.log(checkAvailableProducts);
         }
     }
 
@@ -289,7 +290,7 @@ export default function Detail() {
     };
 
     const formattedBookedDates = convertDate(bookedDate);
-    console.log(formattedBookedDates);
+    // console.log(formattedBookedDates);
 
     const navigate = useNavigate();
 
@@ -472,7 +473,7 @@ export default function Detail() {
                                 </>
                             ) : (
                                 formSubmitted && checkAvailableProducts.length === 0 ? (
-                                    <p className="form-noAvailability"><FontAwesomeIcon icon={faXmark} />&nbsp;This homestay has no availability on our site due to exceeding the maximum number of people.</p>
+                                    <p className="form-noAvailability"><FontAwesomeIcon icon={faXmark} />&nbsp;{availabilityMessage}</p>
                                 ) : null
                             )}
 

@@ -34,7 +34,7 @@ export default function Payment() {
     const [userData, setUserData] = useState('');
     const [typeName, setTypeName] = useState('');
     const [images, setImages] = useState([]);
-
+    const [rating, setRating] = useState('');
 
     const location = useLocation();
     const [hasBankAccount, setHasBankAccount] = useState(false);
@@ -45,56 +45,63 @@ export default function Payment() {
 
     // const { startDate, endDate, bookingPerson, productID, name, phone } = location.state;
     const { checkInDate, checkOutDate, bookingPerson, productID } = location.state;
-    // console.log(checkInDate);
-    // console.log(bookingPerson);
-    // console.log(productID);
+    console.log(checkInDate);
 
-    // const formatDate = (date) => {
-    //     const d = new Date(date);
-    //     const year = d.getFullYear();
-    //     const month = ('0' + (d.getMonth() + 1)).slice(-2);
-    //     const day = ('0' + d.getDate()).slice(-2);
-    //     return `${day}/${month}/${year}`;
-    // };
+    const parsedStartDate = new Date(checkInDate);
+    const parsedEndDate = new Date(checkOutDate);
+
+    const weekdays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thr', 'Fri', 'Sat'];
+    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
+    const formattedCheckInDate = `${weekdays[parsedStartDate.getDay()]}, ${months[parsedStartDate.getMonth()]} ${parsedStartDate.getDate()}, ${parsedStartDate.getFullYear()}`;
+    const formattedCheckOutDate = `${weekdays[parsedEndDate.getDay()]}, ${months[parsedEndDate.getMonth()]} ${parsedEndDate.getDate()}, ${parsedEndDate.getFullYear()}`;
 
     // const navigate = useNavigate();
 
-    // useEffect(() => {
-    //     const getProductData = async () => {
-    //         try {
-    //             const productResponse = await axios.get(`https://bookinghomestayswp.azurewebsites.net/api/products/viewById/${productID}`);
-    //             setProductData(productResponse.data[0]);
+    useEffect(() => {
+        const getProductData = async () => {
+            try {
+                const productResponse = await axios.get(`https://bookinghomestayswp.azurewebsites.net/api/products/viewById/${productID}`);
+                setProductData(productResponse.data[0]);
 
-    //             const userResponse = await axios.get(`https://bookinghomestayswp.azurewebsites.net/api/users/viewDetail/${productResponse.data[0].accID}`);
-    //             setUserData(userResponse.data);
+                const updatedProjects = await (async () => {
+                    const feedbackResponse = await axios.get(`https://bookinghomestayswp.azurewebsites.net/api/feedback/average-feedback-rating/${productResponse.data[0].productID}`);
+                    const rating = feedbackResponse.data;
 
-    //             const productTypeResponse = await axios.get('https://bookinghomestayswp.azurewebsites.net/api/productType/customer/viewproductType');
-    //             const productTypeData = productTypeResponse.data;
+                    return { rating };
+                })();
+                setRating(updatedProjects);
+                console.log(updatedProjects);
 
-    //             const selectedProductType = productTypeData.find(type => type.productTypeID === productData.productTypeID);
-    //             const typeName = selectedProductType ? selectedProductType.productTypeName : 'Unknown';
-    //             setTypeName(typeName);
+                const userResponse = await axios.get(`https://bookinghomestayswp.azurewebsites.net/api/users/viewDetail/${productResponse.data[0].accID}`);
+                setUserData(userResponse.data);
 
-    //         } catch (error) {
-    //             console.error('Error fetching data:', error);
-    //             throw error;
-    //         }
-    //     };
-    //     getProductData();
-    // }, [user.id]);
+                const productTypeResponse = await axios.get('https://bookinghomestayswp.azurewebsites.net/api/productType/customer/viewproductType');
+                const productTypeData = productTypeResponse.data;
 
-    // useEffect(() => {
-    //     const calculateTotalPrice = () => {
-    //         const startDateObj = new Date(checkInDate);
-    //         const endDateObj = new Date(checkOutDate);
-    //         const daysDiff = Math.ceil((endDateObj - startDateObj) / (1000 * 60 * 60 * 24));
-    //         const totalPrice = daysDiff * productData.productPrice;
-    //         setTotalDay(daysDiff);
-    //         setTotalPrice(totalPrice);
-    //     };
+                // const selectedProductType = productTypeData.find(type => type.productTypeID === productData.productTypeID);
+                // const typeName = selectedProductType ? selectedProductType.productTypeName : 'Unknown';
+                // setTypeName(typeName);
 
-    //     calculateTotalPrice();
-    // }, [checkInDate, checkOutDate, productData.productPrice]);
+            } catch (error) {
+                console.error('Error fetching data:', error.response);
+            }
+        };
+        getProductData();
+    }, [user.id]);
+
+    useEffect(() => {
+        const calculateTotalPrice = () => {
+            const startDateObj = new Date(checkInDate);
+            const endDateObj = new Date(checkOutDate);
+            const daysDiff = Math.ceil((endDateObj - startDateObj) / (1000 * 60 * 60 * 24));
+            const totalPrice = daysDiff * productData.productPrice;
+            setTotalDay(daysDiff);
+            setTotalPrice(totalPrice);
+        };
+
+        calculateTotalPrice();
+    }, [checkInDate, checkOutDate, productData.productPrice]);
 
     // useEffect(() => {
     //     const fetchImg = async () => {
@@ -109,29 +116,29 @@ export default function Payment() {
     //     fetchImg();
     // }, []);
 
-    useEffect(() => {
-        const fetchBankAccount = async () => {
-            try {
-                const bankAccountResponse = await axios.get(`https://bookinghomestayswp.azurewebsites.net/api/payment/payment/${user.id}`);
-                const bankAccount = bankAccountResponse.data;
+    // useEffect(() => {
+    //     const fetchBankAccount = async () => {
+    //         try {
+    //             const bankAccountResponse = await axios.get(`https://bookinghomestayswp.azurewebsites.net/api/payment/payment/${user.id}`);
+    //             const bankAccount = bankAccountResponse.data;
 
-                if (bankAccount.length === 0) {
-                    setHasBankAccount(false);
-                    setShowPaymentMethod(false);
-                    setShowPaymentConfirmation(false);
-                    // setShowCreatePayment(true);
-                } else {
-                    setHasBankAccount(true);
-                    setShowPaymentMethod(true);
-                    setShowPaymentConfirmation(true);
-                }
+    //             if (bankAccount.length === 0) {
+    //                 setHasBankAccount(false);
+    //                 setShowPaymentMethod(false);
+    //                 setShowPaymentConfirmation(false);
+    //                 // setShowCreatePayment(true);
+    //             } else {
+    //                 setHasBankAccount(true);
+    //                 setShowPaymentMethod(true);
+    //                 setShowPaymentConfirmation(true);
+    //             }
 
-            } catch (error) {
-                console.error('Error fetching bank account:', error);
-            }
-        };
-        fetchBankAccount();
-    }, [user.id]);
+    //         } catch (error) {
+    //             console.error('Error fetching bank account:', error);
+    //         }
+    //     };
+    //     fetchBankAccount();
+    // }, [user.id]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -179,139 +186,14 @@ export default function Payment() {
         }
     };
 
-    // const handleSnackbarClose = () => {
-    //     setSnackbarOpen(false);
-    // };
+    const handleSnackbarClose = () => {
+        setSnackbarOpen(false);
+    };
 
     // const projectImage = images.find(image => image.productID === productData.productID);
 
     return (
-
         <>
-            {/* <div className="nApIIM">
-                <div className="iAQnc1">
-                    <div class="iAQnc1-container">
-                        <div class="tfMaBS">
-                            <a class="fQqDFE" href="/" previewlistener="true">
-                                <h1 class="cE_Tbx">Payment</h1>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div className="HYmUPs-container">
-                <div className="HYmUPs">
-
-                    <div className="payment-create">
-
-                        <CreatePayment getID={user.id} />
-                    </div>
-                    <div className="payment-details">
-                        <div class="booking-item">
-                            <div className="UWJJw6">
-                                <div className="kvWjhK">
-                                    <div class="iSSCtq">
-                                        <div class="k7UefF l0wK0t">
-                                            <h2 class="zgWBzz">Homestay Owner</h2>
-                                        </div>
-                                        <div class="k7UefF zQOVG9"></div>
-                                        <div class="k7UefF">Price($/day)</div>
-                                        <div class="k7UefF">People</div>
-                                        <div class="k7UefF J2gurn">Time</div>
-                                    </div>
-                                </div>
-                                <div>
-                                    <div className="QroV_K">
-                                        <div>
-                                            <div className="A3VoHf">
-                                                <div className="v1pNKv">
-                                                    <h3 class="_eH_h0">accName</h3>
-                                                </div>
-                                                <div className="_MbENL">
-                                                    <div className="CZ00qG gTUoYD">
-                                                        <div className="FisIRS ysaw0G">
-                                                            {projectImage && <img src={projectImage.imgName} class="Yzo0tI" alt="product image" width="40" height="40" />}
-                                                            <span className="dUcW_h">
-                                                                <span className="TvB7XR">{productData.productName}</span>
-                                                            </span>
-                                                        </div>
-                                                        <div className="FisIRS ri4hV6"></div>
-                                                        <div class="FisIRS">${productData.productPrice}</div>
-                                                        <div class="FisIRS">{bookingPerson}</div>
-                                                        <div className="FisIRS BeMjeR">{checkInDate} - {checkOutDate}</div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="vhebLm"></div>
-                                            <div className="IyTouc">
-                                                <div class="TSU9pp">
-                                                    <h3 class="o13Lc4 hERTPn ZAZB4U">
-                                                        <div>Total Price:</div>
-                                                    </h3>
-                                                    <div class="o13Lc4 X9R_0O ZAZB4U pAqjyR sJTpuC">${totalPrice}</div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="N02iLl">
-
-                                {showPaymentMethod && (
-                                    <div className="aSiS8B">
-                                        <div className="IN_fAG">
-                                            <div className="UPSKhT wp5W5e">Payment Method</div>
-                                            <div className="LhNuge">Online Payment</div>
-
-                                        </div>
-                                    </div>
-                                )}
-
-                                {showPaymentConfirmation && (
-                                    <div class="yHG0SE" aria-live="polite">
-                                        <div className="yHG0SE-grid-3">
-
-                                        </div>
-                                        <div className="yHG0SE-grid-9">
-                                            <h2 class="a11y-visually-hidden"></h2>
-                                            <div class="payment-flex">
-                                                <h3 class="o13Lc4 hERTPn cFXdGN">Price($/day)</h3>
-                                                <div class="o13Lc4 X9R_0O cFXdGN">${productData.productPrice}</div>
-                                            </div>
-                                            <div class="payment-flex">
-                                                <h3 class="o13Lc4 hERTPn fwPZIN">Total Day</h3>
-                                                <div class="o13Lc4 X9R_0O fwPZIN">${totalDay}</div>
-                                            </div>
-                                            <div class="payment-flex">
-                                                <h3 class="o13Lc4 hERTPn cNgneA">Total Price</h3>
-                                                <div class="o13Lc4 fYeyE4 X9R_0O cNgneA">${totalPrice}</div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                )}
-
-                                <div class="s7CqeD">
-                                    <div class="sQArKu">
-                                        <div class="xINqui">Click "Boooking" means you agree to abide by
-                                            <a target="_blank" rel="noopener noreferrer" previewlistener="true" className="payment-term"><ModalTerm /></a>
-                                        </div>
-                                    </div>
-                                    <button
-                                        className={`stardust-button stardust-button--CD9A2B stardust-button--large LtH6tW ${isLoading ? 'disabled' : ''}`}
-                                        onClick={handleSubmit}
-                                        disabled={isLoading}
-                                    >
-                                        {isLoading ? 'Booking...' : 'Booking'}
-                                    </button>
-                                </div>
-                                <SnackBar open={snackbarOpen} message={snackbarMessage} onClose={handleSnackbarClose} color={snackbarColor} />
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div> */}
-
-
             <div id="bodyconstraint">
                 <div id="bodyconstraint-inner">
                     <div className="bui-container booking-process__container js-booking-process__container js-booking-process__container--stage-2 e2e-stage-container">
@@ -327,21 +209,21 @@ export default function Payment() {
                                                             <div className="c624d7469d a0e60936ad a3214e5942">
                                                                 <div className="c624d7469d dbf03e5db3 a3214e5942">
                                                                     <div class="">
-                                                                        <h1 class="e1eebb6a1e">T Zone Hostel</h1>
+                                                                        <h1 class="e1eebb6a1e">{productData.productName}</h1>
                                                                     </div>
                                                                 </div>
                                                                 <div className="c624d7469d a0e60936ad a3214e5942">
                                                                     <div className="c624d7469d a0e60936ad a3214e5942">
                                                                         <span className="f419a93f12">
                                                                             <button aria-expanded="false" type="button" className="a83ed08757 a9377ef817">
-                                                                                <div className="a53cbfa6de">684/28 Đường Trần Hưng Đạo, District 5, Ho Chi Minh City, Vietnam</div>
+                                                                                <div className="a53cbfa6de">{productData.productAddress}</div>
                                                                             </button>
                                                                         </span>
                                                                     </div>
                                                                     <div>
                                                                         <div className="c624d7469d f034cf5568 dab7c5c6fa a937b09340 a3214e5942 cbf4befc54">
                                                                             <div className='a83ed08757 f88a5204c2 c057617e1a b98133fb50'>
-                                                                                <h3 className='project-list-feedback'><FontAwesomeIcon icon={faStar} color='#FFD43B' />&nbsp;4.5</h3>
+                                                                                <h3 className='project-list-feedback'><FontAwesomeIcon icon={faStar} color='#FFD43B' />&nbsp;{rating.rating}</h3>
                                                                             </div>
                                                                         </div>
                                                                     </div>
@@ -365,13 +247,13 @@ export default function Payment() {
                                                             <div className="bui-date-range__item">
                                                                 <div id="bp-checkin-date__label" className="bui-date__label">Check-in</div>
                                                                 <time className="bui-date bui-date--large">
-                                                                    <span className="bui-date__title">Wed, Apr 3, 2024</span>
+                                                                    <span className="bui-date__title">{formattedCheckInDate}</span>
                                                                 </time>
                                                             </div>
                                                             <div className="bui-date-range__item">
                                                                 <div id="bp-checkout-date__label" className="bui-date__label">Check-out</div>
                                                                 <time className="bui-date bui-date--large">
-                                                                    <span className="bui-date__title">Wed, Apr 3, 2024</span>
+                                                                    <span className="bui-date__title">{formattedCheckOutDate}</span>
                                                                 </time>
                                                             </div>
                                                         </div>
@@ -379,7 +261,7 @@ export default function Payment() {
                                                     <div className="bui-group__item bui-group bui-group--small">
                                                         <div class="bui-group__item bui-f-font-emphasized">Total length of stay:</div>
                                                         <div class="bui-group__item bui-f-font-strong">
-                                                            1 night
+                                                            {totalDay} night
                                                         </div>
                                                     </div>
                                                     <div className="bui-card__text bp-price-details__total bp-price-details__total--discount-breakdown bp-price-details__total--discount-breakdown-with-bg bp-price-details__total--discount-breakdown-with-discount ">
@@ -396,7 +278,7 @@ export default function Payment() {
                                                                             <div className="bui-u-text-right">
                                                                                 <div class="bp-price-details__total-price --wrap-nowrap e2e-price-details__total-charge--user" data-price="154880" data-currency-code="VND" data-pd-total-usercurrency="">
                                                                                     <span className="" style={{ display: "inline-block" }}>
-                                                                                        VND&nbsp;154,880
+                                                                                        VND&nbsp;{totalPrice}
                                                                                     </span>
                                                                                 </div>
                                                                             </div>
@@ -436,7 +318,7 @@ export default function Payment() {
                                                                 <label for="name" className="bp_form__field__label">
                                                                     Name
                                                                 </label>
-                                                                <input type="text" name="name" id="name" className="bp_input_text bp_form__field__input" value="Nguyễn Thị Ngọc Hân" size="20"></input>
+                                                                <div class="bui-group__item payment-user-info">{userData.accName}</div>
                                                             </div>
                                                         </div>
                                                         <div className="bui-grid__column bui-grid__column-6@medium bui-grid__column-6@large">
@@ -444,7 +326,8 @@ export default function Payment() {
                                                                 <label for="email" className="bp_form__field__label">
                                                                     Email Address
                                                                 </label>
-                                                                <input type="text" name="email" id="email" className="bp_input_text bp_form__field__input" value="Nguyễn Thị Ngọc Hân" size="20"></input>
+                                                                <div class="bui-group__item payment-user-info">{userData.accEmail}</div>
+                                                                {/* <input type="text" name="email" id="email" className="bp_input_text bp_form__field__input" value="Nguyễn Thị Ngọc Hân" size="20"></input> */}
                                                             </div>
                                                         </div>
                                                         <div className="bui-grid__column bui-grid__column-6@medium bui-grid__column-6@large">
@@ -452,7 +335,8 @@ export default function Payment() {
                                                                 <label for="phone" className="bp_form__field__label">
                                                                     Mobile Number
                                                                 </label>
-                                                                <input type="text" name="phone" id="phone" className="bp_input_text bp_form__field__input" value="Nguyễn Thị Ngọc Hân" size="20"></input>
+                                                                <div class="bui-group__item payment-user-info">{userData.accPhone}</div>
+                                                                {/* <input type="text" name="phone" id="phone" className="bp_input_text bp_form__field__input" value="Nguyễn Thị Ngọc Hân" size="20"></input> */}
                                                             </div>
                                                         </div>
                                                     </div>
@@ -465,10 +349,11 @@ export default function Payment() {
                                             <header class="bui-inline-container">
                                                 <div class="bui-inline-container__main">
                                                     <h2 class="bui-text--variant-headline_3">
-                                                        Payment Details
+                                                        Payment Method
                                                     </h2>
                                                 </div>
-                                                <div class="x9mw82OGJDdT97ho7Wyc H6lzDEPPhc6rnad4mB7d A1lmouXAu10vISnnmR2M">Securely add your payment methods to make it easier when you book.</div>
+                                                <div class="x9mw82OGJDdT97ho7Wyc H6lzDEPPhc6rnad4mB7d A1lmouXAu10vISnnmR2M">Online Payment</div>
+                                                {/* <div class="x9mw82OGJDdT97ho7Wyc H6lzDEPPhc6rnad4mB7d A1lmouXAu10vISnnmR2M">Securely add your payment methods to make it easier when you book.</div> */}
                                             </header>
                                             <div className="my-settings-row my-settings-edit-row--editing">
                                                 <div className="my-settings-row">
@@ -516,38 +401,37 @@ export default function Payment() {
                                                                             </h3>
                                                                         </div>
                                                                         <div className="bui-spacer--large">
-                                                                            <CreatePayment getID={user.id} />
+                                                                            {/* <CreatePayment getID={user.id} /> */}
                                                                         </div>
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                         </div>
                                                     </div>
+                                                    <div class="s7CqeD">
+                                                        <div class="sQArKu">
+                                                            <div class="xINqui">Click "Book" means you agree to abide by
+                                                                <a target="_blank" rel="noopener noreferrer" previewlistener="true" className="payment-term"><ModalTerm /></a>
+                                                            </div>
+                                                        </div>
+                                                        <button
+                                                            className={`stardust-button stardust-button--CD9A2B stardust-button--large LtH6tW ${isLoading ? 'disabled' : ''}`}
+                                                            onClick={handleSubmit}
+                                                            disabled={isLoading}
+                                                        >
+                                                            {isLoading ? 'Booking...' : 'Book'}
+                                                        </button>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </section>
-                                    <div class="s7CqeD">
-                                        <div class="sQArKu">
-                                            <div class="xINqui">Click "Boooking" means you agree to abide by
-                                                <a target="_blank" rel="noopener noreferrer" previewlistener="true" className="payment-term"><ModalTerm /></a>
-                                            </div>
-                                        </div>
-                                        <button
-                                            className={`stardust-button stardust-button--CD9A2B stardust-button--large LtH6tW ${isLoading ? 'disabled' : ''}`}
-                                            onClick={handleSubmit}
-                                            disabled={isLoading}
-                                        >
-                                            {isLoading ? 'Booking...' : 'Booking'}
-                                        </button>
-                                    </div>
                                 </div>
                             </main>
                         </div>
                     </div>
                 </div>
             </div>
-
         </>
     );
 }
