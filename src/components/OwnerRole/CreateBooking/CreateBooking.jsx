@@ -51,8 +51,8 @@ const Booking = () => {
         e.preventDefault();
 
         try {
-            const startDateObj = new Date(checkInDate);
-            const endDateObj = new Date(checkOutDate);
+            const startDateObj = new Date('2024-01-01T08:00:00');
+            const endDateObj = new Date('2100-01-01T08:00:00');
             const formattedStartDate = startDateObj.toISOString().split('T')[0] + 'T08:00:00';
             const formattedEndDate = endDateObj.toISOString().split('T')[0] + 'T08:00:00';
 

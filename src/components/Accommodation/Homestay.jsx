@@ -264,7 +264,7 @@ export default function Homestay() {
                                 <div className='c733693b78'></div>
                                 <div className='a53cbfa6de ac9267e216 d8eb520c4e ebc3dd5b38 bae4cd9be8'>
                                     <input id=":r8hm:" className="f0b6754c38" type="checkbox" />
-                                    <label for=":r8hm:" className="c624d7469d f034cf5568 a937b09340 a3214e5942 bd597ff2d8">
+                                    <label for=":r8hm:" className="c624d7469d f034cf5568-nowrap a937b09340 a3214e5942 bd597ff2d8">
                                         <span className="ff5328eb35"></span>
                                         <span className="ef785aa7f4">
                                             <span className="fcd9eec8fb b27b51da7f bf9a32efa5" aria-hidden="true">
@@ -309,7 +309,7 @@ export default function Homestay() {
                                                     </div>
                                                     <div className='c1edfbabcb'>
                                                         <div className='c624d7469d a0e60936ad a3214e5942 b0db0e8ada'>
-                                                            <div className='c624d7469d f034cf5568 a937b09340 a3214e5942 f02fdbd759'>
+                                                            <div className='c624d7469d f034cf5568-nowrap a937b09340 a3214e5942 f02fdbd759'>
                                                                 <div className='dc5041d860 c72df67c95'>
                                                                     <div className='c624d7469d a0e60936ad a3214e5942'>
                                                                         <div>
@@ -420,7 +420,7 @@ export default function Homestay() {
                                                     </div>
                                                     <div className='c1edfbabcb'>
                                                         <div className='c624d7469d a0e60936ad a3214e5942 b0db0e8ada'>
-                                                            <div className='c624d7469d f034cf5568 a937b09340 a3214e5942 f02fdbd759'>
+                                                            <div className='c624d7469d f034cf5568-nowrap a937b09340 a3214e5942 f02fdbd759'>
                                                                 <div className='dc5041d860 c72df67c95'>
                                                                     <div className='c624d7469d a0e60936ad a3214e5942'>
                                                                         <div>
