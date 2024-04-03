@@ -210,8 +210,8 @@ export default function CardReportV2() {
                                             {projectDetail[0].productRating}<FontAwesomeIcon icon={faStar} color='#FFD43B' />
                                         </Typography>
                                         <Typography variant="body1" color="text.secondary">
-                                            Available Start Date: {formatDate(projectDetail[0].availableStartDate)}<br />
-                                            Available End Date: {formatDate(projectDetail[0].availableEndDate)}<br />
+                                            {/* Available Start Date: {formatDate(projectDetail[0].availableStartDate)}<br />
+                                            Available End Date: {formatDate(projectDetail[0].availableEndDate)}<br /> */}
                                             Description: {projectDetail[0].productDescription}<br />
                                             Convenience: {projectDetail[0].productConvenience} <br />
                                             Area: {projectDetail[0].productConvenience} <br />

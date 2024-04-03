@@ -47,7 +47,7 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider, DatePicker } from '@mui/x-date-pickers';
 import dayjs from 'dayjs';
 
-export default function CustomDatePicker({ label, bookedDates, selectedDate, onChange }) {
+export default function CustomDatePicker({ label, bookedDates, selectedDate, onChange, selectedStartDate }) {
   const isDateBookedOrBetween = (date) => {
     const day = dayjs(date);
    
@@ -81,8 +81,9 @@ export default function CustomDatePicker({ label, bookedDates, selectedDate, onC
       <DemoContainer components={['DatePicker']}>
         <DatePicker
           label={label}
-          shouldDisableDate={isDateBookedOrBetween}
-          value={dayjs()} 
+          // shouldDisableDate={isDateBookedOrBetween}
+          shouldDisableDate={(date) => isDateBookedOrBetween(date) || isDateBeforeSelectedStartDate(date)}
+          // value={dayjs()} 
           onChange={(date) => onChange(date.format('YYYY-MM-DD'))}
           format="DD/MM/YYYY"
           disablePast

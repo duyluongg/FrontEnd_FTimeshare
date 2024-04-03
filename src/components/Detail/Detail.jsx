@@ -126,8 +126,10 @@ export default function Detail() {
     const [formSubmitted, setFormSubmitted] = useState(false);
     const [errors, setErrors] = useState({});
     const [selectedNumberOfPerson, setSelectedNumberOfPerson] = useState(1);
+    const [selectedStartDate, setSelectedStartDate] = useState("");
 
     const handleFindAvailability = async (e) => {
+        
         e.preventDefault();
 
         const validationErrors = {}
@@ -148,11 +150,18 @@ export default function Detail() {
         // console.log(checkInDate);
 
         try {
+            const startDateObj = new Date(checkInDate);
+            const endDateObj = new Date(checkOutDate);
+            const formattedStartDate = startDateObj.toISOString().split('T')[0] + 'T08:00:00';
+            const formattedEndDate = endDateObj.toISOString().split('T')[0] + 'T08:00:00';
             const formData = new FormData();
             formData.append('productID', productId.id);
             formData.append('booking_person', numberOfPerson);
+            formData.append('startDate', formattedStartDate);
+            formData.append('endDate', formattedEndDate);
 
-            const response = await axios.post('https://bookinghomestayswp.azurewebsites.net/api/bookings/customer/checkbooking_person', formData, {
+
+            const response = await axios.post('https://bookinghomestayswp.azurewebsites.net/api/bookings/customer/checkbooking', formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 }
@@ -397,6 +406,8 @@ export default function Detail() {
                                                     <CustomDatePicker
                                                         bookedDates={formattedBookedDates}
                                                         // selectedDate={checkInDate}
+                                                        selectedStartDate={selectedStartDate}
+
                                                         onChange={(date) => setCheckInDate(date)}
                                                         label="Check-in date"
                                                         error={errors.checkInDate}
@@ -407,6 +418,8 @@ export default function Detail() {
                                                     <CustomDatePicker
                                                         bookedDates={formattedBookedDates}
                                                         // selectedDate={checkOutDate}
+                                                        selectedStartDate={checkInDate} 
+
                                                         onChange={(date) => setCheckOutDate(date)}
                                                         label="Check-out date"
                                                         error={errors.checkOutDate}
