@@ -82,7 +82,7 @@ export default function CustomDatePicker({ label, bookedDates, selectedDate, onC
         <DatePicker
           label={label}
           shouldDisableDate={isDateBookedOrBetween}
-          value={dayjs(selectedDate)} 
+          value={dayjs()} 
           onChange={(date) => onChange(date.format('YYYY-MM-DD'))}
           format="DD/MM/YYYY"
           disablePast

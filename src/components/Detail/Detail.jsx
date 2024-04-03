@@ -395,7 +395,7 @@ export default function Detail() {
                                                 <div>
                                                     <CustomDatePicker
                                                         bookedDates={formattedBookedDates}
-                                                        selectedDate={checkInDate}
+                                                        // selectedDate={checkInDate}
                                                         onChange={(date) => setCheckInDate(date)}
                                                         label="Check-in date"
                                                         error={errors.checkInDate}
@@ -405,7 +405,7 @@ export default function Detail() {
                                                 <div>
                                                     <CustomDatePicker
                                                         bookedDates={formattedBookedDates}
-                                                        selectedDate={checkOutDate}
+                                                        // selectedDate={checkOutDate}
                                                         onChange={(date) => setCheckOutDate(date)}
                                                         label="Check-out date"
                                                         error={errors.checkOutDate}
