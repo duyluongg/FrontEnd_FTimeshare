@@ -21,7 +21,7 @@ const TotalRevenueHomestay = () => {
 
                     const revenueResponse = await axios.get(`https://bookinghomestayswp.azurewebsites.net/api/products/sumRevenueOfProducts/${product.productID}`);
                     const revenue = revenueResponse.data;
-                    console.log(revenue);
+                    // console.log(revenue);
 
                     return { ...product, rating, revenue };
                 }));

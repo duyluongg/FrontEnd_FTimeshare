@@ -32,6 +32,17 @@ export default function SuccessPayment() {
     })
 
     useEffect(() => {
+        const changeStatusBooking = async () => {
+            try {
+                const response = await axios.put(`https://bookinghomestayswp.azurewebsites.net/api/bookings/staff/active/${bookingID.bookingID}`);
+            } catch (error) {
+                Console.log("Error change status booking", error.response.data);
+            }
+        };
+        changeStatusBooking();
+    })
+
+    useEffect(() => {
         const fetchUserData = async () => {
             try {
                 const response = await axios.get(`https://bookinghomestayswp.azurewebsites.net/api/users/viewDetail/${user.id}`);
