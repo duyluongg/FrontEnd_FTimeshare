@@ -31,7 +31,8 @@ export default function CreateTimeshare() {
     const [isLoading, setIsLoading] = useState(false);
     const [provinces, setProvinces] = useState([]);
     const [selectedProvince, setSelectedProvince] = useState(null);
-
+    const token = sessionStorage.getItem('token');
+    console.log(token);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -198,24 +199,33 @@ export default function CreateTimeshare() {
             setIsLoading(true);
 
             try {
-                const productResponse = await axios.post('https://bookinghomestayswp.azurewebsites.net/api/products/add', productDataToSend);
+                const productResponse = await axios.post('https://bookinghomestayswp.azurewebsites.net/api/products/add', productDataToSend, {
+                    headers: {
+                        // 'Content-Type': 'application/json', 
+                        'Authorization': `Bearer ${token}` 
+                    }
+                });
                 console.log('Product created:', productResponse.data);
-
+            
                 const productID = productResponse.data.productID;
-
+            
                 const formData = new FormData();
                 images.forEach((image) => {
                     formData.append('pictures', image);
                 });
+            
                 console.log(images);
-
+            
                 const imageResponse = await axios.post(`https://bookinghomestayswp.azurewebsites.net/api/pictures/${productID}`, formData, {
                     headers: {
-                        'Content-Type': 'multipart/form-data'
+                        'Content-Type': 'multipart/form-data',
+                        'Authorization': `Bearer ${token}` 
+
                     }
                 });
+            
                 console.log('Image uploaded successfully');
-                setSnackbarMessage('Create timeshare successfully!!!')
+                setSnackbarMessage('Create timeshare successfully!!!');
                 setSnackbarColor("success");
                 setSnackbarOpen(true);
                 setTimeout(() => navigate('/'), 1000);
@@ -226,6 +236,7 @@ export default function CreateTimeshare() {
                 setSnackbarOpen(true);
                 setIsLoading(false);
             }
+            
         }
     };
 
