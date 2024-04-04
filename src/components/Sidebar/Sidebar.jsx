@@ -27,6 +27,11 @@ const Sidebar = ({ children }) => {
             path: "/wallet-and-reward",
             name: "Rewards and Wallet",
             icon: <FontAwesomeIcon icon={faWallet} />
+        },
+        {
+            path: "/my-homestay",
+            name: "My Homestay",
+            icon: <FontAwesomeIcon icon={faWallet} />
         }
     ];
 

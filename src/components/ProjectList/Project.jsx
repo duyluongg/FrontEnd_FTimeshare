@@ -65,11 +65,11 @@ export default function Project() {
   useEffect(() => {
     const fetchProductByUserId = async () => {
       try {
-        const response = await axios.get(`https://bookinghomestayswp.azurewebsites.net/api/products/${user.id}`, headers);
+        const response = await axios.get(`https://bookinghomestayswp.azurewebsites.net/api/products/${user.id}`);
         const products = response.data;
 
         const updatedProducts = await Promise.all(products.map(async (product) => {
-          const feedbackResponse = await axios.get(`https://bookinghomestayswp.azurewebsites.net/api/feedback/average-feedback-rating/${product.productID}`, headers);
+          const feedbackResponse = await axios.get(`https://bookinghomestayswp.azurewebsites.net/api/feedback/average-feedback-rating/${product.productID}`);
           const rating = feedbackResponse.data;
 
           return { ...product, rating };

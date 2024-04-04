@@ -1,24 +1,24 @@
 import React, { useState, useEffect, useContext } from "react";
 import './Wallet.css';
 import { UserContext } from '../UserContext';
+import axios from "axios";
 
 const Wallet = () => {
 
     const { user } = useContext(UserContext);
-    console.log(user.id)
     const token = sessionStorage.getItem('token');
+    const [totalBalance, setTotalBalance] = useState('');
+    
 
     useEffect(() => {
         viewBalance();
-    }, []);
+    }, [user.id]);
 
     const viewBalance = async () => {
         try {
             const response = await axios.get(`https://bookinghomestayswp.azurewebsites.net/api/bookings/staff/TotalOwnerDoneCancelled/${user.id}`);
-            // const response = await axios.get(`https://localhost:8080/api/bookings/staff/TotalOwnerDoneCancelled/${user.id}`);
             console.log(response.data);
-            
-
+            setTotalBalance(response.data);
         } catch (error) {
             console.error('View balance failed', error.response);
         }
@@ -46,7 +46,7 @@ const Wallet = () => {
                                             </div>
                                         </div>
                                         <div className="e402d59492">
-                                            <div class="af8fbdf136">$&nbsp;0</div>
+                                            <div class="af8fbdf136">$&nbsp;{totalBalance}</div>
                                         </div>
                                     </div>
                                 </div>

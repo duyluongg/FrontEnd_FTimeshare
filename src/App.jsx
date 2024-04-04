@@ -59,6 +59,7 @@ import Wallet from './components/Wallet&Reward/Wallet.jsx'
 import './components/Register/ConfirmRegister.css';
 import SuccessPayment from './components/Payment/SuccessPayment.jsx'
 import CustomerBookingDetail from './components/Booking/CustomerBookingDetail.jsx'
+import TotalRevenueHomestay from './components/TotalRevenueHomestay/TotalRevenueHomestay.jsx'
 
 import { useLocation } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
@@ -151,11 +152,13 @@ function App() {
   const isWallet = location.pathname.includes('/wallet-and-reward');
   const isSuccessPayment = location.pathname.includes('/confirm-success-payment');
   const isBookingDetail = location.pathname.includes('/booking-details');
+  const isTotalRevenueHomestay = location.pathname.includes('/my-homestay');
 
 
   const isPayment = location.pathname.includes('/payment');
   const isUpdateProduct = location.pathname.includes('/update-product');
-  const isSidebar = location.pathname.includes('/profile') || location.pathname.includes('/view-booking-history') || location.pathname.includes('/update-profile') || location.pathname.includes('/wallet-and-reward');
+  const isSidebar = location.pathname.includes('/profile') || location.pathname.includes('/view-booking-history') 
+  || location.pathname.includes('/update-profile') || location.pathname.includes('/wallet-and-reward') || location.pathname.includes('/my-homestay');
 
   const navigate = useNavigate();
 
@@ -172,7 +175,8 @@ function App() {
         {!isDetailPage && !isLoginPage && !isRegisterPage && !isContactPage && !isStaffPage && !isAdminPage && !isUpdateProfileStaff
           && !isCreateTimeshare && !isViewSummary && !isViewDetail && !isViewNews && !isViewNewAll && !isCreateNews && !isAccommodation
           && !isBooking && !isCreateBooking && !isBookingStage && !isProfile && !isPayment && !isUpdateProduct && !isSidebar
-          && !isAccommodationDetail && !isUpdateProfile && !isHomestay && !isConfirmRegister && !isWallet && !isSuccessPayment  && !isBookingDetail && <Header />}
+          && !isAccommodationDetail && !isUpdateProfile && !isHomestay && !isConfirmRegister && !isWallet && !isSuccessPayment  && !isBookingDetail 
+          && !isTotalRevenueHomestay && <Header />}
 
         {isSidebar && (
           <Sidebar>
@@ -181,6 +185,7 @@ function App() {
               <Route path='/view-booking-history' element={<Booking/>}></Route>
               <Route path='/update-profile' element={<UpdateProfile getData={user.id} />}></Route>
               <Route path='/wallet-and-reward' element={<Wallet />}></Route>
+              <Route path='/my-homestay' element={<TotalRevenueHomestay />}></Route>
             </Routes>
           </Sidebar>
         
