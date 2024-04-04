@@ -105,7 +105,9 @@ export default function Detail() {
         prevArrow: < SamplePrevArrowSt2 />
     };
 
-
+    const token = sessionStorage.getItem('token');
+    console.log(token);
+    const headers = { headers: { 'Authorization': `Bearer ${token}` } };
 
     const [productDetail, setProductDetail] = useState([]);
     const [showBookingButton, setShowBookingButton] = useState(false);
@@ -161,11 +163,7 @@ export default function Detail() {
             formData.append('endDate', formattedEndDate);
 
 
-            const response = await axios.post('https://bookinghomestayswp.azurewebsites.net/api/bookings/customer/checkbooking', formData, {
-                headers: {
-                    'Content-Type': 'multipart/form-data'
-                }
-            });
+            const response = await axios.post('https://bookinghomestayswp.azurewebsites.net/api/bookings/customer/checkbooking', formData, headers);
             console.log(response.data);
             setCheckAvailableProducts(response.data);
             setFormSubmitted(true);

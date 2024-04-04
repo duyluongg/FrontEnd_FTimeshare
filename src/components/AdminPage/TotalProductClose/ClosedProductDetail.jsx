@@ -106,7 +106,7 @@ export default function ClosedProductDetail() {
                     {projectDetail.length > 0 && (
 
 
-                        <Card sx={{ maxWidth: 800, ml: "80px" }}>
+                        <Card sx={{ maxWidth: 350, ml: "80px" }}>
                             <CardHeader
                                 avatar={
                                     <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe" >

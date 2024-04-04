@@ -330,6 +330,7 @@ export default function ProductPendingDetail() {
     const navigate = useNavigate();
     const token = sessionStorage.getItem('token');
     console.log(token);
+    const headers = { headers: { 'Authorization': `Bearer ${token}` } };
 
     const toggleModal = () => {
         setShowModalNotify(!showModalNotify);
@@ -340,7 +341,6 @@ export default function ProductPendingDetail() {
         fetchData();
     }, []);
 
-    const headers = { headers: { 'Authorization': `Bearer ${token}` } };
     const fetchData = async () => {
         try {
             console.log(accID);
