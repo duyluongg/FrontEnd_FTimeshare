@@ -1,9 +1,10 @@
 import React from 'react';
 import TabPanel from '@mui/lab/TabPanel';
 import { styled } from '@mui/material/styles';
+import { Link } from 'react-router-dom';
 
 
-const WaitToConfirmTab = ({ bookingInfoConfirm, images, formatDate, handleCancelActive }) => {
+const WaitToConfirmTab = ({ bookingInfoConfirm, images, formatDate, handleCancelActive, handlePayment }) => {
 
     const Img = styled('img')({
         margin: 'auto',
@@ -16,9 +17,7 @@ const WaitToConfirmTab = ({ bookingInfoConfirm, images, formatDate, handleCancel
         <>
             <TabPanel className="MuiTabPanel-root" value="1">
                 {bookingInfoConfirm.map((bookingInfo, index) => {
-                    console.log(bookingInfo);
                     const projectImage = images.find(image => image.productID === bookingInfo.product.productID);
-                    console.log(projectImage);
                     return (
                         <div className="YL_VlX" key={index}>
                             <div>
@@ -36,7 +35,16 @@ const WaitToConfirmTab = ({ bookingInfoConfirm, images, formatDate, handleCancel
                                     <div class="kG_yF0"></div>
                                     <section>
                                         <h3 class="a11y-hidden"></h3>
-                                        <a href="">
+                                        <Link to={{
+                                            pathname: "/booking-details",
+                                            state: {
+                                                projectName: bookingInfo.product.productName,
+                                                startDate: formatDate(bookingInfo.startDate),
+                                                endDate: formatDate(bookingInfo.endDate),
+                                                bookingPerson: bookingInfo.bookingPerson,
+                                                bookingPrice: bookingInfo.bookingPrice
+                                            }
+                                        }}>
                                             <div>
                                                 <div className='bdAfgU'>
                                                     <section>
@@ -68,7 +76,7 @@ const WaitToConfirmTab = ({ bookingInfoConfirm, images, formatDate, handleCancel
                                                     </section>
                                                 </div>
                                             </div>
-                                        </a>
+                                        </Link>
                                     </section>
                                 </div>
                             </div>
@@ -97,6 +105,16 @@ const WaitToConfirmTab = ({ bookingInfoConfirm, images, formatDate, handleCancel
                                     <div class="aAXjeK">
                                         <div>
                                             <button
+                                                onClick={() => handlePayment(bookingInfo.bookingID, bookingInfo.bookingPrice)}
+                                                className={`stardust-button stardust-button--primary QY7kZh`}
+                                            >
+                                                Pay
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="aAXjeK">
+                                        <div>
+                                            <button
                                                 onClick={() => handleCancelActive(bookingInfo.bookingID)}
                                                 className={`stardust-button stardust-button--primary QY7kZh ${bookingInfo.bookingStatus === 'Wait to confirm (request cancel)' || bookingInfo.bookingStatus === 'Rejected' ? 'disabled' : ''}`}
                                                 disabled={bookingInfo.bookingStatus === 'Wait to confirm (request cancel)' || bookingInfo.bookingStatus === 'Rejected'}
@@ -110,7 +128,7 @@ const WaitToConfirmTab = ({ bookingInfoConfirm, images, formatDate, handleCancel
                             </div>
                         </div>
 
-                        
+
                         // <div className='f660aace8b aeeb8a0418 ef70cf669a'>
                         //     <a href='#' className='e8eebe7e52'>
                         //         <div className='a53cbfa6de f660aace8b ec64794359 d4dd38cb75 b5d84789f7 ccb444aed8'>

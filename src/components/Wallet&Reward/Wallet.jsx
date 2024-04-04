@@ -1,7 +1,34 @@
-import React from "react";
+import React, { useState, useEffect, useContext } from "react";
 import './Wallet.css';
+import { UserContext } from '../UserContext';
 
 const Wallet = () => {
+
+    const { user } = useContext(UserContext);
+    console.log(user.id)
+    const token = sessionStorage.getItem('token');
+
+    useEffect(() => {
+        viewBalance();
+    }, []);
+
+    const viewBalance = async () => {
+        try {
+            const response = await axios.get(`https://bookinghomestayswp.azurewebsites.net/api/bookings/staff/TotalOwnerDoneCancelled/${user.id}`, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+            // const response = await axios.get(`https://localhost:8080/api/bookings/staff/TotalOwnerDoneCancelled/${user.id}`);
+            console.log(response.data);
+            
+
+        } catch (error) {
+            console.error('View balance failed', error.response);
+        }
+    }
+
+
     return (
         <>
             <div className="b0fa906f8d e6e947a3f3 d7c982e3c3 ca940ccdb6">
@@ -23,7 +50,7 @@ const Wallet = () => {
                                             </div>
                                         </div>
                                         <div className="e402d59492">
-                                        <div class="af8fbdf136">$&nbsp;0</div>
+                                            <div class="af8fbdf136">$&nbsp;0</div>
                                         </div>
                                     </div>
                                 </div>
