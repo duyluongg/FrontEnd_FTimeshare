@@ -161,12 +161,7 @@ export default function Detail() {
             formData.append('endDate', formattedEndDate);
 
 
-            const response = await axios.post('https://bookinghomestayswp.azurewebsites.net/api/bookings/customer/checkbooking', formData, {
-                headers: {
-                    'Content-Type': 'multipart/form-data',
-                    'Authorization': `Bearer ${token}`
-                }
-            });
+            const response = await axios.post('https://bookinghomestayswp.azurewebsites.net/api/bookings/customer/checkbooking', formData);
             console.log(response.data);
             setCheckAvailableProducts(response.data);
             setFormSubmitted(true);

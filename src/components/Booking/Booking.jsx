@@ -66,20 +66,12 @@ export default function Booking() {
     }, [user.id]);
     const fetchDataAccepted = async () => {
         try {
-            const bookingResponse = await axios.get(`https://bookinghomestayswp.azurewebsites.net/api/bookings/customer/waitToRespond-Active-Done-In_progress/${user.id}`, {
-                headers: {
-                    'Authorization': `Bearer ${token}`
-                }
-            });
+            const bookingResponse = await axios.get(`https://bookinghomestayswp.azurewebsites.net/api/bookings/customer/waitToRespond-Active-Done-In_progress/${user.id}`);
 
             // Combine booking and product information
             const combinedData = await Promise.all(bookingResponse.data.map(async (booking) => {
                 console.log(booking.productID);
-                const productResponse = await axios.get(`https://bookinghomestayswp.azurewebsites.net/api/products/viewById/${booking.productID}`, {
-                    headers: {
-                        'Authorization': `Bearer ${token}`
-                    }
-                });
+                const productResponse = await axios.get(`https://bookinghomestayswp.azurewebsites.net/api/products/viewById/${booking.productID}`);
                 console.log(productResponse.data[0].productName);
                 return { ...booking, product: productResponse.data[0] };
             }));
@@ -96,16 +88,8 @@ export default function Booking() {
         const fetchData = async () => {
             try {
                 for (const bookingInfo of bookingInfoAccepted) {
-                    await axios.put(`https://bookinghomestayswp.azurewebsites.net/api/bookings/staff/change_status_to_in_progress/${bookingInfo.bookingID}`, {
-                        headers: {
-                            'Authorization': `Bearer ${token}`
-                        }
-                    });
-                    await axios.put(`https://bookinghomestayswp.azurewebsites.net/api/bookings/staff/change_status_to_done/${bookingInfo.bookingID}`, {
-                        headers: {
-                            'Authorization': `Bearer ${token}`
-                        }
-                    });
+                    await axios.put(`https://bookinghomestayswp.azurewebsites.net/api/bookings/staff/change_status_to_in_progress/${bookingInfo.bookingID}`);
+                    await axios.put(`https://bookinghomestayswp.azurewebsites.net/api/bookings/staff/change_status_to_done/${bookingInfo.bookingID}`);
                 }
             } catch (error) {
                 console.error('Error fetching data:', error);
@@ -121,20 +105,11 @@ export default function Booking() {
     }, [user.id]);
     const fetchDataConfirm = async () => {
         try {
-            const bookingResponse = await axios.get(`https://bookinghomestayswp.azurewebsites.net/api/bookings/customer/waitToByAccId/${user.id}`, {
-                headers: {
-                    'Authorization': `Bearer ${token}`
-                }
-            });
+            const bookingResponse = await axios.get(`https://bookinghomestayswp.azurewebsites.net/api/bookings/customer/waitToByAccId/${user.id}`);
 
             const combinedData = await Promise.all(bookingResponse.data.map(async (booking) => {
                 console.log(booking.productID);
-                const productResponse = await axios.get(`https://bookinghomestayswp.azurewebsites.net/api/products/viewById/${booking.productID}`, {
-                    headers: {
-                        'Content-Type': 'multipart/form-data',
-                        'Authorization': `Bearer ${token}`
-                    }
-                });
+                const productResponse = await axios.get(`https://bookinghomestayswp.azurewebsites.net/api/products/viewById/${booking.productID}`);
                 console.log(productResponse.data[0].productName);
                 return { ...booking, product: productResponse.data[0] };
             }));
@@ -151,20 +126,12 @@ export default function Booking() {
     }, [user.id]);
     const fetchDataComplete = async () => {
         try {
-            const bookingResponse = await axios.get(`https://bookinghomestayswp.azurewebsites.net/api/bookings/by-account/done/${user.id}`, {
-                headers: {
-                    'Authorization': `Bearer ${token}`
-                }
-            });
+            const bookingResponse = await axios.get(`https://bookinghomestayswp.azurewebsites.net/api/bookings/by-account/done/${user.id}`);
 
             // Combine booking and product information
             const combinedData = await Promise.all(bookingResponse.data.map(async (booking) => {
                 console.log(booking.productID);
-                const productResponse = await axios.get(`https://bookinghomestayswp.azurewebsites.net/api/products/viewById/${booking.productID}`, {
-                    headers: {
-                        'Authorization': `Bearer ${token}`
-                    }
-                });
+                const productResponse = await axios.get(`https://bookinghomestayswp.azurewebsites.net/api/products/viewById/${booking.productID}`);
                 console.log(productResponse.data[0].productName);
                 return { ...booking, product: productResponse.data[0] };
             }));
@@ -180,20 +147,12 @@ export default function Booking() {
     }, [user.id]);
     const fetchDataCancel = async () => {
         try {
-            const bookingResponse = await axios.get(`https://bookinghomestayswp.azurewebsites.net/api/bookings/by-account/cancel/${user.id}`, {
-                headers: {
-                    'Authorization': `Bearer ${token}`
-                }
-            });
+            const bookingResponse = await axios.get(`https://bookinghomestayswp.azurewebsites.net/api/bookings/by-account/cancel/${user.id}`);
 
             // Combine booking and product information
             const combinedData = await Promise.all(bookingResponse.data.map(async (booking) => {
                 console.log(booking.productID);
-                const productResponse = await axios.get(`https://bookinghomestayswp.azurewebsites.net/api/products/viewById/${booking.productID}`, {
-                    headers: {
-                        'Authorization': `Bearer ${token}`
-                    }
-                });
+                const productResponse = await axios.get(`https://bookinghomestayswp.azurewebsites.net/api/products/viewById/${booking.productID}`);
                 console.log(productResponse.data[0].productName);
                 return { ...booking, product: productResponse.data[0] };
             }));
@@ -221,11 +180,7 @@ export default function Booking() {
         // console.log(bookingID);
         try {
 
-            const cancelResponse = await axios.post(`https://bookinghomestayswp.azurewebsites.net/api/bookings/cancel/${bookingID}`, {
-                headers: {
-                    'Authorization': `Bearer ${token}`
-                }
-            });
+            const cancelResponse = await axios.post(`https://bookinghomestayswp.azurewebsites.net/api/bookings/cancel/${bookingID}`);
 
             await Promise.all([fetchDataAccepted(), fetchDataConfirm()]);
             console.log(cancelResponse.data);
@@ -240,11 +195,7 @@ export default function Booking() {
             const formData = new FormData();
             formData.append("amountPaymemnt", paymentAmount);
             formData.append("bookingID", bookingID);
-            const paymentResponse = await axios.post(`https://bookinghomestayswp.azurewebsites.net/api/bookings/pay?amountPaymemnt=${paymentAmount}&bookingID=${bookingID}`, formData, {
-                headers: {
-                    'Authorization': `Bearer ${token}`
-                }
-            });
+            const paymentResponse = await axios.post(`https://bookinghomestayswp.azurewebsites.net/api/bookings/pay?amountPaymemnt=${paymentAmount}&bookingID=${bookingID}`, formData);
 
             window.location.href = paymentResponse.data;
         } catch (error) {
@@ -256,11 +207,7 @@ export default function Booking() {
     useEffect(() => {
         const fetchImg = async () => {
             try {
-                const response = await axios.get(`https://bookinghomestayswp.azurewebsites.net/api/pictures/customerview`, {
-                    headers: {
-                        'Authorization': `Bearer ${token}`
-                    }
-                });
+                const response = await axios.get(`https://bookinghomestayswp.azurewebsites.net/api/pictures/customerview`);
 
                 setImages(response.data);
                 console.log(response.data);

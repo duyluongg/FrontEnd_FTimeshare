@@ -35,16 +35,7 @@ const WaitToConfirmTab = ({ bookingInfoConfirm, images, formatDate, handleCancel
                                     <div class="kG_yF0"></div>
                                     <section>
                                         <h3 class="a11y-hidden"></h3>
-                                        <Link to={{
-                                            pathname: "/booking-details",
-                                            state: {
-                                                projectName: bookingInfo.product.productName,
-                                                startDate: formatDate(bookingInfo.startDate),
-                                                endDate: formatDate(bookingInfo.endDate),
-                                                bookingPerson: bookingInfo.bookingPerson,
-                                                bookingPrice: bookingInfo.bookingPrice
-                                            }
-                                        }}>
+                                        <Link to="">
                                             <div>
                                                 <div className='bdAfgU'>
                                                     <section>
