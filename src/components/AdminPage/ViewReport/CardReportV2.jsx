@@ -32,18 +32,6 @@ import ModalConfirm from '../../ModalConfirm';
 import { Pagination } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 
-
-const ExpandMore = styled((props) => {
-    const { expand, ...other } = props;
-    return <IconButton {...other} />;
-})(({ theme, expand }) => ({
-    transform: !expand ? 'rotate(0deg)' : 'rotate(180deg)',
-    marginLeft: 'auto',
-    transition: theme.transitions.create('transform', {
-        duration: theme.transitions.duration.shortest,
-    }),
-}));
-
 export default function CardReportV2() {
     const [projectDetail, setprojectDetail] = useState([]);
     const [reportDetails, setReportDetails] = useState([]);
@@ -84,11 +72,11 @@ export default function CardReportV2() {
         try {
             console.log(accID);
             const [productItem, imagesResponse, profilesResponse, userData, reportData] = await Promise.all([
-                axios.get(`https://bookinghomestayswp.azurewebsites.net/api/products/viewById/${productID}`, headers),
+                axios.get(`https://bookinghomestayswp.azurewebsites.net/api/products/viewById/${productID}`),
                 axios.get('https://bookinghomestayswp.azurewebsites.net/api/pictures/customerview'),
-                axios.get('https://bookinghomestayswp.azurewebsites.net/api/users/staffview', headers),
-                axios.get(`https://bookinghomestayswp.azurewebsites.net/api/users/viewDetail/${accID}`, headers),
-                axios.get(`https://bookinghomestayswp.azurewebsites.net/api/reports/viewByProductId/${productID}`, headers)
+                axios.get('https://bookinghomestayswp.azurewebsites.net/api/users/staffview'),
+                axios.get(`https://bookinghomestayswp.azurewebsites.net/api/users/viewDetail/${accID}`),
+                axios.get(`https://bookinghomestayswp.azurewebsites.net/api/reports/viewByProductId/${productID}`)
 
 
             ]);

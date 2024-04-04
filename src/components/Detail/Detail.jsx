@@ -184,7 +184,7 @@ export default function Detail() {
 
         const fetchProductDetail = async () => {
             try {
-                const response = await axios.get(`https://bookinghomestayswp.azurewebsites.net/api/products/viewById/${productId.id}`, headers);
+                const response = await axios.get(`https://bookinghomestayswp.azurewebsites.net/api/products/viewById/${productId.id}`);
                 console.log(response.data[0]);
                 const productData = response.data[0];
                 // const startDate = new Date(productData.availableStartDate[0], productData.availableStartDate[1] - 1, productData.availableStartDate[2], productData.availableStartDate[3], productData.availableStartDate[4]);

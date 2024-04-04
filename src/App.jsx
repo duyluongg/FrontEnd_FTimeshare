@@ -104,6 +104,8 @@ import ProductPendingDetail from './components/AdminPage/TotalProjectPending/Pro
 import RejectedProductDetail from './components/AdminPage/RejectedProject/RejectedProductDetail.jsx'
 import ClosedProductDetail from './components/AdminPage/TotalProductClose/ClosedProductDetail.jsx'
 import AllBooking from './components/AllBooking.jsx'
+import StaffSuccessPayment from './components/StaffSuccessPayment.jsx'
+
 function App() {
 
   const { user, loginContext } = useContext(UserContext);
@@ -233,8 +235,8 @@ function App() {
         )}
 
         <Routes>
-          <Route path='/staff/*' element={<Dashboard />}></Route>
-          <Route path='/staff/total-product' element={<TotalProduct />}></Route>
+          {/* <Route path='/staff/*' element={<Dashboard />}></Route> */}
+          <Route path='/staff' element={<TotalProduct />}></Route>
           <Route path='/staff/report-projectid/:productID/:accID' element={<CardReportV2 />}></Route>
           <Route path='/staff/total-users' element={<TotalUser />}></Route>
           <Route path='/staff/pending-product' element={<TotalProductPending />}></Route>
@@ -259,7 +261,11 @@ function App() {
           <Route path="/staff-profile" element={<ProfileStaff getData={user.id} />} />
           <Route path='/staff/update-profile/:accID' element={<UpdateProfileStaff />} />
 
+
           <Route path='/staff/all-booking' element={<AllBooking />} />
+
+          <Route path='/staff/confirm-success-payment/:bookingID' element={<StaffSuccessPayment />} />
+
 
         </Routes>
 

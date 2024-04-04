@@ -245,8 +245,7 @@ export default function DataTable() {
     const ODD_OPACITY = 0.2;
     const [search, setSearch] = useState('');
     const [projectActive, setProjectActive] = useState([]);
-    const token = sessionStorage.getItem('token');
-    console.log(token);
+  
     useEffect(() => {
         fetchData(); // Cập nhật dữ liệu sau khi đã chọn dự án mới
     }, []);
@@ -262,46 +261,14 @@ export default function DataTable() {
                 closeResponse,
                 rejectedResponse,
             ] = await Promise.all([
-                axios.get('https://bookinghomestayswp.azurewebsites.net/api/products/staff/active', {
-                    headers: {
-                        'Authorization': `Bearer ${token}`
-                    }
-                }),
-                // axios.get('https://bookinghomestayswp.azurewebsites.net/api/pictures/customerview', {
-                //     headers: {
-                //         'Authorization': `Bearer ${token}`
-                //     }
-                // }),
-                // axios.get('https://bookinghomestayswp.azurewebsites.net/api/users/staffview', {
-                //     headers: {
-                //         'Authorization': `Bearer ${token}`
-                //     }
-                // }),
-                axios.get('https://bookinghomestayswp.azurewebsites.net/api/project/customer/viewproject', {
-                    headers: {
-                        'Authorization': `Bearer ${token}`
-                    }
-                }),
-                axios.get('https://bookinghomestayswp.azurewebsites.net/api/productType/customer/viewproductType', {
-                    headers: {
-                        'Authorization': `Bearer ${token}`
-                    }
-                }),
-                axios.get('https://bookinghomestayswp.azurewebsites.net/api/products/staff/pending', {
-                    headers: {
-                        'Authorization': `Bearer ${token}`
-                    }
-                }),
-                axios.get('https://bookinghomestayswp.azurewebsites.net/api/products/staff/closed', {
-                    headers: {
-                        'Authorization': `Bearer ${token}`
-                    }
-                }),
-                axios.get('https://bookinghomestayswp.azurewebsites.net/api/products/staff/rejected', {
-                    headers: {
-                        'Authorization': `Bearer ${token}`
-                    }
-                }),
+                axios.get('https://bookinghomestayswp.azurewebsites.net/api/products/staff/active'),
+                // axios.get('https://bookinghomestayswp.azurewebsites.net/api/pictures/customerview',headers),
+                // axios.get('https://bookinghomestayswp.azurewebsites.net/api/users/staffview'),
+                axios.get('https://bookinghomestayswp.azurewebsites.net/api/project/customer/viewproject'),
+                axios.get('https://bookinghomestayswp.azurewebsites.net/api/productType/customer/viewproductType'),
+                axios.get('https://bookinghomestayswp.azurewebsites.net/api/products/staff/pending'),
+                axios.get('https://bookinghomestayswp.azurewebsites.net/api/products/staff/closed'),
+                axios.get('https://bookinghomestayswp.azurewebsites.net/api/products/staff/rejected'),
             ]);
     
             const dataWithId = [

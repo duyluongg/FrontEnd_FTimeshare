@@ -383,7 +383,7 @@ export default function ProductPendingDetail() {
         try {
             await axios.put(`https://bookinghomestayswp.azurewebsites.net/api/products/staff/active/${productId}`, null, headers);
             setShowModalNotify(true)
-            setTimeout(() => navigate("/staff/total-product"), 2000)
+            setTimeout(() => navigate("/staff"), 2000)
             fetchData();
         } catch (error) {
             console.error('Error accepting project:', error);

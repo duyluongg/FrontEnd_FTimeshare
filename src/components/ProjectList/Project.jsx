@@ -65,11 +65,11 @@ export default function Project() {
   useEffect(() => {
     const fetchProductByUserId = async () => {
       try {
-        const response = await axios.get(`https://bookinghomestayswp.azurewebsites.net/api/products/${user.id}`, headers);
+        const response = await axios.get(`https://bookinghomestayswp.azurewebsites.net/api/products/${user.id}`);
         const products = response.data;
 
         const updatedProducts = await Promise.all(products.map(async (product) => {
-          const feedbackResponse = await axios.get(`https://bookinghomestayswp.azurewebsites.net/api/feedback/average-feedback-rating/${product.productID}`, headers);
+          const feedbackResponse = await axios.get(`https://bookinghomestayswp.azurewebsites.net/api/feedback/average-feedback-rating/${product.productID}`);
           const rating = feedbackResponse.data;
 
           return { ...product, rating };
@@ -86,11 +86,11 @@ export default function Project() {
   useEffect(() => {
     const fetchProjects = async () => {
       try {
-        const response = await axios.get('https://bookinghomestayswp.azurewebsites.net/api/products/staff/active', headers);
+        const response = await axios.get('https://bookinghomestayswp.azurewebsites.net/api/products/staff/active');
         const projects = response.data;
 
         const updatedProjects = await Promise.all(projects.map(async (project) => {
-          const feedbackResponse = await axios.get(`https://bookinghomestayswp.azurewebsites.net/api/feedback/average-feedback-rating/${project.productID}`, headers);
+          const feedbackResponse = await axios.get(`https://bookinghomestayswp.azurewebsites.net/api/feedback/average-feedback-rating/${project.productID}`);
           const rating = feedbackResponse.data;
 
           return { ...project, rating };
@@ -132,7 +132,7 @@ export default function Project() {
 
 
       const accIDs = latestThreeNews.map(news => news.accID);
-      const accountResponse = await Promise.all(accIDs.map(accID => axios.get(`https://bookinghomestayswp.azurewebsites.net/api/users/viewDetail/${accID}`, headers)));
+      const accountResponse = await Promise.all(accIDs.map(accID => axios.get(`https://bookinghomestayswp.azurewebsites.net/api/users/viewDetail/${accID}`)));
 
 
       const newsWithAccounts = latestThreeNews.map((news, index) => ({
@@ -169,7 +169,7 @@ export default function Project() {
             <div className='project-owner-header'>
               <div className='project-owner-title'>My Homestay</div>
               <div className='project-view-detail'>
-                <Link to={'/create-timeshare'} className='project-view-detail-button'>
+                <Link to={'/create-homestay'} className='project-view-detail-button'>
                   <FontAwesomeIcon icon={faPlus} />
                   &nbsp;Create
                 </Link>

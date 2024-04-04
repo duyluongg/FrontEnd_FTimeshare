@@ -170,12 +170,7 @@ export default function Payment() {
             formData.append('acc_id', user.id);
             formData.append('productID', productID);
 
-            const response = await axios.post('https://bookinghomestayswp.azurewebsites.net/api/bookings/customer/createbooking', formData, {
-                headers: {
-                    'Content-Type': 'multipart/form-data',
-                    'Authorization': `Bearer ${token}`
-                }
-            });
+            const response = await axios.post('https://bookinghomestayswp.azurewebsites.net/api/bookings/customer/createbooking', formData, );
             console.log(response.data);
             window.location.href = response.data;
             // setSnackbarMessage('Booking successfully !!!')
