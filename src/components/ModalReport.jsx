@@ -15,14 +15,14 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
-import SnackBar from '../SnackBar.jsx';
+import SnackBar from './SnackBar';
 
 
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
 });
 
-export default function FormReport({ getID, getBookID, getData }) {
+export default function ModalReport({ getID, getBookID, getData }) {
     console.log(getID);
     const [open, setOpen] = React.useState(false);
     const [reportDetail, setReportDetail] = React.useState('');
@@ -70,7 +70,7 @@ export default function FormReport({ getID, getBookID, getData }) {
     return (
         <React.Fragment>
             <Button variant="outlined" onClick={handleClickOpen} color='error'>
-                Report
+                Reject
             </Button>
             <Dialog  
                 open={open}

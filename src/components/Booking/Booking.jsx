@@ -267,6 +267,7 @@ export default function Booking() {
                                 bookingInfoComplete={bookingInfoComplete}
                                 images={images}
                                 formatDate={formatDate}
+                                getData={user.id}
                             />
                         </TabPanel>
                         <TabPanel value="4">

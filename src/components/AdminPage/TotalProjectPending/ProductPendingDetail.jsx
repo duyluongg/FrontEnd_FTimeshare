@@ -325,6 +325,7 @@ export default function ProductPendingDetail() {
     const indexOfLastProject = currentPage * reportPerPage;
     const indexOfFirstProject = indexOfLastProject - reportPerPage;
     const currentProjects = reportDetails.slice(indexOfFirstProject, indexOfLastProject);
+
     const navigate = useNavigate();
     const token = sessionStorage.getItem('token');
     console.log(token);
@@ -387,18 +388,6 @@ export default function ProductPendingDetail() {
     };
 
 
-    const handleRejectClick = async (productId) => {
-        console.log(productId);
-        try {
-            await axios.put(`https://bookinghomestayswp.azurewebsites.net/api/products/staff/reject/${productId}`, headers);
-            setShowModalNotify(true)
-            setTimeout(() => navigate("/staff/total-product"), 2000)
-            fetchData();
-        } catch (error) {
-            console.error('Error rejecting project:', error);
-        }
-    };
-
     const projectImage = images.find(image => image.productID === projectDetail[0].productID);
 
 
@@ -447,9 +436,10 @@ export default function ProductPendingDetail() {
                             </CardContent>
                             <CardActions disableSpacing>
 
-                                <ModalAccept openModalConfirm={() => handleAcceptClick(productID)} />
+                                <ModalAccept  openModalConfirm={() => handleAcceptClick(productID)} />
 
-                                <ModalReject openModalConfirm={() => handleRejectClick(productID)} />
+                                {/* <ModalReject getProductID={productID} openModalConfirm={() => handleRejectClick(productID)} /> */}
+                                <ModalReject getProductID={productID}/>
                             </CardActions>
 
                         </Card>

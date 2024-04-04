@@ -173,7 +173,7 @@ function App() {
           <Sidebar>
             <Routes>
               <Route path='/profile' element={<Profile getData={user.id} />}></Route>
-              <Route path='/view-booking-history' element={<Booking />}></Route>
+              <Route path='/view-booking-history' element={<Booking/>}></Route>
               <Route path='/update-profile' element={<UpdateProfile getData={user.id} />}></Route>
               <Route path='/wallet-and-reward' element={<Wallet />}></Route>
             </Routes>
@@ -195,7 +195,6 @@ function App() {
           <Route path='/view-project-detail/:id' element={<ViewDetail />}></Route>
           <Route path='/contact-info' element={<Contact />}></Route>
           {/* <Route path='/admin/*' element={<AdminPage />}></Route> */}
-          <Route path='/view-news/:id' element={<ViewNews />}></Route>
           <Route path='/create-news' element={<CreateNews />}></Route>
           <Route path='/accommodation' element={<Accommodation />}></Route>
           {/* <Route path='/view-booking-history' element={<Booking />}></Route> */}
@@ -216,6 +215,8 @@ function App() {
           {/* <Route path='/profile' element={<Profile getData={user.id} />}></Route>
         <Route path='/update-profile/:accID' element={<UpdateProfile/>}></Route> */}
           <Route path='/new' element={<ViewAllNew />}></Route>
+          <Route path='/view-news/:id' element={<ViewNews />}></Route>
+
         </Routes>
         {!isStaffPage && !isAdminPage && !isUpdateProfileStaff && <Footer />}
 
