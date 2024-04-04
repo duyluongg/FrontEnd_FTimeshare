@@ -37,7 +37,9 @@ const ExpandMore = styled((props) => {
 
 export default function RespondPayment() {
     const [expanded, setExpanded] = React.useState(false);
-
+    const token = sessionStorage.getItem('token');
+    console.log(token);
+    const headers = { headers: { 'Authorization': `Bearer ${token}` } };
     const handleExpandClick = () => {
         setExpanded(!expanded);
     };
@@ -68,18 +70,18 @@ export default function RespondPayment() {
 
     const fetchData = async () => {
         try {
-            const pendingResponse = await axios.get(`https://bookinghomestayswp.azurewebsites.net/api/products/viewById/${productID}`);
+            const pendingResponse = await axios.get(`https://bookinghomestayswp.azurewebsites.net/api/products/viewById/${productID}`, headers);
             const accIDProduct = pendingResponse.data[0].accID;
 
             const [imagesResponse, profilesResponse, userProductData, userBookingData, customerBookingData, customerPayment, userPayment] = await Promise.all([
-                axios.get('https://bookinghomestayswp.azurewebsites.net/api/pictures/customerview'),
-                axios.get('https://bookinghomestayswp.azurewebsites.net/api/users/staffview'),
-                axios.get(`https://bookinghomestayswp.azurewebsites.net/api/users/viewDetail/${accIDProduct}`),
-                axios.get(`https://bookinghomestayswp.azurewebsites.net/api/users/viewDetail/${accID}`),
-                axios.get(`https://bookinghomestayswp.azurewebsites.net/api/bookings/view-booking-by-Id/${bookingID}`),
-                axios.get('https://bookinghomestayswp.azurewebsites.net/api/bookings/staff/WaitRespondPayment(100)'),
+                axios.get('https://bookinghomestayswp.azurewebsites.net/api/pictures/customerview', headers),
+                axios.get('https://bookinghomestayswp.azurewebsites.net/api/users/staffview', headers),
+                axios.get(`https://bookinghomestayswp.azurewebsites.net/api/users/viewDetail/${accIDProduct}`, headers),
+                axios.get(`https://bookinghomestayswp.azurewebsites.net/api/users/viewDetail/${accID}`, headers),
+                axios.get(`https://bookinghomestayswp.azurewebsites.net/api/bookings/view-booking-by-Id/${bookingID}`, headers),
+                axios.get('https://bookinghomestayswp.azurewebsites.net/api/bookings/staff/WaitRespondPayment(100)', headers),
                 // axios.get('http://localhost:8080/api/bookings/staff/waitToConfirmRC'),
-                axios.get(`https://bookinghomestayswp.azurewebsites.net/api/payment/payment/${accID}`),
+                axios.get(`https://bookinghomestayswp.azurewebsites.net/api/payment/payment/${accID}`, headers),
 
             ]);
 
@@ -194,13 +196,6 @@ export default function RespondPayment() {
                                     Convenience: {productBooking[0].productConvenience}
                                 </Typography>
 
-                                <Typography variant="body2" color="text.secondary">
-                                    Start Date: {formatDate(productBooking[0].availableStartDate)}
-                                </Typography>
-
-                                <Typography variant="body2" color="text.secondary">
-                                    End Date: {formatDate(productBooking[0].availableEndDate)}
-                                </Typography>
                                 <Typography variant="body2" color="text.secondary">
                                     Person: {productBooking[0].productPerson}
                                 </Typography>

@@ -256,8 +256,6 @@ export default function DataTable() {
     
             const [
                 productResponse,
-                imagesResponse,
-                profilesResponse,
                 projectResponse,
                 productTypeResponse,
                 pendingResponse,
@@ -269,16 +267,16 @@ export default function DataTable() {
                         'Authorization': `Bearer ${token}`
                     }
                 }),
-                axios.get('https://bookinghomestayswp.azurewebsites.net/api/pictures/customerview', {
-                    headers: {
-                        'Authorization': `Bearer ${token}`
-                    }
-                }),
-                axios.get('https://bookinghomestayswp.azurewebsites.net/api/users/staffview', {
-                    headers: {
-                        'Authorization': `Bearer ${token}`
-                    }
-                }),
+                // axios.get('https://bookinghomestayswp.azurewebsites.net/api/pictures/customerview', {
+                //     headers: {
+                //         'Authorization': `Bearer ${token}`
+                //     }
+                // }),
+                // axios.get('https://bookinghomestayswp.azurewebsites.net/api/users/staffview', {
+                //     headers: {
+                //         'Authorization': `Bearer ${token}`
+                //     }
+                // }),
                 axios.get('https://bookinghomestayswp.azurewebsites.net/api/project/customer/viewproject', {
                     headers: {
                         'Authorization': `Bearer ${token}`

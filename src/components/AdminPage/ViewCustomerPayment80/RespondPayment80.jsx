@@ -20,6 +20,7 @@ import axios from 'axios';
 import ModalProfile from '../ViewReport/ModalProfile';
 import ModalConfirmRC from '../../ModalConfirmRC';
 import ModalNotifyRC from '../../ModalNotifyRC';
+import { useNavigate } from 'react-router-dom';
 // import CustomizedTables from './CustomizedTables';
 import { Grid } from '@mui/material';
 // import './RespondPayment.css'
@@ -56,6 +57,9 @@ export default function RespondPayment80() {
     const [showAcceptButton, setShowAcceptButton] = useState(false);
     const [showSubmitButton, setShowSubmitButton] = useState(true);
     const [showModalNotify, setShowModalNotify] = useState(false);
+    const token = sessionStorage.getItem('token');
+    console.log(token);
+    const headers = { headers: { 'Authorization': `Bearer ${token}` } };
     const navigate = useNavigate()
     const toggleModal = () => {
         setShowModalNotify(!showModalNotify);
@@ -68,30 +72,42 @@ export default function RespondPayment80() {
 
     const fetchData = async () => {
         try {
-            const pendingResponse = await axios.get(`https://bookinghomestayswp.azurewebsites.net/api/products/viewById/${productID}`);
+            const pendingResponse = await axios.get(`https://bookinghomestayswp.azurewebsites.net/api/products/viewById/${productID}`, headers);
             const accIDProduct = pendingResponse.data[0].accID;
 
-            const [imagesResponse, profilesResponse, userProductData, userBookingData, customerBookingData, customerPayment, userPayment] = await Promise.all([
-                axios.get('https://bookinghomestayswp.azurewebsites.net/api/pictures/customerview'),
-                axios.get('https://bookinghomestayswp.azurewebsites.net/api/users/staffview'),
-                axios.get(`https://bookinghomestayswp.azurewebsites.net/api/users/viewDetail/${accIDProduct}`),
-                axios.get(`https://bookinghomestayswp.azurewebsites.net/api/users/viewDetail/${accID}`),
-                axios.get(`https://bookinghomestayswp.azurewebsites.net/api/bookings/view-booking-by-Id/${bookingID}`),
-                axios.get('https://bookinghomestayswp.azurewebsites.net/api/bookings/staff/WaitRespondPayment(80)'),
-                axios.get(`https://bookinghomestayswp.azurewebsites.net/api/payment/payment/${accID}`),
+            const [ profilesResponse, userProductData, userBookingData, customerBookingData, customerPayment] = await Promise.all([
+                // axios.get('https://bookinghomestayswp.azurewebsites.net/api/pictures/customerview'),
+                axios.get('https://bookinghomestayswp.azurewebsites.net/api/users/staffview', headers),
+                axios.get(`https://bookinghomestayswp.azurewebsites.net/api/users/viewDetail/${accIDProduct}`, headers),
+                axios.get(`https://bookinghomestayswp.azurewebsites.net/api/users/viewDetail/${accID}`, headers),
+                axios.get(`https://bookinghomestayswp.azurewebsites.net/api/bookings/view-booking-by-Id/${bookingID}`, headers),
+                axios.get('https://bookinghomestayswp.azurewebsites.net/api/bookings/staff/WaitRespondPayment(80)',headers),
+                // axios.get(`https://bookinghomestayswp.azurewebsites.net/api/payment/payment/${accID}`, headers),
 
             ]);
 
 
             setProductBooking(pendingResponse.data);
-            setImages(imagesResponse.data);
+            console.log(pendingResponse.data);
+
+            // setImages(imagesResponse.data);
             setProfiles(profilesResponse.data);
+            console.log(profilesResponse.data);
+
             setUserAccountBooking(userBookingData.data);
+            console.log(userBookingData.data);
+
             setUserAccountProduct(userProductData.data);
+            console.log(userProductData.data);
+
+
             setCustomerAccountBook(customerBookingData.data);
+            console.log(customerBookingData.data);
+
             setCustomerAccountPayment(customerPayment.data);
-            setUserAccountPayment(userPayment.data);
             console.log(customerPayment.data);
+            // setUserAccountPayment(userPayment.data);
+            // console.log(customerPayment.data);
 
 
         } catch (error) {
@@ -141,9 +157,9 @@ export default function RespondPayment80() {
 
     const handleAcceptCancelRespond = async (bookingID) => {
         try {
-            await axios.put(`https://bookinghomestayswp.azurewebsites.net/api/bookings/confirm_booking_respond_payment/${bookingID}`);
-            setTimeout(() => navigate("/staff/wait-customer-to-confirm-payment-list/100"), 2000)
-
+            const response = await axios.post(`https://bookinghomestayswp.azurewebsites.net/api/bookings/pay?amountPaymenmt=${customerAccountPayment[0].bookingPrice}&bookingID=${bookingID}`, headers);
+            // setTimeout(() => navigate("/staff/wait-customer-to-confirm-payment-list/100"), 2000)
+            window.location.href = response.data;
         } catch (error) {
             console.error('Error fetching projects:', error);
         }
@@ -155,7 +171,7 @@ export default function RespondPayment80() {
     };
 
     const projectImage = images.find(image => image.productID === productBooking[0].productID);
-    console.log(projectImage);
+    // console.log(projectImage);
     return (
         <>
             <div className='respond-flex-payment'>
@@ -239,7 +255,7 @@ export default function RespondPayment80() {
                                     Cash refund amount: {customerAccountPayment[0] ? customerAccountPayment[0].bookingPrice : ""}
                                 </Typography>
                                 <form onSubmit={handleUploadRespond}>
-                                    <Typography variant="body2" color="text.secondary">
+                                    {/* <Typography variant="body2" color="text.secondary">
                                         <div className="">
                                             <label htmlFor="avatar">Image Respond:</label>
                                             <input
@@ -254,8 +270,8 @@ export default function RespondPayment80() {
                                                 </div>
                                             )}
                                         </div>
-                                    </Typography>
-                                    {showSubmitButton && (
+                                    </Typography> */}
+                                    {/* {showSubmitButton && (
                                         <button className="register-button" type="submit">
                                             Submit
                                         </button>
@@ -263,14 +279,16 @@ export default function RespondPayment80() {
                                     )}
                                     {showAcceptButton && (
                                         <ModalConfirmRC openModalConfirm={() => handleAcceptCancelRespond(customerAccountPayment[0].bookingID)} />
-                                    )}
+                                    )} */}
+                                    <ModalConfirmRC openModalConfirm={() => handleAcceptCancelRespond(customerAccountPayment[0].bookingID)} />
+
 
                                 </form>
                             </CardContent>
 
                         </Card>
 
-                        <Card sx={{ maxWidth: 550, height: 200 }}>
+                        {/* <Card sx={{ maxWidth: 550, height: 200 }}>
                             <CardHeader
 
 
@@ -296,7 +314,7 @@ export default function RespondPayment80() {
                                 </Typography>
                             </CardContent>
 
-                        </Card>
+                        </Card> */}
                     </div>
                     {/* </Grid> */}
                 </div>

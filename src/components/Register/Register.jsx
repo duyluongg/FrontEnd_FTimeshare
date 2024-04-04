@@ -49,6 +49,9 @@ export default function Register() {
     });
 
     const handleRegister = async (e) => {
+        const token = sessionStorage.getItem('token');
+        console.log(token);
+        const headers = { headers: { 'Authorization': `Bearer ${token}` } };
         e.preventDefault();
         setSubmitAttempted(true);
 
@@ -93,11 +96,7 @@ export default function Register() {
             formData.append('roleID', '3');
             formData.append('accBirthday', formattedBirthday);
 
-            const response = await axios.post('https://bookinghomestayswp.azurewebsites.net/api/users', formData, {
-                headers: {
-                    'Content-Type': 'multipart/form-data'
-                }
-            });
+            const response = await axios.post('https://bookinghomestayswp.azurewebsites.net/api/users', formData);
             console.log(response.data);
             if (response.data == "Email already exists") {
                 setSnackbarMessage(response.data);
