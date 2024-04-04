@@ -57,6 +57,7 @@ import Homestay from './components/Accommodation/Homestay.jsx';
 import ConfirmRegister from './components/Register/ConfirmRegister.jsx';
 import Wallet from './components/Wallet&Reward/Wallet.jsx'
 import './components/Register/ConfirmRegister.css';
+import SuccessPayment from './components/Payment/SuccessPayment.jsx'
 
 import { useLocation } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
@@ -144,6 +145,7 @@ function App() {
   const isHomestay = location.pathname.includes('/homestay');
   const isConfirmRegister = location.pathname.includes('/confirm-register');
   const isWallet = location.pathname.includes('/wallet-and-reward');
+  const isSuccessPayment = location.pathname.includes('/confirm-success-payment');
 
 
   const isPayment = location.pathname.includes('/payment');
@@ -165,7 +167,7 @@ function App() {
         {!isDetailPage && !isLoginPage && !isRegisterPage && !isContactPage && !isStaffPage && !isAdminPage && !isUpdateProfileStaff
           && !isCreateTimeshare && !isViewSummary && !isViewDetail && !isViewNews && !isViewNewAll && !isCreateNews && !isAccommodation
           && !isBooking && !isCreateBooking && !isBookingStage && !isProfile && !isPayment && !isUpdateProduct && !isSidebar
-          && !isAccommodationDetail && !isUpdateProfile && !isHomestay && !isConfirmRegister && !isWallet && <Header />}
+          && !isAccommodationDetail && !isUpdateProfile && !isHomestay && !isConfirmRegister && !isWallet && !isSuccessPayment && <Header />}
 
         {isSidebar && (
           <Sidebar>
@@ -204,6 +206,7 @@ function App() {
           <Route path='/accommodation-detail/:projectID' element={<AccommodationDetail />}></Route>
           <Route path='/homestay' element={<Homestay />}></Route>
           <Route path='/confirm-register' element={<ConfirmRegister />}></Route>
+          <Route path='/confirm-success-payment' element={<SuccessPayment />}></Route>
           {/* <Route path='/admin/total-users/*' element={<TotalUser />}></Route> */}
           {/* <Route path='/admin/*' element={<AdminPage />}></Route> */}
           {/* <Route path='/admin/*' element={<Sidenav />}></Route> */}

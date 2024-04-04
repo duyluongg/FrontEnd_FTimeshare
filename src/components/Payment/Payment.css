@@ -501,7 +501,7 @@ h3.o13Lc4.hERTPn {
     grid-row-start: 32;
     -ms-grid-row-span: 1;
     align-items: center;
-    border-top: 1px dashed rgba(0, 0, 0, .09);
+    /* border-top: 1px dashed rgba(0, 0, 0, .09); */
     display: flex;
     justify-content: flex-end;
     margin: 10px 0 0;
@@ -553,6 +553,8 @@ h3.o13Lc4.hERTPn {
     padding: 0;
     text-transform: none !important;
     width: 210px;
+    background-color: #CD9A2B;
+    color: #fff;
 }
 
 .sQArKu {
@@ -587,9 +589,9 @@ h3.o13Lc4.hERTPn {
 
 /*---------------------------------------------------------------------*/
 
-#bodyconstraint {
+/* #bodyconstraint {
     max-width: 1140px;
-}
+} */
 
 #bodyconstraint-inner {
     position: relative;
@@ -1228,9 +1230,9 @@ body .bui_font_strong {
     width: 100%;
 }
 
-body:not(.bp-input-refresh) .book-form input,
-body:not(.bp-input-refresh).book-form textarea,
-body:not(.bp-input-refresh).book-form select {
+.book-form input,
+.book-form textarea,
+.book-form select {
     background: #fff;
     border: 1px solid #aaa;
     outline: 0;
@@ -1438,4 +1440,11 @@ body:not(.bp-input-refresh).book-form select {
     font-size: 14px;
     font-weight: 400;
     line-height: 20px;
+}
+
+body .payment-user-info {
+    font-size: 15px;
+    font-weight: 500;
+    line-height: 20px;
+    font-family: BlinkMacSystemFont, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
 }
