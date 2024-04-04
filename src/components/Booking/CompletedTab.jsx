@@ -4,7 +4,7 @@ import { styled } from '@mui/material/styles';
 import FormFeedback from '../FormFeedback/FormFeedback.jsx';
 import FormReport from '../FormReport/FormReport.jsx';
 
-const CompletedTab = ({ bookingInfoComplete, images, formatDate, handleCancelActive }) => {
+const CompletedTab = ({ bookingInfoComplete, images, formatDate, handleCancelActive, getData}) => {
 
     const Img = styled('img')({
         margin: 'auto',
@@ -91,13 +91,13 @@ const CompletedTab = ({ bookingInfoComplete, images, formatDate, handleCancelAct
                                     <div class="aAXjeK">
                                         <div>
                                             {/* <button onClick={() => handleCancelActive(bookingInfo.bookingID)} class="stardust-button stardust-button--primary QY7kZh">Feedback</button> */}
-                                            <FormFeedback getID={bookingInfo.productID} getBookID={bookingInfo.bookingID} />
+                                            <FormFeedback getData={getData} getID={bookingInfo.productID} getBookID={bookingInfo.bookingID} />
                                         </div>
                                     </div>
                                     <div class="hbQXWm">
                                         <div>
                                             {/* <button onClick={() => handleCancelActive(bookingInfo.bookingID)} class="stardust-button stardust-button--secondary QY7kZh">Book Again</button> */}
-                                            <FormReport getID={bookingInfo.productID} getBookID={bookingInfo.bookingID} class="stardust-button stardust-button--primary QY7kZh" />
+                                            <FormReport getData={getData} getID={bookingInfo.productID} getBookID={bookingInfo.bookingID} class="stardust-button stardust-button--primary QY7kZh" />
                                         </div>
                                     </div>
                                     {/* <div class="aAXjeK">

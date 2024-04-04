@@ -99,6 +99,9 @@ import New from './components/AdminPage/New/New.jsx'
 import AllNew from './components/AdminPage/New/AllNew.jsx'
 import ClosedProduct from './components/AdminPage/TotalProductClose/ClosedProduct.jsx'
 import DetailComponent from './components/Detail/DetailComponent.jsx'
+import ProductPendingDetail from './components/AdminPage/TotalProjectPending/ProductPendingDetail.jsx'
+import RejectedProductDetail from './components/AdminPage/RejectedProject/RejectedProductDetail.jsx'
+import ClosedProductDetail from './components/AdminPage/TotalProductClose/ClosedProductDetail.jsx'
 function App() {
 
   const { user, loginContext } = useContext(UserContext);
@@ -172,7 +175,7 @@ function App() {
           <Sidebar>
             <Routes>
               <Route path='/profile' element={<Profile getData={user.id} />}></Route>
-              <Route path='/view-booking-history' element={<Booking />}></Route>
+              <Route path='/view-booking-history' element={<Booking/>}></Route>
               <Route path='/update-profile' element={<UpdateProfile getData={user.id} />}></Route>
               <Route path='/wallet-and-reward' element={<Wallet />}></Route>
             </Routes>
@@ -194,7 +197,6 @@ function App() {
           <Route path='/view-project-detail/:id' element={<ViewDetail />}></Route>
           <Route path='/contact-info' element={<Contact />}></Route>
           {/* <Route path='/admin/*' element={<AdminPage />}></Route> */}
-          <Route path='/view-news/:id' element={<ViewNews />}></Route>
           <Route path='/create-news' element={<CreateNews />}></Route>
           <Route path='/accommodation' element={<Accommodation />}></Route>
           {/* <Route path='/view-booking-history' element={<Booking />}></Route> */}
@@ -215,6 +217,8 @@ function App() {
           {/* <Route path='/profile' element={<Profile getData={user.id} />}></Route>
         <Route path='/update-profile/:accID' element={<UpdateProfile/>}></Route> */}
           <Route path='/new' element={<ViewAllNew />}></Route>
+          <Route path='/view-news/:id' element={<ViewNews />}></Route>
+
         </Routes>
         {!isStaffPage && !isAdminPage && !isUpdateProfileStaff && <Footer />}
 
@@ -230,8 +234,11 @@ function App() {
           <Route path='/staff/report-projectid/:productID/:accID' element={<CardReportV2 />}></Route>
           <Route path='/staff/total-users' element={<TotalUser />}></Route>
           <Route path='/staff/pending-product' element={<TotalProductPending />}></Route>
+          <Route path='/staff/pending/:productID/:accID' element={<ProductPendingDetail />}></Route>
           <Route path='/staff/rejected-product' element={<RejectedProduct />}></Route>
+          <Route path='/staff/rejected/:productID/:accID' element={<RejectedProductDetail />}></Route>
           <Route path='/staff/closed-product' element={<ClosedProduct />}></Route>
+          <Route path='/staff/closed/:productID/:accID' element={<ClosedProductDetail />}></Route>
           <Route path='/staff/total-staff' element={<TotalStaff />}></Route>
           <Route path='/staff/active-list' element={<TotalViewActiveBooking />}></Route>
           <Route path='/staff/wait-to-confirm-list' element={<ViewBookingConfirm />}></Route>

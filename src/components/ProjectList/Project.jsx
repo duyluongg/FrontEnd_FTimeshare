@@ -18,6 +18,9 @@ export default function Project() {
   const { user } = useContext(UserContext);
 
   const [productListByUserId, setProductListByUserId] = useState([]);
+  const token = sessionStorage.getItem('token');
+  console.log(token);
+  const headers = { headers: { 'Authorization': `Bearer ${token}` } };
 
   var settings = {
     dots: true,
@@ -62,11 +65,11 @@ export default function Project() {
   useEffect(() => {
     const fetchProductByUserId = async () => {
       try {
-        const response = await axios.get(`https://bookinghomestayswp.azurewebsites.net/api/products/${user.id}`);
+        const response = await axios.get(`https://bookinghomestayswp.azurewebsites.net/api/products/${user.id}`, headers);
         const products = response.data;
 
         const updatedProducts = await Promise.all(products.map(async (product) => {
-          const feedbackResponse = await axios.get(`https://bookinghomestayswp.azurewebsites.net/api/feedback/average-feedback-rating/${product.productID}`);
+          const feedbackResponse = await axios.get(`https://bookinghomestayswp.azurewebsites.net/api/feedback/average-feedback-rating/${product.productID}`, headers);
           const rating = feedbackResponse.data;
 
           return { ...product, rating };
@@ -83,11 +86,11 @@ export default function Project() {
   useEffect(() => {
     const fetchProjects = async () => {
       try {
-        const response = await axios.get('https://bookinghomestayswp.azurewebsites.net/api/products/staff/active');
+        const response = await axios.get('https://bookinghomestayswp.azurewebsites.net/api/products/staff/active', headers);
         const projects = response.data;
 
         const updatedProjects = await Promise.all(projects.map(async (project) => {
-          const feedbackResponse = await axios.get(`https://bookinghomestayswp.azurewebsites.net/api/feedback/average-feedback-rating/${project.productID}`);
+          const feedbackResponse = await axios.get(`https://bookinghomestayswp.azurewebsites.net/api/feedback/average-feedback-rating/${project.productID}`, headers);
           const rating = feedbackResponse.data;
 
           return { ...project, rating };
@@ -129,7 +132,7 @@ export default function Project() {
 
 
       const accIDs = latestThreeNews.map(news => news.accID);
-      const accountResponse = await Promise.all(accIDs.map(accID => axios.get(`https://bookinghomestayswp.azurewebsites.net/api/users/viewDetail/${accID}`)));
+      const accountResponse = await Promise.all(accIDs.map(accID => axios.get(`https://bookinghomestayswp.azurewebsites.net/api/users/viewDetail/${accID}`, headers)));
 
 
       const newsWithAccounts = latestThreeNews.map((news, index) => ({
@@ -157,6 +160,7 @@ export default function Project() {
     fetchImg();
   }, []);
 
+
   return (
     <>
       {(user && user.auth === true) && (
@@ -179,6 +183,7 @@ export default function Project() {
               <Slider {...settings}>
                 {productListByUserId.map((product) => {
                   const projectImage = images.find(image => image.productID === product.productID);
+                  console.log(projectImage);
 
                   return (
                     <div key={product.productID}>

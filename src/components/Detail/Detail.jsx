@@ -105,7 +105,9 @@ export default function Detail() {
         prevArrow: < SamplePrevArrowSt2 />
     };
 
-
+    const token = sessionStorage.getItem('token');
+    console.log(token);
+    const headers = { headers: { 'Authorization': `Bearer ${token}` } };
 
     const [productDetail, setProductDetail] = useState([]);
     const [showBookingButton, setShowBookingButton] = useState(false);

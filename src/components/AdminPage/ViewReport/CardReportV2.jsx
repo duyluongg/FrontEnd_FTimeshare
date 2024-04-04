@@ -65,6 +65,9 @@ export default function CardReportV2() {
     const toggleModal = () => {
         setShowModalNotify(!showModalNotify);
     };
+    const token = sessionStorage.getItem('token');
+    console.log(token);
+    const headers = { headers: { 'Authorization': `Bearer ${token}` } };
 
     const handleSearchChange = (event) => {
         setSearchQuery(event.target.value);
@@ -81,11 +84,11 @@ export default function CardReportV2() {
         try {
             console.log(accID);
             const [productItem, imagesResponse, profilesResponse, userData, reportData] = await Promise.all([
-                axios.get(`https://bookinghomestayswp.azurewebsites.net/api/products/viewById/${productID}`),
+                axios.get(`https://bookinghomestayswp.azurewebsites.net/api/products/viewById/${productID}`, headers),
                 axios.get('https://bookinghomestayswp.azurewebsites.net/api/pictures/customerview'),
-                axios.get('https://bookinghomestayswp.azurewebsites.net/api/users/staffview'),
-                axios.get(`https://bookinghomestayswp.azurewebsites.net/api/users/viewDetail/${accID}`),
-                axios.get(`https://bookinghomestayswp.azurewebsites.net/api/reports/viewByProductId/${productID}`)
+                axios.get('https://bookinghomestayswp.azurewebsites.net/api/users/staffview', headers),
+                axios.get(`https://bookinghomestayswp.azurewebsites.net/api/users/viewDetail/${accID}`, headers),
+                axios.get(`https://bookinghomestayswp.azurewebsites.net/api/reports/viewByProductId/${productID}`, headers)
 
 
             ]);

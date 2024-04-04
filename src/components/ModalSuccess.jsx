@@ -9,11 +9,13 @@ const style = {
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
-    width: 400,
+    width: 500,
     bgcolor: 'background.paper',
-    border: '2px solid #000',
     boxShadow: 24,
     p: 4,
+    color: "green",
+    borderRadius: 8,
+
 
 };
 
@@ -30,7 +32,7 @@ export default function ModalSuccess({ openModal, onClose }) {
             >
                 <Box sx={style}>
                     <Typography id="modal-modal-description" sx={{ mt: 1, textAlign: "center" }}>
-                        Respond successfully.
+                        Successfully
                     </Typography>
                 </Box>
             </Modal>
