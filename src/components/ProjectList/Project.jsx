@@ -18,7 +18,8 @@ export default function Project() {
   const { user } = useContext(UserContext);
 
   const [productListByUserId, setProductListByUserId] = useState([]);
-
+  const token = sessionStorage.getItem('token');
+  console.log(token);
   var settings = {
     dots: true,
     infinite: false,
@@ -147,7 +148,12 @@ export default function Project() {
   useEffect(() => {
     const fetchImg = async () => {
       try {
-        const response = await axios.get(`https://bookinghomestayswp.azurewebsites.net/api/pictures/customerview`);
+        const response = await axios.get(`https://bookinghomestayswp.azurewebsites.net/api/pictures/customerview`, {
+          headers: {
+            // 'Content-Type': 'multipart/form-data',
+            'Authorization': `Bearer ${token}`
+          }
+        });
         setImages(response.data);
         // console.log(response.data);
       } catch (error) {
@@ -156,6 +162,7 @@ export default function Project() {
     };
     fetchImg();
   }, []);
+
 
   return (
     <>
