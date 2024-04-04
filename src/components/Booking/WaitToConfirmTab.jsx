@@ -27,7 +27,6 @@ const WaitToConfirmTab = ({ bookingInfoConfirm, images, formatDate, handleCancel
                                         <h3 className="a11y-hidden"></h3>
                                         <div className='P2JMvg'>
                                             <div classNae="RBPP9y">
-                                                {/* <div class="UDaMW3" tabindex="0">Owner Name</div> */}
                                             </div>
                                             <div className='jgIyoX'>
                                                 <div class="bv3eJE" tabindex="0">{bookingInfo.bookingStatus}</div>
@@ -110,6 +109,23 @@ const WaitToConfirmTab = ({ bookingInfoConfirm, images, formatDate, handleCancel
                                 </section>
                             </div>
                         </div>
+
+                        
+                        // <div className='f660aace8b aeeb8a0418 ef70cf669a'>
+                        //     <a href='#' className='e8eebe7e52'>
+                        //         <div className='a53cbfa6de f660aace8b ec64794359 d4dd38cb75 b5d84789f7 ccb444aed8'>
+                        //             <div className='f660aace8b b29f11fdcf'>
+                        //                 <div className='f660aace8b b5d84789f7'>
+                        //                     <div className="f660aace8b ef5b9df724" style="width: 80px;">
+                        //                         <picture className="e5a3812a75 f57f9e8eac">
+                        //                             <img class="e3fa9175ee ac59045dae" src="https://bstatic.com/xdata/images/hotel/300x300/472366570.jpg?k=fe046c1406098f1aa95fa21dbb19dd872b7916a98dc04840d8cbf8b7b83a9688&amp;o=" alt="AuLe Dorm Room" loading="lazy" />
+                        //                         </picture>
+                        //                     </div>
+                        //                 </div>
+                        //             </div>
+                        //         </div>
+                        //     </a>
+                        // </div>
                     )
                 })}
             </TabPanel>

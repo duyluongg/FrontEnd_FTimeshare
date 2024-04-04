@@ -120,7 +120,7 @@ function App() {
   const isLoginPage = location.pathname.includes('/login');
   const isRegisterPage = location.pathname.includes('/register');
   const isContactPage = location.pathname.includes('/contact-info');
-  const isCreateTimeshare = location.pathname.includes('/create-timeshare');
+  const isCreateTimeshare = location.pathname.includes('/create-homestay');
   const isViewSummary = location.pathname.includes('/view-summary');
   const isViewDetail = location.pathname.includes('/view-project-detail');
   const isStaffPage = location.pathname.includes('/staff');
@@ -189,7 +189,7 @@ function App() {
           <Route path='/register' element={<Register />}></Route>
           <Route path='/contact-info' element={<Contact />}></Route>
           <Route path='/owner-page' element={<OwnerPage />}></Route>
-          <Route path='/create-timeshare' element={<CreateTimeshare getData={user.id} />}></Route>
+          <Route path='/create-homestay' element={<CreateTimeshare getData={user.id} />}></Route>
           <Route path='/view-summary' element={<ViewSummary />}></Route>
           <Route path='/view-project-detail/:id' element={<ViewDetail />}></Route>
           <Route path='/contact-info' element={<Contact />}></Route>
@@ -205,7 +205,7 @@ function App() {
           <Route path='/accommodation-detail/:projectID' element={<AccommodationDetail />}></Route>
           <Route path='/homestay' element={<Homestay />}></Route>
           <Route path='/confirm-register' element={<ConfirmRegister />}></Route>
-          <Route path='/confirm-success-payment' element={<SuccessPayment />}></Route>
+          <Route path='/confirm-success-payment/:bookingID' element={<SuccessPayment />}></Route>
           {/* <Route path='/admin/total-users/*' element={<TotalUser />}></Route> */}
           {/* <Route path='/admin/*' element={<AdminPage />}></Route> */}
           {/* <Route path='/admin/*' element={<Sidenav />}></Route> */}

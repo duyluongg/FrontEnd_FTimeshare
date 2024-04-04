@@ -215,13 +215,13 @@ export default function CreateTimeshare() {
                     }
                 });
                 console.log('Image uploaded successfully');
-                setSnackbarMessage('Create timeshare successfully!!!')
+                setSnackbarMessage('Create homestay successfully!!!')
                 setSnackbarColor("success");
                 setSnackbarOpen(true);
                 setTimeout(() => navigate('/'), 1000);
             } catch (error) {
                 console.error('Error creating product:', error);
-                setSnackbarMessage('Create timeshare failed!!!');
+                setSnackbarMessage('Create homestay failed!!!');
                 setSnackbarColor("error");
                 setSnackbarOpen(true);
                 setIsLoading(false);
@@ -269,7 +269,7 @@ export default function CreateTimeshare() {
                                             },
                                         }}
                                     >
-                                        Name of Homestay *
+                                        Name *
                                     </InputLabel>
                                     <OutlinedInput
                                         id="outlined-required"
@@ -304,7 +304,7 @@ export default function CreateTimeshare() {
                                         name="productDescription"
                                         label="Description"
                                         multiline
-                                        rows={4}
+                                        rows={8}
                                         value={createProductData.productDescription}
                                         onChange={handleChange}
                                         sx={{

@@ -45,7 +45,7 @@ export default function Payment() {
 
     // const { startDate, endDate, bookingPerson, productID, name, phone } = location.state;
     const { checkInDate, checkOutDate, bookingPerson, productID } = location.state;
-    console.log(checkInDate);
+    // console.log(checkInDate);
 
     const parsedStartDate = new Date(checkInDate);
     const parsedEndDate = new Date(checkOutDate);
@@ -57,6 +57,8 @@ export default function Payment() {
     const formattedCheckOutDate = `${weekdays[parsedEndDate.getDay()]}, ${months[parsedEndDate.getMonth()]} ${parsedEndDate.getDate()}, ${parsedEndDate.getFullYear()}`;
 
     // const navigate = useNavigate();
+
+    const token = sessionStorage.getItem('token');
 
     useEffect(() => {
         const getProductData = async () => {
@@ -143,12 +145,12 @@ export default function Payment() {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        if (!hasBankAccount) {
-            setSnackbarMessage('You must create payment first !!!');
-            setSnackbarColor("error");
-            setSnackbarOpen(true);
-            return;
-        }
+        // if (!hasBankAccount) {
+        //     setSnackbarMessage('You must create payment first !!!');
+        //     setSnackbarColor("error");
+        //     setSnackbarOpen(true);
+        //     return;
+        // }
 
         const startDateObj = new Date(checkInDate);
         const endDateObj = new Date(checkOutDate);
@@ -168,9 +170,11 @@ export default function Payment() {
 
             const response = await axios.post('https://bookinghomestayswp.azurewebsites.net/api/bookings/customer/createbooking', formData, {
                 headers: {
-                    'Content-Type': 'multipart/form-data'
+                    'Content-Type': 'multipart/form-data',
+                    'Authorization': `Bearer ${token}`
                 }
             });
+            console.log(response.data);
             window.location.href = response.data;
             // setSnackbarMessage('Booking successfully !!!')
             // setSnackbarColor("success");

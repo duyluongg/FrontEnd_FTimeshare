@@ -129,8 +129,10 @@ export default function Detail() {
     const [selectedStartDate, setSelectedStartDate] = useState("");
     const [availabilityMessage, setAvailabiltyMessage] = useState("");
 
+    const token = sessionStorage.getItem('token');
+    console.log(token);
+
     const handleFindAvailability = async (e) => {
-        
         e.preventDefault();
 
         const validationErrors = {}
@@ -163,7 +165,8 @@ export default function Detail() {
 
             const response = await axios.post('https://bookinghomestayswp.azurewebsites.net/api/bookings/customer/checkbooking', formData, {
                 headers: {
-                    'Content-Type': 'multipart/form-data'
+                    'Content-Type': 'multipart/form-data',
+                    'Authorization': `Bearer ${token}`
                 }
             });
             console.log(response.data);
