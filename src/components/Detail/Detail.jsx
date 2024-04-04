@@ -105,10 +105,6 @@ export default function Detail() {
         prevArrow: < SamplePrevArrowSt2 />
     };
 
-    const token = sessionStorage.getItem('token');
-    console.log(token);
-    const headers = { headers: { 'Authorization': `Bearer ${token}` } };
-
     const [productDetail, setProductDetail] = useState([]);
     const [showBookingButton, setShowBookingButton] = useState(false);
     const productId = useParams();
@@ -131,8 +127,10 @@ export default function Detail() {
     const [selectedStartDate, setSelectedStartDate] = useState("");
     const [availabilityMessage, setAvailabiltyMessage] = useState("");
 
+    const token = sessionStorage.getItem('token');
+    // console.log(token);
+
     const handleFindAvailability = async (e) => {
-        
         e.preventDefault();
 
         const validationErrors = {}
@@ -163,7 +161,12 @@ export default function Detail() {
             formData.append('endDate', formattedEndDate);
 
 
-            const response = await axios.post('https://bookinghomestayswp.azurewebsites.net/api/bookings/customer/checkbooking', formData, headers);
+            const response = await axios.post('https://bookinghomestayswp.azurewebsites.net/api/bookings/customer/checkbooking', formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                    'Authorization': `Bearer ${token}`
+                }
+            });
             console.log(response.data);
             setCheckAvailableProducts(response.data);
             setFormSubmitted(true);

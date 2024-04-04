@@ -1,9 +1,10 @@
 import React from 'react';
 import TabPanel from '@mui/lab/TabPanel';
 import { styled } from '@mui/material/styles';
+import { Link } from 'react-router-dom';
 
 
-const WaitToConfirmTab = ({ bookingInfoConfirm, images, formatDate, handleCancelActive }) => {
+const WaitToConfirmTab = ({ bookingInfoConfirm, images, formatDate, handleCancelActive, handlePayment }) => {
 
     const Img = styled('img')({
         margin: 'auto',
@@ -16,9 +17,7 @@ const WaitToConfirmTab = ({ bookingInfoConfirm, images, formatDate, handleCancel
         <>
             <TabPanel className="MuiTabPanel-root" value="1">
                 {bookingInfoConfirm.map((bookingInfo, index) => {
-                    console.log(bookingInfo);
                     const projectImage = images.find(image => image.productID === bookingInfo.product.productID);
-                    console.log(projectImage);
                     return (
                         <div className="YL_VlX" key={index}>
                             <div>
@@ -27,7 +26,6 @@ const WaitToConfirmTab = ({ bookingInfoConfirm, images, formatDate, handleCancel
                                         <h3 className="a11y-hidden"></h3>
                                         <div className='P2JMvg'>
                                             <div classNae="RBPP9y">
-                                                {/* <div class="UDaMW3" tabindex="0">Owner Name</div> */}
                                             </div>
                                             <div className='jgIyoX'>
                                                 <div class="bv3eJE" tabindex="0">{bookingInfo.bookingStatus}</div>
@@ -37,7 +35,16 @@ const WaitToConfirmTab = ({ bookingInfoConfirm, images, formatDate, handleCancel
                                     <div class="kG_yF0"></div>
                                     <section>
                                         <h3 class="a11y-hidden"></h3>
-                                        <a href="">
+                                        <Link to={{
+                                            pathname: "/booking-details",
+                                            state: {
+                                                projectName: bookingInfo.product.productName,
+                                                startDate: formatDate(bookingInfo.startDate),
+                                                endDate: formatDate(bookingInfo.endDate),
+                                                bookingPerson: bookingInfo.bookingPerson,
+                                                bookingPrice: bookingInfo.bookingPrice
+                                            }
+                                        }}>
                                             <div>
                                                 <div className='bdAfgU'>
                                                     <section>
@@ -69,7 +76,7 @@ const WaitToConfirmTab = ({ bookingInfoConfirm, images, formatDate, handleCancel
                                                     </section>
                                                 </div>
                                             </div>
-                                        </a>
+                                        </Link>
                                     </section>
                                 </div>
                             </div>
@@ -98,6 +105,16 @@ const WaitToConfirmTab = ({ bookingInfoConfirm, images, formatDate, handleCancel
                                     <div class="aAXjeK">
                                         <div>
                                             <button
+                                                onClick={() => handlePayment(bookingInfo.bookingID, bookingInfo.bookingPrice)}
+                                                className={`stardust-button stardust-button--primary QY7kZh`}
+                                            >
+                                                Pay
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="aAXjeK">
+                                        <div>
+                                            <button
                                                 onClick={() => handleCancelActive(bookingInfo.bookingID)}
                                                 className={`stardust-button stardust-button--primary QY7kZh ${bookingInfo.bookingStatus === 'Wait to confirm (request cancel)' || bookingInfo.bookingStatus === 'Rejected' ? 'disabled' : ''}`}
                                                 disabled={bookingInfo.bookingStatus === 'Wait to confirm (request cancel)' || bookingInfo.bookingStatus === 'Rejected'}
@@ -110,6 +127,23 @@ const WaitToConfirmTab = ({ bookingInfoConfirm, images, formatDate, handleCancel
                                 </section>
                             </div>
                         </div>
+
+
+                        // <div className='f660aace8b aeeb8a0418 ef70cf669a'>
+                        //     <a href='#' className='e8eebe7e52'>
+                        //         <div className='a53cbfa6de f660aace8b ec64794359 d4dd38cb75 b5d84789f7 ccb444aed8'>
+                        //             <div className='f660aace8b b29f11fdcf'>
+                        //                 <div className='f660aace8b b5d84789f7'>
+                        //                     <div className="f660aace8b ef5b9df724" style="width: 80px;">
+                        //                         <picture className="e5a3812a75 f57f9e8eac">
+                        //                             <img class="e3fa9175ee ac59045dae" src="https://bstatic.com/xdata/images/hotel/300x300/472366570.jpg?k=fe046c1406098f1aa95fa21dbb19dd872b7916a98dc04840d8cbf8b7b83a9688&amp;o=" alt="AuLe Dorm Room" loading="lazy" />
+                        //                         </picture>
+                        //                     </div>
+                        //                 </div>
+                        //             </div>
+                        //         </div>
+                        //     </a>
+                        // </div>
                     )
                 })}
             </TabPanel>

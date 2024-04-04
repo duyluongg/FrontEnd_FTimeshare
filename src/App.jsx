@@ -58,6 +58,7 @@ import ConfirmRegister from './components/Register/ConfirmRegister.jsx';
 import Wallet from './components/Wallet&Reward/Wallet.jsx'
 import './components/Register/ConfirmRegister.css';
 import SuccessPayment from './components/Payment/SuccessPayment.jsx'
+import CustomerBookingDetail from './components/Booking/CustomerBookingDetail.jsx'
 
 import { useLocation } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
@@ -124,7 +125,7 @@ function App() {
   const isLoginPage = location.pathname.includes('/login');
   const isRegisterPage = location.pathname.includes('/register');
   const isContactPage = location.pathname.includes('/contact-info');
-  const isCreateTimeshare = location.pathname.includes('/create-timeshare');
+  const isCreateTimeshare = location.pathname.includes('/create-homestay');
   const isViewSummary = location.pathname.includes('/view-summary');
   const isViewDetail = location.pathname.includes('/view-project-detail');
   const isStaffPage = location.pathname.includes('/staff');
@@ -149,6 +150,7 @@ function App() {
   const isConfirmRegister = location.pathname.includes('/confirm-register');
   const isWallet = location.pathname.includes('/wallet-and-reward');
   const isSuccessPayment = location.pathname.includes('/confirm-success-payment');
+  const isBookingDetail = location.pathname.includes('/booking-details');
 
 
   const isPayment = location.pathname.includes('/payment');
@@ -170,7 +172,7 @@ function App() {
         {!isDetailPage && !isLoginPage && !isRegisterPage && !isContactPage && !isStaffPage && !isAdminPage && !isUpdateProfileStaff
           && !isCreateTimeshare && !isViewSummary && !isViewDetail && !isViewNews && !isViewNewAll && !isCreateNews && !isAccommodation
           && !isBooking && !isCreateBooking && !isBookingStage && !isProfile && !isPayment && !isUpdateProduct && !isSidebar
-          && !isAccommodationDetail && !isUpdateProfile && !isHomestay && !isConfirmRegister && !isWallet && !isSuccessPayment && <Header />}
+          && !isAccommodationDetail && !isUpdateProfile && !isHomestay && !isConfirmRegister && !isWallet && !isSuccessPayment  && !isBookingDetail && <Header />}
 
         {isSidebar && (
           <Sidebar>
@@ -193,7 +195,7 @@ function App() {
           <Route path='/register' element={<Register />}></Route>
           <Route path='/contact-info' element={<Contact />}></Route>
           <Route path='/owner-page' element={<OwnerPage />}></Route>
-          <Route path='/create-timeshare' element={<CreateTimeshare getData={user.id} />}></Route>
+          <Route path='/create-homestay' element={<CreateTimeshare getData={user.id} />}></Route>
           <Route path='/view-summary' element={<ViewSummary />}></Route>
           <Route path='/view-project-detail/:id' element={<ViewDetail />}></Route>
           <Route path='/contact-info' element={<Contact />}></Route>
@@ -208,7 +210,8 @@ function App() {
           <Route path='/accommodation-detail/:projectID' element={<AccommodationDetail />}></Route>
           <Route path='/homestay' element={<Homestay />}></Route>
           <Route path='/confirm-register' element={<ConfirmRegister />}></Route>
-          <Route path='/confirm-success-payment' element={<SuccessPayment />}></Route>
+          <Route path='/confirm-success-payment/:bookingID' element={<SuccessPayment />}></Route>
+          <Route path='/booking-details' element={<CustomerBookingDetail />}></Route>
           {/* <Route path='/admin/total-users/*' element={<TotalUser />}></Route> */}
           {/* <Route path='/admin/*' element={<AdminPage />}></Route> */}
           {/* <Route path='/admin/*' element={<Sidenav />}></Route> */}

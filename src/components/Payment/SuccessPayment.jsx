@@ -5,13 +5,31 @@ import { faCheck } from "@fortawesome/free-solid-svg-icons";
 import { useContext } from 'react'
 import { UserContext } from '../UserContext.jsx'
 import axios from "axios";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
 export default function SuccessPayment() {
 
     const { user } = useContext(UserContext);
-    console.log(user.id);
     const [userData, setUserData] = useState(null);
+    const bookingID = useParams();
+
+    useEffect(() => {
+        const sendSuccessEmail = async () => {
+            try {
+                const formData = new FormData();
+                formData.append("bookingID", bookingID.bookingID);
+                formData.append("type", 0);
+                const response = await axios.post("https://bookinghomestayswp.azurewebsites.net/api/bookings/sendWebAfterPayment", formData, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data'
+                    }
+                });
+            } catch (error) {
+                Console.log("Error fetching email", error.response.data);
+            }
+        };
+        sendSuccessEmail();
+    })
 
     useEffect(() => {
         const fetchUserData = async () => {

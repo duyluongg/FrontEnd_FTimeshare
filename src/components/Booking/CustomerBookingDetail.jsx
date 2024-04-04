@@ -1,206 +1,17 @@
-import React, { useState, useEffect, useContext } from "react";
-import payment from '../../assets/Payment.svg';
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
-import Paper from "@mui/material/Paper";
-import Button from '@mui/material/Button';
-import { useLocation } from 'react-router-dom';
-import axios from "axios";
-import { UserContext } from '../UserContext';
-import SnackBar from "../SnackBar.jsx";
-import { useNavigate } from "react-router-dom";
-import ModalCreateBook from "../OwnerRole/CreateBooking/ModalCreateBook.jsx";
-import CreatePayment from "../Register/CreatePayment.jsx";
-import ModalTerm from "../Register/ModalTerm.jsx";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faStar } from '@fortawesome/free-solid-svg-icons';
-import { faUser } from '@fortawesome/free-solid-svg-icons';
+import React from "react";
+import '../Payment/Payment.css'
+import { useLocation } from "react-router-dom";
 
-export default function Payment() {
-    const [orderSummary, setOrderSummary] = useState('');
-    const [totalPrice, setTotalPrice] = useState('');
-    const [totalDay, setTotalDay] = useState('');
-    const [bankAccountQRCode, setBankAccountQRCode] = useState('');
-    const [image, setImage] = useState('');
-    const [imagePreview, setImagePreview] = useState(null);
-    const { user } = useContext(UserContext);
-    const [snackbarOpen, setSnackbarOpen] = useState(false);
-    const [snackbarMessage, setSnackbarMessage] = useState('');
-    const [snackbarColor, setSnackbarColor] = useState('success');
-    const [productData, setProductData] = useState('');
-    const [userData, setUserData] = useState('');
-    const [typeName, setTypeName] = useState('');
-    const [images, setImages] = useState([]);
-    const [rating, setRating] = useState('');
+export default function CustomerBookingDetail() {
 
     const location = useLocation();
-    const [hasBankAccount, setHasBankAccount] = useState(false);
-    const [showCreatePayment, setShowCreatePayment] = useState(false);
-    const [showPaymentMethod, setShowPaymentMethod] = useState(false);
-    const [showPaymentConfirmation, setShowPaymentConfirmation] = useState(false);
-    const [isLoading, setIsLoading] = useState(false);
-
-    // const { startDate, endDate, bookingPerson, productID, name, phone } = location.state;
-    const { checkInDate, checkOutDate, bookingPerson, productID } = location.state;
-    // console.log(checkInDate);
-
-    const parsedStartDate = new Date(checkInDate);
-    const parsedEndDate = new Date(checkOutDate);
-
-    const weekdays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thr', 'Fri', 'Sat'];
-    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-
-    const formattedCheckInDate = `${weekdays[parsedStartDate.getDay()]}, ${months[parsedStartDate.getMonth()]} ${parsedStartDate.getDate()}, ${parsedStartDate.getFullYear()}`;
-    const formattedCheckOutDate = `${weekdays[parsedEndDate.getDay()]}, ${months[parsedEndDate.getMonth()]} ${parsedEndDate.getDate()}, ${parsedEndDate.getFullYear()}`;
-
-    // const navigate = useNavigate();
-
-    const token = sessionStorage.getItem('token');
-
-    useEffect(() => {
-        const getProductData = async () => {
-            try {
-                const productResponse = await axios.get(`https://bookinghomestayswp.azurewebsites.net/api/products/viewById/${productID}`);
-                setProductData(productResponse.data[0]);
-
-                const updatedProjects = await (async () => {
-                    const feedbackResponse = await axios.get(`https://bookinghomestayswp.azurewebsites.net/api/feedback/average-feedback-rating/${productResponse.data[0].productID}`);
-                    const rating = feedbackResponse.data;
-
-                    return { rating };
-                })();
-                setRating(updatedProjects);
-                console.log(updatedProjects);
-
-                const userResponse = await axios.get(`https://bookinghomestayswp.azurewebsites.net/api/users/viewDetail/${productResponse.data[0].accID}`);
-                setUserData(userResponse.data);
-
-                const productTypeResponse = await axios.get('https://bookinghomestayswp.azurewebsites.net/api/productType/customer/viewproductType');
-                const productTypeData = productTypeResponse.data;
-
-                // const selectedProductType = productTypeData.find(type => type.productTypeID === productData.productTypeID);
-                // const typeName = selectedProductType ? selectedProductType.productTypeName : 'Unknown';
-                // setTypeName(typeName);
-
-            } catch (error) {
-                console.error('Error fetching data:', error.response);
-            }
-        };
-        getProductData();
-    }, [user.id]);
-
-    useEffect(() => {
-        const calculateTotalPrice = () => {
-            const startDateObj = new Date(checkInDate);
-            const endDateObj = new Date(checkOutDate);
-            const daysDiff = Math.ceil((endDateObj - startDateObj) / (1000 * 60 * 60 * 24));
-            const totalPrice = daysDiff * productData.productPrice;
-            setTotalDay(daysDiff);
-            setTotalPrice(totalPrice);
-        };
-
-        calculateTotalPrice();
-    }, [checkInDate, checkOutDate, productData.productPrice]);
-
-    // useEffect(() => {
-    //     const fetchImg = async () => {
-    //         try {
-    //             const response = await axios.get(`https://bookinghomestayswp.azurewebsites.net/api/pictures/customerview`);
-    //             setImages(response.data);
-    //             // console.log(response.data);
-    //         } catch (error) {
-    //             console.error('Error fetching view img:', error);
-    //         }
-    //     };
-    //     fetchImg();
-    // }, []);
-
-    // useEffect(() => {
-    //     const fetchBankAccount = async () => {
-    //         try {
-    //             const bankAccountResponse = await axios.get(`https://bookinghomestayswp.azurewebsites.net/api/payment/payment/${user.id}`);
-    //             const bankAccount = bankAccountResponse.data;
-    //             console.log(bankAccount);
-
-    //             if (bankAccount.length === 0) {
-    //                 setHasBankAccount(false);
-    //                 setShowPaymentMethod(false);
-    //                 setShowPaymentConfirmation(false);
-    //                 // setShowCreatePayment(true);
-    //             } else {
-    //                 setHasBankAccount(true);
-    //                 setShowPaymentMethod(true);
-    //                 setShowPaymentConfirmation(true);
-    //             }
-
-    //         } catch (error) {
-    //             console.error('Error fetching bank account:', error);
-    //         }
-    //     };
-    //     fetchBankAccount();
-    // }, [user.id]);
-
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-
-        // if (!hasBankAccount) {
-        //     setSnackbarMessage('You must create payment first !!!');
-        //     setSnackbarColor("error");
-        //     setSnackbarOpen(true);
-        //     return;
-        // }
-
-        const startDateObj = new Date(checkInDate);
-        const endDateObj = new Date(checkOutDate);
-        const formattedStartDate = startDateObj.toISOString().split('T')[0] + 'T08:00:00';
-        const formattedEndDate = endDateObj.toISOString().split('T')[0] + 'T08:00:00';
-
-        setIsLoading(true);
-
-        try {
-            const formData = new FormData();
-            formData.append('bill', new File([''], ''));
-            formData.append('startDate', formattedStartDate);
-            formData.append('endDate', formattedEndDate);
-            formData.append('booking_person', bookingPerson);
-            formData.append('acc_id', user.id);
-            formData.append('productID', productID);
-
-            const response = await axios.post('https://bookinghomestayswp.azurewebsites.net/api/bookings/customer/createbooking', formData, {
-                headers: {
-                    'Content-Type': 'multipart/form-data',
-                    'Authorization': `Bearer ${token}`
-                }
-            });
-            console.log(response.data);
-            window.location.href = response.data;
-            // setSnackbarMessage('Booking successfully !!!')
-            // setSnackbarColor("success");
-            // setSnackbarOpen(true);
-            // setTimeout(() => navigate('/view-booking-history'), 1000);
-
-        } catch (error) {
-            console.error('Error creating booking:', error.response);
-            setSnackbarMessage('Booking failed !!!');
-            setSnackbarColor("error");
-            setSnackbarOpen(true);
-            setIsLoading(false);
-        }
-    };
-
-    const handleSnackbarClose = () => {
-        setSnackbarOpen(false);
-    };
-
-    // const projectImage = images.find(image => image.productID === productData.productID);
-
+    // const { projectName, startDate, endDate, bookingPerson, bookingPrice } = location.state;
+    // console.log(projectName);
+    
     return (
+        
         <>
-            <div id="bodyconstraint">
+            {/* <div id="bodyconstraint">
                 <div id="bodyconstraint-inner">
                     <div className="bui-container booking-process__container js-booking-process__container js-booking-process__container--stage-2 e2e-stage-container">
                         <div className="bui-grid">
@@ -215,7 +26,7 @@ export default function Payment() {
                                                             <div className="c624d7469d a0e60936ad a3214e5942">
                                                                 <div className="c624d7469d dbf03e5db3 a3214e5942">
                                                                     <div class="">
-                                                                        <h1 class="e1eebb6a1e">{productData.productName}</h1>
+                                                                        <h1 class="e1eebb6a1e">Name</h1>
                                                                     </div>
                                                                 </div>
                                                                 <div className="c624d7469d a0e60936ad a3214e5942">
@@ -262,12 +73,6 @@ export default function Payment() {
                                                                     <span className="bui-date__title">{formattedCheckOutDate}</span>
                                                                 </time>
                                                             </div>
-                                                        </div>
-                                                    </div>
-                                                    <div className="bui-group__item bui-group bui-group--small">
-                                                        <div class="bui-group__item bui-f-font-emphasized">Total people:</div>
-                                                        <div class="bui-group__item bui-f-font-strong">
-                                                            {bookingPerson}&nbsp;<FontAwesomeIcon className='filter-icon' icon={faUser} />
                                                         </div>
                                                     </div>
                                                     <div className="bui-group__item bui-group bui-group--small">
@@ -339,7 +144,6 @@ export default function Payment() {
                                                                     Email Address
                                                                 </label>
                                                                 <div class="bui-group__item payment-user-info">{userData.accEmail}</div>
-                                                                {/* <input type="text" name="email" id="email" className="bp_input_text bp_form__field__input" value="Nguyễn Thị Ngọc Hân" size="20"></input> */}
                                                             </div>
                                                         </div>
                                                         <div className="bui-grid__column bui-grid__column-6@medium bui-grid__column-6@large">
@@ -348,7 +152,6 @@ export default function Payment() {
                                                                     Mobile Number
                                                                 </label>
                                                                 <div class="bui-group__item payment-user-info">{userData.accPhone}</div>
-                                                                {/* <input type="text" name="phone" id="phone" className="bp_input_text bp_form__field__input" value="Nguyễn Thị Ngọc Hân" size="20"></input> */}
                                                             </div>
                                                         </div>
                                                     </div>
@@ -365,7 +168,6 @@ export default function Payment() {
                                                     </h2>
                                                 </div>
                                                 <div class="x9mw82OGJDdT97ho7Wyc H6lzDEPPhc6rnad4mB7d A1lmouXAu10vISnnmR2M">Online Payment</div>
-                                                {/* <div class="x9mw82OGJDdT97ho7Wyc H6lzDEPPhc6rnad4mB7d A1lmouXAu10vISnnmR2M">Securely add your payment methods to make it easier when you book.</div> */}
                                             </header>
                                             <div className="my-settings-row my-settings-edit-row--editing">
                                                 <div className="my-settings-row">
@@ -413,7 +215,6 @@ export default function Payment() {
                                                                             </h3>
                                                                         </div>
                                                                         <div className="bui-spacer--large">
-                                                                            {/* <CreatePayment getID={user.id} /> */}
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -443,9 +244,7 @@ export default function Payment() {
                         </div>
                     </div>
                 </div>
-            </div>
-            <SnackBar open={snackbarOpen} message={snackbarMessage} onClose={handleSnackbarClose} color={snackbarColor} />
-
+            </div> */}
         </>
     );
 }
