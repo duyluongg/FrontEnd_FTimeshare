@@ -307,7 +307,8 @@ import ModalAccept from '../../ModalAccept';
 import ModalReject from '../../ModalReject';
 import ModalSuccess from '../../ModalSuccess';
 import { useNavigate } from 'react-router-dom';
-export default function ProductPendingDetail() {
+
+export default function RejectedProductDetail() {
     const [projectDetail, setprojectDetail] = useState([]);
     const [reportDetails, setReportDetails] = useState([]);
     const { productID, accID } = useParams();
@@ -368,7 +369,7 @@ export default function ProductPendingDetail() {
             console.log(userData.data);
 
             setProjectType(projectResponse.data);
-
+            console.log(projectResponse.data);
 
 
         } catch (error) {
@@ -376,20 +377,6 @@ export default function ProductPendingDetail() {
 
         }
     };
-
-
-    const handleAcceptClick = async (productId) => {
-        console.log(productId);
-        try {
-            await axios.put(`https://bookinghomestayswp.azurewebsites.net/api/products/staff/active/${productId}`, null, headers);
-            setShowModalNotify(true)
-            setTimeout(() => navigate("/staff/total-product"), 2000)
-            fetchData();
-        } catch (error) {
-            console.error('Error accepting project:', error);
-        }
-    };
-
 
     const projectImage = images.find(image => image.productID === projectDetail[0].productID);
     console.log(projectImage);
@@ -421,7 +408,7 @@ export default function ProductPendingDetail() {
                                 sx={{ width: "350px", height: "230px", objectFit: "cover", maxWidth: "100%" }}
 
                             />
-                              <CardContent>
+                            <CardContent>
                                 {/* <Typography sx={{ fontSize: "20px", fontWeight: "bold" }}> */}
                                 <Typography variant="body1" sx={{ fontSize: "20px", fontWeight: "bold", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
                                     {projectDetail[0].productName}
@@ -429,6 +416,7 @@ export default function ProductPendingDetail() {
                                 <Typography variant="body1" color="text.secondary" sx={{ overflow: 'hidden', textOverflow: 'ellipsis', display: '-webkit-box', WebkitLineClamp: '1', WebkitBoxOrient: "vertical" }}>
                                     Project Name: {projectName.projectName}
                                 </Typography>
+
                                 <Typography variant="body1" color="text.secondary" sx={{ overflow: 'hidden', textOverflow: 'ellipsis', display: '-webkit-box', WebkitLineClamp: '1', WebkitBoxOrient: "vertical" }}>
                                     Description: {projectDetail[0].productDescription}<br />
                                 </Typography>
@@ -447,10 +435,9 @@ export default function ProductPendingDetail() {
                             </CardContent>
                             <CardActions disableSpacing>
 
-                                <ModalAccept  openModalConfirm={() => handleAcceptClick(productID)} />
-
-                                {/* <ModalReject getProductID={productID} openModalConfirm={() => handleRejectClick(productID)} /> */}
-                                <ModalReject getProductID={productID}/>
+                                <Button sx={{ cursor: "default", width: "330px" }} variant="outlined" color="error" onClick={() => handleRejectClick(item.productID)}>
+                                    REJECTED
+                                </Button>
                             </CardActions>
 
                         </Card>

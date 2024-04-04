@@ -372,8 +372,20 @@ export default function DataTable() {
             headerClassName: "super-app-theme--header",
             cellClassName: "super-app-theme--cell-other",
             renderCell: (params) => (
-                params.row.productStatus === "Pending" ? (
-                    <Link to={`/staff/${params.row.productID}/${params.row.accID}`}>
+                params.row.productStatus === "Closed" ? (
+                    <Link to={`/staff/closed/${params.row.productID}/${params.row.accID}`}>
+                        <Button variant="outlined">
+                            DETAIL
+                        </Button>
+                    </Link>
+                ) :params.row.productStatus === "Pending" ? (
+                    <Link to={`/staff/pending/${params.row.productID}/${params.row.accID}`}>
+                        <Button variant="outlined">
+                            DETAIL
+                        </Button>
+                    </Link>
+                ) : params.row.productStatus === "Rejected" ? (
+                    <Link to={`/staff/rejected/${params.row.productID}/${params.row.accID}`}>
                         <Button variant="outlined">
                             DETAIL
                         </Button>
@@ -386,6 +398,7 @@ export default function DataTable() {
                     </Link>
                 )
             )
+            
         },
         
     ];
@@ -436,7 +449,7 @@ export default function DataTable() {
     }));
 
     return (
-        <div style={{ height: 650, width: '91.9%', marginLeft: "85px" }}>
+        <div style={{ height: 650, width: '91.6%', marginLeft: "93px" }}>
 
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
 
