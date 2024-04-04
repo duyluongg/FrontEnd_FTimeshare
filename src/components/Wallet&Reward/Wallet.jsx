@@ -14,11 +14,7 @@ const Wallet = () => {
 
     const viewBalance = async () => {
         try {
-            const response = await axios.get(`https://bookinghomestayswp.azurewebsites.net/api/bookings/staff/TotalOwnerDoneCancelled/${user.id}`, {
-                headers: {
-                    'Authorization': `Bearer ${token}`
-                }
-            });
+            const response = await axios.get(`https://bookinghomestayswp.azurewebsites.net/api/bookings/staff/TotalOwnerDoneCancelled/${user.id}`);
             // const response = await axios.get(`https://localhost:8080/api/bookings/staff/TotalOwnerDoneCancelled/${user.id}`);
             console.log(response.data);
             

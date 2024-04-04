@@ -47,25 +47,21 @@ const Sidebar = ({ children }) => {
     useEffect(() => {
         const fetchUserData = async () => {
             try {
-                const response = await axios.get(`https://bookinghomestayswp.azurewebsites.net/api/users/viewDetail/${user.id}`, {
-                    headers: {
-                        'Authorization': `Bearer ${token}`
-                    }
-                });
+                const response = await axios.get(`https://bookinghomestayswp.azurewebsites.net/api/users/viewDetail/${user.id}`);
                 setUserData(response.data);
                 // console.log(response.data.imgName);
 
-                const updatedProjects = await (async () => {
-                    const imgResponse = await axios.get(`${response.data.imgName}`, {
-                        headers: {
-                            'Authorization': `Bearer ${token}`
-                        }
-                    });
-                    const imgName = imgResponse.data;
-                    return { imgName };
-                })();
-                // console.log(updatedProjects);
-                setImgName(updatedProjects);
+                // const updatedProjects = await (async () => {
+                //     const imgResponse = await axios.get(`${response.data.imgName}`, {
+                //         headers: {
+                //             'Authorization': `Bearer ${token}`
+                //         }
+                //     });
+                //     const imgName = imgResponse.data;
+                //     return { imgName };
+                // })();
+                // // console.log(updatedProjects);
+                // setImgName(updatedProjects);
             } catch (error) {
                 console.error("Error fetching user data:", error);
             }
@@ -82,7 +78,7 @@ const Sidebar = ({ children }) => {
                         {userData && (
                             <div class="acc-profile-card profile-content-card__content">
                                 <div class="acc-profile-card__personal-info">
-                                    <img class="acc-profile-card__user-photo" width="50" height="50" src={imgName.imgName} alt="" />
+                                    <img class="acc-profile-card__user-photo" width="50" height="50" src={userData.imgName} alt="" />
                                     {/* <img class="acc-profile-card__user-photo" width="50" height="50" src="https://lh3.googleusercontent.com/a/ACg8ocKwx0Ea79MRzWq9psF5SbXKrhONWjrieqlri25PmOjp=s96-c?sz=256" alt="" /> */}
                                     <div class="acc-profile-card__name-and-settings">
                                         <div class="acc-profile-card__user-name">
