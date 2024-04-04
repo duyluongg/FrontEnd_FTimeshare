@@ -25,7 +25,7 @@ function ViewNews() {
         };
 
         fetchNewsDetail();
-    }, [newsId.id]);
+    }, []);
 
     // useEffect(() => {
     //     if (news.length > 0) {
