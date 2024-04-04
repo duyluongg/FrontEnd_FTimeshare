@@ -21,6 +21,7 @@ export default function ModalConfirmRC({ openModalConfirm }) {
     const handleCloseProduct = () => {
         handleClose(); 
         openModalConfirm(); 
+      
     };
     
 

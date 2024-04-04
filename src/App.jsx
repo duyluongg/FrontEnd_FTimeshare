@@ -102,6 +102,7 @@ import DetailComponent from './components/Detail/DetailComponent.jsx'
 import ProductPendingDetail from './components/AdminPage/TotalProjectPending/ProductPendingDetail.jsx'
 import RejectedProductDetail from './components/AdminPage/RejectedProject/RejectedProductDetail.jsx'
 import ClosedProductDetail from './components/AdminPage/TotalProductClose/ClosedProductDetail.jsx'
+import AllBooking from './components/AllBooking.jsx'
 function App() {
 
   const { user, loginContext } = useContext(UserContext);
@@ -254,6 +255,9 @@ function App() {
           <Route path='/staff/view-news-staff/:newsId' element={<ViewNewStaff />}></Route>
           <Route path="/staff-profile" element={<ProfileStaff getData={user.id} />} />
           <Route path='/staff/update-profile/:accID' element={<UpdateProfileStaff />} />
+
+          <Route path='/staff/all-booking' element={<AllBooking />} />
+
         </Routes>
 
         {/* ================================================================================================================================================================= */}

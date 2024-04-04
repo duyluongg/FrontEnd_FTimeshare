@@ -43,6 +43,7 @@ import Profile from '../../Profile/Profile.jsx';
 import ProfileStaff from '../ProfileStaff/ProfileStaff.jsx';
 import AccountBoxIcon from '@mui/icons-material/AccountBox';
 import HomeIcon from '@mui/icons-material/Home';
+import PaidIcon from '@mui/icons-material/Paid';
 const drawerWidth = 240;
 
 const openedMixin = (theme) => ({
@@ -224,6 +225,29 @@ export default function Sidenav() {
                                 }}
                             >
                                 <HomeIcon />
+                            </ListItemIcon>
+                            <ListItemText primary="Home" sx={{ opacity: open ? 1 : 0 }} />
+                        </ListItemButton>
+
+
+                    </ListItem>
+
+                    <ListItem disablePadding sx={{ display: 'block' }} component={Link} to="/staff/all-booking">
+                        <ListItemButton
+                            sx={{
+                                minHeight: 48,
+                                justifyContent: open ? 'initial' : 'center',
+                                px: 2.5,
+                            }}
+                        >
+                            <ListItemIcon
+                                sx={{
+                                    minWidth: 0,
+                                    mr: open ? 3 : 'auto',
+                                    justifyContent: 'center',
+                                }}
+                            >
+                                <PaidIcon />
                             </ListItemIcon>
                             <ListItemText primary="Home" sx={{ opacity: open ? 1 : 0 }} />
                         </ListItemButton>
