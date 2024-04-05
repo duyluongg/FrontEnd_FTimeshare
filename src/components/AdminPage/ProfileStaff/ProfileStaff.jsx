@@ -7,6 +7,7 @@ import Sidenav from '../Sidenav/Sidenav';
 import './ProfileStaff.css'
 export default function ProfileStaff({ getData }) {
     console.log(getData);
+    const apiUrl = 'https://bookinghomestayfpt.azurewebsites.net';
 
 
 
@@ -21,7 +22,7 @@ export default function ProfileStaff({ getData }) {
         console.log(getData);
         try {
             const [accountResponse, imagesResponse] = await Promise.all([
-                axios.get(`https://bookinghomestayswp.azurewebsites.net/api/users/viewDetail/${getData}`),
+                axios.get(`${apiUrl}/api/users/viewDetail/${getData}`),
 
 
             ]);

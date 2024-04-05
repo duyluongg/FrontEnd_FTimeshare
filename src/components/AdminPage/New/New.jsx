@@ -4,6 +4,8 @@ import SnackBar from "../../SnackBar.jsx";
 import * as Yup from 'yup';
 
 function CreateNews({getData}) {
+    const apiUrl = 'https://bookinghomestayfpt.azurewebsites.net';
+
     const [title, setTitle] = useState('');
     const [content, setContent] = useState('');
     const [news, setNews] = useState('');
@@ -41,7 +43,7 @@ function CreateNews({getData}) {
 
 
 
-            const response = await axios.post('https://bookinghomestayswp.azurewebsites.net/api/news', formData, {
+            const response = await axios.post(`${apiUrl}/api/news`, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 }

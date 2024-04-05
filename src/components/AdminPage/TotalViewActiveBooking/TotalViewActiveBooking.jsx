@@ -185,6 +185,8 @@ const ExpandMore = styled((props) => {
 // }
 
 export default function TotalViewActiveBooking() {
+    const apiUrl = 'https://bookinghomestayfpt.azurewebsites.net';
+
     const [loading, setLoading] = useState(true);
     const [projectActive, setProjectActive] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
@@ -228,9 +230,9 @@ export default function TotalViewActiveBooking() {
     const fetchData = async () => {
         try {
             const [pendingResponse, imagesResponse, profilesResponse] = await Promise.all([
-                axios.get('https://bookinghomestayswp.azurewebsites.net/api/bookings/staff/active'),
-                axios.get('https://bookinghomestayswp.azurewebsites.net/api/pictures/customerview'),
-                axios.get('https://bookinghomestayswp.azurewebsites.net/api/users/staffview')
+                axios.get(`${apiUrl}/api/bookings/staff/active`),
+                axios.get(`${apiUrl}/api/pictures/customerview`),
+                axios.get(`${apiUrl}/api/users/staffview`)
             ]);
 
             const pendingData = pendingResponse.data;

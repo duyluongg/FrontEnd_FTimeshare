@@ -241,18 +241,19 @@ import { TextField } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
 import SearchIcon from '@mui/icons-material/Search';
 
-export default function DataTable() {
+export default function TotalProduct() {
     const ODD_OPACITY = 0.2;
     const [search, setSearch] = useState('');
     const [projectActive, setProjectActive] = useState([]);
-  
+    const apiUrl = 'https://bookinghomestayfpt.azurewebsites.net';
+
     useEffect(() => {
         fetchData(); // Cập nhật dữ liệu sau khi đã chọn dự án mới
     }, []);
     const fetchData = async () => {
         try {
             // Thay thế 'your_token_here' bằng bearer token của bạn
-    
+
             const [
                 productResponse,
                 projectResponse,
@@ -261,16 +262,16 @@ export default function DataTable() {
                 closeResponse,
                 rejectedResponse,
             ] = await Promise.all([
-                axios.get('https://bookinghomestayswp.azurewebsites.net/api/products/staff/active'),
+                axios.get(`${apiUrl}/api/products/staff/active`),
                 // axios.get('https://bookinghomestayswp.azurewebsites.net/api/pictures/customerview',headers),
                 // axios.get('https://bookinghomestayswp.azurewebsites.net/api/users/staffview'),
-                axios.get('https://bookinghomestayswp.azurewebsites.net/api/project/customer/viewproject'),
-                axios.get('https://bookinghomestayswp.azurewebsites.net/api/productType/customer/viewproductType'),
-                axios.get('https://bookinghomestayswp.azurewebsites.net/api/products/staff/pending'),
-                axios.get('https://bookinghomestayswp.azurewebsites.net/api/products/staff/closed'),
-                axios.get('https://bookinghomestayswp.azurewebsites.net/api/products/staff/rejected'),
+                axios.get(`${apiUrl}/api/project/customer/viewproject`),
+                axios.get(`${apiUrl}/api/productType/customer/viewproductType`),
+                axios.get(`${apiUrl}/api/products/staff/pending`),
+                axios.get(`${apiUrl}/api/products/staff/closed`),
+                axios.get(`${apiUrl}/api/products/staff/rejected`),
             ]);
-    
+
             const dataWithId = [
                 ...productResponse.data.map((item, index) => ({
                     ...item,
@@ -301,14 +302,14 @@ export default function DataTable() {
                     status: "Close"
                 }))
             ];
-    
+
             setProjectActive(dataWithId);
         } catch (error) {
             console.error('Error fetching data:', error);
         }
     };
-    
-    
+
+
 
     const getProjectName = (projectId, projects) => {
         const project = projects.find(project => project.projectID === projectId);
@@ -324,7 +325,23 @@ export default function DataTable() {
         { field: 'id', headerName: 'No', width: 100, headerClassName: "super-app-theme--header", cellClassName: "super-app-theme--cell-other" },
         { field: 'productName', headerName: 'Product Name', width: 300, headerClassName: "super-app-theme--header", cellClassName: "super-app-theme--cell-other" },
         { field: 'productAddress', headerName: 'Address', width: 300, headerClassName: "super-app-theme--header" },
-        { field: 'productStatus', headerName: 'Status', width: 90, headerClassName: "super-app-theme--header", cellClassName: "super-app-theme--cell" },
+        {
+            field: 'productStatus',
+            headerName: 'Status',
+            width: 90,
+            headerClassName: "super-app-theme--header",
+            cellClassName: (params) => {
+                if (params.value === "Pending") {
+                    return "super-app-theme--cell-pending";
+                } else if (params.value === "Closed") {
+                    return "super-app-theme--cell-closed";
+                } else if (params.value === "Rejected") {
+                    return "super-app-theme--cell-rejected";
+                } else {
+                    return "super-app-theme--cell";
+                }
+            }
+        },
         { field: 'projectName', headerName: 'Project', width: 300, headerClassName: "super-app-theme--header", cellClassName: "super-app-theme--cell-other" },
         { field: 'productType', headerName: 'Product Type', width: 200, headerClassName: "super-app-theme--header", cellClassName: "super-app-theme--cell-other" },
 
@@ -343,7 +360,7 @@ export default function DataTable() {
                             DETAIL
                         </Button>
                     </Link>
-                ) :params.row.productStatus === "Pending" ? (
+                ) : params.row.productStatus === "Pending" ? (
                     <Link to={`/staff/pending/${params.row.productID}/${params.row.accID}`}>
                         <Button variant="outlined">
                             DETAIL
@@ -363,9 +380,9 @@ export default function DataTable() {
                     </Link>
                 )
             )
-            
+
         },
-        
+
     ];
 
     // const formatDate = (dateArray) => {
@@ -411,7 +428,21 @@ export default function DataTable() {
                 },
             },
         },
+        // Custom styling for rows with status "Pending"
+        '& .super-app-theme--cell-pending': {
+            color: '#FFC94A', // Set the color to yellow for rows with status "Pending"
+            fontSize: "16px",
+        },
+        '& .super-app-theme--cell-closed': {
+            color: 'red', // Set the color to yellow for rows with status "Pending"
+            fontSize: "16px",
+        },
+        '& .super-app-theme--cell-rejected': {
+            color: '#561C24', // Set the color to yellow for rows with status "Pending"
+            fontSize: "16px",
+        },
     }));
+
 
     return (
         <div style={{ height: 650, width: '91.6%', marginLeft: "93px" }}>

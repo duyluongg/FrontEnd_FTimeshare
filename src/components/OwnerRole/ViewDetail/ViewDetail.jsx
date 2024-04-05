@@ -65,6 +65,7 @@ function SamplePrevArrowSt2({ onClick }) {
 }
 
 export default function ViewDetail() {
+    const apiUrl = 'https://bookinghomestayfpt.azurewebsites.net';  
     useEffect(() => {
         window.scrollTo(0, 0);
     }, []);

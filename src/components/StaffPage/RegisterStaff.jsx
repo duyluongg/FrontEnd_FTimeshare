@@ -11,6 +11,8 @@ import ModalTerm from "../Register/ModalTerm.jsx";
 import { faEyeSlash, faEye } from '@fortawesome/free-solid-svg-icons';
 
 export default function Register() {
+    const apiUrl = 'https://bookinghomestayfpt.azurewebsites.net';
+
     const [firstName, setFirstName] = useState('');
     const [email, setEmail] = useState('');
     const [phoneNumber, setPhoneNumber] = useState('');
@@ -88,7 +90,7 @@ export default function Register() {
             formData.append('roleID', '2');
             formData.append('accBirthday', formattedBirthday);
 
-            const response = await axios.post('https://bookinghomestayswp.azurewebsites.net/api/users', formData, {
+            const response = await axios.post(`${apiUrl}/api/users`, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 }

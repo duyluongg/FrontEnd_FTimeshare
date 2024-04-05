@@ -11,6 +11,8 @@ import SearchIcon from '@mui/icons-material/Search';
 import { Link } from 'react-router-dom';
 
 export default function ViewAllNew() {
+    const apiUrl = 'https://bookinghomestayfpt.azurewebsites.net';
+
     const [news, setNews] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const projectsPerPage = 6;
@@ -19,15 +21,13 @@ export default function ViewAllNew() {
     const indexOfFirstProject = indexOfLastProject - projectsPerPage;
     const [filteredProjects, setFilteredProjects] = useState([]);
     const currentNews = searchQuery ? filteredProjects.slice(indexOfFirstProject, indexOfLastProject) : news.slice(indexOfFirstProject, indexOfLastProject);
-    const token = sessionStorage.getItem('token');
-    console.log(token);
-    const headers = { headers: { 'Authorization': `Bearer ${token}` } };
+
     useEffect(() => {
         fetchAllNews();
     }, [searchQuery]);
     const fetchAllNews = async () => {
         try {
-            const newResponse = await axios.get('https://bookinghomstay.azurewebsites.net/api/news/view', headers);
+            const newResponse = await axios.get(`${apiUrl}/api/news/view`);
 
             const sortedNews = newResponse.data.sort((a, b) => {
                 const dateA = new Date(...a.newsPost);

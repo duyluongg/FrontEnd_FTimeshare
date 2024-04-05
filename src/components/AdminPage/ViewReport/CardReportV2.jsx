@@ -33,6 +33,8 @@ import { Pagination } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 
 export default function CardReportV2() {
+    const apiUrl = 'https://bookinghomestayfpt.azurewebsites.net';
+
     const [projectDetail, setprojectDetail] = useState([]);
     const [reportDetails, setReportDetails] = useState([]);
     const { productID, accID } = useParams();
@@ -72,11 +74,11 @@ export default function CardReportV2() {
         try {
             console.log(accID);
             const [productItem, imagesResponse, profilesResponse, userData, reportData] = await Promise.all([
-                axios.get(`https://bookinghomestayswp.azurewebsites.net/api/products/viewById/${productID}`),
-                axios.get('https://bookinghomestayswp.azurewebsites.net/api/pictures/customerview'),
-                axios.get('https://bookinghomestayswp.azurewebsites.net/api/users/staffview'),
-                axios.get(`https://bookinghomestayswp.azurewebsites.net/api/users/viewDetail/${accID}`),
-                axios.get(`https://bookinghomestayswp.azurewebsites.net/api/reports/viewByProductId/${productID}`)
+                axios.get(`${apiUrl}/api/products/viewById/${productID}`),
+                axios.get(`${apiUrl}/api/pictures/customerview`),
+                axios.get(`${apiUrl}/api/users/staffview`),
+                axios.get(`${apiUrl}/api/users/viewDetail/${accID}`),
+                axios.get(`${apiUrl}/api/reports/viewByProductId/${productID}`)
 
 
             ]);
@@ -110,7 +112,7 @@ export default function CardReportV2() {
 
     const handleDelete = async (reportID) => {
         try {
-            await axios.delete(`https://bookinghomestayswp.azurewebsites.net/api/reports/delete/${reportID}`);
+            await axios.delete(`${apiUrl}/api/reports/delete/${reportID}`);
 
             // setProjectReport(prevProjectReport => prevProjectReport.filter(item => item.reportID !== reportID));
             // setProjectReport(true);
@@ -125,7 +127,7 @@ export default function CardReportV2() {
     const handleCloseProduct = async (productID) => {
         console.log(productID);
         try {
-            await axios.put(`https://bookinghomestayswp.azurewebsites.net/api/products/staff/close/${productID}`);
+            await axios.put(`${apiUrl}/api/products/staff/close/${productID}`);
             setIsProjectClosed(true);
             setShowModalConfirm(true);
             setShowModalNotify(true);

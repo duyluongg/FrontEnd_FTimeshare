@@ -7,6 +7,8 @@ const Wallet = () => {
 
     const { user } = useContext(UserContext);
     const [totalBalance, setTotalBalance] = useState('');
+    const apiUrl = 'https://bookinghomestayfpt.azurewebsites.net';
+
 
 
     useEffect(() => {
@@ -15,7 +17,7 @@ const Wallet = () => {
 
     const viewBalance = async () => {
         try {
-            const response = await axios.get(`https://bookinghomstay.azurewebsites.net/api/bookings/staff/TotalOwnerDoneCancelled/${user.id}`);
+            const response = await axios.get(`${apiUrl}/api/bookings/staff/TotalOwnerDoneCancelled/${user.id}`);
             console.log(response.data);
             setTotalBalance(response.data);
         } catch (error) {

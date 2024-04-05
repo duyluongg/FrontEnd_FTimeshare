@@ -9,7 +9,7 @@ import { faStar, faPen, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { Link } from "react-router-dom";
 
 const TotalRevenueHomestay = () => {
-
+    const apiUrl = 'https://bookinghomestayfpt.azurewebsites.net';
     const { user } = useContext(UserContext);
     const [productListByUserId, setProductListByUserId] = useState([]);
     const [totalBalance, setTotalBalance] = useState('');
@@ -21,7 +21,7 @@ const TotalRevenueHomestay = () => {
     }, [user.id]);
     const viewBalance = async () => {
         try {
-            const response = await axios.get(`https://bookinghomstay.azurewebsites.net/api/bookings/staff/TotalOwnerDoneCancelled/${user.id}`);
+            const response = await axios.get(`${apiUrl}/api/bookings/staff/TotalOwnerDoneCancelled/${user.id}`);
             console.log(response.data);
             setTotalBalance(response.data);
         } catch (error) {
@@ -32,14 +32,14 @@ const TotalRevenueHomestay = () => {
     useEffect(() => {
         const fetchProductByUserId = async () => {
             try {
-                const response = await axios.get(`https://bookinghomstay.azurewebsites.net/api/products/${user.id}`);
+                const response = await axios.get(`${apiUrl}/api/products/${user.id}`);
                 const products = response.data;
 
                 const updatedProducts = await Promise.all(products.map(async (product) => {
-                    const feedbackResponse = await axios.get(`https://bookinghomstay.azurewebsites.net/api/feedback/average-feedback-rating/${product.productID}`);
+                    const feedbackResponse = await axios.get(`${apiUrl}/api/feedback/average-feedback-rating/${product.productID}`);
                     const rating = feedbackResponse.data;
 
-                    const revenueResponse = await axios.get(`https://bookinghomstay.azurewebsites.net/api/products/sumRevenueOfProducts/${product.productID}`);
+                    const revenueResponse = await axios.get(`${apiUrl}/api/products/sumRevenueOfProducts/${product.productID}`);
                     const revenue = revenueResponse.data;
                     // console.log(revenue);
 
@@ -57,7 +57,7 @@ const TotalRevenueHomestay = () => {
     useEffect(() => {
         const fetchImg = async () => {
             try {
-                const response = await axios.get(`https://bookinghomstay.azurewebsites.net/api/pictures/customerview`);
+                const response = await axios.get(`${apiUrl}/api/pictures/customerview`);
                 setImages(response.data);
             } catch (error) {
                 console.error('Error fetching view img:', error);
@@ -125,7 +125,11 @@ const TotalRevenueHomestay = () => {
                                 </div>
                             </div>
                             <div className="button-group">
-                                <Link onClick={() => handleUpdateButton(product.productStatus)}>
+                                {/* <Link onClick={() => handleUpdateButton(product.productStatus)}>
+                                    <FontAwesomeIcon icon={faPen} />
+                                    &nbsp;Update
+                                </Link> */}
+                                <Link to={`/update-product/${product.productID}/${user.id}`}>
                                     <FontAwesomeIcon icon={faPen} />
                                     &nbsp;Update
                                 </Link>

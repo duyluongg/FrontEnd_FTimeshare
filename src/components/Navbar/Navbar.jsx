@@ -28,6 +28,7 @@ function classNames(...classes) {
 }
 
 export default function Navbar({ getData }) {
+  const apiUrl = 'https://bookinghomestayfpt.azurewebsites.net';
 
   const { user, logout } = useContext(UserContext);
   const [accountUser, setAccountUser] = useState(null);
@@ -36,7 +37,7 @@ export default function Navbar({ getData }) {
     // console.log(getData);
     try {
       const [accountResponse, imagesResponse] = await Promise.all([
-        axios.get(`https://bookinghomstay.azurewebsites.net/api/users/viewDetail/${user.id}`),
+        axios.get(`${apiUrl}/api/users/viewDetail/${user.id}`),
       ]);
       setAccountUser(accountResponse.data);
       // console.log(accountResponse.data.imgName);

@@ -80,13 +80,15 @@ export default function Accommodation() {
     const indexOfFirstProject = indexOfLastProject - projectsPerPage;
     const [filteredProjects, setFilteredProjects] = useState([]);
     const currentProjects = searchQuery ? filteredProjects.slice(indexOfFirstProject, indexOfLastProject) : projects.slice(indexOfFirstProject, indexOfLastProject);
+    const apiUrl = 'https://bookinghomestayfpt.azurewebsites.net';
+
     
     useEffect(() => {
         fetchAllProjects();
     }, [searchQuery]);
     const fetchAllProjects = async () => {
         try {
-            const projectResponse = await axios.get('https://bookinghomstay.azurewebsites.net/api/project/customer/viewproject');
+            const projectResponse = await axios.get(`${apiUrl}/api/project/customer/viewproject`);
             
             setProjects(projectResponse.data);
 

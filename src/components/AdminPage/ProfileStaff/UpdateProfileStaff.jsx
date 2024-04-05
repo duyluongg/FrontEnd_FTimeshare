@@ -9,6 +9,8 @@ import { faFacebookF, faGooglePlusG } from '@fortawesome/free-brands-svg-icons';
 import Sidenav from '../Sidenav/Sidenav.jsx';
 
 export default function UpdateProfileStaff() {
+    const apiUrl = 'https://bookinghomestayfpt.azurewebsites.net';
+
     const { accID } = useParams();
     const [firstName, setFirstName] = useState('');
     const [email, setEmail] = useState('');
@@ -27,7 +29,7 @@ export default function UpdateProfileStaff() {
 
     const fetchDataUser = async (accID) => {
         try {
-            const response = await axios.get(`https://bookinghomestayswp.azurewebsites.net/api/users/viewDetail/${accID}`);
+            const response = await axios.get(`${apiUrl}/api/users/viewDetail/${accID}`);
             const { accName, accEmail, accPhone, accBirthday, imgName } = response.data;
             setFirstName(accName);
             setEmail(accEmail);
@@ -57,7 +59,7 @@ export default function UpdateProfileStaff() {
             formData.append('roleID', '3');
             formData.append('accBirthday', formattedBirthday);
 
-            const response = await axios.put(`https://bookinghomestayswp.azurewebsites.net/api/users/edit/${accID}`, formData, {
+            const response = await axios.put(`${apiUrl}/api/users/edit/${accID}`, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 }

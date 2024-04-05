@@ -20,6 +20,8 @@ export default function UpdateProfile({ getData }) {
     const [snackbarOpen, setSnackbarOpen] = useState(false);
     const [snackbarMessage, setSnackbarMessage] = useState('');
     const [snackbarColor, setSnackbarColor] = useState('success');
+    const apiUrl = 'https://bookinghomestayfpt.azurewebsites.net';
+
 
     useEffect(() => {
         if (getData) {
@@ -29,7 +31,7 @@ export default function UpdateProfile({ getData }) {
 
     const fetchDataUser = async (getData) => {
         try {
-            const response = await axios.get(`https://bookinghomstay.azurewebsites.net/api/users/viewDetail/${getData}`);
+            const response = await axios.get(`${apiUrl}/api/users/viewDetail/${getData}`);
             console.log(response.data);
             const { accName, accEmail, accPhone, accBirthday, imgName } = response.data;
             setFirstName(accName);
@@ -60,7 +62,7 @@ export default function UpdateProfile({ getData }) {
             formData.append('roleID', '3');
             formData.append('accBirthday', formattedBirthday);
 
-            const response = await axios.put(`https://bookinghomstay.azurewebsites.net/api/users/edit/${getData}`, formData, {
+            const response = await axios.put(`${apiUrl}/api/users/edit/${getData}`, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 }

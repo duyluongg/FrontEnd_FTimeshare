@@ -8,10 +8,11 @@ const Year = () => {
   const [selectedYear, setSelectedYear] = useState('2024'); // Đặt giá trị mặc định là '2024'
   const [yearlyTotalPrice, setYearlyTotalPrice] = useState(null);
   const [monthlyTotalPrice, setMonthlyTotalPrice] = useState(null);
+  const apiUrl = 'https://bookinghomestayfpt.azurewebsites.net';
 
   const fetchMonthlyTotalPrice = async (year) => {
     try {
-      const response = await axios.get(`https://bookinghomestayswp.azurewebsites.net/api/bookings/admin/monthlyTotalPrice/${year}`);
+      const response = await axios.get(`${apiUrl}/api/bookings/admin/monthlyTotalPrice/${year}`);
       return response.data;
     } catch (error) {
       console.error('Error fetching data:', error);
@@ -28,7 +29,7 @@ const Year = () => {
     const year = e.target.value;
     setSelectedYear(year);
     try {
-      const yearlyResponse = await axios.get(`https://bookinghomestayswp.azurewebsites.net/api/bookings/admin/yearlyTotalPrice/${year}`);
+      const yearlyResponse = await axios.get(`${apiUrl}/api/bookings/admin/yearlyTotalPrice/${year}`);
       setYearlyTotalPrice(yearlyResponse.data);
 
       const monthlyResponse = await fetchMonthlyTotalPrice(year);

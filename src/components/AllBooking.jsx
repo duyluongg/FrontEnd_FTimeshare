@@ -8,13 +8,18 @@ import './AdminPage/TotalProject/TotalProduct.css'
 import { TextField } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
 import SearchIcon from '@mui/icons-material/Search';
-
+import Box from '@mui/material/Box';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
 export default function AllBooking() {
     const ODD_OPACITY = 0.2;
     const [search, setSearch] = useState('');
     const [projectActive, setProjectActive] = useState([]);
-    const token = sessionStorage.getItem('token');
-    console.log(token);
+    const [filteredRows, setFilteredRows] = useState([]);
+    const apiUrl = 'https://bookinghomestayfpt.azurewebsites.net';
+
     useEffect(() => {
         fetchData(); // Cập nhật dữ liệu sau khi đã chọn dự án mới
     }, []);
@@ -25,30 +30,20 @@ export default function AllBooking() {
             const [
                 waito100Response,
                 waito80Response,
-                productResponse
+                doneResponse,
+
             ] = await Promise.all([
 
 
-                axios.get('https://bookinghomestayswp.azurewebsites.net/api/bookings/staff/WaitRespondPayment(100)', {
-                    headers: {
-                        'Authorization': `Bearer ${token}`
-                    }
-                }),
-                axios.get('https://bookinghomestayswp.azurewebsites.net/api/bookings/staff/WaitRespondPayment(80)', {
-                    headers: {
-                        'Authorization': `Bearer ${token}`
-                    }
-                }),
-                axios.get('https://bookinghomestayswp.azurewebsites.net/api/products/staff/active', {
-                    headers: {
-                        'Authorization': `Bearer ${token}`
-                    }
-                }),
+                axios.get(`${apiUrl}/api/bookings/staff/WaitRespondPayment(100)`),
+                axios.get(`${apiUrl}/api/bookings/staff/WaitRespondPayment(80)`),
+                axios.get(`${apiUrl}/api/bookings/staff/done`),
+
 
             ]);
             console.log(waito100Response.data);
             console.log(waito80Response.data);
-            console.log(productResponse.data);
+            console.log(doneResponse.data);
 
 
 
@@ -63,6 +58,12 @@ export default function AllBooking() {
                 ...waito80Response.data.map((item, index) => ({
                     ...item,
                     id: index + 1 + waito100Response.data.length,
+
+
+                })),
+                ...doneResponse.data.map((item, index) => ({
+                    ...item,
+                    id: index + 1 + waito100Response.data.length + waito80Response.data.length ,
 
 
                 })),
@@ -131,7 +132,7 @@ export default function AllBooking() {
                     </Link>
                 )
             )
-            
+
 
         },
 
@@ -182,6 +183,30 @@ export default function AllBooking() {
         },
     }));
 
+    const [age, setAge] = React.useState('');
+
+    const handleChange = (event) => {
+        setAge(event.target.value);
+    };
+
+    useEffect(() => {
+        filterRowsByStatus();
+    }, [age, projectActive]);
+
+    const filterRowsByStatus = () => {
+        let dataToFilter = projectActive;
+        if (age) {
+            dataToFilter = projectActive.filter((item) => item.bookingStatus === age);
+        }
+        setFilteredRows(dataToFilter);
+    };
+
+    
+    
+    
+    
+
+
     return (
         <div style={{ height: 650, width: '91.6%', marginLeft: "93px" }}>
 
@@ -197,7 +222,29 @@ export default function AllBooking() {
                 <IconButton type="submit" aria-label="search" sx={{ mb: '30px' }}>
                     <SearchIcon />
                 </IconButton>
+                <div>
+                    <FormControl sx={{ width: "130px", mb:"25px" }}>
+                        <InputLabel id="demo-simple-select-label">Status</InputLabel>
+                        <Select
+                            labelId="demo-simple-select-label"
+                            id="demo-simple-select"
+                            value={age}
+                            label="Status"
+                            onChange={handleChange}
+                        >
+                            <MenuItem >All</MenuItem>
+
+                            <MenuItem value={`Wait to respond payment (80%)`}>Wait to respond payment (80%)</MenuItem>
+                            <MenuItem value={`Wait to respond payment (100%)`}>Wait to respond payment (100%)</MenuItem>
+                            <MenuItem value={`Done`}>Done</MenuItem>
+
+
+                        </Select>
+                    </FormControl>
+                </div>
             </div>
+
+
 
             <StripedDataGrid
                 sx={{
@@ -219,8 +266,12 @@ export default function AllBooking() {
 
                     },
                 }}
-                rows={projectActive.filter((item) =>
-                    search.trim() === '' ? true : item.productName.toLowerCase().includes(search.toLowerCase())
+                // rows={projectActive.filter((item) =>
+                //     search.trim() === '' ? true : item.productName.toLowerCase().includes(search.toLowerCase())
+                // )}
+
+                rows={filteredRows.filter((item) =>
+                    search.trim() === '' ? true : item.bookingStatus.toLowerCase().includes(search.toLowerCase())
                 )}
                 columns={columns}
                 initialState={{

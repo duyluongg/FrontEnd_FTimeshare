@@ -21,6 +21,8 @@ import { faStar } from '@fortawesome/free-solid-svg-icons';
 import { faUser } from '@fortawesome/free-solid-svg-icons';
 
 export default function Payment() {
+    const apiUrl = 'https://bookinghomestayfpt.azurewebsites.net';
+
     const [orderSummary, setOrderSummary] = useState('');
     const [totalPrice, setTotalPrice] = useState('');
     const [totalDay, setTotalDay] = useState('');
@@ -64,11 +66,11 @@ export default function Payment() {
     useEffect(() => {
         const getProductData = async () => {
             try {
-                const productResponse = await axios.get(`https://bookinghomstay.azurewebsites.net/api/products/viewById/${productID}`);
+                const productResponse = await axios.get(`${apiUrl}/api/products/viewById/${productID}`);
                 setProductData(productResponse.data[0]);
 
                 const updatedProjects = await (async () => {
-                    const feedbackResponse = await axios.get(`https://bookinghomstay.azurewebsites.net/api/feedback/average-feedback-rating/${productResponse.data[0].productID}`);
+                    const feedbackResponse = await axios.get(`${apiUrl}/api/feedback/average-feedback-rating/${productResponse.data[0].productID}`);
                     const rating = feedbackResponse.data;
 
                     return { rating };
@@ -76,10 +78,10 @@ export default function Payment() {
                 setRating(updatedProjects);
                 console.log(updatedProjects);
 
-                const userResponse = await axios.get(`https://bookinghomstay.azurewebsites.net/api/users/viewDetail/${productResponse.data[0].accID}`);
+                const userResponse = await axios.get(`${apiUrl}/api/users/viewDetail/${productResponse.data[0].accID}`);
                 setUserData(userResponse.data);
 
-                const productTypeResponse = await axios.get('https://bookinghomstay.azurewebsites.net/api/productType/customer/viewproductType');
+                const productTypeResponse = await axios.get(`${apiUrl}/api/productType/customer/viewproductType`);
                 const productTypeData = productTypeResponse.data;
 
                 // const selectedProductType = productTypeData.find(type => type.productTypeID === productData.productTypeID);
@@ -170,7 +172,7 @@ export default function Payment() {
             formData.append('acc_id', user.id);
             formData.append('productID', productID);
 
-            const response = await axios.post('https://bookinghomstay.azurewebsites.net/api/bookings/customer/createbooking', formData, {
+            const response = await axios.post(`${apiUrl}/api/bookings/customer/createbooking`, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 }

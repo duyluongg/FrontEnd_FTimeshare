@@ -11,6 +11,7 @@ import CustomDatePicker from "./CustomDatePicker.jsx";
 import flatpickr from "flatpickr";
 const Booking = () => {
     const { user } = useContext(UserContext);
+    const apiUrl = 'https://bookinghomestayfpt.azurewebsites.net';
 
     const [name, setName] = useState("");
     const [phone, setPhone] = useState("");
@@ -37,7 +38,7 @@ const Booking = () => {
     useEffect(() => {
         const fetchAccInfoAPI = async () => {
             try {
-                const response = await axios.get(`https://bookinghomestayswp.azurewebsites.net/api/users/viewDetail/${user.id}`);
+                const response = await axios.get(`${apiUrl}/api/users/viewDetail/${user.id}`);
                 setAccInfo(response.data);
                 console.log(response.data);
             } catch (error) {
@@ -64,7 +65,7 @@ const Booking = () => {
             formData.append('booking_person', numPeople);
 
 
-            // const response = await axios.post('https://bookinghomestayswp.azurewebsites.net/api/bookings/customer/checkbooking', formData, {
+            // const response = await axios.post('${apiUrl}/api/bookings/customer/checkbooking', formData, {
             //     headers: {
             //         'Content-Type': 'multipart/form-data'
             //     }
@@ -111,7 +112,7 @@ const Booking = () => {
     useEffect(() => {
         const fetchBookedDates = async () => {
             try {
-                const response = await axios.get(`https://bookinghomestayswp.azurewebsites.net/api/products/view/bookedDate/${productID}`);
+                const response = await axios.get(`${apiUrl}/api/products/view/bookedDate/${productID}`);
                 console.log(response.data);
                 setBookedDate(response.data);
 

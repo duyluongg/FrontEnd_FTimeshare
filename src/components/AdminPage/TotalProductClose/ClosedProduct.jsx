@@ -22,6 +22,8 @@ const ExpandMore = styled((props) => {
 }));
 
 export default function ClosedProduct() {
+    const apiUrl = 'https://bookinghomestayfpt.azurewebsites.net';
+
     const [expanded, setExpanded] = React.useState(false);
     const [projectActive, setProjectActive] = React.useState([])
     const [searchQuery, setSearchQuery] = useState('');
@@ -47,10 +49,10 @@ export default function ClosedProduct() {
     const fetchProjectPending = async () => {
         try {
             const [rejectResponse, profilesResponse, imagesResponse, projectResponse] = await Promise.all([
-                axios.get('https://bookinghomestayswp.azurewebsites.net/api/products/staff/closed'),
-                axios.get('https://bookinghomestayswp.azurewebsites.net/api/users/staffview'),
-                axios.get('https://bookinghomestayswp.azurewebsites.net/api/pictures/customerview'),
-                axios.get('https://bookinghomestayswp.azurewebsites.net/api/project/customer/viewproject')
+                axios.get(`${apiUrl}/api/products/staff/closed`),
+                axios.get(`${apiUrl}/api/users/staffview`),
+                axios.get(`${apiUrl}/api/pictures/customerview`),
+                axios.get(`${apiUrl}/api/project/customer/viewproject`)
 
             ]);
 

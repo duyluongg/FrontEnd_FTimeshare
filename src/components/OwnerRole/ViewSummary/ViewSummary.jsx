@@ -12,11 +12,12 @@ export default function ViewSummary() {
     const [products, setProducts] = useState([]);
     const [totalRevenue, setTotalRevenue] = useState(0);
     const { user } = useContext(UserContext);
+    const apiUrl = 'https://bookinghomestayfpt.azurewebsites.net';
 
     useEffect(() => {
         const fetchProductByUserId = async () => {
             try {
-                const response = await axios.get(`http://localhost:8080/api/products/${user.id}`);
+                const response = await axios.get(`${apiUrl}/api/products/${user.id}`);
                 setProducts(response.data);
                 // console.log(response.data);
             } catch (error) {
@@ -30,7 +31,7 @@ export default function ViewSummary() {
     useEffect(() => {
         const fetchTotalRevenueAPI = async () => {
             try {
-                const response = await axios.get(`http://localhost:8080/api/products/sum/${user.id}`);
+                const response = await axios.get(`${apiUrl}/api/products/sum/${user.id}`);
                 setTotalRevenue(response.data);
                 // console.log(response.data);
             } catch (error) {
@@ -57,7 +58,7 @@ export default function ViewSummary() {
     useEffect(() => {
         const fetchImg = async () => {
             try {
-                const response = await axios.get(`http://localhost:8080/api/pictures/customerview`);
+                const response = await axios.get(`${apiUrl}/api/pictures/customerview`);
                 setImages(response.data);
                 // console.log(response.data);
             } catch (error) {
