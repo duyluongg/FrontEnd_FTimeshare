@@ -284,9 +284,9 @@ export default function Homestay() {
                             </div>
                         </div>
                         <div className='bcbf33c5c3'>
-                            <div class="efdb2b543b e4b7a69a57">
+                            {/* <div class="efdb2b543b e4b7a69a57">
                                 <h1 aria-live="assertive" className="f6431b446c d5f78961c3">17 properties found</h1>
-                            </div>
+                            </div> */}
                             {searchClicked ? (
                                 filterProduct.map((product) => {
                                     const projectImage = images.find(image => image.productID === product.productID);
