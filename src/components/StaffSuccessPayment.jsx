@@ -8,6 +8,7 @@ import axios from "axios";
 import { Link, useParams } from "react-router-dom";
 
 export default function StaffSuccessPayment() {
+    const apiUrl = 'https://bookinghomestayfpt.azurewebsites.net';
 
     const { user } = useContext(UserContext);
     const [userData, setUserData] = useState(null);
@@ -19,7 +20,7 @@ export default function StaffSuccessPayment() {
                 const formData = new FormData();
                 formData.append("bookingID", bookingID.bookingID);
                 formData.append("type", 1);
-                const response = await axios.post("https://bookinghomestayswp.azurewebsites.net/api/bookings/sendWebAfterPayment", formData, {
+                const response = await axios.post(`${apiUrl}/api/bookings/sendWebAfterPayment`, formData, {
                     headers: {
                         'Content-Type': 'multipart/form-data'
                     }
@@ -34,7 +35,7 @@ export default function StaffSuccessPayment() {
     useEffect(() => {
         const fetchUserData = async () => {
             try {
-                const response = await axios.get(`https://bookinghomestayswp.azurewebsites.net/api/users/viewDetail/${user.id}`);
+                const response = await axios.get(`${apiUrl}/api/users/viewDetail/${user.id}`);
                 console.log(response.data);
                 setUserData(response.data);
             } catch (error) {

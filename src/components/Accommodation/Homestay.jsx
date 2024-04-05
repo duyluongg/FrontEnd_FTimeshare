@@ -25,6 +25,7 @@ export default function Homestay() {
     const [searchClicked, setSearchClicked] = useState(false);
     const [cityList, setCityList] = useState([]);
     const [images, setImages] = useState([]);
+    const apiUrl = 'https://bookinghomestayfpt.azurewebsites.net';
 
     useEffect(() => {
         showProduct();
@@ -63,10 +64,10 @@ export default function Homestay() {
 
     const showProduct = async () => {
         try {
-            const response = await axios.get('https://bookinghomestayfpt.azurewebsites.net/api/products/staff/active');
+            const response = await axios.get(`${apiUrl}/api/products/staff/active`);
             const activeProducts = response.data;
             const updatedProjects = await Promise.all(activeProducts.map(async (product) => {
-                const feedbackResponse = await axios.get(`https://bookinghomestayfpt.azurewebsites.net/api/feedback/average-feedback-rating/${product.productID}`);
+                const feedbackResponse = await axios.get(`${apiUrl}/api/feedback/average-feedback-rating/${product.productID}`);
                 const rating = feedbackResponse.data;
                 return { ...product, rating };
             }));
@@ -105,14 +106,14 @@ export default function Homestay() {
             formData.append('endDate', formattedEndDate);
             console.log(formData);
 
-            const response = await axios.post('https://bookinghomestayfpt.azurewebsites.net/api/products/filter', formData, {
+            const response = await axios.post('${apiUrl}/api/products/filter', formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 }
             });
             const filteredProducts = response.data;
             const updatedProjects = await Promise.all(filteredProducts.map(async (product) => {
-                const feedbackResponse = await axios.get(`https://bookinghomestayfpt.azurewebsites.net/api/feedback/average-feedback-rating/${product.productID}`);
+                const feedbackResponse = await axios.get(`${apiUrl}/api/feedback/average-feedback-rating/${product.productID}`);
                 const rating = feedbackResponse.data;
                 return { ...product, rating };
             }));
@@ -127,7 +128,7 @@ export default function Homestay() {
 
     const fetchImg = async () => {
         try {
-            const response = await axios.get(`https://bookinghomestayfpt.azurewebsites.net/api/pictures/customerview`);
+            const response = await axios.get(`${apiUrl}/api/pictures/customerview`);
             setImages(response.data);
         } catch (error) {
             console.error('Error fetching view img:', error);

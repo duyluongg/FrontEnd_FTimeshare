@@ -12,13 +12,14 @@ import SelectOption from '../AdminPage/TotalUser/SelectOption.jsx';
 export default function TotalStaffAdmin() {
   const [rows, setRows] = useState([]);
   const [search, setSearch] = useState('');
+  const apiUrl = 'https://bookinghomestayfpt.azurewebsites.net';
 
   console.log(search);
 
   useEffect(() => {
     const fetchRow = async () => {
       try {
-        const response = await axios.get('https://bookinghomestayswp.azurewebsites.net/api/users/ROLE_STAFF');
+        const response = await axios.get(`${apiUrl}/api/users/ROLE_STAFF`);
         const updatedRows = response.data.map((row, index) => ({
           ...row,
           id: index + 1,
@@ -35,7 +36,7 @@ export default function TotalStaffAdmin() {
 
   const handleDelete = async (row) => {
     try {
-      await axios.delete(`https://bookinghomestayswp.azurewebsites.net/api/users/delete/${row.accID}`);
+      await axios.delete(`${apiUrl}/api/users/delete/${row.accID}`);
       setRows((prevRows) => prevRows.filter((prevRow) => prevRow.id !== row.id));
     } catch (error) {
       console.error('Error deleting row:', error);
@@ -46,9 +47,9 @@ export default function TotalStaffAdmin() {
     try {
       let response;
       if (newRole === 'active') {
-        response = await axios.put(`https://bookinghomestayswp.azurewebsites.net/api/users/staff/active/${row.accID}`);
+        response = await axios.put(`${apiUrl}/api/users/staff/active/${row.accID}`);
       } else if (newRole === 'block') {
-        response = await axios.put(`https://bookinghomestayswp.azurewebsites.net/api/users/staff/block/${row.accID}`);
+        response = await axios.put(`${apiUrl}/api/users/staff/block/${row.accID}`);
       }
 
       console.log(response.data);

@@ -21,6 +21,8 @@ const ExpandMore = styled((props) => {
 }));
 
 export default function ViewCustomerPayment() {
+    const apiUrl = 'https://bookinghomestayfpt.azurewebsites.net';
+
     const [loading, setLoading] = useState(true);
     const [productToConfirm, setProductToConfirm] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
@@ -62,9 +64,9 @@ export default function ViewCustomerPayment() {
     const fetchData = async () => {
         try {
             const [pendingResponse, imagesResponse, profilesResponse] = await Promise.all([
-                axios.get('https://bookinghomestayswp.azurewebsites.net/api/bookings/staff/WaitRespondPayment(100)'),
-                axios.get('https://bookinghomestayswp.azurewebsites.net/api/pictures/customerview'),
-                axios.get('https://bookinghomestayswp.azurewebsites.net/api/users/staffview')
+                axios.get(`${apiUrl}/api/bookings/staff/WaitRespondPayment(100)`),
+                axios.get(`${apiUrl}/api/pictures/customerview`),
+                axios.get(`${apiUrl}/api/users/staffview`)
             ]);
 
             setProductToConfirm(pendingResponse.data);
@@ -84,7 +86,7 @@ export default function ViewCustomerPayment() {
 
     const handleAcceptCancelRespond = async (bookingID) => {
         try {
-            await axios.put(`https://bookinghomestayswp.azurewebsites.net/api/bookings/confirm_booking_respond_payment/${bookingID}`);
+            await axios.put(`${apiUrl}/api/bookings/confirm_booking_respond_payment/${bookingID}`);
             fetchData();
         } catch (error) {
             console.error('Error fetching projects:', error);

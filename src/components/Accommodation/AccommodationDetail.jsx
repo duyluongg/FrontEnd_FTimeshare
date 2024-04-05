@@ -22,6 +22,7 @@ export default function AccommodationDetail() {
     const [filteredProducts, setFilteredProducts] = useState([]);
     const currentProducts = searchQuery ? filteredProducts.slice(indexOfFirstProduct, indexOfLastProduct) : products.slice(indexOfFirstProduct, indexOfLastProduct);
     const projectID = parseInt(useParams().projectID);
+    const apiUrl = 'https://bookinghomestayfpt.azurewebsites.net';
 
     // console.log(projectID);
 
@@ -31,7 +32,7 @@ export default function AccommodationDetail() {
     const fetchProductByProjectID = async () => {
 
         try {
-            const response = await axios.get('https://bookinghomestayfpt.azurewebsites.net/api/products/staff/active');
+            const response = await axios.get(`${apiUrl}/api/products/staff/active`);
             const products = response.data;
             // console.log(products);
             const productData = products.filter(product => product.projectID === projectID);
@@ -51,7 +52,7 @@ export default function AccommodationDetail() {
     useEffect(() => {
         const fetchImg = async () => {
           try {
-            const response = await axios.get(`https://bookinghomestayfpt.azurewebsites.net/api/pictures/customerview`);
+            const response = await axios.get(`${apiUrl}/api/pictures/customerview`);
             setImages(response.data);
             // console.log(response.data);
           } catch (error) {

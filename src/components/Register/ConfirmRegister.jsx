@@ -20,6 +20,7 @@ const ConfirmRegister = () => {
     const [snackbarMessage, setSnackbarMessage] = useState('');
     const [snackbarColor, setSnackbarColor] = useState('success');
     const [isLoading, setIsLoading] = useState(false);
+    const apiUrl = 'https://bookinghomestayfpt.azurewebsites.net';
 
     const generateRandomCode = () => {
         const randomCode = Math.floor(100000 + Math.random() * 900000);
@@ -31,7 +32,7 @@ const ConfirmRegister = () => {
         e.preventDefault();
         if (code === randomCode) {
             try {
-                const response = await axios.put(`https://bookinghomestayfpt.azurewebsites.net/api/users/verify/active/${email}`);
+                const response = await axios.put(`${apiUrl}/api/users/verify/active/${email}`);
                 console.log('Email verified:', response.data);
                 // setIsCodeComplete(true);
                 setSendAttempts(0);
@@ -55,7 +56,7 @@ const ConfirmRegister = () => {
             setErrorMessage(`Sending verification code failed. You have ${remaining} attempts left.`);
             if (sendAttempts >= 5) {
                 try {
-                    const response = await axios.delete(`https://bookinghomestayfpt.azurewebsites.net/api/users/deleteByEmail/${email}`);
+                    const response = await axios.delete(`${apiUrl}/api/users/deleteByEmail/${email}`);
                     console.log('Email deletion response:', response.data);
                     // setErrorMessage('Email verification failed. Please register with a new email.');
                     setErrorMessage('');
@@ -78,11 +79,7 @@ const ConfirmRegister = () => {
             const formData = new FormData();
             formData.append('getOTP', randomCode.toString());
             formData.append('email', email);
-            const response = await axios.post('https://bookinghomestayfpt.azurewebsites.net/api/users/sendOTP/', formData, {
-                headers: {
-                    'Content-Type': 'multipart/form-data'
-                }
-            });
+            const response = await axios.post(`${apiUrl}/api/users/sendOTP/`, formData);
             console.log('Code sent successfully:', response.data);
             // setIsCodeComplete(true);
             setSnackbarMessage('A verification code has been sent to your email, please check your email!')

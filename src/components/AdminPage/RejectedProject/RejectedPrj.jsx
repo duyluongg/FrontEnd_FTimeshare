@@ -34,6 +34,7 @@ export default function RejectedPrj() {
     const [filteredProjects, setFilteredProjects] = useState([]);
     const [projectName, setProjectName] = useState([]);
     const [selectedProjectID, setSelectedProjectID] = useState(null);
+    const apiUrl = 'https://bookinghomestayfpt.azurewebsites.net';
 
     const handleSearchChange = (event) => {
         setSearchQuery(event.target.value);
@@ -56,9 +57,9 @@ export default function RejectedPrj() {
     const fetchProjectPending = async () => {
         try {
             const [rejectResponse, profilesResponse, projectResponse] = await Promise.all([
-                axios.get('https://bookinghomestayswp.azurewebsites.net/api/products/staff/rejected'),
-                axios.get('https://bookinghomestayswp.azurewebsites.net/api/users/staffview'),
-                axios.get('https://bookinghomestayswp.azurewebsites.net/api/project/customer/viewproject')
+                axios.get(`${apiUrl}/api/products/staff/rejected`),
+                axios.get(`${apiUrl}/api/users/staffview`),
+                axios.get(`${apiUrl}/api/project/customer/viewproject`)
 
             ]);
 

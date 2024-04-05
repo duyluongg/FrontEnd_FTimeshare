@@ -36,6 +36,7 @@ const ExpandMore = styled((props) => {
 
 export default function BookingDetail() {
     const [expanded, setExpanded] = React.useState(false);
+    const apiUrl = 'https://bookinghomestayfpt.azurewebsites.net';
 
     const handleExpandClick = () => {
         setExpanded(!expanded);
@@ -61,15 +62,15 @@ export default function BookingDetail() {
 
     const fetchData = async () => {
         try {
-            const pendingResponse = await axios.get(`https://bookinghomestayswp.azurewebsites.net/api/products/viewById/${productID}`);
+            const pendingResponse = await axios.get(`${apiUrl}/api/products/viewById/${productID}`);
             const accIDProduct = pendingResponse.data[0].accID;
 
             const [imagesResponse, profilesResponse, userProductData, userBookingData, customerBookingData] = await Promise.all([
-                axios.get('https://bookinghomestayswp.azurewebsites.net/api/pictures/customerview'),
-                axios.get('https://bookinghomestayswp.azurewebsites.net/api/users/staffview'),
-                axios.get(`https://bookinghomestayswp.azurewebsites.net/api/users/viewDetail/${accIDProduct}`),
-                axios.get(`https://bookinghomestayswp.azurewebsites.net/api/users/viewDetail/${accID}`),
-                axios.get(`https://bookinghomestayswp.azurewebsites.net/api/bookings/view-booking-by-Id/${bookingID}`),
+                axios.get(`${apiUrl}/api/pictures/customerview`),
+                axios.get(`${apiUrl}/api/users/staffview`),
+                axios.get(`${apiUrl}/api/users/viewDetail/${accIDProduct}`),
+                axios.get(`${apiUrl}/api/users/viewDetail/${accID}`),
+                axios.get(`${apiUrl}/api/bookings/view-booking-by-Id/${bookingID}`),
 
             ]);
 
@@ -87,7 +88,7 @@ export default function BookingDetail() {
 
     const handleAcceptActive = async (bookingID) => {
         try {
-            await axios.put(`https://bookinghomestayswp.azurewebsites.net/api/bookings/staff/active/${bookingID}`);     
+            await axios.put(`${apiUrl}/api/bookings/staff/active/${bookingID}`);     
             setShowSecondDiv(false);
             setShowModalNotify(true)
             setTimeout(() => navigate("/staff/wait-to-confirm-list"), 2000)
@@ -99,7 +100,7 @@ export default function BookingDetail() {
 
     const handleAcceptReject = async (bookingID) => {
         try {
-            await axios.put(`https://bookinghomestayswp.azurewebsites.net/api/bookings/staff/Rejected/${bookingID}`);
+            await axios.put(`${apiUrl}/api/bookings/staff/Rejected/${bookingID}`);
             // setShowSecondDiv(false);
             setShowModalNotify(true)
             setTimeout(() => navigate("/staff/wait-to-confirm-list"), 2000)

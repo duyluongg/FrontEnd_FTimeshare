@@ -147,7 +147,7 @@ function App() {
   const isBookingStage = location.pathname.includes('/booking-stage');
   const isProfile = location.pathname.includes('/profile');
   const isUpdateProfile = location.pathname.includes('/update-profile');
-  const isUpdateProfileStaff = location.pathname.includes('/update-profile-staff/:accID');
+  // const isUpdateProfileStaff = location.pathname.includes('/update-profile-staff/:accID');
   const isAccommodationDetail = location.pathname.includes('/accommodation-detail');
   const isHomestay = location.pathname.includes('/homestay');
   const isConfirmRegister = location.pathname.includes('/confirm-register');
@@ -160,21 +160,21 @@ function App() {
   const isPayment = location.pathname.includes('/payment');
   const isUpdateProduct = location.pathname.includes('/update-product');
   const isSidebar = location.pathname.includes('/profile') || location.pathname.includes('/view-booking-history') 
-  || location.pathname.includes('/update-profile') || location.pathname.includes('/wallet-and-reward') || location.pathname.includes('/my-homestay');
+  || location.pathname.includes('/update-profile') || location.pathname.includes('/wallet-and-reward') || location.pathname.includes('/my-homestay') ;
 
   const navigate = useNavigate();
 
   return (
     <>
       <div style={{ minHeight: "100vh" }}>
-        {!isStaffPage && !isAdminPage && !isUpdateProfileStaff && (
+        {!isStaffPage && !isAdminPage  && (
           <>
             <Navigation />
             <Navbar getData={user.id} />
           </>
         )}
 
-        {!isDetailPage && !isLoginPage && !isRegisterPage && !isContactPage && !isStaffPage && !isAdminPage && !isUpdateProfileStaff
+        {!isDetailPage && !isLoginPage && !isRegisterPage && !isContactPage && !isStaffPage && !isAdminPage 
           && !isCreateTimeshare && !isViewSummary && !isViewDetail && !isViewNews && !isViewNewAll && !isCreateNews && !isAccommodation
           && !isBooking && !isCreateBooking && !isBookingStage && !isProfile && !isPayment && !isUpdateProduct && !isSidebar
           && !isAccommodationDetail && !isUpdateProfile && !isHomestay && !isConfirmRegister && !isWallet && !isSuccessPayment  && !isBookingDetail 
@@ -188,6 +188,7 @@ function App() {
               <Route path='/update-profile' element={<UpdateProfile getData={user.id} />}></Route>
               <Route path='/wallet-and-reward' element={<Wallet />}></Route>
               <Route path='/my-homestay' element={<TotalRevenueHomestay />}></Route>
+
             </Routes>
           </Sidebar>
         
@@ -229,9 +230,10 @@ function App() {
         <Route path='/update-profile/:accID' element={<UpdateProfile/>}></Route> */}
           <Route path='/new' element={<ViewAllNew />}></Route>
           <Route path='/view-news/:id' element={<ViewNews />}></Route>
+          <Route path='/update-product/:productID/:accID' element={<UpdateProduct />}></Route>
 
         </Routes>
-        {!isStaffPage && !isAdminPage && !isUpdateProfileStaff && <Footer />}
+        {!isStaffPage && !isAdminPage && <Footer />}
 
         {/* ================================================================================================================================================================= */}
         {/* STAFF */}

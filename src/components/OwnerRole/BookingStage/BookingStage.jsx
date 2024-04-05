@@ -13,6 +13,9 @@ import Stage3 from './Stage3';
 import axios from 'axios';
 
 function getStepContent(step, handleNext) {
+    const apiUrl = 'https://bookinghomestayfpt.azurewebsites.net';
+
+
     const location = useLocation();
     // const { name, checkInDate, numPeople, phone, checkOutDate, roomType, productPrice, productID } = location.state;
     const { bookingID, productID } = location.state;
@@ -24,7 +27,7 @@ function getStepContent(step, handleNext) {
     useEffect(() => {
         const viewBookingById = async () => {
             try {
-                const respose = await axios.get(`http://localhost:8080/api/bookings/view-booking-by-Id/${bookingID}`);
+                const respose = await axios.get(`${apiUrl}/api/bookings/view-booking-by-Id/${bookingID}`);
                 setBooking(respose.data);
                 console.log(respose.data)
             } catch(error) {
@@ -37,7 +40,7 @@ function getStepContent(step, handleNext) {
     useEffect(() => {
         const viewProductPriceById = async () => {
             try {
-                const respose = await axios.get(`http://localhost:8080/api/products/viewById/${productID}`);
+                const respose = await axios.get(`${apiUrl}/api/products/viewById/${productID}`);
                 setProduct(respose.data);
                 console.log(respose.data)
             } catch(error) {

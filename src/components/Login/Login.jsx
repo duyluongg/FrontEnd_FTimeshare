@@ -17,6 +17,8 @@ import * as Yup from 'yup';
 export default function Login() {
     const { loginContext } = useContext(UserContext);
     const navigate = useNavigate();
+    const apiUrl = 'https://bookinghomestayfpt.azurewebsites.net';
+
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -63,7 +65,7 @@ export default function Login() {
             try {
                 setLoadingAPI(true);
 
-                const response = await axios.post('https://bookinghomestayfpt.azurewebsites.net/auth/login', {
+                const response = await axios.post(`${apiUrl}/auth/login`, {
                     email,
                     password
                 });

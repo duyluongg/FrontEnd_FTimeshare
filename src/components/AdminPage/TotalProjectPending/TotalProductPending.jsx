@@ -38,6 +38,7 @@ export default function TotalProductPending() {
     const [projectName, setProjectName] = useState([]);
     const [selectedProjectID, setSelectedProjectID] = useState(null);
     const [filteredProjects, setFilteredProjects] = useState([]);
+    const apiUrl = 'https://bookinghomestayfpt.azurewebsites.net';
 
     const handleSearchChange = (event) => {
         setSearchQuery(event.target.value);
@@ -63,10 +64,10 @@ export default function TotalProductPending() {
     const fetchData = async () => {
         try {
             const [pendingResponse, imagesResponse, profilesResponse, projectResponse] = await Promise.all([
-                axios.get('https://bookinghomestayswp.azurewebsites.net/api/products/staff/pending'),
-                axios.get('https://bookinghomestayswp.azurewebsites.net/api/pictures/customerview'),
-                axios.get('https://bookinghomestayswp.azurewebsites.net/api/users/staffview'),
-                axios.get('https://bookinghomestayswp.azurewebsites.net/api/project/customer/viewproject')
+                axios.get(`${apiUrl}/api/products/staff/pending`),
+                axios.get(`${apiUrl}/api/pictures/customerview`),
+                axios.get(`${apiUrl}/api/users/staffview`),
+                axios.get(`${apiUrl}/api/project/customer/viewproject`)
 
             ]);
 
@@ -117,7 +118,7 @@ export default function TotalProductPending() {
     const handleAcceptClick = async (productId) => {
         console.log(productId);
         try {
-            await axios.put(`https://bookinghomestayswp.azurewebsites.net/api/products/staff/active/${productId}`);
+            await axios.put(`${apiUrl}/api/products/staff/active/${productId}`);
             fetchData();
         } catch (error) {
             console.error('Error accepting project:', error);
@@ -127,7 +128,7 @@ export default function TotalProductPending() {
     const handleRejectClick = async (productId) => {
         console.log(productId);
         try {
-            await axios.put(`https://bookinghomestayswp.azurewebsites.net/api/products/staff/reject/${productId}`);
+            await axios.put(`${apiUrl}/api/products/staff/reject/${productId}`);
             fetchData();
         } catch (error) {
             console.error('Error accepting project:', error);

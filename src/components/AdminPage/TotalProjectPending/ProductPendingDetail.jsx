@@ -326,6 +326,7 @@ export default function ProductPendingDetail() {
     const indexOfFirstProject = indexOfLastProject - reportPerPage;
     const currentProjects = reportDetails.slice(indexOfFirstProject, indexOfLastProject);
     const [projectType, setProjectType] = useState([]);
+    const apiUrl = 'https://bookinghomestayfpt.azurewebsites.net';
 
     const navigate = useNavigate();
     // const token = sessionStorage.getItem('token');
@@ -345,11 +346,11 @@ export default function ProductPendingDetail() {
         try {
             console.log(accID);
             const [productItem, imagesResponse, profilesResponse, userData, projectResponse] = await Promise.all([
-                axios.get(`https://bookinghomestayswp.azurewebsites.net/api/products/viewById/${productID}`),
-                axios.get('https://bookinghomestayswp.azurewebsites.net/api/pictures/customerview'),
-                axios.get('https://bookinghomestayswp.azurewebsites.net/api/users/staffview'),
-                axios.get(`https://bookinghomestayswp.azurewebsites.net/api/users/viewDetail/${accID}`),
-                axios.get('https://bookinghomestayswp.azurewebsites.net/api/project/customer/viewproject')
+                axios.get(`${apiUrl}/api/products/viewById/${productID}`),
+                axios.get(`${apiUrl}/api/pictures/customerview`),
+                axios.get(`${apiUrl}/api/users/staffview`),
+                axios.get(`${apiUrl}/api/users/viewDetail/${accID}`),
+                axios.get(`${apiUrl}/api/project/customer/viewproject`)
 
                 // axios.get(`https://bookinghomestayswp.azurewebsites.net/api/reports/viewByProductId/${productID}`, headers)
 
@@ -381,7 +382,7 @@ export default function ProductPendingDetail() {
     const handleAcceptClick = async (productId) => {
         console.log(productId);
         try {
-            await axios.put(`https://bookinghomestayswp.azurewebsites.net/api/products/staff/active/${productId}`, null, headers);
+            await axios.put(`${apiUrl}/api/products/staff/active/${productId}`, null, headers);
             setShowModalNotify(true)
             setTimeout(() => navigate("/staff"), 2000)
             fetchData();

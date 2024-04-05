@@ -23,6 +23,8 @@ import ModalSuccess from '../../ModalSuccess';
 import { useNavigate } from 'react-router-dom';
 
 export default function ClosedProductDetail() {
+    const apiUrl = 'https://bookinghomestayfpt.azurewebsites.net';
+
     const [projectDetail, setprojectDetail] = useState([]);
     const [reportDetails, setReportDetails] = useState([]);
     const { productID, accID } = useParams();
@@ -41,9 +43,7 @@ export default function ClosedProductDetail() {
     const indexOfFirstProject = indexOfLastProject - reportPerPage;
     const currentProjects = reportDetails.slice(indexOfFirstProject, indexOfLastProject);
     const [projectType, setProjectType] = useState([]);
-    const navigate = useNavigate();
-    const token = sessionStorage.getItem('token');
-    console.log(token);
+
 
     const toggleModal = () => {
         setShowModalNotify(!showModalNotify);
@@ -54,18 +54,18 @@ export default function ClosedProductDetail() {
         fetchData();
     }, []);
 
-    const headers = { headers: { 'Authorization': `Bearer ${token}` } };
+   
     const fetchData = async () => {
         try {
             console.log(accID);
             const [productItem, imagesResponse, profilesResponse, userData, projectResponse] = await Promise.all([
-                axios.get(`https://bookinghomestayswp.azurewebsites.net/api/products/viewById/${productID}`, headers),
-                axios.get('https://bookinghomestayswp.azurewebsites.net/api/pictures/customerview', headers),
-                axios.get('https://bookinghomestayswp.azurewebsites.net/api/users/staffview', headers),
-                axios.get(`https://bookinghomestayswp.azurewebsites.net/api/users/viewDetail/${accID}`, headers),
-                axios.get('https://bookinghomestayswp.azurewebsites.net/api/project/customer/viewproject', headers)
+                axios.get(`${apiUrl}/api/products/viewById/${productID}`),
+                axios.get(`${apiUrl}/api/pictures/customerview' ),
+                axios.get('${apiUrl}/api/users/staffview`),
+                axios.get(`${apiUrl}/api/users/viewDetail/${accID}`),
+                axios.get(`${apiUrl}/api/project/customer/viewproject`)
 
-                // axios.get(`https://bookinghomestayswp.azurewebsites.net/api/reports/viewByProductId/${productID}`, headers)
+                // axios.get(`${apiUrl}/api/reports/viewByProductId/${productID}`)
 
 
             ]);

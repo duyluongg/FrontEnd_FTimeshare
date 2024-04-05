@@ -14,6 +14,7 @@ import { UserContext } from '../../UserContext.jsx'
 export default function OwnerPage() {
 
     const { user } = useContext(UserContext);
+    const apiUrl = 'https://bookinghomestayfpt.azurewebsites.net';
 
     const [productListByUserId, setProductListByUserId] = useState([]);
 
@@ -59,7 +60,7 @@ export default function OwnerPage() {
         useEffect(() => {
             const fetchProductByUserId = async () => {
                 try {
-                    const response = await axios.get(`http://localhost:8080/api/products/${user.id}`);
+                    const response = await axios.get(`http://bookinghomestayfptu.azurewebsites.net/api/products/${user.id}`);
                     setProductListByUserId(response.data);
                 } catch (error) {
                     console.error('Error fetching products by user-id:', error);

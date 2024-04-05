@@ -8,6 +8,8 @@ import { useNavigate } from "react-router";
 import * as Yup from 'yup';
 
 export default function CreatePayment({ getID }) {
+    const apiUrl = 'https://bookinghomestayfpt.azurewebsites.net';
+
     const [accountName, setAccountName] = useState('');
     const [bank, setBank] = useState('');
     const [phoneNumber, setPhoneNumber] = useState('');
@@ -79,7 +81,7 @@ export default function CreatePayment({ getID }) {
                 formData.append('accID', getID);
 
 
-                const response = await axios.post('https://bookinghomestayswp.azurewebsites.net/api/payment', formData, {
+                const response = await axios.post(`${apiUrl}/api/payment`, formData, {
                     headers: {
                         'Content-Type': 'multipart/form-data'
                     }

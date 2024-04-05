@@ -11,6 +11,7 @@ import ModalTerm from "./ModalTerm.jsx";
 import { faEyeSlash, faEye } from '@fortawesome/free-solid-svg-icons';
 
 export default function Register() {
+    const apiUrl = 'https://bookinghomestayfpt.azurewebsites.net';
     const [firstName, setFirstName] = useState('');
     const [email, setEmail] = useState('');
     const [phoneNumber, setPhoneNumber] = useState('');
@@ -96,7 +97,7 @@ export default function Register() {
             formData.append('roleID', '3');
             formData.append('accBirthday', formattedBirthday);
 
-            const response = await axios.post('https://bookinghomestayfpt.azurewebsites.net/api/users', formData);
+            const response = await axios.post(`${apiUrl}/api/users`, formData);
             console.log(response.data);
             if (response.data == "Email already exists") {
                 setSnackbarMessage(response.data);

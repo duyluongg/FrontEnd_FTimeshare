@@ -68,11 +68,12 @@ import TotalUserAd from './TotalUserAd.jsx';
 
 export default function StaffView() {
     const [totalPrice, setTotalPrice] = useState(null);
+    const apiUrl = 'https://bookinghomestayfpt.azurewebsites.net';
 
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axios.get('https://bookinghomestayswp.azurewebsites.net/api/bookings/admin/total_Price_For_Done_Bookings');
+                const response = await axios.get(`${apiUrl}/api/bookings/admin/total_Price_For_Done_Bookings`);
                 setTotalPrice(response.data);
             } catch (error) {
                 console.error('Error fetching data:', error);

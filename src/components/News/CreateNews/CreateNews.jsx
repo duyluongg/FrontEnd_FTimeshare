@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import axios from 'axios';
 
 function CreateNews() {
+    const apiUrl = 'https://bookinghomestayfpt.azurewebsites.net';
+
     const [formData, setFormData] = useState({
         newsTitle: '',
         newsContent: '',
@@ -33,7 +35,7 @@ function CreateNews() {
         formDataToSend.append('image', formData.newsPicture);
         console.log(formDataToSend);
         try {
-            await axios.post('https://bookinghomestayswp.azurewebsites.net/api/news/add', formDataToSend, {
+            await axios.post(`${apiUrl}/api/news/add`, formDataToSend, {
                 headers: {
                     'Content-Type': 'multipart/form-data', // Đặt kiểu phương tiện là multipart/form-data
                 },

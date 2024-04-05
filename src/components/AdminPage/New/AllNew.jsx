@@ -19,12 +19,15 @@ export default function AllNew() {
     const indexOfFirstProject = indexOfLastProject - projectsPerPage;
     const [filteredProjects, setFilteredProjects] = useState([]);
     const currentNews = searchQuery ? filteredProjects.slice(indexOfFirstProject, indexOfLastProject) : news.slice(indexOfFirstProject, indexOfLastProject);
+    const apiUrl = 'https://bookinghomestayfpt.azurewebsites.net';
+
     useEffect(() => {
         fetchAllNews();
     }, [searchQuery]);
+    
     const fetchAllNews = async () => {
         try {
-            const newResponse = await axios.get('https://bookinghomestayswp.azurewebsites.net/api/news/view');
+            const newResponse = await axios.get(`${apiUrl}/api/news/view`);
 
             const sortedNews = newResponse.data.sort((a, b) => {
                 const dateA = new Date(...a.newsPost);
