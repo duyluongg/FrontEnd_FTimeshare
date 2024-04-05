@@ -68,7 +68,7 @@ export default function Profile({ getData }) {
                                 sx={{ width: 96, height: 96, mt: "40px", mb: "20px", objectFit: "cover" }}
                             />
                             <h2>{accountUser.accName}</h2>
-                            <Link to={`/update-profile`}>
+                            <Link to={`/customer-update-profile`}>
                                 <button>Edit</button>
                             </Link>
 

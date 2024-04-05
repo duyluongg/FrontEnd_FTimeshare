@@ -89,7 +89,7 @@ const Sidebar = ({ children }) => {
                                         <div class="acc-profile-card__user-name">
                                             {userData.accName}
                                         </div>
-                                        <NavLink to="/update-profile" className='acc-profile-card__edit-settings-action'>
+                                        <NavLink to="/customer-update-profile" className='acc-profile-card__edit-settings-action'>
                                             Edit your profile
                                         </NavLink>
                                     </div>

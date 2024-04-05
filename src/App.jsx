@@ -146,8 +146,8 @@ function App() {
   const isCreateBooking = location.pathname.includes('/create-booking');
   const isBookingStage = location.pathname.includes('/booking-stage');
   const isProfile = location.pathname.includes('/profile');
-  const isUpdateProfile = location.pathname.includes('/update-profile');
-  // const isUpdateProfileStaff = location.pathname.includes('/update-profile-staff/:accID');
+  const isUpdateProfile = location.pathname.includes('/customer-update-profile');
+  const isUpdateProfileStaff = location.pathname.includes('/update-profile-staff/:accID');
   const isAccommodationDetail = location.pathname.includes('/accommodation-detail');
   const isHomestay = location.pathname.includes('/homestay');
   const isConfirmRegister = location.pathname.includes('/confirm-register');
@@ -160,7 +160,7 @@ function App() {
   const isPayment = location.pathname.includes('/payment');
   const isUpdateProduct = location.pathname.includes('/update-product');
   const isSidebar = location.pathname.includes('/profile') || location.pathname.includes('/view-booking-history') 
-  || location.pathname.includes('/update-profile') || location.pathname.includes('/wallet-and-reward') || location.pathname.includes('/my-homestay') ;
+  || location.pathname.includes('/customer-update-profile') || location.pathname.includes('/wallet-and-reward') || location.pathname.includes('/my-homestay') ;
 
   const navigate = useNavigate();
 
@@ -185,7 +185,7 @@ function App() {
             <Routes>
               <Route path='/profile' element={<Profile getData={user.id} />}></Route>
               <Route path='/view-booking-history' element={<Booking/>}></Route>
-              <Route path='/update-profile' element={<UpdateProfile getData={user.id} />}></Route>
+              <Route path='/customer-update-profile' element={<UpdateProfile getData={user.id} />}></Route>
               <Route path='/wallet-and-reward' element={<Wallet />}></Route>
               <Route path='/my-homestay' element={<TotalRevenueHomestay />}></Route>
 
