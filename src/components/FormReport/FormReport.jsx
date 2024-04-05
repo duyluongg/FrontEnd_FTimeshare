@@ -47,7 +47,7 @@ export default function FormReport({ getID, getBookID, getData }) {
         e.preventDefault();
 
         try {
-            const response = await axios.post('https://bookinghomstay.azurewebsites.net/api/reports/customer/submitreport', {
+            const response = await axios.post('https://bookinghomestayfpt.azurewebsites.net/api/reports/customer/submitreport', {
                 reportDetail: reportDetail,
                 accID: getData,
                 bookingID: getBookID,

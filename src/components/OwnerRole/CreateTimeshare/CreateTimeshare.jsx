@@ -199,7 +199,7 @@ export default function CreateTimeshare() {
             setIsLoading(true);
 
             try {
-                const productResponse = await axios.post('${apiUrl}/api/products/add', productDataToSend, {
+                const productResponse = await axios.post(`${apiUrl}/api/products/add`, productDataToSend, {
                     headers: {
                         // 'Content-Type': 'application/json', 
                         'Authorization': `Bearer ${token}` 

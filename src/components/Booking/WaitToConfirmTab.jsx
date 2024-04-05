@@ -2,9 +2,36 @@ import React from 'react';
 import TabPanel from '@mui/lab/TabPanel';
 import { styled } from '@mui/material/styles';
 import { Link } from 'react-router-dom';
+import { useState } from 'react';
+import ModalConfirmCancel from '../ModalConfirmCancel';
 
 
-const WaitToConfirmTab = ({ bookingInfoConfirm, images, formatDate, handleCancelActive, handlePayment, isCancelled }) => {
+const WaitToConfirmTab = ({ bookingInfoConfirm, images, formatDate, handleCancelActive, handlePayment, isCancelled, isLoading, isLoadingCancel, loadingStates }) => {
+
+    const [showModal, setShowModal] = useState(false);
+    // console.log(showModal);
+
+    // const handleCancelClick = () => {
+    //     setShowModal(true); // Show the modal after cancel action
+    // };
+
+    // const handleConfirmCancel = () => {
+    //     setShowModal(false);
+    // };
+
+    const handleCancelClick = (bookingID) => {
+        setShowModal(prevState => ({
+            ...prevState,
+            [bookingID]: true
+        }));
+    };
+
+    const handleConfirmCancel = (bookingID) => {
+        setShowModal(prevState => ({
+            ...prevState,
+            [bookingID]: false
+        }));
+    };
 
     const Img = styled('img')({
         margin: 'auto',
@@ -19,105 +46,6 @@ const WaitToConfirmTab = ({ bookingInfoConfirm, images, formatDate, handleCancel
                 {bookingInfoConfirm.map((bookingInfo, index) => {
                     const projectImage = images.find(image => image.productID === bookingInfo.product.productID);
                     return (
-                        // <div className="YL_VlX" key={index}>
-                        //     <div>
-                        //         <div className='J632se'>
-                        //             <section>
-                        //                 <h3 className="a11y-hidden"></h3>
-                        //                 <div className='P2JMvg'>
-                        //                     <div classNae="RBPP9y">
-                        //                     </div>
-                        //                     <div className='jgIyoX'>
-                        //                         <div class="bv3eJE" tabindex="0">{bookingInfo.bookingStatus}</div>
-                        //                     </div>
-                        //                 </div>
-                        //             </section>
-                        //             <div class="kG_yF0"></div>
-                        //             <section>
-                        //                 <h3 class="a11y-hidden"></h3>
-                        //                 <Link to="">
-                        //                     <div>
-                        //                         <div className='bdAfgU'>
-                        //                             <section>
-                        //                                 <div className='mZ1OWk'>
-                        //                                     <div className='dJaa92'>
-                        //                                         <img src={projectImage ? projectImage.imgName : ""} className='gQuHsZ'></img>
-                        //                                         <div className='nmdHRf'>
-                        //                                             <div>
-                        //                                                 <div className='zWrp4w'>
-                        //                                                     <span class="DWVWOJ" tabindex="0">{bookingInfo.product.productName}</span>
-                        //                                                 </div>
-                        //                                             </div>
-                        //                                             <div>
-                        //                                                 <div className='zWrp4w'>
-                        //                                                     <span class="DWVWOJ" tabindex="0">{formatDate(bookingInfo.startDate)} - {formatDate(bookingInfo.endDate)}</span>
-                        //                                                 </div>
-                        //                                             </div>
-                        //                                             <div>
-                        //                                                 <div class="j3I_Nh" tabindex="0">Number of people: {bookingInfo.bookingPerson}</div>
-                        //                                             </div>
-                        //                                         </div>
-                        //                                     </div>
-                        //                                     <div class="ylYzwa" tabindex="0">
-                        //                                         <div class="YRp1mm">
-                        //                                             <span class="nW_6Oi PNlXhK">${bookingInfo.bookingPrice}</span>
-                        //                                         </div>
-                        //                                     </div>
-                        //                                 </div>
-                        //                             </section>
-                        //                         </div>
-                        //                     </div>
-                        //                 </Link>
-                        //             </section>
-                        //         </div>
-                        //     </div>
-                        //     <div class="kG_yF0"></div>
-                        //     <div className='yyqgYp'>
-                        //         <div class="iwUeSD">
-                        //             <div>
-                        //                 <span class="CDsaN0" aria-label="Đánh giá sản phẩm trước 21-03-2024" tabindex="0">
-                        //                     <div class="shopee-drawer" id="pc-drawer-id-21" tabindex="0"><u class="GQOPby" aria-describedby="0.5723019374949412"></u></div>
-                        //                 </span>
-                        //             </div>
-                        //             <span class="f423Cb"></span>
-                        //         </div>
-                        //         <section className='po9nwN'>
-                        //             <h3 class="a11y-hidden"></h3>
-                        //             {/* <div class="aAXjeK">
-                        //                 <div>
-                        //                     <button onClick={() => handleCancelActive(bookingInfo.bookingID)} class="stardust-button stardust-button--primary QY7kZh">Feedback</button>
-                        //                 </div>
-                        //             </div>
-                        //             <div class="hbQXWm">
-                        //                 <div>
-                        //                     <button onClick={() => handleCancelActive(bookingInfo.bookingID)} class="stardust-button stardust-button--secondary QY7kZh">Book Again</button>
-                        //                 </div>
-                        //             </div> */}
-                        //             <div class="aAXjeK">
-                        //                 <div>
-                        //                     <button
-                        //                         onClick={() => handlePayment(bookingInfo.bookingID, bookingInfo.bookingPrice)}
-                        //                         className={`stardust-button stardust-button--primary QY7kZh ${isCancelled ? 'hidden' : ''}`}
-                        //                     >
-                        //                         Pay
-                        //                     </button>
-                        //                 </div>
-                        //             </div>
-                        //             <div class="aAXjeK">
-                        //                 <div>
-                        //                     <button
-                        //                         onClick={() => handleCancelActive(bookingInfo.bookingID)}
-                        //                         className={`stardust-button stardust-button--primary QY7kZh ${bookingInfo.bookingStatus === 'Wait to confirm (request cancel)' || bookingInfo.bookingStatus === 'Rejected' ? 'disabled' : ''}`}
-                        //                         disabled={bookingInfo.bookingStatus === 'Wait to confirm (request cancel)' || bookingInfo.bookingStatus === 'Rejected'}
-                        //                     >
-                        //                         Cancel
-                        //                     </button>
-                        //                 </div>
-                        //             </div>
-
-                        //         </section>
-                        //     </div>
-                        // </div>
                         <div className='bcbf33c5c3' key={index}>
                             <div className='dcf496a7b9 bb2746aad9'>
                                 <div className="c733693b78"></div>
@@ -220,23 +148,34 @@ const WaitToConfirmTab = ({ bookingInfoConfirm, images, formatDate, handleCancel
                                                 <div>
                                                     <button
                                                         onClick={() => handlePayment(bookingInfo.bookingID, bookingInfo.bookingPrice)}
+                                                        // className={`stardust-button stardust-button--secondary QY7kZh`}
                                                         className={`stardust-button stardust-button--secondary QY7kZh ${isCancelled ? 'hidden' : ''}`}
+                                                        disabled={isLoading}
                                                     >
-                                                        Pay
+                                                        {isLoading ? 'Paying...' : 'Pay'}
                                                     </button>
                                                 </div>
                                             </div>
                                             <div class="aAXjeK">
                                                 <div>
-                                                    <button
-                                                        onClick={() => handleCancelActive(bookingInfo.bookingID)}
-                                                        className={`stardust-button stardust-button--primary QY7kZh ${bookingInfo.bookingStatus === 'Wait to confirm (request cancel)' || bookingInfo.bookingStatus === 'Rejected' ? 'disabled' : ''}`}
-                                                        disabled={bookingInfo.bookingStatus === 'Wait to confirm (request cancel)' || bookingInfo.bookingStatus === 'Rejected'}
+                                                    {/* <button
+                                                        // onClick={() => handleCancelActive(bookingInfo.bookingID)}
+                                                        onClick={() => handleCancelClick()}
+                                                        className={`stardust-button stardust-button--primary QY7kZh ${bookingInfo.bookingStatus === 'Wait to confirm (request cancel)' || bookingInfo.bookingStatus === 'Rejected' || isLoadingCancel ? 'disabled' : ''}`}
+                                                        disabled={isLoadingCancel || bookingInfo.bookingStatus === 'Wait to confirm (request cancel)' || bookingInfo.bookingStatus === 'Rejected'}
                                                     >
-                                                        Cancel
+                                                        {isLoadingCancel ? 'Canceling...' : 'Cancel'}
+                                                    </button> */}
+                                                    <button
+                                                        onClick={() => handleCancelClick(bookingInfo.bookingID)}
+                                                        className={`stardust-button stardust-button--primary QY7kZh ${bookingInfo.bookingStatus.includes('Wait to respond') || bookingInfo.bookingStatus === 'In progress' || loadingStates[bookingInfo.bookingID] ? 'disabled' : ''}`}
+                                                        disabled={loadingStates[bookingInfo.bookingID] || bookingInfo.bookingStatus.includes('Wait to respond') || bookingInfo.bookingStatus === 'In progress'}
+                                                    >
+                                                        {loadingStates[bookingInfo.bookingID] ? 'Canceling...' : 'Cancel'}
                                                     </button>
                                                 </div>
                                             </div>
+                                            {showModal[bookingInfo.bookingID] && <ModalConfirmCancel openModalConfirm={() => handleCancelActive(bookingInfo.bookingID)} showModalFalse={() => handleConfirmCancel(bookingInfo.bookingID)} />}
                                         </section>
                                     </div>
                                 </div>

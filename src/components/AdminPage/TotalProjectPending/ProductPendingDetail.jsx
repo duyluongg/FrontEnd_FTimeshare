@@ -329,9 +329,9 @@ export default function ProductPendingDetail() {
     const apiUrl = 'https://bookinghomestayfpt.azurewebsites.net';
 
     const navigate = useNavigate();
-    const token = sessionStorage.getItem('token');
-    console.log(token);
-    const headers = { headers: { 'Authorization': `Bearer ${token}` } };
+    // const token = sessionStorage.getItem('token');
+    // console.log(token);
+    // const headers = { headers: { 'Authorization': `Bearer ${token}` } };
 
     const toggleModal = () => {
         setShowModalNotify(!showModalNotify);

@@ -213,13 +213,13 @@ export default function Navbar({ getData }) {
                         )}
                       </Menu.Item>
 
-                      {/* <Menu.Item>
+                      <Menu.Item>
                         {({ active }) => (
-                          <Link to={'/view-summary'} className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}>
-                            My Post
+                          <Link to={'/my-homestay'} className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}>
+                            Manage Homestay
                           </Link>
                         )}
-                      </Menu.Item> */}
+                      </Menu.Item>
 
                       <Menu.Item>
                         {user && user.auth === true ? (
