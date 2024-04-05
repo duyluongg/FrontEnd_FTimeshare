@@ -24,16 +24,7 @@ import { useNavigate } from 'react-router-dom';
 // import CustomizedTables from './CustomizedTables';
 import { Grid } from '@mui/material';
 // import './RespondPayment.css'
-const ExpandMore = styled((props) => {
-    const { expand, ...other } = props;
-    return <IconButton {...other} />;
-})(({ theme, expand }) => ({
-    transform: !expand ? 'rotate(0deg)' : 'rotate(180deg)',
-    marginLeft: 'auto',
-    transition: theme.transitions.create('transform', {
-        duration: theme.transitions.duration.shortest,
-    }),
-}));
+
 
 export default function RespondPayment80() {
     const [expanded, setExpanded] = React.useState(false);
@@ -75,13 +66,13 @@ export default function RespondPayment80() {
             const pendingResponse = await axios.get(`https://bookinghomestayswp.azurewebsites.net/api/products/viewById/${productID}`, headers);
             const accIDProduct = pendingResponse.data[0].accID;
 
-            const [ profilesResponse, userProductData, userBookingData, customerBookingData, customerPayment] = await Promise.all([
-                // axios.get('https://bookinghomestayswp.azurewebsites.net/api/pictures/customerview'),
-                axios.get('https://bookinghomestayswp.azurewebsites.net/api/users/staffview', headers),
-                axios.get(`https://bookinghomestayswp.azurewebsites.net/api/users/viewDetail/${accIDProduct}`, headers),
-                axios.get(`https://bookinghomestayswp.azurewebsites.net/api/users/viewDetail/${accID}`, headers),
-                axios.get(`https://bookinghomestayswp.azurewebsites.net/api/bookings/view-booking-by-Id/${bookingID}`, headers),
-                axios.get('https://bookinghomestayswp.azurewebsites.net/api/bookings/staff/WaitRespondPayment(80)',headers),
+            const [imagesResponse, profilesResponse, userProductData, userBookingData, customerBookingData, customerPayment] = await Promise.all([
+                axios.get('https://bookinghomestayswp.azurewebsites.net/api/pictures/customerview'),
+                axios.get('https://bookinghomestayswp.azurewebsites.net/api/users/staffview'),
+                axios.get(`https://bookinghomestayswp.azurewebsites.net/api/users/viewDetail/${accIDProduct}`),
+                axios.get(`https://bookinghomestayswp.azurewebsites.net/api/users/viewDetail/${accID}`),
+                axios.get(`https://bookinghomestayswp.azurewebsites.net/api/bookings/view-booking-by-Id/${bookingID}`),
+                axios.get('https://bookinghomestayswp.azurewebsites.net/api/bookings/staff/WaitRespondPayment(80)'),
                 // axios.get(`https://bookinghomestayswp.azurewebsites.net/api/payment/payment/${accID}`, headers),
 
             ]);
@@ -90,7 +81,7 @@ export default function RespondPayment80() {
             setProductBooking(pendingResponse.data);
             console.log(pendingResponse.data);
 
-            // setImages(imagesResponse.data);
+            setImages(imagesResponse.data);
             setProfiles(profilesResponse.data);
             console.log(profilesResponse.data);
 
@@ -156,12 +147,21 @@ export default function RespondPayment80() {
     }
 
     const handleAcceptCancelRespond = async (bookingID) => {
+ 
         try {
-            const response = await axios.post(`https://bookinghomestayswp.azurewebsites.net/api/bookings/pay?amountPaymenmt=${customerAccountPayment[0].bookingPrice}&bookingID=${bookingID}`, headers);
-            // setTimeout(() => navigate("/staff/wait-customer-to-confirm-payment-list/100"), 2000)
+            // const response = await axios.post(`https://bookinghomestayswp.azurewebsites.net/api/bookings/pay?amountPaymenmt=${customerAccountPayment[0].bookingPrice}&bookingID=${bookingID}`);
+            const formData = new FormData();
+            formData.append('amountPaymemnt', customerAccountPayment[0].bookingPrice);
+            formData.append('bookingID', bookingID);
+            formData.append('type', 1);
+            const response = await axios.post(`https://bookinghomestayswp.azurewebsites.net/api/bookings/pay`, formData);
+            console.log(response.data);
             window.location.href = response.data;
+
+
         } catch (error) {
             console.error('Error fetching projects:', error);
+          
         }
     };
 
@@ -207,14 +207,6 @@ export default function RespondPayment80() {
                                 </Typography>
                                 <Typography variant="body2" color="text.secondary">
                                     Convenience: {productBooking[0].productConvenience}
-                                </Typography>
-
-                                <Typography variant="body2" color="text.secondary">
-                                    Start Date: {formatDate(productBooking[0].availableStartDate)}
-                                </Typography>
-
-                                <Typography variant="body2" color="text.secondary">
-                                    End Date: {formatDate(productBooking[0].availableEndDate)}
                                 </Typography>
                                 <Typography variant="body2" color="text.secondary">
                                     Person: {productBooking[0].productPerson}
@@ -280,7 +272,11 @@ export default function RespondPayment80() {
                                     {showAcceptButton && (
                                         <ModalConfirmRC openModalConfirm={() => handleAcceptCancelRespond(customerAccountPayment[0].bookingID)} />
                                     )} */}
-                                    <ModalConfirmRC openModalConfirm={() => handleAcceptCancelRespond(customerAccountPayment[0].bookingID)} />
+                                    {/* <ModalConfirmRC openModalConfirm={() => handleAcceptCancelRespond(customerAccountPayment[0].bookingID)} /> */}
+                                    <Button onClick={() => handleAcceptCancelRespond(customerAccountPayment[0].bookingID)}>
+                                        Accept
+                                    </Button>
+                        
 
 
                                 </form>

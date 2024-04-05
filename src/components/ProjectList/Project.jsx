@@ -169,7 +169,7 @@ export default function Project() {
             <div className='project-owner-header'>
               <div className='project-owner-title'>My Homestay</div>
               <div className='project-view-detail'>
-                <Link to={'/create-timeshare'} className='project-view-detail-button'>
+                <Link to={'/create-homestay'} className='project-view-detail-button'>
                   <FontAwesomeIcon icon={faPlus} />
                   &nbsp;Create
                 </Link>

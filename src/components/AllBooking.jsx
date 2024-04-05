@@ -62,7 +62,7 @@ export default function AllBooking() {
                 })),
                 ...waito80Response.data.map((item, index) => ({
                     ...item,
-                    id: index + 1 + waito80Response.data.length,
+                    id: index + 1 + waito100Response.data.length,
 
 
                 })),

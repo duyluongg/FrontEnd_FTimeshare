@@ -172,8 +172,7 @@ export default function Payment() {
 
             const response = await axios.post('https://bookinghomstay.azurewebsites.net/api/bookings/customer/createbooking', formData, {
                 headers: {
-                    'Content-Type': 'multipart/form-data',
-                    'Authorization': `Bearer ${token}`
+                    'Content-Type': 'multipart/form-data'
                 }
             });
             console.log(response.data);

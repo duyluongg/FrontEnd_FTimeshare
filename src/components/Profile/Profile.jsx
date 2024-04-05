@@ -62,7 +62,7 @@ export default function Profile({ getData }) {
                     <div className='profile-flex'>
                         <div className='profile-left'>
                             <Avatar
-                                alt="Remy Sharp"
+                                // alt="Remy Sharp"
                                 src={accountUser.imgName}
                                 sx={{ width: 96, height: 96, mt: "40px", mb: "20px", objectFit: "cover" }}
                             />

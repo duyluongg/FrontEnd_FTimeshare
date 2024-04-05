@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
-import './SuccessPayment.css'
+import './Payment/SuccessPayment.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCheck } from "@fortawesome/free-solid-svg-icons";
 import { useContext } from 'react'
-import { UserContext } from '../UserContext.jsx'
+import { UserContext } from './UserContext.jsx'
 import axios from "axios";
 import { Link, useParams } from "react-router-dom";
 
@@ -18,8 +18,8 @@ export default function StaffSuccessPayment() {
             try {
                 const formData = new FormData();
                 formData.append("bookingID", bookingID.bookingID);
-                formData.append("type", 0);
-                const response = await axios.post("https://bookinghomstay.azurewebsites.net/api/bookings/sendWebAfterPayment", formData, {
+                formData.append("type", 1);
+                const response = await axios.post("https://bookinghomestayswp.azurewebsites.net/api/bookings/sendWebAfterPayment", formData, {
                     headers: {
                         'Content-Type': 'multipart/form-data'
                     }
@@ -32,20 +32,9 @@ export default function StaffSuccessPayment() {
     })
 
     useEffect(() => {
-        const changeStatusBooking = async () => {
-            try {
-                const response = await axios.put(`https://bookinghomstay.azurewebsites.net/api/bookings/staff/active/${bookingID.bookingID}`);
-            } catch (error) {
-                Console.log("Error change status booking", error.response.data);
-            }
-        };
-        changeStatusBooking();
-    })
-
-    useEffect(() => {
         const fetchUserData = async () => {
             try {
-                const response = await axios.get(`https://bookinghomstay.azurewebsites.net/api/users/viewDetail/${user.id}`);
+                const response = await axios.get(`https://bookinghomestayswp.azurewebsites.net/api/users/viewDetail/${user.id}`);
                 console.log(response.data);
                 setUserData(response.data);
             } catch (error) {
@@ -65,11 +54,11 @@ export default function StaffSuccessPayment() {
                     <div className="success-message-addition"><FontAwesomeIcon icon={faCheck} />&nbsp;You’re all set! We sent your confirmation email to {userData.accEmail}</div>
                 )}
                 <div className="button-container">
-                    <Link to="/">
+                    <Link to="/staff">
                         <button className="home-button">Back to Home</button>
                     </Link>
-                    <Link to="/view-booking-history">
-                        <button className="order-history-button">View Booking History</button>
+                    <Link to="/staff/all-booking">
+                        <button className="order-history-button">View All Booking</button>
                     </Link>
                 </div>
             </div>
