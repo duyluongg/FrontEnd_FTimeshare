@@ -19,7 +19,7 @@ export default function StaffSuccessPayment() {
                 const formData = new FormData();
                 formData.append("bookingID", bookingID.bookingID);
                 formData.append("type", 0);
-                const response = await axios.post("https://bookinghomstay.azurewebsites.net/api/bookings/sendWebAfterPayment", formData, {
+                const response = await axios.post("https://bookinghomestayfpt.azurewebsites.net/api/bookings/sendWebAfterPayment", formData, {
                     headers: {
                         'Content-Type': 'multipart/form-data'
                     }
@@ -34,7 +34,7 @@ export default function StaffSuccessPayment() {
     useEffect(() => {
         const changeStatusBooking = async () => {
             try {
-                const response = await axios.put(`https://bookinghomstay.azurewebsites.net/api/bookings/staff/active/${bookingID.bookingID}`);
+                const response = await axios.put(`https://bookinghomestayfpt.azurewebsites.net/api/bookings/staff/active/${bookingID.bookingID}`);
             } catch (error) {
                 Console.log("Error change status booking", error.response.data);
             }
@@ -45,7 +45,7 @@ export default function StaffSuccessPayment() {
     useEffect(() => {
         const fetchUserData = async () => {
             try {
-                const response = await axios.get(`https://bookinghomstay.azurewebsites.net/api/users/viewDetail/${user.id}`);
+                const response = await axios.get(`https://bookinghomestayfpt.azurewebsites.net/api/users/viewDetail/${user.id}`);
                 console.log(response.data);
                 setUserData(response.data);
             } catch (error) {

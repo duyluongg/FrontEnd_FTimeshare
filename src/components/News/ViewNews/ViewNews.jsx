@@ -12,7 +12,7 @@ function ViewNews() {
         const fetchNewsDetail = async () => {
             try {
 
-                const response = await axios.get(`https://bookinghomstay.azurewebsites.net/api/news/viewDetail/${newsId.id}`);
+                const response = await axios.get(`https://bookinghomestayfpt.azurewebsites.net/api/news/viewDetail/${newsId.id}`);
                 // const [imageNew] = await Promise.all(
                 //     axios.get(`http://localhost:8080/api/news/view`)
                 // );
@@ -43,7 +43,7 @@ function ViewNews() {
     return (
         <div className="view-news">
             <h1 className="news-title">{newsDetail.newsTitle}</h1>
-            <img src={`https://bookinghomstay.azurewebsites.net/api/news/imgView/${newsDetail.imgName}`} alt={newsDetail.imgName} className="news-image" />
+            <img src={`https://bookinghomestayfpt.azurewebsites.net/api/news/imgView/${newsDetail.imgName}`} alt={newsDetail.imgName} className="news-image" />
             <p className="news-content">{newsDetail.newsContent}</p>
             <div className="news-author">By {authorData.accName}</div>
         </div>

@@ -328,9 +328,9 @@ export default function ProductPendingDetail() {
     const [projectType, setProjectType] = useState([]);
 
     const navigate = useNavigate();
-    const token = sessionStorage.getItem('token');
-    console.log(token);
-    const headers = { headers: { 'Authorization': `Bearer ${token}` } };
+    // const token = sessionStorage.getItem('token');
+    // console.log(token);
+    // const headers = { headers: { 'Authorization': `Bearer ${token}` } };
 
     const toggleModal = () => {
         setShowModalNotify(!showModalNotify);
@@ -345,11 +345,11 @@ export default function ProductPendingDetail() {
         try {
             console.log(accID);
             const [productItem, imagesResponse, profilesResponse, userData, projectResponse] = await Promise.all([
-                axios.get(`https://bookinghomestayswp.azurewebsites.net/api/products/viewById/${productID}`, headers),
-                axios.get('https://bookinghomestayswp.azurewebsites.net/api/pictures/customerview', headers),
-                axios.get('https://bookinghomestayswp.azurewebsites.net/api/users/staffview', headers),
-                axios.get(`https://bookinghomestayswp.azurewebsites.net/api/users/viewDetail/${accID}`, headers),
-                axios.get('https://bookinghomestayswp.azurewebsites.net/api/project/customer/viewproject', headers)
+                axios.get(`https://bookinghomestayswp.azurewebsites.net/api/products/viewById/${productID}`),
+                axios.get('https://bookinghomestayswp.azurewebsites.net/api/pictures/customerview'),
+                axios.get('https://bookinghomestayswp.azurewebsites.net/api/users/staffview'),
+                axios.get(`https://bookinghomestayswp.azurewebsites.net/api/users/viewDetail/${accID}`),
+                axios.get('https://bookinghomestayswp.azurewebsites.net/api/project/customer/viewproject')
 
                 // axios.get(`https://bookinghomestayswp.azurewebsites.net/api/reports/viewByProductId/${productID}`, headers)
 

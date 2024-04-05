@@ -36,7 +36,7 @@ export default function Navbar({ getData }) {
     // console.log(getData);
     try {
       const [accountResponse, imagesResponse] = await Promise.all([
-        axios.get(`https://bookinghomstay.azurewebsites.net/api/users/viewDetail/${user.id}`),
+        axios.get(`https://bookinghomestayfpt.azurewebsites.net/api/users/viewDetail/${user.id}`),
       ]);
       setAccountUser(accountResponse.data);
       // console.log(accountResponse.data.imgName);
@@ -212,13 +212,13 @@ export default function Navbar({ getData }) {
                         )}
                       </Menu.Item>
 
-                      {/* <Menu.Item>
+                      <Menu.Item>
                         {({ active }) => (
-                          <Link to={'/view-summary'} className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}>
-                            My Post
+                          <Link to={'/my-homestay'} className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}>
+                            Manage Homestay
                           </Link>
                         )}
-                      </Menu.Item> */}
+                      </Menu.Item>
 
                       <Menu.Item>
                         {user && user.auth === true ? (

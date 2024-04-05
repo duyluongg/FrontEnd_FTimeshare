@@ -23,11 +23,11 @@ const Sidebar = ({ children }) => {
             name: "My Booking",
             icon: <FontAwesomeIcon icon={faClipboardList} />
         },
-        {
-            path: "/wallet-and-reward",
-            name: "Rewards and Wallet",
-            icon: <FontAwesomeIcon icon={faWallet} />
-        },
+        // {
+        //     path: "/wallet-and-reward",
+        //     name: "Rewards and Wallet",
+        //     icon: <FontAwesomeIcon icon={faWallet} />
+        // },
         {
             path: "/my-homestay",
             name: "My Homestay",
@@ -52,7 +52,7 @@ const Sidebar = ({ children }) => {
     useEffect(() => {
         const fetchUserData = async () => {
             try {
-                const response = await axios.get(`https://bookinghomstay.azurewebsites.net/api/users/viewDetail/${user.id}`);
+                const response = await axios.get(`https://bookinghomestayfpt.azurewebsites.net/api/users/viewDetail/${user.id}`);
                 setUserData(response.data);
                 // console.log(response.data.imgName);
 

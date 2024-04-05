@@ -27,7 +27,7 @@ export default function ViewAllNew() {
     }, [searchQuery]);
     const fetchAllNews = async () => {
         try {
-            const newResponse = await axios.get('https://bookinghomstay.azurewebsites.net/api/news/view', headers);
+            const newResponse = await axios.get('https://bookinghomestayfpt.azurewebsites.net/api/news/view', headers);
 
             const sortedNews = newResponse.data.sort((a, b) => {
                 const dateA = new Date(...a.newsPost);

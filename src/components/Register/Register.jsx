@@ -96,7 +96,7 @@ export default function Register() {
             formData.append('roleID', '3');
             formData.append('accBirthday', formattedBirthday);
 
-            const response = await axios.post('https://bookinghomstay.azurewebsites.net/api/users', formData);
+            const response = await axios.post('https://bookinghomestayfpt.azurewebsites.net/api/users', formData);
             console.log(response.data);
             if (response.data == "Email already exists") {
                 setSnackbarMessage(response.data);

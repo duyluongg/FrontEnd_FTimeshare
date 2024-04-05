@@ -23,6 +23,7 @@ import AcceptedTab from './AcceptedTab.jsx';
 import CompletedTab from './CompletedTab.jsx';
 import CancelledTab from './CancelledTab.jsx';
 import AllTab from './AllTab.jsx';
+import { gridColumnGroupsLookupSelector } from '@mui/x-data-grid';
 
 export default function Booking() {
     const [value, setValue] = useState('1');
@@ -33,6 +34,9 @@ export default function Booking() {
     const [bookingInfoCancel, setBookingInfoCancel] = useState([]);
     const [loading, setLoading] = useState(true);
     const [isCancelled, setIsCancelled] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
+    const [isLoadingCancel, setIsLoadingCancel] = useState(false);
+    const [loadingStates, setLoadingStates] = useState({});
     // const token = sessionStorage.getItem('token');
 
     // useEffect(() => {
@@ -67,12 +71,12 @@ export default function Booking() {
     }, [user.id]);
     const fetchDataAccepted = async () => {
         try {
-            const bookingResponse = await axios.get(`https://bookinghomstay.azurewebsites.net/api/bookings/customer/waitToRespond-Active-Done-In_progress/${user.id}`);
+            const bookingResponse = await axios.get(`https://bookinghomestayfpt.azurewebsites.net/api/bookings/customer/waitToRespond-Active-Done-In_progress/${user.id}`);
 
             // Combine booking and product information
             const combinedData = await Promise.all(bookingResponse.data.map(async (booking) => {
                 console.log(booking.productID);
-                const productResponse = await axios.get(`https://bookinghomstay.azurewebsites.net/api/products/viewById/${booking.productID}`);
+                const productResponse = await axios.get(`https://bookinghomestayfpt.azurewebsites.net/api/products/viewById/${booking.productID}`);
                 console.log(productResponse.data[0].productName);
                 return { ...booking, product: productResponse.data[0] };
             }));
@@ -89,8 +93,8 @@ export default function Booking() {
         const fetchData = async () => {
             try {
                 for (const bookingInfo of bookingInfoAccepted) {
-                    await axios.put(`https://bookinghomstay.azurewebsites.net/api/bookings/staff/change_status_to_in_progress/${bookingInfo.bookingID}`);
-                    await axios.put(`https://bookinghomstay.azurewebsites.net/api/bookings/staff/change_status_to_done/${bookingInfo.bookingID}`);
+                    await axios.put(`https://bookinghomestayfpt.azurewebsites.net/api/bookings/staff/change_status_to_in_progress/${bookingInfo.bookingID}`);
+                    await axios.put(`https://bookinghomestayfpt.azurewebsites.net/api/bookings/staff/change_status_to_done/${bookingInfo.bookingID}`);
                 }
             } catch (error) {
                 console.error('Error fetching data:', error);
@@ -106,11 +110,11 @@ export default function Booking() {
     }, [user.id]);
     const fetchDataConfirm = async () => {
         try {
-            const bookingResponse = await axios.get(`https://bookinghomstay.azurewebsites.net/api/bookings/customer/waitToByAccId/${user.id}`);
+            const bookingResponse = await axios.get(`https://bookinghomestayfpt.azurewebsites.net/api/bookings/customer/waitToByAccId/${user.id}`);
 
             const combinedData = await Promise.all(bookingResponse.data.map(async (booking) => {
                 console.log(booking.productID);
-                const productResponse = await axios.get(`https://bookinghomstay.azurewebsites.net/api/products/viewById/${booking.productID}`);
+                const productResponse = await axios.get(`https://bookinghomestayfpt.azurewebsites.net/api/products/viewById/${booking.productID}`);
                 console.log(productResponse.data[0].productName);
                 return { ...booking, product: productResponse.data[0] };
             }));
@@ -127,12 +131,12 @@ export default function Booking() {
     }, [user.id]);
     const fetchDataComplete = async () => {
         try {
-            const bookingResponse = await axios.get(`https://bookinghomstay.azurewebsites.net/api/bookings/by-account/done/${user.id}`);
+            const bookingResponse = await axios.get(`https://bookinghomestayfpt.azurewebsites.net/api/bookings/by-account/done/${user.id}`);
 
             // Combine booking and product information
             const combinedData = await Promise.all(bookingResponse.data.map(async (booking) => {
                 console.log(booking.productID);
-                const productResponse = await axios.get(`https://bookinghomstay.azurewebsites.net/api/products/viewById/${booking.productID}`);
+                const productResponse = await axios.get(`https://bookinghomestayfpt.azurewebsites.net/api/products/viewById/${booking.productID}`);
                 console.log(productResponse.data[0].productName);
                 return { ...booking, product: productResponse.data[0] };
             }));
@@ -140,6 +144,8 @@ export default function Booking() {
             setBookingInfoComplete(combinedData);
         } catch (error) {
             console.error("Error fetching data:", error);
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -148,12 +154,12 @@ export default function Booking() {
     }, [user.id]);
     const fetchDataCancel = async () => {
         try {
-            const bookingResponse = await axios.get(`https://bookinghomstay.azurewebsites.net/api/bookings/by-account/cancel/${user.id}`);
+            const bookingResponse = await axios.get(`https://bookinghomestayfpt.azurewebsites.net/api/bookings/by-account/cancel/${user.id}`);
 
             // Combine booking and product information
             const combinedData = await Promise.all(bookingResponse.data.map(async (booking) => {
                 console.log(booking.productID);
-                const productResponse = await axios.get(`https://bookinghomstay.azurewebsites.net/api/products/viewById/${booking.productID}`);
+                const productResponse = await axios.get(`https://bookinghomestayfpt.azurewebsites.net/api/products/viewById/${booking.productID}`);
                 console.log(productResponse.data[0].productName);
                 return { ...booking, product: productResponse.data[0] };
             }));
@@ -178,30 +184,47 @@ export default function Booking() {
     });
 
     const handleCancelActive = async (bookingID) => {
+        console.log(bookingID);
+        setLoadingStates(prevState => ({
+            ...prevState,
+            [bookingID]: true
+        }));
         setIsCancelled(true);
+        // setIsLoadingCancel(true);
         // console.log(bookingID);
         try {
 
-            const cancelResponse = await axios.post(`https://bookinghomstay.azurewebsites.net/api/bookings/cancel/${bookingID}`);
+            const cancelResponse = await axios.post(`https://bookinghomestayfpt.azurewebsites.net/api/bookings/cancel/${bookingID}`);
 
             await Promise.all([fetchDataAccepted(), fetchDataConfirm()]);
             console.log(cancelResponse.data);
+            // setIsLoadingCancel(false);
 
         } catch (error) {
             console.error('Lỗi khi hủy đặt phòng:', error);
+            // setIsLoadingCancel(false);
+        } finally {
+            // Sau khi xử lý xong, đặt trạng thái loading của booking tương ứng là false
+            setLoadingStates(prevState => ({
+                ...prevState,
+                [bookingID]: false
+            }));
         }
     };
 
     const handlePayment = async (bookingID, paymentAmount) => {
+        setIsLoading(true);
         try {
             const formData = new FormData();
             formData.append("amountPaymemnt", paymentAmount);
             formData.append("bookingID", bookingID);
-            const paymentResponse = await axios.post(`https://bookinghomstay.azurewebsites.net/api/bookings/pay?amountPaymemnt=${paymentAmount}&bookingID=${bookingID}`, formData);
+            formData.append("type", 0);
+            const paymentResponse = await axios.post(`https://bookinghomestayfpt.azurewebsites.net/api/bookings/pay?amountPaymemnt=${paymentAmount}&bookingID=${bookingID}`, formData);
 
             window.location.href = paymentResponse.data;
         } catch (error) {
             console.error('Error payment:', error);
+            setIsLoading(false);
         }
     }
 
@@ -209,7 +232,7 @@ export default function Booking() {
     useEffect(() => {
         const fetchImg = async () => {
             try {
-                const response = await axios.get(`https://bookinghomstay.azurewebsites.net/api/pictures/customerview`);
+                const response = await axios.get(`https://bookinghomestayfpt.azurewebsites.net/api/pictures/customerview`);
 
                 setImages(response.data);
                 console.log(response.data);
@@ -265,6 +288,9 @@ export default function Booking() {
                                 handleCancelActive={handleCancelActive}
                                 handlePayment={handlePayment}
                                 isCancelled={isCancelled}
+                                isLoading={isLoading}
+                                isLoadingCancel={isLoadingCancel}
+                                loadingStates={loadingStates}
                             />
                         </TabPanel>
                         <TabPanel value="2">
@@ -274,6 +300,8 @@ export default function Booking() {
                                 formatDate={formatDate}
                                 handleCancelActive={handleCancelActive}
                                 loading={loading}
+                                isLoadingCancel={isLoadingCancel}
+                                loadingStates={loadingStates}
                             />
                         </TabPanel>
                         <TabPanel value="3">
@@ -282,6 +310,7 @@ export default function Booking() {
                                 images={images}
                                 formatDate={formatDate}
                                 getData={user.id}
+                                loading={loading}a
                             />
                         </TabPanel>
                         <TabPanel value="4">

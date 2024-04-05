@@ -111,7 +111,7 @@ const Booking = () => {
     useEffect(() => {
         const fetchBookedDates = async () => {
             try {
-                const response = await axios.get(`https://bookinghomestayswp.azurewebsites.net/api/products/view/bookedDate/${productID}`);
+                const response = await axios.get(`https://bookinghomestaypass.azurewebsites.net/api/products/view/bookedDate/${productID}`);
                 console.log(response.data);
                 setBookedDate(response.data);
 
