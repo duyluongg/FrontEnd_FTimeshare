@@ -119,6 +119,7 @@ export default function Homestay() {
             updatedProjects.sort((a, b) => b.rating - a.rating);
 
             setFilterProduct(updatedProjects);
+            console.log(updatedProjects.length);
         } catch (error) {
             console.error('Filter product failed', error.response);
         }
@@ -253,7 +254,7 @@ export default function Homestay() {
 
                 <div className='af5895d4b2'>
                     <div className='df7e6ba27d'>
-                        <div className='b4b4b2787f'>
+                        {/* <div className='b4b4b2787f'>
                             <div className='ffb9c3d6a3 b700d81135 f7d4209a37'>
                                 <div class="f2cf178bcd f3595f8de5">
                                     <h2 class="e1eebb6a1e e6208ee469 d0caee4251">Filter by:</h2>
@@ -275,15 +276,18 @@ export default function Homestay() {
                                             <div className="a53cbfa6de e6208ee469">
                                                 <div className="fa7ed6270d" aria-hidden="true">
                                                     <div className="a53cbfa6de e7c28a2436">Hồ bơi</div>
-                                                    {/* <span className="abf093bdfe c15ddc3c96">17</span> */}
                                                 </div>
                                             </div>
                                         </span>
                                     </label>
                                 </div>
                             </div>
-                        </div>
+                        </div> */}
                         <div className='bcbf33c5c3'>
+                            {searchClicked && (
+                                <div className="efdb2b543b e4b7a69a57">
+                                    <h1 aria-live="assertive" className="f6431b446c d5f78961c3">{filterProduct.length} properties found</h1>
+                                </div>)}
                             {/* <div class="efdb2b543b e4b7a69a57">
                                 <h1 aria-live="assertive" className="f6431b446c d5f78961c3">17 properties found</h1>
                             </div> */}
