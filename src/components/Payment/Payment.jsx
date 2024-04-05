@@ -59,7 +59,7 @@ export default function Payment() {
 
     // const navigate = useNavigate();
 
-    const token = sessionStorage.getItem('token');
+    // const token = sessionStorage.getItem('token');
 
     useEffect(() => {
         const getProductData = async () => {

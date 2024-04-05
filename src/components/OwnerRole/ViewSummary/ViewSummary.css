@@ -48,7 +48,8 @@
 }
 
 .list-project {
-    width: 70%;
+    width: 100%;
+    margin-left: 40px;
 }
 
 .project-card {
@@ -60,6 +61,13 @@
     flex-wrap: wrap;
     flex-direction: row;
     justify-content: space-between;
+    background-color: #fff;
+    cursor: pointer
+}
+
+.project-list-price {
+    color: #000;
+    font-weight: bold;
 }
 
 .content-card {

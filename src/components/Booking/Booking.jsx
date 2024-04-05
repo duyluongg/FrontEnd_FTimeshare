@@ -33,7 +33,7 @@ export default function Booking() {
     const [bookingInfoCancel, setBookingInfoCancel] = useState([]);
     const [loading, setLoading] = useState(true);
     const [isCancelled, setIsCancelled] = useState(false);
-    const token = sessionStorage.getItem('token');
+    // const token = sessionStorage.getItem('token');
 
     // useEffect(() => {
     //     const fetchData = async () => {
