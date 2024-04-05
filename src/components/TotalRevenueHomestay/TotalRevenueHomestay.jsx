@@ -12,14 +12,14 @@ const TotalRevenueHomestay = () => {
     useEffect(() => {
         const fetchProductByUserId = async () => {
             try {
-                const response = await axios.get(`https://bookinghomestayswp.azurewebsites.net/api/products/${user.id}`);
+                const response = await axios.get(`https://bookinghomstay.azurewebsites.net/api/products/${user.id}`);
                 const products = response.data;
 
                 const updatedProducts = await Promise.all(products.map(async (product) => {
-                    const feedbackResponse = await axios.get(`https://bookinghomestayswp.azurewebsites.net/api/feedback/average-feedback-rating/${product.productID}`);
+                    const feedbackResponse = await axios.get(`https://bookinghomstay.azurewebsites.net/api/feedback/average-feedback-rating/${product.productID}`);
                     const rating = feedbackResponse.data;
 
-                    const revenueResponse = await axios.get(`https://bookinghomestayswp.azurewebsites.net/api/products/sumRevenueOfProducts/${product.productID}`);
+                    const revenueResponse = await axios.get(`https://bookinghomstay.azurewebsites.net/api/products/sumRevenueOfProducts/${product.productID}`);
                     const revenue = revenueResponse.data;
                     // console.log(revenue);
 

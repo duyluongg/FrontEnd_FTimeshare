@@ -63,7 +63,7 @@ export default function Login() {
             try {
                 setLoadingAPI(true);
 
-                const response = await axios.post('https://bookinghomestayswp.azurewebsites.net/auth/login', {
+                const response = await axios.post('https://bookinghomstay.azurewebsites.net/auth/login', {
                     email,
                     password
                 });

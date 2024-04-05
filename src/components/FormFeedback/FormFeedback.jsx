@@ -51,7 +51,7 @@ export default function FormFeedback({ getID, getBookID }) {
         console.log(getID);
         console.log(getBookID);
         try {
-            const response = await axios.post('https://bookinghomestayswp.azurewebsites.net/api/feedback/customer/submitfeedback', {
+            const response = await axios.post('https://bookinghomstay.azurewebsites.net/api/feedback/customer/submitfeedback', {
                 feedbackDetail: feedbackDetail,
                 feedbackRating: feedbackRating,
                 bookingID: getBookID,

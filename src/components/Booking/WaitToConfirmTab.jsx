@@ -4,7 +4,7 @@ import { styled } from '@mui/material/styles';
 import { Link } from 'react-router-dom';
 
 
-const WaitToConfirmTab = ({ bookingInfoConfirm, images, formatDate, handleCancelActive, handlePayment }) => {
+const WaitToConfirmTab = ({ bookingInfoConfirm, images, formatDate, handleCancelActive, handlePayment, isCancelled }) => {
 
     const Img = styled('img')({
         margin: 'auto',
@@ -97,7 +97,7 @@ const WaitToConfirmTab = ({ bookingInfoConfirm, images, formatDate, handleCancel
                                         <div>
                                             <button
                                                 onClick={() => handlePayment(bookingInfo.bookingID, bookingInfo.bookingPrice)}
-                                                className={`stardust-button stardust-button--primary QY7kZh`}
+                                                className={`stardust-button stardust-button--primary QY7kZh ${isCancelled ? 'hidden' : ''}`}
                                             >
                                                 Pay
                                             </button>

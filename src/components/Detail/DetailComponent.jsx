@@ -154,7 +154,7 @@ export default function DetailComponent() {
             formData.append('productID', productId.id);
             formData.append('booking_person', numberOfPerson);
 
-            const response = await axios.post('https://bookinghomestayswp.azurewebsites.net/api/bookings/customer/checkbooking_person', formData, {
+            const response = await axios.post('https://bookinghomstay.azurewebsites.net/api/bookings/customer/checkbooking_person', formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 }
@@ -175,7 +175,7 @@ export default function DetailComponent() {
 
         const fetchProductDetail = async () => {
             try {
-                const response = await axios.get(`https://bookinghomestayswp.azurewebsites.net/api/products/viewById/${productId.id}`);
+                const response = await axios.get(`https://bookinghomstay.azurewebsites.net/api/products/viewById/${productId.id}`);
                 console.log(response.data[0]);
                 const productData = response.data[0];
                 // const startDate = new Date(productData.availableStartDate[0], productData.availableStartDate[1] - 1, productData.availableStartDate[2], productData.availableStartDate[3], productData.availableStartDate[4]);
@@ -187,13 +187,13 @@ export default function DetailComponent() {
                 setProductDetail(productData);
                 setActiveContentIndex(productData.productDescription);
 
-                const activeProductsResponse = await axios.get('https://bookinghomestayswp.azurewebsites.net/api/products/staff/active');
+                const activeProductsResponse = await axios.get('https://bookinghomstay.azurewebsites.net/api/products/staff/active');
                 const activeProducts = activeProductsResponse.data;
 
                 // Lọc ra các sản phẩm có productTypeID giống với productDetail.productTypeID
                 const filteredProducts = activeProducts.filter(product => product.productTypeID === productData.productTypeID);
                 const updatedProjects = await Promise.all(filteredProducts.map(async (filteredProduct) => {
-                    const feedbackResponse = await axios.get(`https://bookinghomestayswp.azurewebsites.net/api/feedback/average-feedback-rating/${filteredProduct.productID}`);
+                    const feedbackResponse = await axios.get(`https://bookinghomstay.azurewebsites.net/api/feedback/average-feedback-rating/${filteredProduct.productID}`);
                     const rating = feedbackResponse.data;
 
                     return { ...filteredProduct, rating };
@@ -201,7 +201,7 @@ export default function DetailComponent() {
                 setFilteredProducts(updatedProjects);
 
                 const bestProjects = await Promise.all(activeProducts.map(async (activeProduct) => {
-                    const feedbackResponse = await axios.get(`https://bookinghomestayswp.azurewebsites.net/api/feedback/average-feedback-rating/${activeProduct.productID}`);
+                    const feedbackResponse = await axios.get(`https://bookinghomstay.azurewebsites.net/api/feedback/average-feedback-rating/${activeProduct.productID}`);
                     const rating = feedbackResponse.data;
 
                     return { ...activeProduct, rating };
@@ -232,7 +232,7 @@ export default function DetailComponent() {
     useEffect(() => {
         const fetchImg = async () => {
             try {
-                const response = await axios.get(`https://bookinghomestayswp.azurewebsites.net/api/pictures/viewPicture/${productId.id}`);
+                const response = await axios.get(`https://bookinghomstay.azurewebsites.net/api/pictures/viewPicture/${productId.id}`);
                 setImages(response.data);
                 // console.log(images);
             } catch (error) {
@@ -246,7 +246,7 @@ export default function DetailComponent() {
     useEffect(() => {
         const fetchImageSimilar = async () => {
             try {
-                const response = await axios.get(`https://bookinghomestayswp.azurewebsites.net/api/pictures/customerview`);
+                const response = await axios.get(`https://bookinghomstay.azurewebsites.net/api/pictures/customerview`);
                 setImagesSimilar(response.data);
                 // console.log(response.data);
             } catch (error) {
@@ -259,7 +259,7 @@ export default function DetailComponent() {
     useEffect(() => {
         const fetchBookedDates = async () => {
             try {
-                const response = await axios.get(`https://bookinghomestayswp.azurewebsites.net/api/products/view/bookedDate/${productId.id}`);
+                const response = await axios.get(`https://bookinghomstay.azurewebsites.net/api/products/view/bookedDate/${productId.id}`);
                 console.log(response.data);
                 setBookedDate(response.data);
 
