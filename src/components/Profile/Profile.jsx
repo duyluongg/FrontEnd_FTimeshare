@@ -24,7 +24,7 @@ export default function Profile({ getData }) {
         // console.log(getData);
         try {
             const [accountResponse, imagesResponse] = await Promise.all([
-                axios.get(`https://bookinghomestayswp.azurewebsites.net/api/users/viewDetail/${getData}`),
+                axios.get(`https://bookinghomstay.azurewebsites.net/api/users/viewDetail/${getData}`),
                 // axios.get('http://localhost:8080/api/pictures/customerview'),
 
             ]);

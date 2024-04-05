@@ -189,7 +189,20 @@ h3.a11y-hidden {
 
 .po9nwN {
     display: flex;
+    padding-top: 4px;
+    text-align: right;
 }
+
+.booking-status {
+    display: inline-block;
+    vertical-align: middle;
+    color: #008009;
+}
+
+/* .po9nwN {
+
+    text-align: right;
+} */
 
 .aAXjeK,
 .hbQXWm {

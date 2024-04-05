@@ -32,7 +32,8 @@ export default function Booking() {
     const [bookingInfoComplete, setBookingInfoComplete] = useState([]);
     const [bookingInfoCancel, setBookingInfoCancel] = useState([]);
     const [loading, setLoading] = useState(true);
-    const token = sessionStorage.getItem('token');
+    const [isCancelled, setIsCancelled] = useState(false);
+    // const token = sessionStorage.getItem('token');
 
     // useEffect(() => {
     //     const fetchData = async () => {
@@ -66,12 +67,12 @@ export default function Booking() {
     }, [user.id]);
     const fetchDataAccepted = async () => {
         try {
-            const bookingResponse = await axios.get(`https://bookinghomestayswp.azurewebsites.net/api/bookings/customer/waitToRespond-Active-Done-In_progress/${user.id}`);
+            const bookingResponse = await axios.get(`https://bookinghomstay.azurewebsites.net/api/bookings/customer/waitToRespond-Active-Done-In_progress/${user.id}`);
 
             // Combine booking and product information
             const combinedData = await Promise.all(bookingResponse.data.map(async (booking) => {
                 console.log(booking.productID);
-                const productResponse = await axios.get(`https://bookinghomestayswp.azurewebsites.net/api/products/viewById/${booking.productID}`);
+                const productResponse = await axios.get(`https://bookinghomstay.azurewebsites.net/api/products/viewById/${booking.productID}`);
                 console.log(productResponse.data[0].productName);
                 return { ...booking, product: productResponse.data[0] };
             }));
@@ -88,8 +89,8 @@ export default function Booking() {
         const fetchData = async () => {
             try {
                 for (const bookingInfo of bookingInfoAccepted) {
-                    await axios.put(`https://bookinghomestayswp.azurewebsites.net/api/bookings/staff/change_status_to_in_progress/${bookingInfo.bookingID}`);
-                    await axios.put(`https://bookinghomestayswp.azurewebsites.net/api/bookings/staff/change_status_to_done/${bookingInfo.bookingID}`);
+                    await axios.put(`https://bookinghomstay.azurewebsites.net/api/bookings/staff/change_status_to_in_progress/${bookingInfo.bookingID}`);
+                    await axios.put(`https://bookinghomstay.azurewebsites.net/api/bookings/staff/change_status_to_done/${bookingInfo.bookingID}`);
                 }
             } catch (error) {
                 console.error('Error fetching data:', error);
@@ -105,11 +106,11 @@ export default function Booking() {
     }, [user.id]);
     const fetchDataConfirm = async () => {
         try {
-            const bookingResponse = await axios.get(`https://bookinghomestayswp.azurewebsites.net/api/bookings/customer/waitToByAccId/${user.id}`);
+            const bookingResponse = await axios.get(`https://bookinghomstay.azurewebsites.net/api/bookings/customer/waitToByAccId/${user.id}`);
 
             const combinedData = await Promise.all(bookingResponse.data.map(async (booking) => {
                 console.log(booking.productID);
-                const productResponse = await axios.get(`https://bookinghomestayswp.azurewebsites.net/api/products/viewById/${booking.productID}`);
+                const productResponse = await axios.get(`https://bookinghomstay.azurewebsites.net/api/products/viewById/${booking.productID}`);
                 console.log(productResponse.data[0].productName);
                 return { ...booking, product: productResponse.data[0] };
             }));
@@ -126,12 +127,12 @@ export default function Booking() {
     }, [user.id]);
     const fetchDataComplete = async () => {
         try {
-            const bookingResponse = await axios.get(`https://bookinghomestayswp.azurewebsites.net/api/bookings/by-account/done/${user.id}`);
+            const bookingResponse = await axios.get(`https://bookinghomstay.azurewebsites.net/api/bookings/by-account/done/${user.id}`);
 
             // Combine booking and product information
             const combinedData = await Promise.all(bookingResponse.data.map(async (booking) => {
                 console.log(booking.productID);
-                const productResponse = await axios.get(`https://bookinghomestayswp.azurewebsites.net/api/products/viewById/${booking.productID}`);
+                const productResponse = await axios.get(`https://bookinghomstay.azurewebsites.net/api/products/viewById/${booking.productID}`);
                 console.log(productResponse.data[0].productName);
                 return { ...booking, product: productResponse.data[0] };
             }));
@@ -147,12 +148,12 @@ export default function Booking() {
     }, [user.id]);
     const fetchDataCancel = async () => {
         try {
-            const bookingResponse = await axios.get(`https://bookinghomestayswp.azurewebsites.net/api/bookings/by-account/cancel/${user.id}`);
+            const bookingResponse = await axios.get(`https://bookinghomstay.azurewebsites.net/api/bookings/by-account/cancel/${user.id}`);
 
             // Combine booking and product information
             const combinedData = await Promise.all(bookingResponse.data.map(async (booking) => {
                 console.log(booking.productID);
-                const productResponse = await axios.get(`https://bookinghomestayswp.azurewebsites.net/api/products/viewById/${booking.productID}`);
+                const productResponse = await axios.get(`https://bookinghomstay.azurewebsites.net/api/products/viewById/${booking.productID}`);
                 console.log(productResponse.data[0].productName);
                 return { ...booking, product: productResponse.data[0] };
             }));
@@ -177,10 +178,11 @@ export default function Booking() {
     });
 
     const handleCancelActive = async (bookingID) => {
+        setIsCancelled(true);
         // console.log(bookingID);
         try {
 
-            const cancelResponse = await axios.post(`https://bookinghomestayswp.azurewebsites.net/api/bookings/cancel/${bookingID}`);
+            const cancelResponse = await axios.post(`https://bookinghomstay.azurewebsites.net/api/bookings/cancel/${bookingID}`);
 
             await Promise.all([fetchDataAccepted(), fetchDataConfirm()]);
             console.log(cancelResponse.data);
@@ -195,7 +197,7 @@ export default function Booking() {
             const formData = new FormData();
             formData.append("amountPaymemnt", paymentAmount);
             formData.append("bookingID", bookingID);
-            const paymentResponse = await axios.post(`https://bookinghomestayswp.azurewebsites.net/api/bookings/pay?amountPaymemnt=${paymentAmount}&bookingID=${bookingID}`, formData);
+            const paymentResponse = await axios.post(`https://bookinghomstay.azurewebsites.net/api/bookings/pay?amountPaymemnt=${paymentAmount}&bookingID=${bookingID}`, formData);
 
             window.location.href = paymentResponse.data;
         } catch (error) {
@@ -207,7 +209,7 @@ export default function Booking() {
     useEffect(() => {
         const fetchImg = async () => {
             try {
-                const response = await axios.get(`https://bookinghomestayswp.azurewebsites.net/api/pictures/customerview`);
+                const response = await axios.get(`https://bookinghomstay.azurewebsites.net/api/pictures/customerview`);
 
                 setImages(response.data);
                 console.log(response.data);
@@ -262,6 +264,7 @@ export default function Booking() {
                                 formatDate={formatDate}
                                 handleCancelActive={handleCancelActive}
                                 handlePayment={handlePayment}
+                                isCancelled={isCancelled}
                             />
                         </TabPanel>
                         <TabPanel value="2">

@@ -18,7 +18,7 @@ export default function ReviewCustomer({ getID }) {
     useEffect(() => {
         const fetchViewReview = async () => {
             try {
-                const response = await axios.get(`https://bookinghomestayswp.azurewebsites.net/api/feedback/viewByProductId/${getID}`);
+                const response = await axios.get(`https://bookinghomstay.azurewebsites.net/api/feedback/viewByProductId/${getID}`);
                 const formattedData = response.data.map(item => ({
                     ...item,
                     feedbackCreateDate: new Date(...item.feedbackCreateDate).toLocaleDateString('en-GB')

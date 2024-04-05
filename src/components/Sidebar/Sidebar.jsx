@@ -52,7 +52,7 @@ const Sidebar = ({ children }) => {
     useEffect(() => {
         const fetchUserData = async () => {
             try {
-                const response = await axios.get(`https://bookinghomestayswp.azurewebsites.net/api/users/viewDetail/${user.id}`);
+                const response = await axios.get(`https://bookinghomstay.azurewebsites.net/api/users/viewDetail/${user.id}`);
                 setUserData(response.data);
                 // console.log(response.data.imgName);
 

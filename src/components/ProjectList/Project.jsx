@@ -18,9 +18,9 @@ export default function Project() {
   const { user } = useContext(UserContext);
 
   const [productListByUserId, setProductListByUserId] = useState([]);
-  const token = sessionStorage.getItem('token');
-  console.log(token);
-  const headers = { headers: { 'Authorization': `Bearer ${token}` } };
+  // const token = sessionStorage.getItem('token');
+  // console.log(token);
+  // const headers = { headers: { 'Authorization': `Bearer ${token}` } };
 
   var settings = {
     dots: true,
@@ -196,7 +196,7 @@ export default function Project() {
                             <h3 className='project-list-name'>{product.productName}</h3>
                             <h3 className='project-list-feedback'><FontAwesomeIcon icon={faStar} color='#FFD43B' />{product.rating}</h3>
                           </div>
-                          <h4>Area: {product.productArea}</h4>
+                          <h4>Area: {product.productArea}m²</h4>
                           <div className='project-list-cost'>
                             ${product.productPrice} <a>/ night</a>
                           </div>
