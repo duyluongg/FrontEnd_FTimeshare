@@ -44,6 +44,8 @@ import ProfileStaff from '../ProfileStaff/ProfileStaff.jsx';
 import AccountBoxIcon from '@mui/icons-material/AccountBox';
 import HomeIcon from '@mui/icons-material/Home';
 import PaidIcon from '@mui/icons-material/Paid';
+import PeopleOutlineIcon from '@mui/icons-material/PeopleOutline';
+import NewspaperIcon from '@mui/icons-material/Newspaper';
 const drawerWidth = 240;
 
 const openedMixin = (theme) => ({
@@ -249,7 +251,53 @@ export default function Sidenav() {
                             >
                                 <PaidIcon />
                             </ListItemIcon>
-                            <ListItemText primary="Home" sx={{ opacity: open ? 1 : 0 }} />
+                            <ListItemText primary="Booking" sx={{ opacity: open ? 1 : 0 }} />
+                        </ListItemButton>
+
+
+                    </ListItem>
+
+                    <ListItem disablePadding sx={{ display: 'block' }} component={Link} to="/staff/total-users">
+                        <ListItemButton
+                            sx={{
+                                minHeight: 48,
+                                justifyContent: open ? 'initial' : 'center',
+                                px: 2.5,
+                            }}
+                        >
+                            <ListItemIcon
+                                sx={{
+                                    minWidth: 0,
+                                    mr: open ? 3 : 'auto',
+                                    justifyContent: 'center',
+                                }}
+                            >
+                                <PeopleOutlineIcon />
+                            </ListItemIcon>
+                            <ListItemText primary="Booking" sx={{ opacity: open ? 1 : 0 }} />
+                        </ListItemButton>
+
+
+                    </ListItem>
+
+                    <ListItem disablePadding sx={{ display: 'block' }} component={Link} to="/staff/new">
+                        <ListItemButton
+                            sx={{
+                                minHeight: 48,
+                                justifyContent: open ? 'initial' : 'center',
+                                px: 2.5,
+                            }}
+                        >
+                            <ListItemIcon
+                                sx={{
+                                    minWidth: 0,
+                                    mr: open ? 3 : 'auto',
+                                    justifyContent: 'center',
+                                }}
+                            >
+                                <NewspaperIcon />
+                            </ListItemIcon>
+                            <ListItemText primary="Booking" sx={{ opacity: open ? 1 : 0 }} />
                         </ListItemButton>
 
 
